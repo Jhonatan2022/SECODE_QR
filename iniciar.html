@@ -1,0 +1,136 @@
+<html >
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar y registrar</title>
+    <!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+  <!-- estilos -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
+  <link rel="stylesheet" href="npm i bootstrap-icons">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+  </head>
+  <body>
+
+    <!--PreLoader-->
+    <div class="loader">
+      <div class="inner"></div>
+      <div class="inner"></div>
+      <div class="inner"></div>
+      <div class="inner"></div>
+      <div class="inner"></div>
+    </div>
+      <!--PreLoader Ends-->
+    <span class="fa fa-cloud-xmark"></span>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <form action="#" class="sign-in-form">
+            <!-- logo -->
+							<a href="inicio.html">
+								<img src="assets/img/logo.png" alt="">	</a>
+						<!-- logo -->
+            <h2 class="title">Iniciar sesión</h2>
+            <div class="input-field">
+              <i class="fa fa-at"></i>
+              <input type="text" placeholder="Correo" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Contraseña" />
+            </div>
+            <input type="submit" value="Ingresar" class="btn solid" />
+            <p class="social-text">Puedes iniciar con estas plataformas.</p>
+            <div class="social-media">
+              <a href="#" class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </form>
+          <form action="#" class="sign-up-form">
+            <!-- logo -->
+							<a href="inicio.html">
+								<img src="assets/img/logo.png" alt="">	</a>
+						<!-- logo -->
+            <h2 class="title">Registrarse</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Nombre colpleto" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-at"></i>
+              <input type="email" placeholder="Email" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Password" />
+            </div>
+            <input type="submit" class="btn" value="Registrar" />
+            <p class="social-text">Puedes iniciar con estas plataformas.</p>
+            <div class="social-media">
+              <a href="#" class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+          <div class="content">
+            <h3>Eres nuevo ?</h3>
+            <p>
+              Oprime el botón para registrarte.
+            </p>
+            <button class="btn transparent" id="sign-up-btn">
+              Registrarse
+            </button>
+          </div>
+          <img src="img/log.svg" class="image" alt="" />
+        </div>
+        <div class="panel right-panel">
+          <div class="content">
+            <h3>Ya tienes cuenta ? </h3>
+            <p>
+              Oprime el botón para iniciar sesión.
+            </p>
+            <button class="btn transparent" id="sign-in-btn">
+              Inisiar sesión
+            </button>
+          </div>
+          <img src="img/register.svg" class="image" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <!-- jquery -->
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<!-- main js -->
+	<script src="assets/js/main.js"></script>
+  </body>
+</html>
