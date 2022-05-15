@@ -6,7 +6,6 @@
 
 ![imagen de presentación](https://user-images.githubusercontent.com/101368711/168451328-ad0ef3c8-383c-421e-9700-1bab58299581.png)
 
-
 ---
 
 ## Integrantes:
