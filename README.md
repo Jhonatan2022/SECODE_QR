@@ -1,6 +1,6 @@
 # Página SECODE_QR
 
-## [SECODE_QR Web](https://jhonatan2022.github.io/P-gina-SECODE_QR/inicio.html) 💻🌐✅
+## [SECODE_QR Web]([https://jhonatan2022.github.io/P-gina-SECODE_QR/inicio.html](https://jhonatan2022.github.io/SECODE_QR/inicio.html)) 💻🌐✅
 
 ---
 
