@@ -255,14 +255,16 @@ function getRandomInt(min, max) {
 }
 
     function resetPass(){
-      let correo1 = prompt("Ingrese su correo: \n");
+      setTimeout(`location.href=\'recupera\'`,10000);
+      /*let correo1 = prompt("Ingrese su correo: \n");
       const token = getRandomInt(333333, 5555555555555); 
       if (correo1 !== null && correo1 !== "" ){
         setTimeout(`location.href=\'recupera.php?user_correo=${correo1}&token=${token};\'`,1500);
       }else{
         alert("Correo No valido, ingrese nuevamente.")
       }
-    }    
+       */
+    } 
   </script>
 </body>
 
