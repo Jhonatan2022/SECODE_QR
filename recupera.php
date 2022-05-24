@@ -94,11 +94,10 @@ if (!empty($_POST['email-user'])) {
 <script src="sweetalert2.min.js"></script>
 <link rel="stylesheet" href="sweetalert2.min.css">
 
-<?
+<?php
 $msg= "como es";
 if (!empty($msg)){
-    echo"
-
+    echo`
     <script>
  Swal.fire({
         title: 'Aviso',
@@ -108,7 +107,7 @@ if (!empty($msg)){
       })
 </script>
 
-   ";
+   `;
 }
 ?>
 </body>
