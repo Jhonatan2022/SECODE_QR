@@ -2,11 +2,11 @@
 session_start();
 
 /*
-
+clase
 */
 
-if (isset($_SESSION['user_id'])) {
-  header('Location: ./iniciar.html');
+if (isset($_SESSION['Ndocumento'])) {
+  header('Location: ./iniciar.php');
 }
 
 //importamos conexion base de datos
@@ -28,9 +28,9 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
     try {
       if (count($results) > 0 && password_verify($password_user, $results['Contrasena'])) {
-        //$_SESSION['Ndocumento'] = $results['Ndocumento'];
+        $_SESSION['Ndocumento'] = $results['Ndocumento'];
         //echo'<script>alert("Usuario logueado exitosamente")</script>';
-        header("Location: inicio.html");
+        header("Location: ./user/user.php");
       } else {
         echo '<script>alert("Datos ingresados erroneos")</script>';
       }
@@ -84,7 +84,7 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
         Realizado correctamente, usuario registrado, inicie sesión, para continuar...
         </div>
         ';
-          //echo "<script> setTimeout(\"location.href='inicio-secion.php'\",10000);</>";
+          //echo "<script> setTimeout(\"location.href='inicio-secion.php'\",10000);</script>";
         } else {
           $message = 'Perdon hubo un error al crear el usuario';
         }
