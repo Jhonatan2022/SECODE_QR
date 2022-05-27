@@ -229,7 +229,7 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
             Registrarse
           </button>
         </div>
-        <img src="img/log.svg" class="image" alt="" />
+        <img src="./assets/img/log.svg" class="image" alt="" />
       </div>
       <div class="panel right-panel">
         <div class="content">
@@ -241,7 +241,7 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
             Iniciar sesión
           </button>
         </div>
-        <img src="img/register.svg" class="image" alt="" />
+        <img src="./assets/img/register.svg" class="image" alt="" />
       </div>
     </div>
   </div>
