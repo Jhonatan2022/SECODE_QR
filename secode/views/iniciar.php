@@ -10,7 +10,7 @@ if (isset($_SESSION['Ndocumento'])) {
 }
 
 //importamos conexion base de datos
-require './assets/php/database.php';
+require '../db/database.php';
 
 //si el usuario va a iniciar sesion
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
