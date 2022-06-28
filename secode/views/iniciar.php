@@ -10,7 +10,7 @@ if (isset($_SESSION['Ndocumento'])) {
 }
 
 //importamos conexion base de datos
-require './assets/php/database.php';
+require '../models/database/database.php';
 
 //si el usuario va a iniciar sesion
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
@@ -20,7 +20,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
 
-          $consult = " SELECT Correo, Contrasena,Ndocumento FROM usuario WHERE Correo= :correo";
+    $consult = " SELECT Correo, Contrasena,Ndocumento FROM usuario WHERE Correo= :correo";
     $parametros = $connection->prepare($consult);
     $parametros->bindParam(':correo', $email_user);
     $parametros->execute();
@@ -29,8 +29,12 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     try {
       if (count($results) > 0 && password_verify($password_user, $results['Contrasena'])) {
         $_SESSION['Ndocumento'] = $results['Ndocumento'];
-        //echo'<script>alert("Usuario logueado exitosamente")</script>';
-        header("Location: ./user/user.php");
+        echo `<script>Swal.fire(
+                    'Good job!',
+                    'You clicked the button!',
+                    'success'
+                    )</script>`;
+        header("Location: ./index.html");
       } else {
         echo '<script>alert("Datos ingresados erroneos")</script>';
       }
@@ -149,17 +153,17 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
 
         <form action="./iniciar.php" method="POST" class="sign-in-form">
           <!-- logo -->
-          <a href="inicio.html">
+          <a href="index.html">
             <img src="assets/img/logo.png" alt=""> </a>
           <!-- logo -->
           <h2 class="title">Iniciar sesión</h2>
           <div class="input-field">
             <i class="fa fa-at"></i>
-            <input type="email" name="email" placeholder="Correo" />
+            <input type="email" name="email" placeholder="Correo" required />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" name="password" placeholder="Contraseña" />
+            <input type="password" name="password" placeholder="Contraseña" required />
           </div>
           <input type="submit" value="Ingresar" class="btn solid" />
           <p class="social-text" onclick="resetPass();" style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</p>
@@ -181,24 +185,24 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
         </form>
         <form action="./iniciar.php" class="sign-up-form" method="POST">
           <!-- logo -->
-          <a href="inicio.html">
+          <a href="index.html">
             <img src="assets/img/logo.png" alt=""> </a>
           <!-- logo -->
           <h2 class="title">Registrarse</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Nombre completo" name="user-name" />
+            <input type="text" placeholder="Nombre completo" name="user-name" required />
           </div>
           <div class="input-field">
             <i class="fas fa-at"></i>
-            <input type="email" placeholder="Email" name="user-email" />
+            <input type="email" placeholder="Email" name="user-email" required />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="user-password" />
+            <input type="password" placeholder="Password" name="user-password" required />
           </div>
           <input type="submit" class="btn" value="Registrar" />
-          
+
           <p class="social-text">Puedes iniciar con estas plataformas.</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -252,13 +256,12 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
   <!-- main js -->
   <script src="assets/js/main.js"></script>
   <script>
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-    function resetPass(){
-      setTimeout(`location.href=\'recupera\'`,10000);
+    function resetPass() {
+      setTimeout(`location.href=\'recupera\'`, 10000);
       /*let correo1 = prompt("Ingrese su correo: \n");
       const token = getRandomInt(333333, 5555555555555); 
       if (correo1 !== null && correo1 !== "" ){
@@ -267,7 +270,7 @@ function getRandomInt(min, max) {
         alert("Correo No valido, ingrese nuevamente.")
       }
        */
-    } 
+    }
   </script>
 </body>
 
