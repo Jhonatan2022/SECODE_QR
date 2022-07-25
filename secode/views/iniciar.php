@@ -45,29 +45,38 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     echo "<script>alert('Correo no valido. intente de nuevo.')</script>";
   }
 } //si el usuario va a registrarse
-elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empty($_POST['user-name'])) {
+elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_POST['user-password']) && !empty($_POST['user-name'])) {
 
   //variables de datos ingresados
   $email_user = $_POST['user-email'];
-
+  $numdoc = intval($_POST['num-doc']);
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
-
 
     //consulta que verifica la existencia de el correo ingresado
     $consult = "SELECT Correo FROM usuario WHERE Correo= :useremail ";
     $params = $connection->prepare($consult);
     $params->bindParam(':useremail', $email_user);
 
-    if ($params->execute()) { //ejecucion consulta
+    //consulta que verifica la existencia de el documeto ongresado ingresado
+    $consult1 = "SELECT Ndocumento FROM usuario WHERE Ndocumento = :numdoc ";
+    $params1 = $connection->prepare($consult1);
+    $params1->bindParam(':numdoc', $numdoc);
+
+    $ok = ($params->execute()) &&  ($params1->execute());
+
+    if ($ok) { //ejecucion consulta
 
       $results1 = $params->fetch(PDO::FETCH_ASSOC);
+      $results2 = $params1->fetch(PDO::FETCH_ASSOC);
 
       //si el resultado de la consulta es igual al del ingresado
-      if (strtolower($results1["email"]) == strtolower($email_user)) {
-        $message = 'Correo ya registrado, revise e intente de nuevo';
+      if (  strtolower($results1["Correo"]) == strtolower($email_user) ) {
+        $message = 'Correo registrado, revise e intente de nuevo';
+      } elseif ($results2["Ndocumento"] == $numdoc) {
+        $message = 'Numero de documento registrado, revise e intente de nuevo';
       } else //si no, entonces se puede registrar al usuario.
       {
         $consult = "INSERT INTO usuario (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimineto,id,Img_perfil) VALUES (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null)";
@@ -78,8 +87,7 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
         $params->bindParam(':username', $name_user);
         $id_eps = 10;
         $params->bindParam(':ideps', $id_eps);
-        $num_ramd = rand(1, 1000);
-        $params->bindParam(':ndoc', $num_ramd);
+        $params->bindParam(':ndoc', $numdoc);
         //estabklecemos los parametros de la consulta
 
         if ($params->execute()) {
@@ -192,6 +200,10 @@ elseif (!empty($_POST['user-email']) && !empty($_POST['user-password']) && !empt
           <div class="input-field">
             <i class="fas fa-user"></i>
             <input type="text" placeholder="Nombre completo" name="user-name" required />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-id-card"></i>
+            <input type="text" placeholder="Numero Documento" name="num-doc" required />
           </div>
           <div class="input-field">
             <i class="fas fa-at"></i>
