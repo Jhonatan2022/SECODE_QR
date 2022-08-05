@@ -19,10 +19,14 @@ $framSize = 3; //Tamaño en blanco
 $contenido = "como es"; //Texto
 
 	//Enviamos los parametros a la Función para generar código QR 
-QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
+QRcode::png($contenido, $filename, $level, $tamaño, $framSize);  
 
 	//Mostramos la imagen generada
 //echo '<img src="'.$dir.basename($filename).'" /><hr/>';  
+
+//apis de generacion del qr
+'http://api.qrserver.com/v1/create-qr-code/?data=HelloWorld!&size=100x100&charset-source=UTF-8&color=0-0-255&bgcolor=00ff00&margen=10';
+'https://quickchart.io/qr?text=jkdhkfjhdskfjhsdkfjhsdkjfhsdlkfjhsdkfjhsdklfjhsdkjfhsdkfjhsd%27s%20my%20text&centerImageUrl=https://raw.githubusercontent.com/luis-fer993/Pineapple-editor/master/img-pineappple.png&dark=a06800&light=f52fff&size=300&ecLevel=H&centerImageWidth=30&centerImageHeight=30';
 
 
 ?>
@@ -126,7 +130,7 @@ include('./templates/header.php');
 
 <?php
 
-include('./templates/footer.php')
+include('./templates/footerWebUser.php')
 ?>
         
     </div>
