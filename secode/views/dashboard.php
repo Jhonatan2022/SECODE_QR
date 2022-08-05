@@ -1,8 +1,28 @@
 <?php
-if(isset($_SESSION[""]))
+//if(isset($_SESSION[""]))
 
+require '../controller/phpqrcode/qrlib.php';
+//require '../controller/phpqrcode/bindings/tcpdf/qrcode.php';
 
+$dir = '../controller/temp/';
 
+if(!file_exists($dir)) 
+	mkdir($dir);
+
+$filename = $dir.'test.png';
+
+//Parametros de Configuración
+	
+$tamaño = 10; //Tamaño de Pixel
+$level = 'H'; //Precisión Baja
+$framSize = 3; //Tamaño en blanco
+$contenido = "como es"; //Texto
+
+	//Enviamos los parametros a la Función para generar código QR 
+QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
+
+	//Mostramos la imagen generada
+//echo '<img src="'.$dir.basename($filename).'" /><hr/>';  
 
 
 ?>
@@ -87,7 +107,7 @@ include('./templates/header.php');
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="single-product.html"><img src="./assets/img/qrfor.png" alt=""></a>
+							<a href="single-product.html"><img src="<?php echo $dir.basename($filename) ?>" alt=""></a>
 						</div>
 						<h3>name qr</h3>
 						<p class="product-price"><span>QR Para solicitar datos básicos <br> de la persona</span> </p>
@@ -96,18 +116,7 @@ include('./templates/header.php');
 				</div>
 			</div>
 
-            <div class="roww">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="./assets/img/qrfor.png" alt=""></a>
-						</div>
-						<h3>name qr</h3>
-						<p class="product-price"><span>QR Para solicitar datos básicos <br> de la persona</span> </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-pen"></i> opciones</a>
-					</div>
-				</div>
-			</div>
+           
 
 		</div>
 	</div>
@@ -117,7 +126,7 @@ include('./templates/header.php');
 
 <?php
 
-
+include('./templates/footer.php')
 ?>
         
     </div>
