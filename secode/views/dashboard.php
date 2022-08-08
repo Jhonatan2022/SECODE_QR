@@ -1,28 +1,8 @@
 <?php
 //if(isset($_SESSION[""]))
 
-require '../controller/phpqrcode/qrlib.php';
-//require '../controller/phpqrcode/bindings/tcpdf/qrcode.php';
+ob_start();
 
-$dir = '../controller/temp/';
-
-if(!file_exists($dir)) 
-	mkdir($dir);
-
-$filename = $dir.'test.png';
-
-//Parametros de Configuración
-	
-$tamaño = 10; //Tamaño de Pixel
-$level = 'H'; //Precisión Baja
-$framSize = 3; //Tamaño en blanco
-$contenido = "como es"; //Texto
-
-	//Enviamos los parametros a la Función para generar código QR 
-QRcode::png($contenido, $filename, $level, $tamaño, $framSize);  
-
-	//Mostramos la imagen generada
-//echo '<img src="'.$dir.basename($filename).'" /><hr/>';  
 
 //apis de generacion del qr
 'http://api.qrserver.com/v1/create-qr-code/?data=HelloWorld!&size=100x100&charset-source=UTF-8&color=0-0-255&bgcolor=00ff00&margen=10';
@@ -137,3 +117,33 @@ include('./templates/footerWebUser.php')
 </body>
 
 </html>
+
+
+
+<?php
+$html_doc=ob_get_clean();
+
+require_once '../controller/dompdf/autoload.inc.php';
+
+// reference the Dompdf namespace
+use Dompdf\Dompdf;
+// instantiate and use the dompdf class
+
+$dompdf = new Dompdf();
+$dompdf->loadHtml($html_doc);
+
+$options=$dompdf->getOptions();;
+$options->set(array('isRemoteEnabled'=>true));
+$dompdf->setOptions($options);
+
+//$dompdf->setPaper('A4', 'landscape');
+$dompdf->setPaper('A4');
+
+// Render the HTML as PDF
+$dompdf->render();
+
+// Output the generated PDF to Browser
+$dompdf->stream('archivo.pdf',array('Attachment'=>false));
+
+
+?>
