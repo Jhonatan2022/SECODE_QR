@@ -192,10 +192,20 @@
 }
 
 /* Mobile Layout: 320px. */
+@media only screen and (max-width: 975px) {
+
+	.button--secondary{
+		margin: 12px 5.5em;
+	}}
+
 @media only screen and (max-width: 767px) {
 
+	.button--secondary{
+		margin: 12px 5.5em;
+	}
+
 	.site-logo img {
-	    max-width: 80px;
+	    max-width: 70px;
 	}
 
 	.responsive-menu-wrap {

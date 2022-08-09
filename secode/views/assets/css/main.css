@@ -6,14 +6,6 @@ html {
   height: 100%;
 }
 
-
-
-
-
-
-
-
-
 .login-box{
   float: right;
 }
@@ -117,12 +109,6 @@ html {
     bottom: 100%;
   }
 }
-
-
-
-
-
-
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -1926,4 +1912,50 @@ a.cart-btn i {
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
   cursor: pointer;
   border-radius: 15px;
+}
+
+
+
+/* 
+Boton de inicio 
+*/
+.button--secondary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #4ab7cf78;
+  color: #030303;
+  font-weight: bold;
+  width: 100px;
+  height: 44px;
+  border-radius: 22px;
+  padding: 0 0 0 21px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+}
+.button--secondary:before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #000000;
+  transform: scale(0);
+  opacity: 0;
+  transition: all .33s cubic-bezier(.68,-.55,.265,1.55);
+}
+.button--secondary:hover:before {
+  transform: scale(1);
+  opacity: 1;
+}
+.button--secondary:hover .text {
+  transform: translateX(21px);
+}
+.button--secondary:hover .icon-arrow {
+  transform: translateX(30px) scale(.8);
+  opacity: 0;
 }
