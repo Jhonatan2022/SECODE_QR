@@ -1,5 +1,9 @@
 <?php
-if(isset($_SESSION["Ndocumeto"]))
+if(isset($_SESSION["Ndocumeto"])){
+
+}else{
+	header('Location: index.html');
+}
 
 //apis de generacion del qr
 'http://api.qrserver.com/v1/create-qr-code/?data=HelloWorld!&size=100x100&charset-source=UTF-8&color=0-0-255&bgcolor=00ff00&margen=10';
