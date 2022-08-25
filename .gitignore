@@ -1,2 +1,6 @@
 assets/php/database.php
+<<<<<<< HEAD
 secode\models\database\database.php
+=======
+secode/controller/phpqrcode/cache/
+>>>>>>> origin/LCH-login

@@ -1,7 +1,8 @@
 
 <?php
 session_start();
-require_once '../assets/php/usuario.php';
+require_once '../../models/php/usuario.php';
+
 
 if (isset($_SESSION['Ndocumento'])) {
     header('Location: ../iniciar.php');
