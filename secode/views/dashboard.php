@@ -53,7 +53,7 @@ include('./templates/header.php');
 		
 
 <?
-foreach($codes as $code){
+foreach($code as $codes){
 
 ?>
 
