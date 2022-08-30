@@ -1,3 +1,8 @@
+<?php
+session_start()
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +44,7 @@
 		<div class="inner"></div>
 	</div>
     <!--PreLoader Ends-->
-	
+
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">

@@ -1,9 +1,32 @@
 <?php
-if(isset($_SESSION["Ndocumeto"])){
 
-}else{
-	header('Location: index.html');
+
+session_start();
+require_once '../models/database/database.php';
+
+if (!isset($_SESSION["user_id"])) {
+	header('Location: index.php');
+} else {
+
+	$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg FROM usuario WHERE Ndocumento = :id');
+	$records->bindParam(':id', $_SESSION['user_id']);
+	if ($records->execute()) {
+		$results = $records->fetch(PDO::FETCH_ASSOC);
+	} else {
+		$message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
+	}
+	$records = $connection->prepare('SELECT Code_url,Titulo  FROM codigo_qr WHERE Ndocumento = :id');
+	$records->bindParam(':id', $_SESSION['user_id']);
+	if ($records->execute()) {
+		$results = $records->fetch(PDO::FETCH_ASSOC);
+		$codes = $results;
+	} else {
+		$message = array(' Error', 'Ocurrio un error en la consulta codigos user. intente de nuevo.', 'error');
+	}
 }
+
+
+
 
 //apis de generacion del qr
 
@@ -13,87 +36,97 @@ if(isset($_SESSION["Ndocumeto"])){
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<title>dashboard</title>
-<?php
-include('./templates/header.php');
-?>
+	<?php
+	include('./templates/header.php');
+	include('./templates/sweetalerts2.php');
+	?>
 </head>
+
 <body>
 
+	<?php if (!empty($message)) {
+	?>
+
+		<script>
+			Swal.fire(
+				'<?php echo $message[0]; ?>',
+				'<?php echo $message[1]; ?>',
+				'<?php echo $message[2]; ?>')
+		</script>
+	<?php };
+	?>
+
 	<!--PreLoader-->
-    <div class="loader">
+	<div class="loader">
 		<div class="inner"></div>
 		<div class="inner"></div>
 		<div class="inner"></div>
 		<div class="inner"></div>
 		<div class="inner"></div>
 	</div>
-    <!--PreLoader Ends--> 
-    <div class=container">
+	<!--PreLoader Ends-->
+	<div class=container">
 
-        <header>
+		<header>
 			<?php
-				include('./templates/navBar.php');
+			include('./templates/navBar.php');
 			?>
-		
-        </header>
-        <main class="container">.,.,       
-<!-- product section -->
-<div class="product-section mt-150 mb-150 pt-4">
-<div class="container pt-4 mb-5 center">
-                <h1>
-                    Mis codigos QR
-                </h1>
-            </div>
-		<div class="container">
-		
 
-<?
-foreach($code as $codes){
-
-?>
+		</header>
+		<main class="container">.,.,
+			<!-- product section -->
+			<div class="product-section mt-150 mb-150 pt-4">
+				<div class="container pt-4 mb-5 center">
+					<h1>
+						Mis codigos QR
+					</h1>
+				</div>
+				<div class="container">
 
 
+					<?
+					foreach ($codes as $results) {
+						//for ($codes; $codes <= count($results);$codes++){ 
 
-			<div class="roww">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="single-product.html"><img src="<?php //echo $code['url'] ?>" alt=""></a>
+					?>
+
+
+
+						<div class="roww">
+							<div class="col-lg-4 col-md-6 text-center">
+								<div class="single-product-item">
+									<div class="product-image">
+										<a href="single-product.html"><img src="<?php echo $codes['Code_url'] ?>" alt=""></a>
+									</div>
+									<h3><?php echo $codes['Titulo'] ?></h3>
+									<p class="product-price"><span><?php // echo $code['description'] 
+																	?></span> </p>
+									<a href="cart.html" class="cart-btn"><i class="fas fa-pen"></i> opciones</a>
+								</div>
+							</div>
 						</div>
-						<h3><?php // echo $code['title'] ?></h3>
-						<p class="product-price"><span><?php // echo $code['description'] ?></span> </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-pen"></i> opciones</a>
-					</div>
+
+					<?   }; ?>
+
+
+
 				</div>
 			</div>
+			<!-- end product section -->
 
-<?   };?>   
+		</main>
 
-		</div>
+		<?php
+
+		include('./templates/footerWebUser.php')
+		?>
+
 	</div>
-	<!-- end product section -->
-
-        </main>
-
-<?php
-
-include('./templates/footerWebUser.php')
-?>
-        
-    </div>
 </body>
 
 </html>
-
-
-
-
-
-?>

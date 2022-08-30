@@ -28,7 +28,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
     try {
       if (count($results) > 0 && password_verify($password_user, $results['Contrasena'])) {
-        $_SESSION['Ndocumento'] = $results['Ndocumento'];
+        $_SESSION['user_id'] = $results['Ndocumento'];
 
         header("Location: ./dashboard.php");
       } else {
@@ -136,19 +136,16 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
 
 <body>
 
-  <?php //if (!empty($message)) : 
+  <?php if (!empty($message)) :
   ?>
 
-  <!-- <script>
+<script>
     Swal.fire(
-      '<?php // echo $message[1];
-        ?>',
-      '<?php // echo $message[0];
-        ?>',
-      '<?php // echo $message[2]; 
-        ?>')
-    </script> -->
-  <?php //endif; 
+      '<?php  echo $message[0];?>',
+      '<?php  echo $message[1];?>',
+      '<?php  echo $message[2];?>')
+    </script> 
+  <?php endif; 
   ?>
 
 
@@ -161,7 +158,6 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
     <div class="inner"></div>
   </div>
   <!--PreLoader Ends-->
-  <span class="fa fa-cloud-xmark"></span>
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
