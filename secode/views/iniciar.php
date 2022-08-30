@@ -29,20 +29,19 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     try {
       if (count($results) > 0 && password_verify($password_user, $results['Contrasena'])) {
         $_SESSION['Ndocumento'] = $results['Ndocumento'];
-        echo `<script>Swal.fire(
-                    'Good job!',
-                    'You clicked the button!',
-                    'success'
-                    )</script>`;
-        header("Location: ./index.html");
+
+        header("Location: ./dashboard.php");
       } else {
-        echo '<script>alert("Datos ingresados erroneos")</script>';
+        //echo '<script>alert("Datos ingresados erroneos")</script>';
+        $message = array(' Error', 'Datos ingresados erroneos', 'warning');
       }
     } catch (Exception $e) {
-      echo '<script>alert("Ocurrio un error.$e")</script>';;
+      //echo '<script>alert("Ocurrio un error.$e")</script>';
+      $message = array(' Error', 'Ocurrio un error ' . $e, 'error');
     }
   } else {
-    echo "<script>alert('Correo no valido. intente de nuevo.')</script>";
+    //echo "<script>alert('Correo no valido. intente de nuevo.')</script>";
+    $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
   }
 } //si el usuario va a registrarse
 elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_POST['user-password']) && !empty($_POST['user-name'])) {
@@ -73,10 +72,11 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
       $results2 = $params1->fetch(PDO::FETCH_ASSOC);
 
       //si el resultado de la consulta es igual al del ingresado
-      if (  strtolower($results1["Correo"]) == strtolower($email_user) ) {
-        $message = 'Correo registrado, revise e intente de nuevo';
+      if (strtolower($results1["Correo"]) == strtolower($email_user)) {
+        $message = array(' Error', 'Correo registrado, revise e intente de nuevo', 'warning');
       } elseif ($results2["Ndocumento"] == $numdoc) {
-        $message = 'Numero de documento registrado, revise e intente de nuevo';
+
+        $message = array(' Error', 'Numero de documento registrado, revise e intente de nuevo', 'warning');
       } else //si no, entonces se puede registrar al usuario.
       {
         $consult = "INSERT INTO usuario (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimineto,id,Img_perfil) VALUES (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null)";
@@ -91,30 +91,26 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
         //estabklecemos los parametros de la consulta
 
         if ($params->execute()) {
-          echo ' <div class="alert" style="background:#2eb885;">
-        <span class="closebtn" onclick="this.parentElement.style.display="none";">&times;</span>
-        Realizado correctamente, usuario registrado, inicie sesión, para continuar...
-        </div>
-        ';
+          $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
+
           //echo "<script> setTimeout(\"location.href='inicio-secion.php'\",10000);</script>";
         } else {
-          $message = 'Perdon hubo un error al crear el usuario';
+          $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
         }
       }
     } else {
-      $message = 'Perdon hubo un error al crear el usuario';
+
+      $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
     }
   } else {
-    echo "<script>alert('Correo no valido. intente de nuevo.')</script>";
+
+    $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
   }
 }
+
 ?>
-
-
-
-
-
-<html>
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
   <meta charset="UTF-8" />
@@ -131,18 +127,29 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
   <!-- fontawesome -->
+
+  <?php
+  include('./templates/sweetalerts2.php');
+  ?>
+
 </head>
 
 <body>
 
-  <?php if (!empty($message)) : ?>
+  <?php //if (!empty($message)) : 
+  ?>
 
-    <div class="alert">
-      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-      <?= $message ?>
-    </div>
-
-  <?php endif; ?>
+  <!-- <script>
+    Swal.fire(
+      '<?php // echo $message[1];
+        ?>',
+      '<?php // echo $message[0];
+        ?>',
+      '<?php // echo $message[2]; 
+        ?>')
+    </script> -->
+  <?php //endif; 
+  ?>
 
 
   <!--PreLoader-->
