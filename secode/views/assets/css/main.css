@@ -140,7 +140,6 @@ a:hover {
 h1, .h1,
 h2, .h2,
 h3, .h3,
-h4, .h4,
 h5, .h5,
 h6, .h6 {
   font-family: "Poppins", sans-serif;
@@ -152,7 +151,6 @@ h6, .h6 {
 h1:last-child, .h1:last-child,
 h2:last-child, .h2:last-child,
 h3:last-child, .h3:last-child,
-h4:last-child, .h4:last-child,
 h5:last-child, .h5:last-child,
 h6:last-child, .h6:last-child {
   margin: 0;

@@ -1,0 +1,100 @@
+body{
+  background-color: #EDD0FF;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%238897cc' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%233267aa' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%238186cd' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%233f5dab' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%238174cc' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%235151a9' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23875ec5' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%236442a3' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%239144ba' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23772d98' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%239d16aa' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23880088' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+background-attachment: fixed;
+background-size: cover;
+}
+ 
+.packages {
+  margin: 25px;
+  width: 340px;
+  padding-bottom: 1em;
+  background-color: #000000c6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0 19px 38px rgba(30, 35, 33, 1), 0 15px 12px rgba(30, 35, 33, 0.2);
+  flex-wrap: wrap;
+  color: #f4f4f4;
+}
+hr{
+  width: 80%;
+}
+
+ul .included i {
+  color: #00ff26;
+}
+
+ul .excluded i {
+  color: #ff0000;
+}
+
+ul i {
+  margin-right: 1em;
+}
+
+h4 {
+  font-size: 2.2em;
+  margin-top: 5px;
+}
+
+.list li {
+  font-size: 17px;
+  list-style: none;
+  border-bottom: 1px solid #ffffff6b;
+  padding: 15px;
+}
+
+.list {
+  width: 80%;
+}
+
+ol, ul {
+  padding: 0;
+}
+
+.button {
+  padding: 10px 30px;
+  text-decoration: none;
+  font-size: 1.4em;
+  margin: 15px 15px;
+  border-radius: 10px;
+  color: #f4f4f4;
+  font-weight: bold;
+  transition: all 0.3s ease 0s;
+}
+
+.button1:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px 0 #ff007c inset, 0 0 20px 2px #ff007c;
+}
+
+.button2:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px 0 #4ab7cf inset, 0 0 15px 2px #4ab7cf;
+}
+
+.button3:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px 0 #4b0081 inset, 0 0 15px 2px #4b0081;
+}
+
+.button1 {
+  background-color: #ff007c;
+}
+
+.button2 {
+  background-color: #3b9fb6;
+}
+
+.button3 {
+  background-color: #4b0081;
+}
+
+.package-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 7em;
+}
