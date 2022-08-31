@@ -16,7 +16,7 @@ if (!isset($_SESSION["user_id"])) {
 	} else {
 		$message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 	}
-	$records = $connection->prepare('SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion  FROM codigo_qr WHERE Ndocumento = :id');
+	$records = $connection->prepare('SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo FROM codigo_qr WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
 	$records->execute();
 	$results = $records->fetchAll(PDO::FETCH_ASSOC);
@@ -134,11 +134,10 @@ if (!isset($_SESSION["user_id"])) {
 				
 			</details>
 
-		<label for="Description-code">Descripcion</label><br>
-		<textarea type="text" id='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
-
-		<label for="Date-code">Other</label><br>
-		<input type="text" id='Date-code' value="<?php //echo $code[] ?>">
+	<label for="Description-code">Descripcion</label><br>
+	<textarea type="text" id='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
+	<label for="UpdateDataForm">Other</label><br>
+	<a href="./clinico.php?idFormu=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
 	</div>
 
 	<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar">

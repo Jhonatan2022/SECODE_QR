@@ -5,8 +5,8 @@ session_start();
 clase
 */
 
-if (isset($_SESSION['Ndocumento'])) {
-  header('Location: ./iniciar.php');
+if (isset($_SESSION['user_id'])) {
+  header('Location: ./index.php');
 }
 
 //importamos conexion base de datos
@@ -20,7 +20,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
 
-    $consult = " SELECT Correo, Contrasena,Ndocumento FROM usuario WHERE Correo= :correo";
+    $consult = " SELECT Correo,Contrasena,Ndocumento, FROM usuario WHERE Correo= :correo";
     $parametros = $connection->prepare($consult);
     $parametros->bindParam(':correo', $email_user);
     $parametros->execute();

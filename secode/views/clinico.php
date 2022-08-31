@@ -290,6 +290,9 @@ session_start()
         </div>
         <br />
         <div class="btn-block">
+
+          <?php   ?>
+
           <button type="submit" href="/">Generar codigo</button>
         </div>
     </form>
