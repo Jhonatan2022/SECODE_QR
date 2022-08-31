@@ -8,7 +8,7 @@
 						<!-- menu start -->
 						<nav class="main-menu ">
 							<ul>
-								<li class="current-list-item"><a href="index.html">Inicio</a></li>
+								<li class="current-list-item"><a href="index.php">Inicio</a></li>
 								<li><a href="nosotros.html">Quienes Somos</a></li>	
 								<li><a href="#">Noticias</a>
 									<ul class="sub-menu">
