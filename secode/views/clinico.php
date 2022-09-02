@@ -9,16 +9,17 @@ if(! isset($_SESSION['user_id'])){
  
 }else{
 
-  if(isset($_GET['idFormEdit'])){
+  if(isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/){
     $id_code=$_GET['idFormEdit'];
-    $isAnewForm=true;
-  }else{
     $isAnewForm=false;
+  }else{
+    $isAnewForm=true;
   }
 
 
-
-  $param=$connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimineto, us.Genero, dta.RH,dta.TipoAfiliacion, dta.Subsidio, dta.Departamento, dta.Tipo_de_sangre, dta.Estrato, dta.EsAlergico 
+//funtionalities advanced pro
+if(! $isAnewForm){
+  $param=$connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimiento, us.Genero, dta.RH,dta.TipoAfiliacion, dta.Subsidio, dta.Departamento, dta.Tipo_de_sangre, dta.Estrato, dta.EsAlergico 
   FROM usuario AS us 
   INNER JOIN datos_clinicos AS dta 
   ON dta.Id_codigo = :id_code and us.Ndocumento = :id_user ');
@@ -36,6 +37,8 @@ if(! isset($_SESSION['user_id'])){
 //Seting data strings
 
 $nombreUser=$results['Nombre'];
+
+}
 
 
 
@@ -168,79 +171,79 @@ $nombreUser=$results['Nombre'];
 <br><br><br>
     <!-- Formulario -->
     <div class="testbox">
-    <form action="../controller/PdfGeneratorForm.php" method="POST">
+    <form action="../controller/PdfGeneratorForm.php" method="POST" novalidate>
       <div class="item">
         <p>Nombre completo</p>
-        <input type="text" name="name"/>
+        <input type="text" name="UserName"/>
       </div>
       <div class="item">
         <p>Fecha de nacimiento</p>
-        <input type="date" name="bdate" required/>
+        <input type="date" name="UserDateBorn"  required/>
       </div>
       <h5>1. Datos generales</h5>
       <div class="item">
         <p>Dirección<span class="required">*</span></p>
-        <input type="text" name="name" required/>
+        <input type="text" name="UserLocationDir" required/>
       </div>
       <div class="item">
         <p>EPS<span class="required">*</span></p>
-        <input type="text" name="name"  required/>
+        <input type="text" name="UserEps" required/>
         <p>Residencia<span class="required">*</span></p>
         <div class="city-item">
-          <input type="text" name="name" placeholder="Ciudad" required/>
+          <input type="text" name="UserCity" placeholder="Ciudad" required/>
           <select required>
-            <option value="">Departamento</option>
-            <option value="1">Amazonas</option>
-            <option value="2">Arauca</option>
-            <option value="3">Antioquia</option>
-            <option value="4">Atlántico</option>
-            <option value="5">Bolívar</option>
-            <option value="6">Boyacá</option>
-            <option value="7">Caldas</option>
-            <option value="8">Caquetá</option>
-            <option value="9">Casanare</option>
-            <option value="10">Cauca</option>
-            <option value="11">Cesar</option>
-            <option value="12">Chocó</option>
-            <option value="13">Córdoba</option>
-            <option value="14">Cundinamarca</option>
-            <option value="15">Guainía</option>
-            <option value="16">Guaviare</option>
-            <option value="17">Huila</option>
-            <option value="18">La guajira</option>
-            <option value="19">Magdalena</option>
-            <option value="20">Meta</option>
-            <option value="21">Nariño</option>
-            <option value="22">Norte de santander</option>
-            <option value="23">Putumayo</option>
-            <option value="24">Quindío</option>
-            <option value="25">Risaralda</option>
-            <option value="26">San Andrés y Providencia</option>
-            <option value="27">Santander</option>
-            <option value="28">Sucre</option>
-            <option value="27">Tolima</option>
-            <option value="29">Valle del cauca</option>
-            <option value="30">Vaupés</option>
-            <option value="31">Vichada</option>
+            <option value="None">Departamento</option>
+            <option value="Amazonas">Amazonas</option>
+            <option value="Arauca">Arauca</option>
+            <option value="Antioquia">Antioquia</option>
+            <option value="Atlántico">Atlántico</option>
+            <option value="Bolívar">Bolívar</option>
+            <option value="Boyacá">Boyacá</option>
+            <option value="Caldas">Caldas</option>
+            <option value="Caquetá">Caquetá</option>
+            <option value="Casanare">Casanare</option>
+            <option value="Cauca">Cauca</option>
+            <option value="Cesar">Cesar</option>
+            <option value="Chocó">Chocó</option>
+            <option value="Córdoba">Córdoba</option>
+            <option value="Cundinamarca">Cundinamarca</option>
+            <option value="Guainía">Guainía</option>
+            <option value="Guaviare">Guaviare</option>
+            <option value="Huila">Huila</option>
+            <option value="La guajira">La guajira</option>
+            <option value="Magdalena">Magdalena</option>
+            <option value="Meta">Meta</option>
+            <option value="Nariño">Nariño</option>
+            <option value="Norte de santander">Norte de santander</option>
+            <option value="Putumayo">Putumayo</option>
+            <option value="Quindío">Quindío</option>
+            <option value="Risaralda">Risaralda</option>
+            <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+            <option value="Santander">Santander</option>
+            <option value="Sucre">Sucre</option>
+            <option value="Tolima">Tolima</option>
+            <option value="Valle del cauca">Valle del cauca</option>
+            <option value="Vaupés">Vaupés</option>
+            <option value="Vichada">Vichada</option>
           </select>
         </div>
       </div>
       <div class="item">
         <p>Phone<span class="required">*</span></p>
-        <input type="text" name="name" required/>
+        <input type="text" name="UserPhone" required/>
       </div>
       <div class="item">
         <p>Email<span class="required">*</span></p>
-        <input type="text" name="name" required/>
+        <input type="text" name="UserEmail" required/>
       </div>
       <div class="question">
         <p>Genero<span class="required">*</span></p>
         <div class="question-answer">
-          <input type="radio" value="none" id="radio_9" name="G" required/>
+          <input type="radio" value="none" id="radio_9" name="UserMale" required/>
           <label for="radio_9" class="radio"><span>Masculino</span></label>
-          <input type="radio" value="none" id="radio_10" name="G" required/>
+          <input type="radio" value="none" id="radio_10" name="UserFemale" required/>
           <label for="radio_10" class="radio"><span>Femenino</span></label>
-          <input type="radio" value="none" id="radio_11" name="G" required/>
+          <input type="radio" value="none" id="radio_11" name="UserOther" required/>
           <label for="radio_11" class="radio"><span>Otro</span></label>
         </div>
       </div>
@@ -348,11 +351,14 @@ $nombreUser=$results['Nombre'];
         <br />
         <div class="btn-block">
 
-          <?php if(!isset($_SESSION['user_id'])){ ?>
+          <?php  if(!isset($_SESSION['user_id'])){ ?>
             <a href="./iniciar.php"><button type="button" >INICIA SESION </button></a>            
-         <?php }  else { ?>
-          <button type="submit" href="/">Generar codigo</button>
-          <?php }?>
+         <?php  }  else { ?>
+          <button type="submit">
+         Generar codigo
+          </button>
+          
+          <?php  }?>
         </div>
     </form>
     </div>

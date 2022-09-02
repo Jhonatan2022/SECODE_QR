@@ -19,7 +19,7 @@
 								<li><a href="contact.html">Contáctanos</a></li>
 								<li><a href="#">Solicitar Código</a>
 								<ul class="sub-menu">
-									<li><a href="clinico.html">Datos Clinicos</a>
+									<li><a href="clinico.php">Datos Clinicos</a>
 									</li>
 								</ul>
 								<li class="login-box"><a href="#">

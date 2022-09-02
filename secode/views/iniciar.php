@@ -15,32 +15,44 @@ require '../models/database/database.php';
 //si el usuario va a iniciar sesion
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
-  $email_user = $_POST['email'];
-  $password_user = $_POST['password'];
+  $email_user1 = $_POST['email'];
+  $password_user1 = $_POST['password'];
 
-  if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
+  if (filter_var($email_user1, FILTER_VALIDATE_EMAIL)) {
 
-    $consult = " SELECT Correo,Contrasena,Ndocumento, FROM usuario WHERE Correo= :correo";
+    $consult = " SELECT Correo,Contrasena,Ndocumento,Direccion, Genero, FechaNacimiento,Telefono, Img_perfil, TipoImg
+    FROM usuario WHERE Correo= :correo";
     $parametros = $connection->prepare($consult);
-    $parametros->bindParam(':correo', $email_user);
+    $parametros->bindParam(':correo', $email_user1);
     $parametros->execute();
     $results = $parametros->fetch(PDO::FETCH_ASSOC);
 
-    try {
-      if (count($results) > 0 && password_verify($password_user, $results['Contrasena'])) {
-        $_SESSION['user_id'] = $results['Ndocumento'];
+    if (!empty($results)) {
+      try {
+        if (count($results) > 0 && password_verify($password_user1, $results['Contrasena'])) {
 
-        header("Location: ./dashboard.php");
-      } else {
-        //echo '<script>alert("Datos ingresados erroneos")</script>';
-        $message = array(' Error', 'Datos ingresados erroneos', 'warning');
+          //varaibles user definition from session
+          $_SESSION['user_id'] = $results['Ndocumento'];
+          $_SESSION['Direccion'] = $results['Direccion'];
+          $_SESSION['Genero'] = $results['Genero'];
+          $_SESSION['FechaNacimiento'] = $results['FechaNacimiento'];
+          $_SESSION['Telefono'] = $results['Telefono'];
+          $_SESSION['Img_perfil'] = $results['Img_perfil'];
+          $_SESSION['TipoImg'] = $results['TipoImg'];
+          header("Location: ./dashboard.php");
+        } else {
+
+          $message = array(' Error', 'Datos ingresados erroneos', 'warning');
+        }
+      } catch (Exception $e) {
+
+        $message = array(' Error', `Ocurrio un error $e`, 'error');
       }
-    } catch (Exception $e) {
-      //echo '<script>alert("Ocurrio un error.$e")</script>';
-      $message = array(' Error', 'Ocurrio un error ' . $e, 'error');
+    } else {
+      $message = array(' Error', 'Correo no Registrado, primero registrese e intente de nuevo.', 'warning');
     }
   } else {
-    //echo "<script>alert('Correo no valido. intente de nuevo.')</script>";
+
     $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
   }
 } //si el usuario va a registrarse
@@ -55,30 +67,24 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
 
     //consulta que verifica la existencia de el correo ingresado
-    $consult = "SELECT Correo FROM usuario WHERE Correo= :useremail ";
+    $consult = "SELECT Correo,Ndocumento FROM usuario WHERE Correo= :useremail OR Ndocumento= :Ndocument";
     $params = $connection->prepare($consult);
+    $params->bindParam(':Ndocument', $numdoc);
     $params->bindParam(':useremail', $email_user);
 
-    //consulta que verifica la existencia de el documeto ongresado ingresado
-    $consult1 = "SELECT Ndocumento FROM usuario WHERE Ndocumento = :numdoc ";
-    $params1 = $connection->prepare($consult1);
-    $params1->bindParam(':numdoc', $numdoc);
-
-    $ok = ($params->execute()) &&  ($params1->execute());
-
-    if ($ok) { //ejecucion consulta
+    if ($params->execute()) { //ejecucion consulta
 
       $results1 = $params->fetch(PDO::FETCH_ASSOC);
-      $results2 = $params1->fetch(PDO::FETCH_ASSOC);
 
       //si el resultado de la consulta es igual al del ingresado
-      if (strtolower($results1["Correo"]) == strtolower($email_user)) {
-        $message = array(' Error', 'Correo registrado, revise e intente de nuevo', 'warning');
-      } elseif ($results2["Ndocumento"] == $numdoc) {
+      if (!empty($results1)) {
+        if (strtolower($results1["Correo"]) == strtolower($email_user)) {
+          $message = array(' Error', 'Correo registrado, revise e intente de nuevo', 'warning');
+        } elseif ($results1["Ndocumento"] == $numdoc) {
 
-        $message = array(' Error', 'Numero de documento registrado, revise e intente de nuevo', 'warning');
-      } else //si no, entonces se puede registrar al usuario.
-      {
+          $message = array(' Error', 'Numero de documento registrado, revise e intente de nuevo', 'warning');
+        }
+      } else {
         $consult = "INSERT INTO usuario (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimineto,id,Img_perfil) VALUES (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null)";
         $params = $connection->prepare($consult);
         $params->bindParam(':useremail', $email_user);
@@ -139,13 +145,13 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   <?php if (!empty($message)) :
   ?>
 
-<script>
-    Swal.fire(
-      '<?php  echo $message[0];?>',
-      '<?php  echo $message[1];?>',
-      '<?php  echo $message[2];?>')
-    </script> 
-  <?php endif; 
+    <script>
+      Swal.fire(
+        '<?php echo $message[0]; ?>',
+        '<?php echo $message[1]; ?>',
+        '<?php echo $message[2]; ?>')
+    </script>
+  <?php endif;
   ?>
 
 
@@ -164,7 +170,7 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
 
         <form action="./iniciar.php" method="POST" class="sign-in-form">
           <!-- logo -->
-          <a href="index.html">
+          <a href="./index.php">
             <img src="assets/img/logo.png" alt=""> </a>
           <!-- logo -->
           <h2 class="title">Iniciar sesión</h2>
@@ -202,15 +208,15 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
           <h2 class="title">Registrarse</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Nombre completo" name="user-name" required />
+            <input type="text" placeholder="Nombre completo" maxlength="200" name="user-name" required />
           </div>
           <div class="input-field">
             <i class="fas fa-id-card"></i>
-            <input type="text" placeholder="Numero Documento" name="num-doc" required />
+            <input type="number" placeholder="Numero Documento" name="num-doc" maxlength="10" required />
           </div>
           <div class="input-field">
             <i class="fas fa-at"></i>
-            <input type="email" placeholder="Email" name="user-email" required />
+            <input type="email" placeholder="Email" maxlength="150" name="user-email" required />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
