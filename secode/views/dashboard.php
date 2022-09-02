@@ -91,7 +91,7 @@ if (!isset($_SESSION["user_id"])) {
 
 
 
-				<div class="roww">
+				<div class="roww ">
 					<div class="col-lg-4 col-md-6 text-center">
 						<div class="single-product-item">
 							<div class="product-image">
@@ -137,11 +137,10 @@ if (!isset($_SESSION["user_id"])) {
 	<label for="Description-code">Descripcion</label><br>
 	<textarea type="text" id='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
 	<label for="UpdateDataForm">Other</label><br>
-	<a href="./clinico.php?idFormu=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+	<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
 	</div>
 
 	<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar">
-	<input class="button bg-succes fas fa-pen" type='submit' value="Editar">
 	<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar">
 	
 

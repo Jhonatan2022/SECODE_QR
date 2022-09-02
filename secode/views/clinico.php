@@ -1,5 +1,46 @@
 <?php
-session_start()
+session_start();
+
+//importamos DB
+require_once('../models/database/database.php');
+
+if(! isset($_SESSION['user_id'])){
+  $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
+ 
+}else{
+
+  if(isset($_GET['idFormEdit'])){
+    $id_code=$_GET['idFormEdit'];
+    $isAnewForm=true;
+  }else{
+    $isAnewForm=false;
+  }
+
+
+
+  $param=$connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimineto, us.Genero, dta.RH,dta.TipoAfiliacion, dta.Subsidio, dta.Departamento, dta.Tipo_de_sangre, dta.Estrato, dta.EsAlergico 
+  FROM usuario AS us 
+  INNER JOIN datos_clinicos AS dta 
+  ON dta.Id_codigo = :id_code and us.Ndocumento = :id_user ');
+  $param->bindParam(':id_code',$id_code);
+  $param->bindParam(':id_user',$_SESSION['user_id']);
+  
+  if($param->execute()){
+    $results=$param->fetch(PDO::FETCH_ASSOC);
+    echo 'ok'.$results['Nombre'];
+
+  }else{
+    $message= array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
+  }
+
+//Seting data strings
+
+$nombreUser=$results['Nombre'];
+
+
+
+
+}
 
 
 
@@ -33,8 +74,24 @@ session_start()
 	<link rel="stylesheet" href="assets/css/responsive.css">
 
 
+  <?php
+  include('./templates/sweetalerts2.php');
+  ?>
+
   </head>
   <body>
+
+  <?php if (!empty($message)) :
+  ?>
+
+<script>
+    Swal.fire(
+      '<?php  echo $message[0];?>',
+      '<?php  echo $message[1];?>',
+      '<?php  echo $message[2];?>')
+    </script> 
+  <?php endif; 
+  ?>
 
     <!--PreLoader-->
     <div class="loader">
@@ -111,7 +168,7 @@ session_start()
 <br><br><br>
     <!-- Formulario -->
     <div class="testbox">
-    <form action="/">
+    <form action="../controller/PdfGeneratorForm.php" method="POST">
       <div class="item">
         <p>Nombre completo</p>
         <input type="text" name="name"/>
@@ -291,9 +348,11 @@ session_start()
         <br />
         <div class="btn-block">
 
-          <?php   ?>
-
+          <?php if(!isset($_SESSION['user_id'])){ ?>
+            <a href="./iniciar.php"><button type="button" >INICIA SESION </button></a>            
+         <?php }  else { ?>
           <button type="submit" href="/">Generar codigo</button>
+          <?php }?>
         </div>
     </form>
     </div>
