@@ -4,39 +4,48 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: ./iniciar.html');
+    header('Location: ./iniciar.php');
 }
 
 //importamos conexion base de datos
 require '../models/database/database.php';
 
-//$token = $_GET['token'];
 
-if (!empty($_POST['email-user'])) {
+if (
+    !empty($_POST['email-user']) &&
+    !empty($_POST['UserDoc']) &&
+    isset($_GET['tokenUserMail'])
+) {
     $email_rec = $_POST['email-user'];
-    if (filter_var($email_rec, FILTER_VALIDATE_EMAIL)) {
-
-        $consult = "SELECT Correo FROM usuarios WHERE Correo = :email ";
+    $userDoc = $_POST['UserDoc'];
+    $tokenEmail = $_GET['tokenUserMail'];
+    if (
+        filter_var($email_rec, FILTER_VALIDATE_EMAIL) &&
+        filter_var($userDoc, FILTER_VALIDATE_INT) &&
+        filter_var($tokenEmail, FILTER_VALIDATE_INT)/* &&
+        count($userDoc) > 8 &&
+        count($userDoc) < 11 */
+    ) {
+        $consult = "SELECT Correo,Ndocumento,token_reset  
+        FROM usuario 
+        WHERE Correo = :email and Ndocumento = :userDoc and token_reset = :tokenEmail ";
         $params = $connection->prepare($consult);
         $params->bindParam(":email", $email_rec);
+        $params->bindParam(":userDoc", $userDoc);
+        $params->bindParam(":tokenEmail", $tokenEmail);
         $params->execute();
-        $results1 = $params->fetch();
-        try {
-            if (count($results1["Correo"]) > 0) {
+        $results1 = $params->fetch(PDO::FETCH_ASSOC);
 
-                //envio de datos al correo.
-                $token = rand(12354, 876431);
-            } else {
-                $msg = "No se ha encontrado el correo solicitado";
-            }
-        } catch (Exception $error) {
+        if (!empty($results1) && count($results1) == 3) {
+
+            $resetPass = true;
+        } else {
+            $message = array(' Error', 'Datos Invalidos', 'error');
+            $resetPass = false;
         }
     } else {
-        echo "<script>
-        alert('Correo No valido, ingrese nuevamente.');
-        setTimeout(\" location.href=\'iniciar.php\' \",0);
-        </script>;
-        ";
+        $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
+        $resetPass = false;
     }
 }
 
@@ -47,45 +56,49 @@ if (!empty($_POST['email-user'])) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <?php include('./templates/header.php'); ?>
+
+
+    <?php include('./templates/sweetalerts2.php'); ?>
     <title>Recupera Passwod</title>
 </head>
 
 <body>
 
+    <main class="container">
+        <div class="row justify-content-md-center" id='containerMainForm'>
 
-
-    <script>
-        // alert()
-    </script>
-    <?php
-    echo'
-    <div class="row justify-content-md-center" style="margin-top: 60.5%;">
-
-            <form action="https://formsubmit.co/" class="form col-4">
+            <form action="" method="POST" class="form col-4">
 
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email-user" id="email" class="form-control">
+                <input type="email" name="email-user" id="email" class="form-control" required>
+
+                <label for="email" class="form-label">Ndocumento</label>
+                <input type="number" name="UserDoc" id="email" class="form-control" required>
 
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 
         </div>
-    ';
-    
+
+
+        <?php if (isset($resetPass) && $resetPass) :
     ?>
-    <main class="container">
-    <div class="row justify-content-md-center" style="margin-top: 60.5%;">
 
-<form action="https://formsubmit.co/lfchaparro37@misena.edu.co" method="POST" class="form col-4">
+        <script>
+            let containerMainForm = document.querySelector('#containerMainForm');
+            containerMainForm.style.display = 'none';
+        </script>
 
-    <label for="email" class="form-label">Email</label>
-    <input type="email" name="email-user" id="email" class="form-control">
+<div class="row justify-content-md-center" >
+
+<form action="" method="POST" class="form col-4">
+
+    <label for="email" class="form-label">Nueva contraseña</label>
+    <input type="password" name="email-user" id="email" class="form-control" required>
+
 
     <br>
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -93,36 +106,27 @@ if (!empty($_POST['email-user'])) {
 
 </div>
 
+    <?php endif;
+    ?>
+
     </main>
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
 
-    <!-- librerias de sweet alerts -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="sweetalert2.all.min.js"></script>
-
-    <!-- librerias de sweet alerts css -->
-    <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
-
-    <?php
-    $msg = "como es";
-    if (!empty($msg)) {
-        echo `
-    <script>
- Swal.fire({
-        title: 'Aviso',
-        text: '$msg',
-        icon: 'warning',
-        confirmButtonText: 'ok'
-      })
-</script>
-
-   `;
-    }
+    <?php if (!empty($message)) :
     ?>
+
+        <script>
+            Swal.fire(
+                '<?php echo $message[0]; ?>',
+                '<?php echo $message[1]; ?>',
+                '<?php echo $message[2]; ?>')
+        </script>
+    <?php endif;
+    ?>
+
+
+
 </body>
 
 </html>

@@ -63,6 +63,7 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   $numdoc = intval($_POST['num-doc']);
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
+  $token=rand(124324, 876431167878435);
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
 
@@ -85,7 +86,10 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
           $message = array(' Error', 'Numero de documento registrado, revise e intente de nuevo', 'warning');
         }
       } else {
-        $consult = "INSERT INTO usuario (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimineto,id,Img_perfil) VALUES (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null)";
+        $consult = "INSERT INTO usuario 
+        (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimiento,id,Img_perfil,token_reset,TipoImg) 
+        VALUES 
+        (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null, :token, null)";
         $params = $connection->prepare($consult);
         $params->bindParam(':useremail', $email_user);
         $password = password_hash($password_user, PASSWORD_BCRYPT);
@@ -94,12 +98,12 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
         $id_eps = 10;
         $params->bindParam(':ideps', $id_eps);
         $params->bindParam(':ndoc', $numdoc);
+        $params->bindParam(':token', $token);
         //estabklecemos los parametros de la consulta
 
         if ($params->execute()) {
           $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
 
-          //echo "<script> setTimeout(\"location.href='inicio-secion.php'\",10000);</script>";
         } else {
           $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
         }
@@ -183,7 +187,7 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
             <input type="password" name="password" placeholder="Contraseña" required />
           </div>
           <input type="submit" value="Ingresar" class="btn solid" />
-          <p class="social-text" onclick="resetPass();" style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</p>
+          <a class="social-text" href="recupera.php"  style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</a>
           <p class="social-text">Puedes iniciar con estas plataformas.</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -276,23 +280,7 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   <script src="assets/js/jquery-1.11.3.min.js"></script>
   <!-- main js -->
   <script src="assets/js/main.js"></script>
-  <script>
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
 
-    function resetPass() {
-      setTimeout(`location.href=\'recupera\'`, 10000);
-      /*let correo1 = prompt("Ingrese su correo: \n");
-      const token = getRandomInt(333333, 5555555555555); 
-      if (correo1 !== null && correo1 !== "" ){
-        setTimeout(`location.href=\'recupera.php?user_correo=${correo1}&token=${token};\'`,1500);
-      }else{
-        alert("Correo No valido, ingrese nuevamente.")
-      }
-       */
-    }
-  </script>
 </body>
 
 </html>
