@@ -39,6 +39,29 @@ if (
         if (!empty($results1) && count($results1) == 3) {
 
             $resetPass = true;
+
+            if(!empty($_POST['NewPasswordUser']) &&
+            !empty($_POST['verifyPasswordUser']) &&
+            isset($_GET['tokenUserMail'])&&
+            $_GET['tokenUserMail'] == $results1['token_reset']
+            ){
+                if($_POST['NewPasswordUser'] ==
+                $_POST['verifyPasswordUser']){
+
+                    $NewPassword = password_hash($_POST['NewPasswordUser'], PASSWORD_BCRYPT);
+                    $param = $connection->prepare('UPDATE ');
+                    $param->bindParam(':Newpass',$NewPassword);
+
+
+                }else{
+                    $message = array(' Error', 'Las contraseñas no coinciden, intente de nuevo.', 'warning');
+                }
+                
+            }else{
+                $message = array(' Error', 'Token de seguridad diferente, por seguridad Intente Nuevamente con un token valido', 'error');
+            }
+
+
         } else {
             $message = array(' Error', 'Datos Invalidos', 'error');
             $resetPass = false;
@@ -96,8 +119,10 @@ if (
 
 <form action="" method="POST" class="form col-4">
 
-    <label for="email" class="form-label">Nueva contraseña</label>
-    <input type="password" name="email-user" id="email" class="form-control" required>
+    <label for="pass" class="form-label">Nueva contraseña</label>
+    <input type="password" name="NewPasswordUser" id="pass" class="form-control" required>
+    <label for="passv" class="form-label">Repita la contraseña</label>
+    <input type="password" name="verifyPasswordUser" id="passv" class="form-control" required>
 
 
     <br>
