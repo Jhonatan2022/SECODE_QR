@@ -187,7 +187,7 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
             <input type="password" name="password" placeholder="Contraseña" required />
           </div>
           <input type="submit" value="Ingresar" class="btn solid" />
-          <a class="social-text" href="recupera.php"  style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</a>
+          <a class="social-text" href="./recovery/index.php"  style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</a>
           <p class="social-text">Puedes iniciar con estas plataformas.</p>
           <div class="social-media">
             <a href="#" class="social-icon">

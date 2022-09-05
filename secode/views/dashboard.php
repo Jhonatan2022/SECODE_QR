@@ -12,16 +12,17 @@ if (!isset($_SESSION["user_id"])) {
 	$records->bindParam(':id', $_SESSION['user_id']);
 
 	if ($records->execute()) {
-		$results = $records->fetch(PDO::FETCH_ASSOC);
+		$resultsUser = $records->fetch(PDO::FETCH_ASSOC);
 	} else {
 		$message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 	}
+
 	$records = $connection->prepare('SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo FROM codigo_qr WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
-	$records->execute();
-	$results = $records->fetchAll(PDO::FETCH_ASSOC);
-	if (true) {
-		
+	
+	
+	if ($records->execute()) {
+		$results = $records->fetchAll(PDO::FETCH_ASSOC);
 		//$codes = $results;
 	} else {
 		$message = array(' Error', 'Ocurrio un error en la consulta codigos user. intente de nuevo.', 'error');
