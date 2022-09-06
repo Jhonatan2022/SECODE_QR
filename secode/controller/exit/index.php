@@ -5,5 +5,5 @@
 
   session_destroy();
 
-  header('Location: ../../views/iniciar.php');
+  header('Location: ../../views/');
 ?>

@@ -91,6 +91,7 @@ Copiar esto
     height: 100%;
     position: relative;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .seccion-perfil-usuario .perfil-usuario-avatar .boton-avatar {

@@ -10,18 +10,15 @@
 							<ul>
 								<li class="current-list-item"><a href="index.php">Inicio</a></li>
 								<li><a href="nosotros.html">Quienes Somos</a></li>	
-								<li><a href="#">Noticias</a>
-									<ul class="sub-menu">
-										<li><a href="noticias.html">Noticias</a></li>
-										<li><a href="noticia.html">Noticia Del día</a></li>
-									</ul>
-								</li>
 								<li><a href="contact.html">Contáctanos</a></li>
 								<li><a href="#">Solicitar Código</a>
 								<ul class="sub-menu">
 									<li><a href="clinico.php">Datos Clinicos</a>
 									</li>
 								</ul>
+								<?php if (isset($_SESSION['user_id'])){ ?>
+										<li id='button-exit'><a href="../controller/exit/">salir</a>
+								<?php } ?>
 								<li class="login-box"><a href="#">
 									<span></span>
 									<span></span>

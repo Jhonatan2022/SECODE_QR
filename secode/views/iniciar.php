@@ -10,7 +10,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 //importamos conexion base de datos
-require '../models/database/database.php';
+require_once '../models/database/database.php';
 
 //si el usuario va a iniciar sesion
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
@@ -20,7 +20,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
   if (filter_var($email_user1, FILTER_VALIDATE_EMAIL)) {
 
-    $consult = " SELECT Correo,Contrasena,Ndocumento,Direccion, Genero, FechaNacimiento,Telefono, Img_perfil, TipoImg
+    $consult = " SELECT Nombre,Correo,Contrasena,Ndocumento,Direccion, Genero, FechaNacimiento,Telefono, Img_perfil, TipoImg
     FROM usuario WHERE Correo= :correo";
     $parametros = $connection->prepare($consult);
     $parametros->bindParam(':correo', $email_user1);
@@ -33,13 +33,18 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
           //varaibles user definition from session
           $_SESSION['user_id'] = $results['Ndocumento'];
+          $_SESSION['Nombre'] = $results['Nombre'];
           $_SESSION['Direccion'] = $results['Direccion'];
           $_SESSION['Genero'] = $results['Genero'];
           $_SESSION['FechaNacimiento'] = $results['FechaNacimiento'];
           $_SESSION['Telefono'] = $results['Telefono'];
-          $_SESSION['Img_perfil'] = $results['Img_perfil'];
-          $_SESSION['TipoImg'] = $results['TipoImg'];
-          header("Location: ./dashboard.php");
+          if(empty($results['Img_perfil']) || $results['Img_perfil']==null){
+            $_SESSION['Img_perfil'] = "http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/assets/img/userimg.png";
+          }else{
+            $_SESSION['Img_perfil'] ='data:'.$results['TipoImg'].";base64,".base64_encode($results['Img_perfil']) ;
+          }
+          
+          header("Location: ./index.php");
         } else {
 
           $message = array(' Error', 'Datos ingresados erroneos', 'warning');

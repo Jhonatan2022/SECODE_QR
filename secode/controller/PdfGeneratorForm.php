@@ -61,7 +61,7 @@ ob_start();
 
     <div style="padding:10px; border-radius:3px; margin: 0 auto; margin-top:20px;margin-bottom: 20px; outline:2px solid #5d2aaf; width: 90%;font-family: 'Nunito', sans-serif; background-color: #d0d3ec;">
 
-    Buenas -- instructor-- envio la evidencia del trabajo ----
+    
 
     </div>
     <center>
@@ -120,7 +120,7 @@ $doc=$dompdf->render();
 
 
 // Output the generated PDF to Browser
-//$dompdf->stream('archivo.pdf',array('Attachment'=>false));
+$dompdf->stream('archivo.pdf',array('Attachment'=>false));
 
 
 ?>
