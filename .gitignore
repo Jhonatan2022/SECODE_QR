@@ -1,2 +1,4 @@
 assets/php/database.php
 secode/controller/phpqrcode/cache/
+
+secode/views/pdf/*.pdf

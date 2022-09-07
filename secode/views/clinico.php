@@ -40,7 +40,17 @@ $nombreUser=$results['Nombre'];
 
 }
 
-
+  if (
+    isset($_GET['GenerateError']) &&
+    !empty($_GET['GenerateError'])
+  ) {
+    $statusForm = $_GET['GenerateError'];
+    if ($statusForm == 1) {
+      $message = array('Error', 'Hubo un error en el preoceso, intente nuevamente', 'error');
+    } elseif ($statusForm == 22) {
+      $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos.', 'success');
+    }
+  } 
 
 
 }
@@ -172,6 +182,10 @@ $nombreUser=$results['Nombre'];
     <!-- Formulario -->
     <div class="testbox">
     <form action="../controller/pdf/PdfGeneratorForm.php" method="POST" novalidate>
+    <div class="item">
+        <p>Titulo del formulario</p>
+        <input type="text" name="TituloForm"/>
+      </div>
       <div class="item">
         <p>Nombre completo</p>
         <input type="text" name="UserName"/>

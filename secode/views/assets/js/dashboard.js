@@ -7,8 +7,8 @@
 */
 
 //variables 
-let btnOptions = document.querySelector("#OptionsCodeQr");
-let contOptions = document.querySelector("#cont-optionsCode");
+let btnOptions = document.querySelector(".OptionsCodeQr");
+let contOptions = document.querySelector(".cont-optionsCode");
 var closeWindow;
 
 //funcion para abrir el modal de opciones

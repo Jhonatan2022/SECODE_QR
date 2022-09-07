@@ -17,7 +17,7 @@ if (!isset($_SESSION["user_id"])) {
 		$message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 	}
 
-	$records = $connection->prepare('SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo FROM codigo_qr WHERE Ndocumento = :id');
+	$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo FROM codigo_qr WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
 	
 	
@@ -105,13 +105,13 @@ if (!isset($_SESSION["user_id"])) {
 							<p class="product-price"><span><?php // echo $code['description'] ?></span> </p>
 
 							<p class="product-price"><span><?php  echo 'Fecha: '.$code['Duracion'] ?></span> </p>
-							<a  class="cart-btn" id="OptionsCodeQr"><i class="fas fa-pen"></i> opciones</a>
+							<a  class="cart-btn OptionsCodeQr"><i class="fas fa-pen"></i> opciones</a>
 						</div>
 					</div>
 				</div>
 
 
-				<div class="cont-optionsCode" id='cont-optionsCode'>
+				<div class="cont-optionsCode" >
 	<div class="divcont">
 	<div class="icon-close">
 	<i>X</i>
@@ -137,7 +137,7 @@ if (!isset($_SESSION["user_id"])) {
 			</details>
 
 	<label for="Description-code">Descripcion</label><br>
-	<textarea type="text" id='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
+	<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
 	<label for="UpdateDataForm">Other</label><br>
 	<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
 	</div>

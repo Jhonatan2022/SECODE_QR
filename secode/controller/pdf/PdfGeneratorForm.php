@@ -3,6 +3,8 @@
 
 session_start();
 
+require_once '../../models/database/database.php';
+
 if(! isset($_SESSION['user_id'])){
     http_response_code(404);
     header('Location: ../views/');
@@ -15,6 +17,7 @@ if(! isset($_SESSION['user_id'])){
     'FechaNacimineto'=>$_POST['UserDateBorn'],
     'Telefono'=>$_POST['UserPhone'],
     'Correo'=>$_POST['UserEmail'],
+    'Titulo'=>$_POST['TituloForm'],
     /*
     'Genero'=>$_POST['nameUser'],
     'RH'=>$_POST['nameUser'],
@@ -53,7 +56,7 @@ ob_start();
     <h2 style="padding: 10px; border-left: 10px solid rgb(255, 95, 95); background:rgb(222, 221, 228); font-family: Verdana, Geneva, Tahoma, sans-serif;
 
     font-family: 'Nunito', sans-serif;">
-        Entrega de evidencia
+        Datos Documento Clinico
         <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F2.bp.blogspot.com%2F-QrRgcI7ytzM%2FVWA07PLEpRI%2FAAAAAAAACnE%2Fux2xfsx8Ltk%2Fs1600%2FSena-colombia-logo-vector.png&f=1&nofb=1" alt="logo sena" srcset="" style="
         width: 30px;height: 30px; object-fit: cover;float: right;">
     </h2>
@@ -98,7 +101,7 @@ ob_start();
 $html_doc=ob_get_clean();
 
 
-require_once './dompdf/autoload.inc.php';
+require_once '../dompdf/autoload.inc.php';
 
 // reference the Dompdf namespace
 use Dompdf\Dompdf;
@@ -118,14 +121,49 @@ $dompdf->setPaper('A4');
 $doc=$dompdf->render();
 
 $output = $dompdf->output();
-$name=rand(1, 9999999999999999999999999999999999).'pdf';
+
+//generate random string
+$rand_token = openssl_random_pseudo_bytes(32);
+//change binary to hexadecimal
+$token = bin2hex($rand_token);
+
+//name pdf doc
+$name=$token.'.pdf';
 $file=file_put_contents($name, $output);
 
 $des='../../views/pdf/'.$name;
-echo $file;
+//echo $file;
 $source = './'.$name;
 
-echo rename($file,$des)? 'ok':'error';
+ if(rename($source,$des) ){
+     $Moved = true;
+     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/SECODE_QR/secode/views/pdf/'.$name;
+
+     $duration=date("Y-m-d");
+
+     $consult='INSERT INTO codigo_qr 
+     (`Id_codigo`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`) 
+     VALUES (null , :Duracion, :Ndoc, :Titulo, :Ruta) ';
+    
+    $params= $connection->prepare($consult);
+    $params->bindParam(':Ndoc',$_SESSION['user_id']);
+    $params->bindParam(':Duracion',$duration);
+    $params->bindParam(':Titulo', $data['Titulo']);
+    $params->bindParam(':Ruta',$urlCodeForm);
+
+    if ($params->execute()) {
+        header('Location: ../../views/clinico.php?GenerateError=22');
+    }else{
+        header('Location: ../../views/clinico.php?GenerateError=1');
+    }
+
+
+ }else{
+    $Moved=false;
+ }
+
+
+
 
 // Output the generated PDF to Browser
 //$dompdf->stream('archivo.pdf',array('Attachment'=>false));
