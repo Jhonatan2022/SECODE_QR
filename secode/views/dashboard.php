@@ -88,7 +88,8 @@ if (!isset($_SESSION["user_id"])) {
 				<div class="container">
 
 
-	<?foreach ($results as $code) { ?>
+
+	<?php foreach ($results as $code) { ?>
 
 
 
@@ -151,7 +152,7 @@ if (!isset($_SESSION["user_id"])) {
 	
 </div>
 
-	<?   }; ?>
+	<?php   }; ?>
 
 
 

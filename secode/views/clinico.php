@@ -171,7 +171,7 @@ $nombreUser=$results['Nombre'];
 <br><br><br>
     <!-- Formulario -->
     <div class="testbox">
-    <form action="../controller/PdfGeneratorForm.php" method="POST" novalidate>
+    <form action="../controller/pdf/PdfGeneratorForm.php" method="POST" novalidate>
       <div class="item">
         <p>Nombre completo</p>
         <input type="text" name="UserName"/>

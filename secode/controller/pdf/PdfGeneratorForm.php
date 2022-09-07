@@ -117,10 +117,18 @@ $dompdf->setPaper('A4');
 // Render the HTML as PDF
 $doc=$dompdf->render();
 
+$output = $dompdf->output();
+$name=rand(1, 9999999999999999999999999999999999).'pdf';
+$file=file_put_contents($name, $output);
 
+$des='../../views/pdf/'.$name;
+echo $file;
+$source = './'.$name;
+
+echo rename($file,$des)? 'ok':'error';
 
 // Output the generated PDF to Browser
-$dompdf->stream('archivo.pdf',array('Attachment'=>false));
+//$dompdf->stream('archivo.pdf',array('Attachment'=>false));
 
 
 ?>
