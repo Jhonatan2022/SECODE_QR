@@ -13,7 +13,7 @@ var closeWindow;
 
 //funcion para abrir el modal de opciones
 btnOptions.addEventListener("click", () => {
-  
+  console.log('ok')
   contOptions.style.opacity = "1";
   contOptions.style.visibility = "visible";
   closeWindow = true;

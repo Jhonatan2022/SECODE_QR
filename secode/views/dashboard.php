@@ -97,7 +97,7 @@ if (!isset($_SESSION["user_id"])) {
 					<div class="col-lg-4 col-md-6 text-center">
 						<div class="single-product-item">
 							<div class="product-image">
-								<a href="<?php echo $code['RutaArchivo'] ?>">
+								<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
 								<img src="<?php echo 'https://quickchart.io/qr?text='.$code['RutaArchivo'].$code['Atributos'] ?>" alt=""></a>
 							</div>
 							<h3><?php echo $code['Titulo'] ?></h3>
@@ -122,8 +122,8 @@ if (!isset($_SESSION["user_id"])) {
 		<label for="Titulo-code">Titulo</label><br>
 		<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
 		<br>
-		<label for="FileLinkPath"> Ruta del archivo</label>
-		<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK"><?php echo $code['RutaArchivo'] ?> </a>
+		<label for="FileLinkPath"> Archivo</label>
+		<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  '.$code['Titulo'].'.pdf' ?> </a>
 		
 		<br>
 		<label >Fecha: <?php  echo $code['Duracion'] ?></label>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-09-2022 a las 19:47:55
+-- Tiempo de generación: 07-09-2022 a las 17:55:51
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -164,7 +164,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`Ndocumento`, `Nombre`, `Direccion`, `Genero`, `Correo`, `Contrasena`, `FechaNacimiento`, `Telefono`, `id`, `Img_perfil`, `token_reset`, `TipoImg`) VALUES
 (12345, 'Gi6fti', NULL, NULL, 'user@gmail.com', '$2y$10$UHRmiKr00M05IDLuQCf6y.LZhYmYWZvh4RFjILYgkIDaLO.NGWsky', NULL, NULL, 10, NULL, NULL, NULL),
-(123456, 'miuser', NULL, NULL, 'miuser@gmail.com', '$2y$10$0eWwIAO2E2RHm/evCtuLvONwsDmtdiPuZpL4h2hi2aTkdglSbyvTm', NULL, NULL, 10, NULL, '478740780211298', NULL),
+(123456, 'miuser', NULL, NULL, 'miuser@gmail.com', '$2y$10$rdf0nYPiHWJobSNqgn0UNuH4/ftIHwqVIKDeBXRG5ZvbiEzwDlR/u', NULL, NULL, 10, NULL, '1774403929205', NULL),
+(123456789, 'Luis Fernando', NULL, NULL, 'lfchaparro37@misena.edu.co', '$2y$10$Bj4YkI..kEpJUMOECFSIeOyVN63u0Gb1TR3e/wR2TC6y9FOcLBVBO', NULL, NULL, 10, NULL, '365726471952663', NULL),
 (1022928173, 'luis', NULL, NULL, 'luis@gmail.com', '$2y$10$yTl8kqJtRbTTxQ0xIEx9ku2EjnpVWBqB/QZIt4/sthWJ5JzXDySKy', NULL, NULL, 10, NULL, NULL, NULL),
 (1077772766, 'Johan Sebastián', NULL, NULL, 'JuanAlonxxo@gmail.com', '$2y$10$DsExOVmpARdWlAPitpNSZ.mgIltdOQ.V/XmdfuynNCNKE/G.WRvb6', NULL, NULL, 10, NULL, NULL, NULL);
 

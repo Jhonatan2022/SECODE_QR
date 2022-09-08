@@ -56,6 +56,7 @@ img{
 .subcont-optionsCode{
     width: 100%;
     height: 100%;
+    position: relative;
     background-color: rgb(228, 227, 227);
     border-radius: 5px;
     padding: 10px;
@@ -116,6 +117,19 @@ img{
     max-width: auto;
     min-height: 75px;
     max-height:130px;
+}
+
+#FileLinkPath{
+    position: relative;
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
 }
 
 /*----item qr css customization---*/

@@ -50,8 +50,7 @@ if (isset($_POST['CorreoUser'])) {
                 $from = '';
                 $title = 'Recuperacion de contraseña';
                 $message = $template;
-                $headers = `From: $from` . "\r\n" .
-                    'Reply-To: webmaster@example.com' . "\r\n";
+                $headers = `From: $from;
                 $envio = mail($to, $title, $message, $headers);
                 if ($envio) {
                     $message = array(' Correo enviado Exitosamente', 'Por favor revise su correo y siga las instrucciones ,si no ve el mensaje revise en spam', 'success');
