@@ -49,6 +49,7 @@ $nombreUser=$results['Nombre'];
       $message = array('Error', 'Hubo un error en el preoceso, intente nuevamente', 'error');
     } elseif ($statusForm == 22) {
       $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos.', 'success');
+      $id_code=$_GET['Data'];
     }
   } 
 
@@ -102,6 +103,18 @@ $nombreUser=$results['Nombre'];
       '<?php  echo $message[0];?>',
       '<?php  echo $message[1];?>',
       '<?php  echo $message[2];?>')
+    </script> 
+  <?php endif; 
+  ?>
+
+
+<?php if (isset($id_code) && $statusForm == 22) : ?>
+  
+
+<script>
+    setTimeout(() => {
+      location.href = 'dashboard.php?DataCode=<?php echo $id_code; ?>';
+    }, 9000);
     </script> 
   <?php endif; 
   ?>

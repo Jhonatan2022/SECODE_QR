@@ -4,7 +4,7 @@
 session_start();
 
 if (isset($_SESSION['user_id']) || !isset($_GET['tokenUserMail'])) {
-    header('Location: ./iniciar.php');
+    header('Location: ../iniciar.php');
 }
 
 //importamos conexion base de datos

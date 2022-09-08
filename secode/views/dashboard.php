@@ -19,8 +19,8 @@ if (!isset($_SESSION["user_id"])) {
 
 	$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo FROM codigo_qr WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
-	
-	
+
+
 	if ($records->execute()) {
 		$results = $records->fetchAll(PDO::FETCH_ASSOC);
 		//$codes = $results;
@@ -89,70 +89,76 @@ if (!isset($_SESSION["user_id"])) {
 
 
 
-	<?php foreach ($results as $code) { ?>
+					<?php foreach ($results as $code) { ?>
 
 
 
-				<div class="roww ">
-					<div class="col-lg-4 col-md-6 text-center">
-						<div class="single-product-item">
-							<div class="product-image">
-								<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
-								<img src="<?php echo 'https://quickchart.io/qr?text='.$code['RutaArchivo'].$code['Atributos'] ?>" alt=""></a>
+						<div class="roww ">
+							<div class="col-lg-4 col-md-6 text-center">
+								<div class="single-product-item">
+									<div class="product-image">
+										<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
+											<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributos'] ?>" alt=""></a>
+									</div>
+									<h3><?php echo $code['Titulo'] ?></h3>
+
+									<p class="product-price"><span><?php // echo $code['description'] 
+																	?></span> </p>
+
+									<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
+									<a class="cart-btn OptionsCodeQr"><i class="fas fa-pen"></i> opciones</a>
+								</div>
 							</div>
-							<h3><?php echo $code['Titulo'] ?></h3>
-
-							<p class="product-price"><span><?php // echo $code['description'] ?></span> </p>
-
-							<p class="product-price"><span><?php  echo 'Fecha: '.$code['Duracion'] ?></span> </p>
-							<a  class="cart-btn OptionsCodeQr"><i class="fas fa-pen"></i> opciones</a>
 						</div>
-					</div>
-				</div>
+
+						<?php if (isset($_GET['DataCode']) && !empty($_GET['DataCode']) && $_GET['DataCode'] == $code['Id_codigo']) {
+							$FormView = true;
+						} ?>
+
+						<div class="cont-optionsCode" <?php if (isset($FormView) && $FormView) {
+															echo 'style=" opacity:1; visibility: visible;"';
+														} ?>>
+							<div class="divcont">
+								<div class="icon-close">
+									<i>X</i>
+								</div>
+								<h3>Codigo Qr opciones</h3>
+								<form action="" method="post">
+									<div class="subcont-optionsCode">
+										<label for="Titulo-code">Titulo</label><br>
+										<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
+										<br>
+										<label for="FileLinkPath"> Archivo</label>
+										<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  ' . $code['Titulo'] . '.pdf' ?> </a>
+
+										<br>
+										<label>Fecha: <?php echo $code['Duracion'] ?></label>
+										<details>
+											<summary>
+												Vista Previa
+											</summary>
+
+											<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url='.$code['RutaArchivo'] ?>" frameborder="0" width="100%" height="300px"></iframe>
+
+										</details>
+
+										<label for="Description-code">Descripcion</label><br>
+										<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
+										<label for="UpdateDataForm">Other</label><br>
+										<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+									</div>
+
+									<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar">
+									<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar">
 
 
-				<div class="cont-optionsCode" >
-	<div class="divcont">
-	<div class="icon-close">
-	<i>X</i>
-	</div>
-	<h3>Codigo Qr opciones</h3>
-	<form action="" method="post">
-	<div class="subcont-optionsCode">
-		<label for="Titulo-code">Titulo</label><br>
-		<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
-		<br>
-		<label for="FileLinkPath"> Archivo</label>
-		<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  '.$code['Titulo'].'.pdf' ?> </a>
-		
-		<br>
-		<label >Fecha: <?php  echo $code['Duracion'] ?></label>
-			<details>
-				<summary>
-				Vista Previa
-				</summary>
-				
-				<iframe src="<?php echo $code['RutaArchivo']?>" frameborder="0" width="100%" height="300px"></iframe>
-				
-			</details>
+								</form>
+							</div>
 
-	<label for="Description-code">Descripcion</label><br>
-	<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
-	<label for="UpdateDataForm">Other</label><br>
-	<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
-	</div>
 
-	<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar">
-	<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar">
-	
+						</div>
 
-	</form>
-	</div>
-	
-	
-</div>
-
-	<?php   }; ?>
+					<?php   }; ?>
 
 
 
@@ -161,10 +167,10 @@ if (!isset($_SESSION["user_id"])) {
 			<!-- end product section -->
 
 			<div class="cont-button">
-					
-			<a href="./formulario.php" class="link-button-new">
-					Nuevo  <i class="fas fa-plus"></i>
-			</a>
+
+				<a href="./formulario.php" class="link-button-new">
+					Nuevo <i class="fas fa-plus"></i>
+				</a>
 			</div>
 
 		</main>

@@ -152,7 +152,23 @@ $source = './'.$name;
     $params->bindParam(':Ruta',$urlCodeForm);
 
     if ($params->execute()) {
-        header('Location: ../../views/clinico.php?GenerateError=22');
+
+        $p=$connection->prepare('SELECT Id_codigo 
+        FROM codigo_qr 
+        WHERE Ndocumento = :Ndoc
+        ORDER BY Id_codigo DESC LIMIT 1 ');
+        $p->bindParam(':Ndoc',$_SESSION['user_id']);
+        if ($p->execute()) {
+            $idcode=$p->fetch(PDO::FETCH_ASSOC);
+            $id=$idcode['Id_codigo'];
+
+            header('Location: ../../views/clinico.php?GenerateError=22&Data='.$id);
+        }else{
+            echo 'no';
+            header('Location: ../../views/clinico.php?GenerateError=1');
+        }
+
+        
     }else{
         header('Location: ../../views/clinico.php?GenerateError=1');
     }

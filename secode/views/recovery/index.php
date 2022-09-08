@@ -24,7 +24,7 @@ if (isset($_POST['CorreoUser'])) {
                 count($results) == 1
             ) {
                 $tokenReset = $results['Token_reset'];
-                echo "<a href='http://localhost/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset' target='BLANK'> RECUPERAR CONTRASEÑA</a>";
+                echo "<a href='http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset' target='BLANK'> RECUPERAR CONTRASEÑA</a>";
 
                 //Datos de envio smtp despliegue app.
 
@@ -40,7 +40,7 @@ if (isset($_POST['CorreoUser'])) {
 </head>
 <body>
     <div>
-<a href="http://localhost:8080/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset">Recuperar contraseña</a>
+<a href="http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset">Recuperar contraseña</a>
     </div>
 </body>
 </html>
