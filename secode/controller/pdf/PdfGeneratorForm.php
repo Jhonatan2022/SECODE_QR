@@ -138,18 +138,20 @@ $source = './'.$name;
  if(rename($source,$des) ){
      $Moved = true;
      $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/SECODE_QR/secode/views/pdf/'.$name;
+     $atribDefault='&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
 
      $duration=date("Y-m-d");
 
      $consult='INSERT INTO codigo_qr 
-     (`Id_codigo`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`) 
-     VALUES (null , :Duracion, :Ndoc, :Titulo, :Ruta) ';
+     (`Id_codigo`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
+     VALUES (null , :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
     
     $params= $connection->prepare($consult);
     $params->bindParam(':Ndoc',$_SESSION['user_id']);
     $params->bindParam(':Duracion',$duration);
     $params->bindParam(':Titulo', $data['Titulo']);
     $params->bindParam(':Ruta',$urlCodeForm);
+    $params->bindParam(':AtribDefault',$atribDefault);
 
     if ($params->execute()) {
 

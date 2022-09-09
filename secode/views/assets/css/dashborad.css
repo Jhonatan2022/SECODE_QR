@@ -131,6 +131,20 @@ img{
     color: #000;
     margin-bottom: 10px;
 }
+.cont-button {
+    position: fixed;
+    width: auto;
+    height: auto;
+    bottom: 3rem;
+    display: block;
+    right: 2rem;
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 0.5rem;
+}
+.cont-button:hover{
+    background-color: rgb(226, 239, 255);
+}
 
 /*----item qr css customization---*/
 

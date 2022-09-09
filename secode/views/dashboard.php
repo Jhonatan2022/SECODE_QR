@@ -168,7 +168,7 @@ if (!isset($_SESSION["user_id"])) {
 
 			<div class="cont-button">
 
-				<a href="./formulario.php" class="link-button-new">
+				<a href="./clinico.php" class="link-button-new">
 					Nuevo <i class="fas fa-plus"></i>
 				</a>
 			</div>
