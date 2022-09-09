@@ -118,7 +118,25 @@ if (
 </head>
 
 <body>
-
+ <style>
+    body form{
+        width: 50vw;
+        border-radius: 16px;
+        border: 2px solid; 
+        background:#fff;
+        border-color:#6610f2; 
+        padding:2rem; 
+        text-align: center;
+        margin-top:5rem;
+    }
+    body{
+        background-color: #DFADFF;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='322' height='322' viewBox='0 0 200 200'%3E%3Cpolygon fill='%23DCEFFA' fill-opacity='0.49' points='100 0 0 100 100 100 100 200 200 100 200 0'/%3E%3C/svg%3E");
+    }
+    .container div form label{
+        font-size: 20px;
+    }
+ </style>
     <main class="container">
         <div class="row justify-content-md-center" id='containerMainForm'>
 
