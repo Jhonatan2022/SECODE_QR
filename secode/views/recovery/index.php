@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_POST['user_id'])) {
+if (isset($_SESSION['user_id'])) {
     header('Location: ../');
 }
 
@@ -24,11 +24,11 @@ if (isset($_POST['CorreoUser'])) {
                 count($results) == 1
             ) {
                 $tokenReset = $results['Token_reset'];
-                echo "<a href='http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset' target='BLANK'> RECUPERAR CONTRASEÑA</a>";
+                echo "<a href='http://" . $_SERVER['HTTP_HOST'] . "/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset' target='BLANK'> RECUPERAR CONTRASEÑA</a>";
 
                 //Datos de envio smtp despliegue app.
+                $host = $_SERVER['HTTP_HOST'];
 
-                /*
                 $template =  `
                 
                 <!DOCTYPE html>
@@ -40,12 +40,13 @@ if (isset($_POST['CorreoUser'])) {
 </head>
 <body>
     <div>
-<a href="http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset">Recuperar contraseña</a>
+    <p>lol</p>
+<a href='http://'.$host.'/SECODE_QR/secode/views/recovery/recupera.php?tokenUserMail=$tokenReset'  >Recuperar contraseña</a>
     </div>
 </body>
 </html>
                 
-                `;
+                `;;/*
                 $to = $results['Token_reset'];
                 $from = '';
                 $title = 'Recuperacion de contraseña';
@@ -56,11 +57,7 @@ if (isset($_POST['CorreoUser'])) {
                     $message = array(' Correo enviado Exitosamente', 'Por favor revise su correo y siga las instrucciones ,si no ve el mensaje revise en spam', 'success');
                 } else {
                     $message = array('Error de envio', 'Ocurrio un error al enviar el mensaje, intente de nuevo, por favor', 'error');
-                }
-
-
-
-                */
+                }*/
             } else {
                 $message = array(' Error', 'El correo NO exixte, primero registrese e inicie sesion', 'error');
             }
@@ -78,6 +75,18 @@ if (isset($_POST['CorreoUser'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/png" href="../assets/img/logo.png">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="../assets/css/all.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+
+
+    <?php include('../templates/sweetalerts2.php'); ?>
 </head>
 
 <body>
@@ -88,20 +97,22 @@ if (isset($_POST['CorreoUser'])) {
                 document.getElementById("formrecupera").style.display = "none";
             }
         </script>
-        <div class="caja_popup" id="formrecupera">
+
+
+        <div class="caja_popup container " id="formrecupera">
             <form action="" class="contenedor_popup" method="POST">
                 <table>
                     <tr>
-                        <th colspan="2">Recuperar contraseña</th>
+                        <th colspan="2" class="h2">Recuperar contraseña</th>
                     </tr>
                     <tr>
                         <td><b>&#128231; Correo</b></td>
-                        <td><input type="email" name="CorreoUser" required class="cajaentradatexto"></td>
+                        <td><input type="email" name="CorreoUser" required class="cajaentradatexto form-control"></td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <button type="button" onclick="cancelarform()" class="txtrecupera">Cancelar</button>
-                            <input class="txtrecupera" type="submit" name="btnrecupera" value="Enviar" onClick="javascript: return confirm('¿Deseas enviar tu contraseña a tu correo?');">
+                            <button type="button" onclick="cancelarform()" class="txtrecupera btn btn-danger">Cancelar</button>
+                            <input class="txtrecupera btn btn-primary" type="submit" name="btnrecupera" value="Enviar" onClick="javascript: return confirm('¿Deseas enviar tu contraseña a tu correo?');">
                         </td>
                     </tr>
                 </table>
@@ -118,6 +129,17 @@ if (isset($_POST['CorreoUser'])) {
             </script>
         <?php endif;
         ?>
+                <style>
+            .caja_popup {
+                width: 50 vw;
+                border: 3 px solid #007bff;
+                border-radius: 20 px;
+                padding: 2 rem;
+            }
+            .caja_popup tr{
+                padding-top: 1rem;
+            }
+        </style>
 </body>
 </center>
 
