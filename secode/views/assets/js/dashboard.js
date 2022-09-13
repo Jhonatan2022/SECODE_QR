@@ -39,3 +39,19 @@ iconClose.addEventListener('click', () => {
     };
   }
 });
+
+//no close while pdf generate in clinico.php
+
+//variables
+let BtnSendFormClinic = document.querySelector('#BtnSendFormClinic');
+
+//funcion para abrir el modal de opciones
+BtnSendFormClinic.addEventListener('click', () => {
+  //confirmar si se cierra la ventana sin guardar los cambios
+
+  if (closeWindow) {
+    window.onbeforeunload = () => {
+      return '¿Estas seguro de que quieres salir?';
+    };
+  }
+});

@@ -123,7 +123,7 @@ $doc=$dompdf->render();
 $output = $dompdf->output();
 
 //generate random string
-$rand_token = openssl_random_pseudo_bytes(32);
+$rand_token = openssl_random_pseudo_bytes(16);
 //change binary to hexadecimal
 $token = bin2hex($rand_token);
 

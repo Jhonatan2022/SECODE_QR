@@ -381,7 +381,7 @@ $nombreUser=$results['Nombre'];
           <?php  if(!isset($_SESSION['user_id'])){ ?>
             <a href="./iniciar.php"><button type="button" >INICIA SESION </button></a>            
          <?php  }  else { ?>
-          <button type="submit">
+          <button type="submit" id="BtnSendFormClinic">
          Generar codigo
           </button>
           
@@ -449,5 +449,6 @@ $nombreUser=$results['Nombre'];
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+  <script src="./assets/js/dashboard.js"></script>
   </body>
 </html>
