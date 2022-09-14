@@ -14,5 +14,8 @@
             "name": "Luis Fernando",
             "email": "luis.chaparro173@educacionbogota.edu.co"
         }
-    ]
+    ],
+    "require": {
+        "dompdf/dompdf": "^2.0"
+    }
 }
