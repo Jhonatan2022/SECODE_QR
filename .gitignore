@@ -1,3 +1,8 @@
 assets/php/database.php
+secode/controller/phpqrcode/cache/
 
-secode\models\database\database.php
+secode/views/pdf/*.pdf
+
+/vendor/
+
+.phpunit.result.cache

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-06-2022 a las 02:24:35
--- Versión del servidor: 10.5.12-MariaDB
--- Versión de PHP: 7.3.32
+-- Tiempo de generación: 07-09-2022 a las 17:55:51
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 7.4.29
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";S
-SET AUTOCOMMIT = 0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,21 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `codigo_qr` (
   `Id_codigo` int(5) NOT NULL,
   `Duracion` date NOT NULL,
-  `Ndocumento` int(15) NOT NULL
+  `Ndocumento` int(15) NOT NULL,
+  `Atributos` varchar(300) DEFAULT NULL,
+  `Titulo` varchar(20) NOT NULL,
+  `RutaArchivo` varchar(200) DEFAULT NULL,
+  `Descripcion` varchar(430) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `codigo_qr`
 --
 
-INSERT INTO `codigo_qr` (`Id_codigo`, `Duracion`, `Ndocumento`) VALUES
-(1, '2022-05-31', 53456177),
-(2, '2022-11-17', 62156197),
-(3, '2022-05-26', 941571670),
-(4, '2022-05-31', 528468419),
-(5, '2022-05-13', 23025974),
-(6, '2022-05-26', 542135741),
-(7, '2022-05-26', 654687233);
+INSERT INTO `codigo_qr` (`Id_codigo`, `Duracion`, `Ndocumento`, `Atributos`, `Titulo`, `RutaArchivo`, `Descripcion`) VALUES
+(1, '2022-08-10', 1022928173, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120', 'Titulo del codigo Qr', 'https://youtu.be/wmMbPh2K3-c', 'El proyecto surge debido a la problemática de la accesibilidad y coste de poseer su información médica, por lo tanto se plantea administrar o adjuntar a través de un código QR, el manejo de dicha información.');
 
 -- --------------------------------------------------------
 
@@ -58,16 +55,6 @@ CREATE TABLE `condicion` (
   `Id_datos_clinicos` int(5) NOT NULL,
   `Condicion` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `condicion`
---
-
-INSERT INTO `condicion` (`Id_condicion`, `Id_datos_clinicos`, `Condicion`) VALUES
-(0, 1, 'astigmatismo'),
-(1, 1, 'astigmatismo'),
-(2, 2, 'Anemia'),
-(3, 3, 'alergia al mani');
 
 -- --------------------------------------------------------
 
@@ -83,19 +70,16 @@ CREATE TABLE `datos_clinicos` (
   `Subsidio` varchar(15) NOT NULL,
   `Departamento` varchar(25) NOT NULL,
   `Tipo_de_sangre` varchar(2) NOT NULL,
-  `Nombre` varchar(25) NOT NULL,
-  `Telefono` int(15) NOT NULL,
-  `Img_qr` longblob DEFAULT NULL
+  `Estrato` int(1) DEFAULT NULL,
+  `EsAlergico` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `datos_clinicos`
 --
 
-INSERT INTO `datos_clinicos` (`Id_datos_clinicos`, `Id_codigo`, `RH`, `TipoAfiliacion`, `Subsidio`, `Departamento`, `Tipo_de_sangre`, `Nombre`, `Telefono`, `Img_qr`) VALUES
-(1, 1, '+', 'subsidiado', 'false', 'cundinamarca', 'o', 'andres guarnizo', 31145688, NULL),
-(2, 2, '-', 'subsidiado', 'true', 'cundinamarca', 'ab', 'dayana lopez', 311256489, NULL),
-(3, 3, '+', 'cotizante', 'false', 'Boyaca', 'A', 'juana solorzano', 311256987, NULL);
+INSERT INTO `datos_clinicos` (`Id_datos_clinicos`, `Id_codigo`, `RH`, `TipoAfiliacion`, `Subsidio`, `Departamento`, `Tipo_de_sangre`, `Estrato`, `EsAlergico`) VALUES
+(1, 1, '+', 'cotizante', 'si', 'cundinamarca', 'o', 2, 'si');
 
 -- --------------------------------------------------------
 
@@ -108,16 +92,6 @@ CREATE TABLE `eps` (
   `Nombre` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   `Direccion` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `eps`
---
-
-INSERT INTO `eps` (`id`, `Nombre`, `Direccion`) VALUES
-(1, 'sanitas', 'calle 108 N 33'),
-(2, 'Famisanar', 'calle 208 N 53'),
-(3, 'capitaleps', 'calle 45 s 33'),
-(10, 'prueba', 'calle');
 
 -- --------------------------------------------------------
 
@@ -135,19 +109,6 @@ CREATE TABLE `formulario` (
   `Cantidad_Medicamento` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `formulario`
---
-
-INSERT INTO `formulario` (`Id_formulario`, `Estrato`, `Id_codigo`, `Img_qr`, `Codigo_postal`, `Nombre_Medicamento`, `Cantidad_Medicamento`) VALUES
-(2, '3', 3, '', 66544, 'Dolex', 5),
-(4, '3', 1, NULL, 65865, 'Dolex', 5),
-(5, '1', 2, NULL, 66665, 'acetaminofem', 3),
-(6, '1', 4, NULL, 52698, 'Omeprazol', 6),
-(7, '2', 5, NULL, 965475, 'Salbutamol', 10),
-(8, '2', 6, NULL, 89855, 'Aspirina', 1),
-(9, '3', 7, NULL, 33215, 'Aspirina Bayer', 5);
-
 -- --------------------------------------------------------
 
 --
@@ -163,17 +124,6 @@ CREATE TABLE `QR_plus` (
   `Id_codigo` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `QR_plus`
---
-
-INSERT INTO `QR_plus` (`Id_qr`, `Titulo`, `Categoria`, `Fecha`, `Img_qr`, `Id_codigo`) VALUES
-(1, 'Codigo de datos', 'formulario', '2022-05-10', NULL, 1),
-(2, 'Datos de la dfo', 'formulario', '2022-05-18', NULL, 2),
-(3, 'Codigo de datos', 'formulario', '2022-05-10', NULL, 1),
-(4, 'Datos formula', 'formulario', '2022-05-18', NULL, 2),
-(5, 'Codigo de datos', 'datos envi', '2020-05-10', NULL, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -186,15 +136,6 @@ CREATE TABLE `Suscripcion` (
   `Tiempo_expiracion` date NOT NULL,
   `Ndocumento` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `Suscripcion`
---
-
-INSERT INTO `Suscripcion` (`Id_suscripcion`, `Tipo_suscripcion`, `Tiempo_expiracion`, `Ndocumento`) VALUES
-(1, 'mensual ', '2022-05-26', 53456177),
-(2, 'gratis', '2022-06-24', 941571670),
-(3, 'gratis', '2022-06-30', 62156197);
 
 -- --------------------------------------------------------
 
@@ -209,7 +150,8 @@ CREATE TABLE `usuario` (
   `Genero` varchar(10) DEFAULT NULL,
   `Correo` varchar(30) NOT NULL,
   `Contrasena` varchar(80) NOT NULL,
-  `FechaNacimineto` date DEFAULT NULL,
+  `FechaNacimiento` date DEFAULT NULL,
+  `Telefono` int(12) DEFAULT NULL,
   `id` int(9) NOT NULL,
   `Img_perfil` longblob DEFAULT NULL,
   `token_reset` varchar(40) DEFAULT NULL,
@@ -220,19 +162,12 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Ndocumento`, `Nombre`, `Direccion`, `Genero`, `Correo`, `Contrasena`, `FechaNacimineto`, `id`, `Img_perfil`, `token_reset`, `TipoImg`) VALUES
-(429, 'luis', NULL, NULL, 'luis@gmail.com', '$2y$10$yTl8kqJtRbTTxQ0xIEx9ku2EjnpVWBqB/QZIt4/sthWJ5JzXDySKy', NULL, 10, NULL, NULL, NULL),
-(679, 'nombre', NULL, NULL, 'nombre@gmail.com', '$2y$10$OV6AzVWPu49dGgfmRzyljOsNrgn8xKGrAYm628ITVxzx3Ch72x9f.', NULL, 10, NULL, NULL, NULL),
-(748, 'Juan Rodriguez', NULL, NULL, 'JuanPajara@gmail.com', '$2y$10$/0Ncuahkzt5nNuNXAEnPC.5EYCRFJ4/LHnwFMdUqS1XAVBNOrYhm2', NULL, 10, NULL, NULL, NULL),
-(866, 'nombre', NULL, NULL, 'nombre@gmail.com', '$2y$10$y4zrdFZeYeMBSxVJWQmdoeWK6v.fR./lgvXDXl1POuXf1DAtqIDc6', NULL, 10, NULL, NULL, NULL),
-(23025974, 'Valentina Rodriguez ', 'Crr6 #34 bis 4-Este\'', 'Femenino', 'ValeRodriguez7@gmail.com', '265784', '2011-04-20', 3, NULL, NULL, NULL),
-(53456177, 'deivid bautista', 'Crr6 #34 Este', 'Masculino', 'JuanCamiloP1@gmail.com', '123456', '2022-06-16', 1, NULL, NULL, NULL),
-(62156197, 'Roberto Cama', 'Crr9 #13 Sur', 'Masculino', 'JCamaRoberto324@gmail.com', '7890431', '2022-11-01', 2, NULL, NULL, NULL),
-(528468419, 'Andres Ramos', 'Crr8-100b 56', 'Masculino', 'Ramosandres@gmail.com', '2525', '2014-01-14', 2, NULL, NULL, NULL),
-(542135741, 'valeria Zuares', 'Avenida 65N 67-3', NULL, 'Valeria5Z@gmail.com', 'fs4ef5s7fs6', NULL, 3, NULL, NULL, NULL),
-(654687233, 'Juan Felipe oviedo', 'Diagonal 39 sur n35', 'masculino', 'Jfelipe59o@gamil.com', 'fjsdghf54fsa', '1195-12-17', 2, NULL, NULL, NULL),
-(941571670, 'Maria Jose', 'Crr1 21 Sur Apart12', 'Femenino', 'Majo2131@gmail.com', '123456789', '2022-04-09', 3, NULL, NULL, NULL),
-(1022928954, 'nombre', NULL, NULL, 'nombre@gmail.com', '$2y$10$pLAlmfcThzlcnuKihzNThe8IgGNXHLP1Wm/g6NwPBM2tBh53GE5m2', NULL, 10, NULL, NULL, NULL);
+INSERT INTO `usuario` (`Ndocumento`, `Nombre`, `Direccion`, `Genero`, `Correo`, `Contrasena`, `FechaNacimiento`, `Telefono`, `id`, `Img_perfil`, `token_reset`, `TipoImg`) VALUES
+(12345, 'Gi6fti', NULL, NULL, 'user@gmail.com', '$2y$10$UHRmiKr00M05IDLuQCf6y.LZhYmYWZvh4RFjILYgkIDaLO.NGWsky', NULL, NULL, 10, NULL, NULL, NULL),
+(123456, 'miuser', NULL, NULL, 'miuser@gmail.com', '$2y$10$rdf0nYPiHWJobSNqgn0UNuH4/ftIHwqVIKDeBXRG5ZvbiEzwDlR/u', NULL, NULL, 10, NULL, '1774403929205', NULL),
+(123456789, 'Luis Fernando', NULL, NULL, 'lfchaparro37@misena.edu.co', '$2y$10$Bj4YkI..kEpJUMOECFSIeOyVN63u0Gb1TR3e/wR2TC6y9FOcLBVBO', NULL, NULL, 10, NULL, '365726471952663', NULL),
+(1022928173, 'luis', NULL, NULL, 'luis@gmail.com', '$2y$10$yTl8kqJtRbTTxQ0xIEx9ku2EjnpVWBqB/QZIt4/sthWJ5JzXDySKy', NULL, NULL, 10, NULL, NULL, NULL),
+(1077772766, 'Johan Sebastián', NULL, NULL, 'JuanAlonxxo@gmail.com', '$2y$10$DsExOVmpARdWlAPitpNSZ.mgIltdOQ.V/XmdfuynNCNKE/G.WRvb6', NULL, NULL, 10, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -298,6 +233,12 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `codigo_qr`
+--
+ALTER TABLE `codigo_qr`
+  MODIFY `Id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `QR_plus`
 --
 ALTER TABLE `QR_plus`
@@ -348,12 +289,6 @@ ALTER TABLE `QR_plus`
 --
 ALTER TABLE `Suscripcion`
   ADD CONSTRAINT `Suscripcion_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id`) REFERENCES `eps` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,10 +2,12 @@
 session_start();
 
 if (isset($_SESSION['Ndocumento'])) {
-    echo "<script> setTimeout(\"location.href='../iniciar.php'\",500);</script>";
-  };
+    
+  }else{
+    header('Location: ../views/iniciar.php');
+  }
 
-require_once '../database/database.php';
+require_once '../models/database/database.php';
 
 $consult = " SELECT * FROM usuario WHERE Correo= :correo";
     $parametros = $connection->prepare($consult);

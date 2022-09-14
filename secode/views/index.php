@@ -1,3 +1,8 @@
+<?php
+session_start()
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +44,7 @@
 		<div class="inner"></div>
 	</div>
     <!--PreLoader Ends-->
-	
+
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
@@ -61,9 +66,13 @@
 								<li><a href="contact.html">Contáctanos</a></li>
 								<li><a href="#">Solicitar Código</a>
 								<ul class="sub-menu">
-									<li><a href="clinico.html">Datos Clinicos</a>
+									<li><a href="clinico.php">Datos Clinicos</a>
 									</li>
 								</ul>
+								<?php if (isset($_SESSION['user_id'])){ ?>
+										<li id='button-exit'><a href="../controller/exit/">salir</a>
+								<?php } ?>
+								
 								<li class="login-box"><a href="#">
 									<span></span>
 									<span></span>
@@ -88,9 +97,24 @@
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
 							<p class="subtitle">SECØDE_QR</p>
-							<h1>Registrarse o Iniciar Sesión</h1>
+							<h1>
+
+
+						<?php if(isset($_SESSION['user_id'])): ?>
+							Ingresa para ver los Codigos QR
+							<?php else: ?>
+								Registrarse o Iniciar Sesión
+								<?php endif ?>
+							</h1>
 							<div class="hero-btns">
+
+							<?php if(isset($_SESSION['user_id'])): ?>
+								<a href="dashboard.php" class="boxed-btn">Ver mis codigos Qr</a>
+							<?php else: ?>
 								<a href="iniciar.php" class="boxed-btn">Registrarse o iniciar sesión</a>
+								<?php endif ?>
+
+								
 							</div>
 						</div>
 					</div>

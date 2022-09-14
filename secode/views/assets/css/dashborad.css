@@ -1,3 +1,168 @@
+/*
+  ___ ___ ___ 
+ / __/ __/ __|
+| (__\__ \__ \
+ \___|___/___/
+
+*/
+
+
 img{
     background-position: center;
 }
+
+.cont-optionsCode{
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	transition: all 500ms ease;
+	opacity: 0;
+	visibility: hidden;
+	width: 100%;
+	height: 100vh;
+	/* height: auto; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 700;
+}
+
+
+.divcont{
+    width: 50vw;
+    height: fit-content;
+    margin:0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px #ccc;
+    position: relative;
+    max-width: 100%;
+    max-height: 75%;
+    overflow-y:auto ;
+}
+
+
+
+
+.cont-optionsCode >h3{
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.subcont-optionsCode{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: rgb(228, 227, 227);
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.subcont-optionsCode >input{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.cont-optionsCode >form >input[type="submit"]{
+    margin-top: 10px;
+    width: 50%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.icon-close{
+    position: absolute;
+    font-size: large;
+    font-weight: bolder;
+    color: black;
+    padding: 5px;
+    border-radius: 10% ;
+    top: 3px;
+    right: 10px;
+    cursor: pointer;
+    -webkit-border-radius: 10% ;
+    -moz-border-radius: 10% ;
+    -ms-border-radius: 10% ;
+    -o-border-radius: 10% ;
+}
+.icon-close:hover{
+    color: rgb(255, 93, 93);
+}
+
+.Description-code{
+    overflow: auto;
+    width: 100%;
+    height: 90px;
+    max-width: auto;
+    min-height: 75px;
+    max-height:130px;
+}
+
+#FileLinkPath{
+    position: relative;
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+.cont-button {
+    position: fixed;
+    width: auto;
+    height: auto;
+    bottom: 3rem;
+    display: block;
+    right: 2rem;
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 0.5rem;
+}
+.cont-button:hover{
+    background-color: rgb(226, 239, 255);
+}
+
+/*----item qr css customization---*/
+
+.single-product-item:hover{
+
+    box-shadow: 0px 0px 10px #ccc;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    object-fit: scale-down;
+}
+
+.divcont input[type='submit']{
+    margin-top: 2rem;
+}
+
+
+/*----END item qr css customization---*/
