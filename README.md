@@ -9,7 +9,7 @@
 ---
 ## Instalacion del proyecto.
 
-####Requisitos de software.
+#### Requisitos de software.
 * xampp (Apache,Mysql,perl,php) independiente del sistema operativo.
 * PHP version 7.4
 * Permisos de administrador.
