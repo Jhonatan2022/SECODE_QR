@@ -18,7 +18,7 @@ require_once '../models/database/database.php';
 <head>
 
     <title>Perfil de usuario</title>
-    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="./assets/css/perfil.css">
  <?php include('./templates/header.php');?>
 
 </head>
