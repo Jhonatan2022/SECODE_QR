@@ -101,7 +101,7 @@ ob_start();
 $html_doc=ob_get_clean();
 
 
-require_once '../../../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 
 // reference the Dompdf namespace
 use Dompdf\Dompdf;

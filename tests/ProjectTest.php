@@ -5,7 +5,7 @@ class projectTest extends \PHPUnit\Framework\TestCase
 
 
 
-    public function projectTest()
+    public function testPushAndPop()
     {        /*
              _       _         _                         _ 
           __| | __ _| |__  ___| |__   ___   __ _ _ __ __| |

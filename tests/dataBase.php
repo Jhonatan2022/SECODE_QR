@@ -5,7 +5,7 @@ class dataBase extends \PHPUnit\Framework\TestCase
 
 
 
-    public function projectTest()
+    public function testPushAndPop()
     {
 
         $server = 'localhost';

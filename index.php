@@ -1,5 +1,5 @@
 <?php
 
-header('Location: secode/views/');
+header('Location: views/');
 
 ?>
