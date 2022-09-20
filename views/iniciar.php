@@ -33,6 +33,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
           //varaibles user definition from session
           $_SESSION['user_id'] = $results['Ndocumento'];
+          $_SESSION['Correo'] = $results['Correo'];
           $_SESSION['Nombre'] = $results['Nombre'];
           $_SESSION['Direccion'] = $results['Direccion'];
           $_SESSION['Genero'] = $results['Genero'];

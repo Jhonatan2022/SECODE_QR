@@ -1,9 +1,17 @@
 <?php
 $Ndocumento= $_GET['id'];
-$conexion= mysqli_connect("localhost", "root", "", "id16455213_secode_qr");
-$consulta= "SELECT * FROM usuario WHERE Ndocumento = $Ndocumento";
-$resultado = mysqli_query($conexion, $consulta);
-$usuario = mysqli_fetch_assoc($resultado);
+require('../../main.php');
+require_once(BaseDir.'/models/database/database.php');
+
+//$conexion= mysqli_connect("localhost", "root", "", "id16455213_secode_qr");
+//$resultado = mysqli_query($conexion, $consulta);
+//$usuario = mysqli_fetch_assoc($resultado);
+$consulta= "SELECT * FROM usuario WHERE Ndocumento = :documento";
+$param=$connection->prepare($consulta);
+$param->bindParam(':documento', $Ndocumento);
+$param->execute();
+$usuario = $param->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
