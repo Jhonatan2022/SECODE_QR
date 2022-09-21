@@ -1,0 +1,57 @@
+ErrorDocument 404 /src/error/404.html
+ErrorDocument 403 /src/error/404.html
+
+# Disable directory browsing
+Options -Indexes
+
+#evitar listado de directorios
+IndexIgnore *
+
+<files .htaccess>
+    order allow,deny
+    deny from all
+</files>
+<files .gitignore>
+    order allow,deny
+    deny from all
+</files>
+<files composer.json>
+    order allow,deny
+    deny from all
+</files>
+<files composer.lock>
+    order allow,deny
+    deny from all
+</files>
+<files id16455213_secode_qr.sql>
+    order allow,deny
+    deny from all
+</files>
+<files README.md>
+    order allow,deny
+    deny from all
+</files>
+   
+#comprimir archivos de texto, html, javascript, css, xml
+
+#AddOutputFilterByType DEFLATE text/plain
+
+#AddOutputFilterByType DEFLATE text/html
+
+#AddOutputFilterByType DEFLATE text/xml
+
+#AddOutputFilterByType DEFLATE text/css
+
+#AddOutputFilterByType DEFLATE application/xml
+
+#AddOutputFilterByType DEFLATE application/xhtml+xml
+
+#AddOutputFilterByType DEFLATE application/rss+xml
+
+#AddOutputFilterByType DEFLATE application/javascript
+
+#AddOutputFilterByType DEFLATE application/x-javascript
+
+
+#zona horaria
+SetEnv TZ America/Bogota
