@@ -77,12 +77,13 @@ elseif (isset($_POST['user-name']) &&
 
   //variables de datos ingresados
   $email_user = $_POST['user-email'];
-  $numdoc = intval($_POST['num-doc']);
+
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
   $token = rand(124324, 876431167878435);
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
+
 
     //consulta que verifica la existencia de el correo ingresado
     $consult = "SELECT Correo,Ndocumento FROM usuario WHERE Correo= :useremail OR Ndocumento= :Ndocument";

@@ -66,7 +66,8 @@ session_start()
 								<li><a href="contact.html">Contáctanos</a></li>
 								<li><a href="#">Solicitar Código</a>
 								<ul class="sub-menu">
-									<li><a href="clinico.php">Datos Clinicos</a>
+									<li><a href="formulario_datos_clinicos.html">Datos Clínicos</a>
+									<li><a href="formulario_medicamentos.html">Solicitud medicamentos</a>
 									</li>
 								</ul>
 								<?php if (isset($_SESSION['user_id'])){ ?>
@@ -185,9 +186,9 @@ session_start()
 						<div class="product-image">
 							<a href="single-product.html"><img src="./assets/img/qrfor.png" alt=""></a>
 						</div>
-						<h3>Formulario</h3>
+						<h3>Solicitud de medicamentos</h3>
 						<p class="product-price"><span>QR Para generar formulario con <br> solicitud de medicamentos</span> </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
+						<a href="formulario_medicamentos.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center">
@@ -195,9 +196,9 @@ session_start()
 						<div class="product-image">
 							<a href="single-product.html"><img src="./assets/img/qrfor.png" alt=""></a>
 						</div>
-						<h3>Datos Básicos</h3>
+						<h3>Datos Clínicos</h3>
 						<p class="product-price"><span>QR Para solicitar datos básicos <br> de la persona</span> </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
+						<a href="formulario_datos_clinicos.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
 					</div>
 				</div>
 			</div>
