@@ -7,3 +7,4 @@ assets/php/database.php
 /vendor/
 
 .phpunit.result.cache
+.vscode/*
