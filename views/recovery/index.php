@@ -60,7 +60,7 @@ if (isset($_POST['CorreoUser'])) {
 
                     $shtml = file_get_contents('template.html');
                     //reemplazar sección de plantilla html con el css cargado y mensaje creado
-                    $cuerpo = str_replace("href='link'", "href='http://$host/SECODE_QR/views/recovery/recupera.php?tokenUserMail=$tokenReset' ", $shtml);
+                    $cuerpo = str_replace("href='link'", "href='http://$host/secodeqr/views/recovery/recupera.php?tokenUserMail=$tokenReset' ", $shtml);
                     $mail->Body = $cuerpo; //cuerpo del mensaje
                     $mail->AltBody = '---'; //Mensaje de sólo texto si el receptor no acepta HTML
 

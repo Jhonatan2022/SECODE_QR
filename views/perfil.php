@@ -7,6 +7,9 @@ header('Location: ./index.php');
 }
 
 require_once '../models/database/database.php';
+require_once '../models/user.php';
+
+$user = getUser($_SESSION['user_id']);
 
 
 ?>
@@ -43,7 +46,7 @@ require_once '../models/database/database.php';
             <div class="perfil-usuario-portada">
                 <div class="perfil-usuario-avatar">
                     
-                    <img src="<?php echo $_SESSION['Img_perfil'] ?>"
+                    <img src="<?php echo $user['Img_perfil'] ?>"
                         alt="img-avatar">
                     <button type="button" class="boton-avatar">
                         <i class="fas fa-image"></i>
@@ -60,25 +63,25 @@ require_once '../models/database/database.php';
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
                 <h1></h1>
-                <h3 class="titulo"><?php echo $_SESSION['Nombre'] ?> <a href="" class="boton-edit"><i class="fas fa-pencil-alt"></i></a></h3>
+                <h3 class="titulo"><?php echo $user['Nombre'] ?> <a href="" class="boton-edit"><i class="fas fa-pencil-alt"></i></a></h3>
                 <p class="texto">
                 </p>
             </div>
             <div class="perfil-usuario-footer">
                 <ul class="lista-datos">
-                    <li><i class="icono fas fa-map-signs"></i> Direccion: <strong><?php echo $_SESSION['Direccion'] ?></strong> </li>
+                    <li><i class="icono fas fa-map-signs"></i> Direccion: <strong><?php echo $user['Direccion'] ?></strong> </li>
                     <li><i class="icono fas fa-phone"></i> Telefono: <strong>
-                    <?php echo $_SESSION['Telefono'] ?>
+                    <?php echo $user['Telefono'] ?>
                     </strong> </li>
                     <li><i class="icono fas fa-user"></i> Genero <strong>
-                    <?php echo $_SESSION['Genero'] ?>
+                    <?php echo $user['Genero'] ?>
                     </strong></li>
                     <li><i class="icono fas fa-building"></i> Cargo</li>
                 </ul>
                 <ul class="lista-datos">
                     <li><i class="icono fas fa-map-marker-alt"></i> Ubicacion.</li  >
                     <li><i class="icono fas fa-calendar-alt"></i> Fecha nacimiento: <strong>
-                    <?php echo $_SESSION['FechaNacimiento'] ?>
+                    <?php echo $user['FechaNacimiento'] ?>
                     </strong>  </li>
                     <li><i class="icono fas fa-user-check"></i> Registro.</li>
                     <li><i class="icono fas fa-share-alt"></i> Redes sociales.</li>

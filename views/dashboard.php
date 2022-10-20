@@ -44,6 +44,7 @@ if (!isset($_SESSION["user_id"])) {
 	include('./templates/sweetalerts2.php');
 	?>
 	<link rel="stylesheet" href="./assets/css/dashborad.css">
+	<link rel="stylesheet" href="./assets/css/responsiveAll.css">
 </head>
 
 <body>

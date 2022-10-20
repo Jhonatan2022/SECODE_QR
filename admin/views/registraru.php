@@ -72,6 +72,7 @@
                 <div id="login-row" class="row justify-content-center align-items-center">
                     <div id="login-column" class ="col-md-6">
                         <div id="login-box" class="col-md-12">
+                            <input type="hidden" name="registrar" value="ok">
                             <br>
                             <br>
                             <h3 class="text-center">Registrar usuario</h3>

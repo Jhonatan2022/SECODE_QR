@@ -3,9 +3,7 @@ $Ndocumento= $_GET['id'];
 require('../../main.php');
 require_once(BaseDir.'/models/database/database.php');
 
-//$conexion= mysqli_connect("localhost", "root", "", "id16455213_secode_qr");
-//$resultado = mysqli_query($conexion, $consulta);
-//$usuario = mysqli_fetch_assoc($resultado);
+
 $consulta= "SELECT * FROM usuario WHERE Ndocumento = :documento";
 $param=$connection->prepare($consulta);
 $param->bindParam(':documento', $Ndocumento);

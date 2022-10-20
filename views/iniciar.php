@@ -12,6 +12,7 @@ if (isset($_SESSION['user_id'])) {
 //importamos conexion base de datos
 require_once '../models/database/database.php';
 
+
 //si el usuario va a iniciar sesion
 if (isset($_POST['email']) &&
     isset($_POST['password']) &&
@@ -36,17 +37,7 @@ if (isset($_POST['email']) &&
 
           //varaibles user definition from session
           $_SESSION['user_id'] = $results['Ndocumento'];
-          $_SESSION['Correo'] = $results['Correo'];
-          $_SESSION['Nombre'] = $results['Nombre'];
-          $_SESSION['Direccion'] = $results['Direccion'];
-          $_SESSION['Genero'] = $results['Genero'];
-          $_SESSION['FechaNacimiento'] = $results['FechaNacimiento'];
-          $_SESSION['Telefono'] = $results['Telefono'];
-          if (empty($results['Img_perfil']) || $results['Img_perfil'] == null) {
-            $_SESSION['Img_perfil'] = "http://" . $_SERVER['HTTP_HOST'] . "/SECODE_QR/views/assets/img/userimg.png";
-          } else {
-            $_SESSION['Img_perfil'] = 'data:' . $results['TipoImg'] . ";base64," . base64_encode($results['Img_perfil']);
-          }
+
 
           header("Location: ./index.php");
         } else {
@@ -77,7 +68,7 @@ elseif (isset($_POST['user-name']) &&
 
   //variables de datos ingresados
   $email_user = $_POST['user-email'];
-
+  $numdoc = $_POST['num-doc'];
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
   $token = rand(124324, 876431167878435);
