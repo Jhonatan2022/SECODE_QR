@@ -35,7 +35,7 @@ $query->bindParam(':tipsus', $plan);
 $query->bindParam(':fecha', $date);
 $query->bindParam(':numr', $idfactura);
 if($query->execute()){
-	$pdf='../controller/pdf/pdfpago.php';
+	$pdf='../../controller/pdf/pdfpago.php';
 }else{
 	$pdf='#';
 }
@@ -147,7 +147,7 @@ if($query->execute()){
     <tr>
       <th scope="row" colspan="2">NIT: 12345678-1</th>
       <th scope="row" colspan="2">Fecha: <?= $date ?>  </th>
-	  <th><button><a download="Recibo de pago" href=".<?=$pdf?> onclick="config()">Descargar</a></button></th>
+	  <th><button><a download="Recibo de pago" href="<?=$pdf?>" onclick="config()">Descargar</a></button></th>
     </tr>
   </tbody>
   <tfoot>
