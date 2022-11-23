@@ -114,7 +114,7 @@ $nombreUser=$results['Nombre'];
 <script>
     setTimeout(() => {
       location.href = 'dashboard.php?DataCode=<?php echo $id_code; ?>';
-    }, 9000);
+    }, 5000);
     </script> 
   <?php endif; 
   ?>

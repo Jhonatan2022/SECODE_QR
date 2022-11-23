@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['Correo']) && $_SESSION['Correo']=='lfchaparro37@misena.edu.co') { 
+    header('Location: views/tablero.php');
+}else{
+    http_response_code(404);
+    header('Location: ../views/');
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

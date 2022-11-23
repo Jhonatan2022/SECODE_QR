@@ -4,6 +4,7 @@
 session_start();
 
 require_once '../../models/database/database.php';
+require_once '../../main.php';
 
 if(! isset($_SESSION['user_id'])){
     http_response_code(404);
@@ -14,7 +15,7 @@ if(! isset($_SESSION['user_id'])){
 
     $data=array('Nombre'=>$_POST['UserName'],
     'Direccion'=>$_POST['UserLocationDir'],
-    'FechaNacimineto'=>$_POST['UserDateBorn'],
+    'FechaNacimiento'=>$_POST['UserDateBorn'],
     'Telefono'=>$_POST['UserPhone'],
     'Correo'=>$_POST['UserEmail'],
     'Titulo'=>$_POST['TituloForm'],
@@ -138,7 +139,7 @@ $source = './'.$name;
 
  if(rename($source,$des) ){
      $Moved = true;
-     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/SECODE_QR/secode/views/pdf/'.$name;
+     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/SECODE_QR/views/pdf/'.$name;
      $atribDefault='&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
 
      $duration=date("Y-m-d");

@@ -1,8 +1,10 @@
 assets/php/database.php
-secode/controller/phpqrcode/cache/
+*/cache/*
 
+*.cahe
 *.pdf
 
 /vendor/
 
 .phpunit.result.cache
+.vscode/*
