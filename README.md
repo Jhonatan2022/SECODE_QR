@@ -34,7 +34,7 @@ composer update
 
 ```sh
 #Linux
-#Descarga del proyecto
+#Descarga del proyecto completo
 git clone https://github.com/Jhonatan2022/SECODE_QR.git secode
 
 mv secode /opt/lampp/htdocs/
