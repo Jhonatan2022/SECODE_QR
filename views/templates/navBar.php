@@ -1,12 +1,20 @@
-            	<!-- header -->
-                <div class="top-header-area" id="sticker">
-		<div class="container bg-primary">
+<!-- header -->
+    <div class="top-header-area" id="sticker">
+		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
 					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+                            <a href="index.html">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+						<!-- logo -->
 
 						<!-- menu start -->
 						<nav class="main-menu ">
+
 							<ul>
 								<li class="current-list-item"><a href="index.php">Inicio</a></li>
 								<li><a href="nosotros.html">Quienes Somos</a></li>	
@@ -33,4 +41,4 @@
 			</div>
 		</div>
 	</div>
-	<!-- end header -->
+<!-- end header -->

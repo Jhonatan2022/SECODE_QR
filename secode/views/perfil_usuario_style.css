@@ -20,7 +20,8 @@ body {
 }
 
 /*=====================================
-estilos generales
+estilos de la utilidad
+Copiar esto
 =====================================*/
 .seccion-perfil-usuario .perfil-usuario-body,
 .seccion-perfil-usuario {
@@ -35,7 +36,7 @@ estilos generales
     display: flex;
     justify-content: center;
     background: linear-gradient(#a454f5, transparent);
-    margin-bottom: 1.80rem;
+    margin-bottom: 1.25rem;
 }
 
 .seccion-perfil-usuario .perfil-usuario-portada {
@@ -90,7 +91,6 @@ estilos generales
     height: 100%;
     position: relative;
     border-radius: 50%;
-    object-fit: cover;
 }
 
 .seccion-perfil-usuario .perfil-usuario-avatar .boton-avatar {
@@ -104,12 +104,8 @@ estilos generales
     height: 45px;
     border-radius: 50%;
     cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
 }
+
 .seccion-perfil-usuario .perfil-usuario-body {
     width: 70%;
     position: relative;
@@ -137,8 +133,6 @@ estilos generales
     background-color: #fff;
     border-radius: 15px;
     width: 100%;
-    margin-bottom: -130px;
-
 }
 
 .seccion-perfil-usuario .perfil-usuario-bio {
@@ -169,8 +163,6 @@ estilos generales
     flex-direction: column;
 }
 
-/* Estilo de botones e iconos del software*/
-
 .seccion-perfil-usuario .redes-sociales .boton-redes {
     border: 0;
     background-color: #fff;
@@ -196,18 +188,22 @@ estilos generales
     border-radius: 50%;
     color: #fff;
     font-size: 1.4rem;
-    background: linear-gradient(45deg, #cd46ca, #b4dcff);
+    background: linear-gradient(45deg, #fc97fa, #89c0f0);
 }
 .seccion-perfil-usuario .redes-sociales .boton-redes+.boton-redes {
     margin-top: .5rem;
 }
 
-.seccion-perfil-usuario .boton-redes.qr {
-    background-color: #35cae1;
+.seccion-perfil-usuario .boton-redes.facebook {
+    background-color: #5955FF;
 }
 
-.seccion-perfil-usuario .boton-redes.compartir {
-    background: linear-gradient(45deg, #7918a3, #40A7FF);
+.seccion-perfil-usuario .boton-redes.twitter {
+    background-color: #35E1BF;
+}
+
+.seccion-perfil-usuario .boton-redes.instagram {
+    background: linear-gradient(45deg, #FF2DFD, #40A7FF);
 }
 
 /* adactacion a dispositivos */

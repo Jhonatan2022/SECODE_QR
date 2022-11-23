@@ -1,18 +1,18 @@
 <?php
 
-require_once("../../database/database.php");
+require_once("../assets/php/database.php");
 
 class persona {
-    private $Ndocumento;
-    private $Direccion;
-    private $Genero;
-    private $FechaNacimiento;
-    private $Id_Eps;
-    private $Img_perfil;
-    private $TipoImg;
+    $Ndocumento;
+    $Direccion;
+    $Genero;
+    $FechaNacimiento;
+    $Id_Eps;
+    $Img_perfil;
+    $TipoImg;
 
     public function obtenerPersona($Ndocumento){
-        $db = new Database();
+        $db = Db::conectar();
         $select = $db ->prepare("SELECT * FROM usuario WHERE Ndocumento = :id");
         $select -> bindValue("id",$Ndocumento);
         $select -> execute();
@@ -44,7 +44,7 @@ class persona {
             $myPersona -> setGenero($persona["Genero"]);
             $myPersona -> setFechaNacimineto($persona["FechaNacimineto"]);
             $myPersona -> setid($persona["id"]);
-            $myPersona -> setImg_perfil($persona["Img_perfil"]);
+            $myPersona -> setImg_perfil($persona["Img_perfil");
             $listaPersona[] = $myPersona;
         }
         return $listaPersona;

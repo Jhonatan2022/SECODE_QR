@@ -43,7 +43,7 @@ if (isset($_POST['email']) &&
           $_SESSION['FechaNacimiento'] = $results['FechaNacimiento'];
           $_SESSION['Telefono'] = $results['Telefono'];
           if (empty($results['Img_perfil']) || $results['Img_perfil'] == null) {
-            $_SESSION['Img_perfil'] = "http://" . $_SERVER['HTTP_HOST'] . "/SECODE_QR/views/assets/img/userimg.png";
+            $_SESSION['Img_perfil'] = "./assets/img/userimg.png";
           } else {
             $_SESSION['Img_perfil'] = 'data:' . $results['TipoImg'] . ";base64," . base64_encode($results['Img_perfil']);
           }
@@ -77,7 +77,7 @@ elseif (isset($_POST['user-name']) &&
 
   //variables de datos ingresados
   $email_user = $_POST['user-email'];
-
+  $numdoc = $_POST['num-doc'];
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
   $token = rand(124324, 876431167878435);
