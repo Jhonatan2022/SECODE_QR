@@ -206,6 +206,41 @@ elseif (isset($_POST['user-name']) &&
   </style>
 </head>
 
+
+  <style>
+    button {
+  background: none;
+  color: rgb(0, 0, 0);
+  border: 0;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.terminos {
+        max-width: 90%;
+        margin: auto;
+        color: black;
+        text-align: justify;
+        font-size: 18px;
+      }
+
+      b {
+        font-size: 30px;
+        color: black;
+        text-align: left;
+      }
+      
+      button{
+        font-size: 16px;
+        margin-left: 5px;
+      }
+
+      u{
+        margin-left: 10px
+      }
+  </style>
+
 <body>
 
   <?php if (!empty($message)) :
