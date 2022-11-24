@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LuisFer\\SecodeQr\\": "src/"
+            "LuisFer\\SecodeQr\\": "controller/"
         }
     },
     "authors": [

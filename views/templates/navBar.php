@@ -1,12 +1,20 @@
-            	<!-- header -->
-                <div class="top-header-area" id="sticker">
-		<div class="container bg-primary">
+<!-- header -->
+    <div class="top-header-area" id="sticker">
+		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
 					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+                            <a href="index.php">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+						<!-- logo -->
 
 						<!-- menu start -->
 						<nav class="main-menu ">
+
 							<ul>
 								<li class="current-list-item"><a href="index.php">Inicio</a></li>
 								<li><a href="nosotros.html">Quienes Somos</a></li>	
@@ -19,7 +27,7 @@
 								<?php if (isset($_SESSION['user_id'])){ ?>
 										<li id='button-exit'><a href="../controller/exit/">salir</a>
 								<?php } ?>
-								<li class="login-box"><a href="#">
+								<li class="login-box"><a href="servicios.html">
 									<span></span>
 									<span></span>
 									<span></span>
@@ -33,4 +41,4 @@
 			</div>
 		</div>
 	</div>
-	<!-- end header -->
+<!-- end header -->

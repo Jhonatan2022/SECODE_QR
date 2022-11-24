@@ -2,7 +2,9 @@
 
 session_start();
 
-if (isset($_SESSION['Correo']) && $_SESSION['Correo']=='lfchaparro37@misena.edu.co') { 
+require_once '../models/user.php';
+
+if (isset($_SESSION['user_id']) && getUser($_SESSION['user_id'])['Correo']=='') { 
     header('Location: views/tablero.php');
 }else{
     http_response_code(404);

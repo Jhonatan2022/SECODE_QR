@@ -48,7 +48,7 @@ $nombreUser=$results['Nombre'];
     if ($statusForm == 1) {
       $message = array('Error', 'Hubo un error en el preoceso, intente nuevamente', 'error');
     } elseif ($statusForm == 22) {
-      $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos.', 'success');
+      $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos. En un momento sera redirigido.', 'success');
       $id_code=$_GET['Data'];
     }
   } 
@@ -86,6 +86,7 @@ $nombreUser=$results['Nombre'];
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="./assets/css/responsiveAll.css">
 
 
   <?php

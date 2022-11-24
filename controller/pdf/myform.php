@@ -1,11 +1,18 @@
 <?php
+
+
 session_start();
+
 require_once '../../models/database/database.php';
 require_once '../../main.php';
+
 if(! isset($_SESSION['user_id'])){
     http_response_code(404);
     //header('Location: ../views/');
+   
 }else{
+
+
     $data=array(
     'Titulo'=>$_POST['TituloForm'],
     'Nombre'=>$_POST['UserName'],
@@ -22,8 +29,16 @@ if(! isset($_SESSION['user_id'])){
     'Tipo_de_sangre'=>$_POST['nameUser'],
     'Estrato'=>$_POST['nameUser'],
     'EsAlergico'=>$_POST['nameUser'],*/
-);}
-?><?php
+    
+);
+}
+
+?>
+
+
+
+
+<?php
 ob_start();
     $imgLogo= "http://".$_SERVER['HTTP_HOST']."/secodeqr/secode/views/assets/img/nosotros.jpg ";
     ?>
@@ -47,6 +62,7 @@ ob_start();
         <img src="../../views/assets/img/logo.png" alt="logo secodeqr" srcset="" style="
         width: 30px;height: 30px; object-fit: cover;float: right;">
     </h2>
+
 
     </div>
     <center>
@@ -76,10 +92,16 @@ ob_start();
 <?php //include('../views/templates/footerWebUser.php') ?>
 </body>
 </html>
+
+
 <?php
+
 $html_doc=ob_get_clean();
+
 require_once '../../main.php';
+
 require_once BaseDir.'/vendor/autoload.php';
+
 // reference the Dompdf namespace
 use Dompdf\Dompdf;
 // instantiate and use the dompdf class
@@ -96,6 +118,14 @@ $dompdf->setPaper('A4');
 
 // Render the HTML as PDF
 $doc=$dompdf->render();
+
+
+// Output the generated PDF to Browser
+$dompdf->stream('archivo.pdf',array('Attachment'=>false));
+
+
+
+
 
 $output = $dompdf->output();
 
@@ -114,7 +144,6 @@ $source = './'.$name;
 
  if(rename($source,$des) ){
      $Moved = true;
-     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/'.$name;
      $atribDefault='&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
 
      $duration=date("Y-m-d");
@@ -129,7 +158,9 @@ $source = './'.$name;
     $params->bindParam(':Titulo', $data['Titulo']);
     $params->bindParam(':Ruta',$urlCodeForm);
     $params->bindParam(':AtribDefault',$atribDefault);
+
     if ($params->execute()) {
+
         $p=$connection->prepare('SELECT Id_codigo 
         FROM codigo_qr 
         WHERE Ndocumento = :Ndoc
@@ -138,16 +169,23 @@ $source = './'.$name;
         if ($p->execute()) {
             $idcode=$p->fetch(PDO::FETCH_ASSOC);
             $id=$idcode['Id_codigo'];
+
             header('Location: ../../views/clinico.php?GenerateError=22&Data='.$id);
         }else{
             echo 'no';
             header('Location: ../../views/clinico.php?GenerateError=1');
-        }        
+        }
+
+        
     }else{
         header('Location: ../../views/clinico.php?GenerateError=1');
     }
+
+
  }else{
     $Moved=false;
  }
+
+
 
 ?>

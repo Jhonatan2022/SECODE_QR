@@ -1,0 +1,52 @@
+
+/*
+  ___ ___ ___ 
+ / __/ __/ __|
+| (__\__ \__ \
+ \___|___/___/
+
+*/
+/*responsive css*/
+
+@media screen and (max-width:900px) {
+    /* -----------------dashboard ----------------*/
+
+    /* modal container width*/
+    .divcont{width: 80vw;}
+
+
+/* -----------------End dashboard ----------------*/
+}
+
+
+
+/* PHONE WIDTH 600px*/
+@media screen and (max-width: 600px) { 
+
+/* -----------------Clicinc forms----------------*/
+
+    /*form width clicinc*/
+    .testbox > form{
+        width: 95%;
+    }
+/* -----------------End Clicinc forms----------------*/
+
+/* -----------------dashboard ----------------*/
+
+    /* modal container width*/
+    .divcont{
+        width: 100vw;
+    }
+    .product-image{padding: 15px !important;}
+    /*img qr */
+    .product-image img {
+        padding: 0rem;
+        
+    }
+
+/* -----------------End dashboard ----------------*/
+}
+    
+
+
+
