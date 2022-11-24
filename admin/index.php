@@ -4,7 +4,7 @@ session_start();
 
 require_once '../models/user.php';
 
-if (isset($_SESSION['user_id']) && getUser($_SESSION['user_id'])['Correo']=='lfchaparro37@misena.edu.co') { 
+if (isset($_SESSION['user_id']) && getUser($_SESSION['user_id'])['Correo']=='') { 
     header('Location: views/tablero.php');
 }else{
     http_response_code(404);

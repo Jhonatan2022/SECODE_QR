@@ -5,9 +5,11 @@ if(!isset($_SESSION['user_id'])){
 header('Location: ./index.php');
 }
 require_once '../models/database/database.php';
+//require_once '../controller/userController.php';
 require_once '../models/user.php';
-
 $user = getUser($_SESSION['user_id']);
+
+//$user = new User($_SESSION['user_id']);
 
 
 ?>
