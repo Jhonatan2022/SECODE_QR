@@ -1,2 +1,10 @@
 assets/php/database.php
+*/cache/*
 
+*.cahe
+*.pdf
+
+/vendor/
+
+.phpunit.result.cache
+.vscode/*

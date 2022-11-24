@@ -1,0 +1,37 @@
+ErrorDocument 404 /src/error/404.html
+ErrorDocument 403 /src/error/404.html
+
+# Disable directory browsing
+Options -Indexes
+
+#evitar listado de directorios
+IndexIgnore *
+
+<files .htaccess>
+    order allow,deny
+    deny from all
+</files>
+<files .gitignore>
+    order allow,deny
+    deny from all
+</files>
+<files composer.json>
+    order allow,deny
+    deny from all
+</files>
+<files composer.lock>
+    order allow,deny
+    deny from all
+</files>
+<files id16455213_secode_qr.sql>
+    order allow,deny
+    deny from all
+</files>
+<files README.md>
+    order allow,deny
+    deny from all
+</files>
+   
+
+#zona horaria
+SetEnv TZ America/Bogota
