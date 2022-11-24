@@ -27,7 +27,7 @@
 								<?php if (isset($_SESSION['user_id'])){ ?>
 										<li id='button-exit'><a href="../controller/exit/">salir</a>
 								<?php } ?>
-								<li class="login-box"><a href="#">
+								<li class="login-box"><a href="../servicios.html">
 									<span></span>
 									<span></span>
 									<span></span>
