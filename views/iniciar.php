@@ -37,7 +37,17 @@ if (isset($_POST['email']) &&
 
           //varaibles user definition from session
           $_SESSION['user_id'] = $results['Ndocumento'];
-
+          $_SESSION['Correo'] = $results['Correo'];
+          $_SESSION['Nombre'] = $results['Nombre'];
+          $_SESSION['Direccion'] = $results['Direccion'];
+          $_SESSION['Genero'] = $results['Genero'];
+          $_SESSION['FechaNacimiento'] = $results['FechaNacimiento'];
+          $_SESSION['Telefono'] = $results['Telefono'];
+          if (empty($results['Img_perfil']) || $results['Img_perfil'] == null) {
+            $_SESSION['Img_perfil'] = "./assets/img/userimg.png";
+          } else {
+            $_SESSION['Img_perfil'] = 'data:' . $results['TipoImg'] . ";base64," . base64_encode($results['Img_perfil']);
+          }
 
           header("Location: ./index.php");
         } else {
@@ -196,6 +206,41 @@ elseif (isset($_POST['user-name']) &&
     }
   </style>
 </head>
+
+
+  <style>
+    button {
+  background: none;
+  color: rgb(0, 0, 0);
+  border: 0;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.terminos {
+        max-width: 90%;
+        margin: auto;
+        color: black;
+        text-align: justify;
+        font-size: 18px;
+      }
+
+      b {
+        font-size: 30px;
+        color: black;
+        text-align: left;
+      }
+      
+      button{
+        font-size: 16px;
+        margin-left: 5px;
+      }
+
+      u{
+        margin-left: 10px
+      }
+  </style>
 
 <body>
 

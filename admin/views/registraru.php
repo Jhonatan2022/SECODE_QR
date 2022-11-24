@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion SECODE</title>
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/es.css">
     <link rel="stylesheet" href="../css/fontawesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/9165abed33.js" crossorigin="anonymous"></script>
 </head>
 
@@ -66,52 +66,46 @@
     <img src="../img/SECODE_QR.png" style="margin-left:550px;">
     <hr class="hr" style="margin-left:120px;">
 
-    <form action="../includes/validar.php" method="POST">
-        <div id="login">
-            <div class="container"> 
-                <div id="login-row" class="row justify-content-center align-items-center">
-                    <div id="login-column" class ="col-md-6">
-                        <div id="login-box" class="col-md-12">
-                            <input type="hidden" name="registrar" value="ok">
-                            <br>
-                            <br>
-                            <h3 class="text-center">Registrar usuario</h3>
-                            <div class="form-group">
-                                <label for="Ndocumento" class="form-label">Identificacion</label><br>
-                                <input type="text" id="Ndocumento" name="Ndocumento" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Nombre">Nombre Completo</label><br>
-                                <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Nombres de usuario">
-                            </div>
-                            <div class="form-group">
-                                <label for="Direccion" class="form-label">Direccion</label><br>
-                                <input type="text" id="Direccion" name="Direccion" class="form-control" placeholder="Direccion usuario">
-                            </div>
-                            <div class="form-group">
-                                <label for="Genero" class="form-label">Genero</label><br>
-                                <input type="text" id="Genero" name="Genero" class="form-control" placeholder="Genero usuario">
-                            </div>
-                            <div class="form-group">
-                                <label for="Correo" class="form-label">Correo</label><br>
-                                <input type="email" name="Correo" id="Correo" class="form-control" placeholder="Correo">
-                            </div>
-                            <div class="form-group">
-                                <label for="FechaNacimiento" class="form-label">Fecha nacimiento</label><br>
-                                <input type="date" name="FechaNacimiento" id="FechaNacimiento" class="form-control" placeholder="FechaNacimiento">
-                            </div>
-                            <div class="form-group">
-                                <label for="Telefono" class="form-label">Telefono</label><br>
-                                <input type="Telefono" name="Telefono" id="Telefono" class="form-control" placeholder="Telefono">
-                            </div>
-                            <br>
-                                <div class="mb-3">
-                                    <input type="submit" value="Registrar" class="btn btn-success" name="registrar">
-                                    <a href="tablero.php" class="btn btn-danger">Cancelar</a>
-                                </div>
-                        </div>
+
+
+    <form class="formulario" action="../includes/validar.php" method="POST">
+        <div class="card-3d-wrap mx-auto">
+            <div class="card-front">
+                <div class="center-wrap">
+                    <h4 class="mb-4 pb-3">Registrar nuevo usuario</h4>
+                    <div class="form-group">
+                        <input class="form-style" type="text" id="Ndocumento" name="Ndocumento" placeholder="Número de identificación" required>
+                        <i class="input-icon fas fa-regular fa-id-card-clip"></i>
                     </div>
-                </div>          
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="text" id="Nombre" name="Nombre" placeholder="Nombres de usuario">
+                        <i class="input-icon fas fa-user"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="text" id="Direccion" name="Direccion" placeholder="Direccion usuario">
+                        <i class="input-icon fas fa-regular fa-location-dot"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="text" id="Genero" name="Genero" placeholder="Genero usuario">
+                        <i class="input-icon fas fa-solid fa-venus-mars"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="email" name="Correo" id="Correo" placeholder="Correo">
+                        <i class="input-icon fas fa-at"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="date" name="FechaNacimiento" id="FechaNacimiento">
+                        <i class="input-icon fas fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="Telefono" name="Telefono" id="Telefono" placeholder="Telefono">
+                        <i class="input-icon fas fa-phone"></i>
+                    </div>
+                    <div class="boton">
+                        <div class="btn"><input type="submit" value="Registrar" name="registrar"></div>
+                        <div class="btn"><a href="tablero.php">Cancelar</a></div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
