@@ -78,7 +78,7 @@ if (!isset($_SESSION["user_id"])) {
 			?>
 
 		</header>
-		<main class="container">
+		<main class="container" >
 			<!-- product section -->
 			<div class="product-section mt-150 mb-150 pt-4">
 				<div class="container pt-4 mb-5 center">
@@ -87,7 +87,14 @@ if (!isset($_SESSION["user_id"])) {
 					</h1>
 				</div>
 				<div class="container">
-
+				<hr>
+				<?php if(count($results)<1){ ?>
+					<div class="container_empty" >
+						
+						<h3><i>No hay codigos Qr para mostrar</i></h3>
+						
+					</div>
+				<?php }else{  ?>
 
 
 					<?php foreach ($results as $code) { ?>
@@ -161,8 +168,8 @@ if (!isset($_SESSION["user_id"])) {
 
 					<?php   }; ?>
 
-
-
+				<?php } ?>
+				<hr>
 				</div>
 			</div>
 			<!-- end product section -->
