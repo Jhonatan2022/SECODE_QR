@@ -23,7 +23,7 @@
 #Descarga del proyecto
 git clone https://github.com/Jhonatan2022/SECODE_QR.git secodeqr
 
-move secode  C:/xampp/htdocs/
+move secodeqr  C:/xampp/htdocs/
 
 cd C:/xampp/htdocs/secodeqr
 
@@ -37,7 +37,7 @@ composer update
 #Descarga del proyecto completo
 git clone https://github.com/Jhonatan2022/SECODE_QR.git secodeqr
 
-mv secode /opt/lampp/htdocs/
+mv secodeqr /opt/lampp/htdocs/
 
 cd /opt/lampp/htdocs/secodeqr
 
