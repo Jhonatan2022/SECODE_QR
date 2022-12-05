@@ -330,23 +330,6 @@ elseif (isset($_POST['user-name']) &&
             <input type="checkbox" name="terminos" required>
             <u class="terminos">Terminos y Condiciones</u>
           </div>
-
-
-          <p class="social-text">Puedes iniciar con estas plataformas.</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
         </form>
       </div>
     </div>
