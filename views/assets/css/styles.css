@@ -101,36 +101,6 @@ form.sign-in-form {
   font-weight: 500;
 }
 
-.social-text {
-  padding: 0.7rem 0;
-  font-size: 1rem;
-}
-
-.social-media {
-  display: flex;
-  justify-content: center;
-}
-
-.social-icon {
-  height: 46px;
-  width: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0.45rem;
-  color: rgb(0, 0, 0);
-  border-radius: 50%;
-  border: 2px solid rgb(0, 0, 0);
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: 0.3s;
-}
-
-.social-icon:hover {
-  color: #4b0081;
-  border-color: #7600d6;
-}
-
 .btn {
   width: 150px;
   background-color: #4ba7cf;
@@ -232,6 +202,97 @@ form.sign-in-form {
 .right-panel .content {
   transform: translateX(800px);
 }
+
+
+/*Boton de recuperar contraseña*/
+
+          
+.learn-more {
+  position: relative;
+  cursor: pointer;
+  left: 0;
+ }
+ 
+ .learn-more {
+  width: 17em;
+  height: auto;
+ }
+ 
+ .learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #4ba7cf;
+  border-radius: 1.625rem;
+ }
+ 
+ .learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+ }
+ 
+ .learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+ }
+ 
+ .learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+ }
+ 
+ .learn-more .button-text {
+  -webkit-transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 1.9em;
+  width: 13.4em;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1rem;
+  color: #004d6e;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+ }
+ 
+ .learn-more:hover .circle {
+  width: 100%;
+  background-color: #4B0081;
+ }
+ 
+ .learn-more:hover .circle .icon.arrow {
+  background: #fff;
+  -webkit-transform: translate(1rem, 0);
+      -ms-transform: translate(1rem, 0);
+          transform: translate(1rem, 0);
+ }
+ 
+ .learn-more:hover .button-text {
+  color: #fff;
+ }
+/*Final boton de recuparar contraseña*/
+
 
 /* ANIMATION */
 
