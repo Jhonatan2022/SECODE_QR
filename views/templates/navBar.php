@@ -6,7 +6,7 @@
 					<div class="main-menu-wrap">
 						<!-- logo -->
 						<div class="site-logo">
-                            <a href="index.html">
+                            <a href="index.php">
                                 <img src="assets/img/logo.png" alt="">
                             </a>
                         </div>
@@ -27,7 +27,7 @@
 								<?php if (isset($_SESSION['user_id'])){ ?>
 										<li id='button-exit'><a href="../controller/exit/">salir</a>
 								<?php } ?>
-								<li class="login-box"><a href="#">
+								<li class="login-box"><a href="servicios.html">
 									<span></span>
 									<span></span>
 									<span></span>

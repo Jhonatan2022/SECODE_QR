@@ -222,6 +222,7 @@ estilos generales
     }
 
     .seccion-perfil-usuario .redes-sociales {
+        display: none;
         position: relative;
         flex-direction: row;
         width: 100%;

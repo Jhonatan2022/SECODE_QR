@@ -5,7 +5,16 @@
  \___|___/___/
 
 */
+body{
+    background-color: #76DAFF;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23E9FCFF' stroke-width='100' stroke-opacity='0' %3E%3Ccircle fill='%2376DAFF' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%2370d0fa' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%236bc7f4' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%2367bdee' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%2364b3e7' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%2362a9e1' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23619fd9' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%236195d2' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23618cc9' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%236182c1' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%236278b8' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%23636eae' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%236364a5' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%23635b9a' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%23635190' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%23634785' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%23623d79' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%2360336E' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
 
+.single-product-item{
+    background-color: #fff;
+}
 
 img{
     background-position: center;

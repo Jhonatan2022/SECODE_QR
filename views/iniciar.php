@@ -12,6 +12,7 @@ if (isset($_SESSION['user_id'])) {
 //importamos conexion base de datos
 require_once '../models/database/database.php';
 
+
 //si el usuario va a iniciar sesion
 if (isset($_POST['email']) &&
     isset($_POST['password']) &&

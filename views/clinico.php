@@ -48,7 +48,7 @@ $nombreUser=$results['Nombre'];
     if ($statusForm == 1) {
       $message = array('Error', 'Hubo un error en el preoceso, intente nuevamente', 'error');
     } elseif ($statusForm == 22) {
-      $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos.', 'success');
+      $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos. En un momento sera redirigido.', 'success');
       $id_code=$_GET['Data'];
     }
   } 
@@ -86,6 +86,7 @@ $nombreUser=$results['Nombre'];
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="./assets/css/responsiveAll.css">
 
 
   <?php
@@ -392,50 +393,19 @@ $nombreUser=$results['Nombre'];
     <br><br><br>
     <!-- End formulario -->
 
-    <!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box about-widget">
-						<h2 class="widget-title">Misión</h2>
-						<p>El proyecto surge debido a la problemática de la accesibilidad y coste de poseer su información médica, por lo tanto se plantea administrar o adjuntar a través de un código QR, el manejo de dicha información.</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box get-in-touch">
-						<h2 class="widget-title">Visión</h2>
-						<p>Impactar a la problematica social,mediante las Tecnologias de la informacion, durante 3 semestres.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <!-- footer -->
+	<?php
+    include('./templates/footer.php');
+  ?>
 	<!-- end footer -->
 	
 	<!-- copyright -->
-	<div class="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
-				</div>
-				<div class="col-lg-6 text-right col-md-12">
-					<div class="social-icons">
-						<ul>
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php
+    include('./templates/footer_copyrights.php');
+  ?>
 	<!-- end copyright -->
-    <!-- jquery -->
+
+  <!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
 	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
