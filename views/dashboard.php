@@ -131,7 +131,7 @@ if (!isset($_SESSION["user_id"])) {
 									<i>X</i>
 								</div>
 								<h3>Codigo Qr opciones</h3>
-								<form action="" method="post">
+								<form action="./dashboard.php" method="POST">
 									<div class="subcont-optionsCode">
 										<label for="Titulo-code">Titulo</label><br>
 										<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
@@ -155,7 +155,7 @@ if (!isset($_SESSION["user_id"])) {
 										<label for="UpdateDataForm">Other</label><br>
 										<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
 									</div>
-
+									<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
 									<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar">
 									<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar">
 

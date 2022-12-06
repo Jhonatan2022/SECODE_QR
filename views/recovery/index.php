@@ -112,7 +112,9 @@ if (isset($_POST['CorreoUser'])) {
 
         <script>
             function cancelarform() {
-                document.getElementById("formrecupera").style.display = "none";
+                //document.getElementById("formrecupera").style.display = "none";
+                window.location.href="../index.php" ;
+                
             }
         </script>
         <div class="caja_popup" id="formrecupera">
