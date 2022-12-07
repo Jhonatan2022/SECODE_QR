@@ -42,14 +42,8 @@ if(isset($_POST['action'])){
 	}
 }
 
-	$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,rol,Nombre FROM usuario WHERE Ndocumento = :id');
-	$records->bindParam(':id', $_SESSION['user_id']);
-
-	if ($records->execute()) {
-		$resultsUser = $records->fetch(PDO::FETCH_ASSOC);
-	} else {
-		$message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
-	}
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
 
 	$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo,nombre FROM codigo_qr WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
@@ -97,7 +91,6 @@ if(isset($_POST['action'])){
 
 	<!--PreLoader-->
 	<div class="loader">
-		<div class="inner"></div>
 		<div class="inner"></div>
 		<div class="inner"></div>
 		<div class="inner"></div>

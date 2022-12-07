@@ -1,5 +1,12 @@
 <?php
-session_start()
+session_start();
+require_once '../models/user.php';
+
+if (isset($_SESSION["user_id"])) {
+	$user = getUser($_SESSION['user_id'] );
+}
+
+
 
 ?>
 

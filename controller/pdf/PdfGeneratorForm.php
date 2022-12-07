@@ -44,7 +44,7 @@ ob_start();
 
     font-family: 'Nunito', sans-serif;">
         Datos Documento Clinico
-        <img src="../../views/assets/img/logo.png" alt="logo secodeqr" srcset="" style="
+        <img src="https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png" alt="logo secodeqr" style="
         width: 30px;height: 30px; object-fit: cover;float: right;">
     </h2>
 

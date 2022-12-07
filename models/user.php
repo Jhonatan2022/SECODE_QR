@@ -4,7 +4,7 @@
 
 require_once '../models/database/database.php';
 
-function getUser($id) {
+function getUser($id   ) {
     global $connection;
     $query = $connection->prepare('SELECT * FROM usuario WHERE Ndocumento = :id');
     $query->bindParam(':id', $id);
@@ -18,6 +18,17 @@ function getUser($id) {
     
     return $user;
     
+}
+
+function userform($id) {
+  //$data =implode(', ', $data1);
+  global $connection;
+  $query = $connection->prepare('SELECT Nombre,Direccion,Genero,Correo,FechaNacimiento,Telefono,Img_perfil FROM usuario WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $user = $query->fetch(PDO::FETCH_ASSOC);
+  
+  return $user;
 }
 
 function getRol($id) {

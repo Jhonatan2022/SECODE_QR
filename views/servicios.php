@@ -1,32 +1,23 @@
+<?php
+
+session_start();
+
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<title>Servicios SECODE_QR</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-	<link rel="stylesheet" href="assets/css/service.css" />
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
-	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="assets/css/all.min.css">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-	<!-- animate css -->
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<!-- mean menu css -->
-	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
-	<!-- main style -->
-	<link rel="stylesheet" href="assets/css/main.css">
-	<!-- responsive -->
-	<link rel="stylesheet" href="assets/css/responsive.css">
-
-	<link rel="stylesheet" href="assets/css/perfil.css">
-
+<?php include('./templates/header.php');?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/service.css" />
 </head>
 
 <body>
@@ -36,45 +27,10 @@
             </div>
         </div>
     </section>
-	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">
-							</a>
-						</div>
-						<!-- logo -->
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="nosotros.html">Quienes Somos</a></li>
-								<li><a href="contact.html">Contáctanos</a></li>
-								<li><a href="#">Solicitar Código</a>
-									<ul class="sub-menu">
-										<li><a href="clinico.html">Datos Clinicos</a>
-										</li>
-									</ul>
-								<li class="login-box"><a href="#">
-										<span></span>
-										<span></span>
-										<span></span>
-										<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						</nav>
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end header -->
+	
+	<?php
+		include('./templates/navBar.php');
+	?>
 
 	<div class="package-container">
 		<div class="packages">

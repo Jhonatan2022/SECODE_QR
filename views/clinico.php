@@ -55,6 +55,8 @@ $nombreUser=$results['Nombre'];
 
 
 }
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
 
 
 
@@ -130,53 +132,12 @@ $nombreUser=$results['Nombre'];
     </div>
   <!--PreLoader Ends-->
 
-<!-- header -->
-<div class="top-header-area" id="sticker">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 col-sm-12 text-center">
-        <div class="main-menu-wrap">
-          <!-- logo -->
-						<div class="site-logo">
-							<a href="index.php">
-								<img src="assets/img/logo.png" alt="">	
-							</a>
-						</div>
-						<!-- logo -->
-						<!--boton de inicio-->
-						<div class="site-logo">
-							<a class="button--secondary" href="index.php">
-								<span class="text">INICIO</span>
-							<span class="icon-arrow"></span>
-							</a>
-						</div>
-						<!--boton de inicion end-->
+  <!-- header-section -->
+<?php
+include('./templates/navBar.php');
+  ?>
 
-          <!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="nosotros.html">Quienes Somos</a></li>	
-								<li><a href="contact.html">Contáctanos</a></li>
-								<li><a href="#">Solicitar Código</a>
-								<ul class="sub-menu">
-									<li><a href="clinico.html">Datos Clinicos</a>
-									</li>
-								</ul>
-								<li class="login-box"><a href="#">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						</nav>	
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end header -->
+  <!-- end header section -->
 
 <!-- breadcrumb-section -->
 <div class="breadcrumb-section breadcrumb-bg">
