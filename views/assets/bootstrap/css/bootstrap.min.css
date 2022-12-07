@@ -654,22 +654,25 @@ pre code {
 }
 
 .row {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px
 }
 
 .roww {
-    display: -ms-flexbox;
     justify-content: space-evenly;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px
+}
+
+.roww2 {
+    display: flex;
+    flex-wrap: wrap;
+    float: left;
+    margin-right: 2em;
 }
 
 .no-gutters {

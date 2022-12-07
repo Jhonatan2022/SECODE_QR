@@ -1,17 +1,3 @@
-<footer>
-
-	<!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				
-			</div>
-		</div>
-	</div>
-	<!-- end footer -->
-        </footer>
-
-
 <!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->

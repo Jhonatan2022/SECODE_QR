@@ -4,20 +4,21 @@ require_once '../models/user.php';
 
 if (isset($_SESSION["user_id"])) {
 	$user = getUser($_SESSION['user_id'] );
-}
-
-if ($user['id'] == 10) {
-	$newEps = true;
-
-	$records = $connection->prepare('SELECT * FROM eps');
-	//$records->bindParam(':id', $user['id']);
-	if ($records->execute()) {
-		$eps = $records->fetchAll(PDO::FETCH_ASSOC);
-		//$codes = $results;
-	}else{
-		$message = 'Error al cargar los datos';
+	if ($user['id'] == 10) {
+		$newEps = true;
+	
+		$records = $connection->prepare('SELECT * FROM eps');
+		//$records->bindParam(':id', $user['id']);
+		if ($records->execute()) {
+			$eps = $records->fetchAll(PDO::FETCH_ASSOC);
+			//$codes = $results;
+		}else{
+			$message = 'Error al cargar los datos';
+		}
 	}
 }
+
+
 
 ?>
 

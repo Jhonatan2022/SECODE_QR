@@ -82,6 +82,17 @@ if ($user['id'] == 10) {
 	?>
 	<link rel="stylesheet" href="./assets/css/dashborad.css">
 	<link rel="stylesheet" href="./assets/css/responsiveAll.css">
+
+	<style>
+
+
+		
+	@media (min-width: 768px){
+		.col-md-6 {
+		max-width: 100%;
+		}
+	}
+	</style>
 </head>
 
 <body>
@@ -118,9 +129,7 @@ if ($user['id'] == 10) {
 			<!-- product section -->
 			<div class="product-section mt-150 mb-150 pt-4">
 				<div class="container pt-4 mb-5 center">
-					<h1>
-						Mis codigos QR
-					</h1>
+					<h1>Mis codigos QR</h1>
 				</div>
 				<div class="container ">
 					<hr>
@@ -134,8 +143,8 @@ if ($user['id'] == 10) {
 
 
 						<?php foreach ($results as $code) { ?>
-							<div class="roww ">
-								<div class="col-lg-4 col-md-6 text-center">
+							<div class="roww2">
+								<div class=" text-center">
 									<div class="single-product-item">
 										<div class="product-image">
 											<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
@@ -339,8 +348,8 @@ if ($user['id'] == 10) {
 
 		</main>
 
+		<!-- Estilos generales -->
 		<?php
-
 		include('./templates/footerWebUser.php')
 		?>
 
