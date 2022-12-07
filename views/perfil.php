@@ -28,8 +28,8 @@ if(isset($_REQUEST['update'])){
 
     ) {
         if(isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK){
-            $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png");
-            $limite_kb = 10000; //10 mb maximo
+            $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png","image/pneg");
+            $limite_kb = 1000; //10 mb maximo
     
             if ( ! in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024) {
                 $message = "Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes";
