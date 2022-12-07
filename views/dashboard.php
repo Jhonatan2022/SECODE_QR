@@ -45,6 +45,17 @@ if (!isset($_SESSION["user_id"])) {
 	?>
 	<link rel="stylesheet" href="./assets/css/dashborad.css">
 	<link rel="stylesheet" href="./assets/css/responsiveAll.css">
+
+	<style>
+
+
+		
+	@media (min-width: 768px){
+		.col-md-6 {
+		max-width: 100%;
+		}
+	}
+	</style>
 </head>
 
 <body>
@@ -82,20 +93,14 @@ if (!isset($_SESSION["user_id"])) {
 			<!-- product section -->
 			<div class="product-section mt-150 mb-150 pt-4">
 				<div class="container pt-4 mb-5 center">
-					<h1>
-						Mis codigos QR
-					</h1>
+					<h1>Mis codigos QR</h1>
 				</div>
+
 				<div class="container">
-
-
-
 					<?php foreach ($results as $code) { ?>
 
-
-
-						<div class="roww ">
-							<div class="col-lg-4 col-md-6 text-center">
+						<div class="roww2">
+							<div class="text-center" >
 								<div class="single-product-item">
 									<div class="product-image">
 										<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
@@ -176,8 +181,8 @@ if (!isset($_SESSION["user_id"])) {
 
 		</main>
 
+		<!-- Estilos generales -->
 		<?php
-
 		include('./templates/footerWebUser.php')
 		?>
 
