@@ -64,7 +64,11 @@ $user = getUser($_SESSION['user_id']);
         <!--Datos del usuario-->
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
-                <h1></h1>
+                <?php
+                if($user['rol']==='2'){
+                    echo '<div class="div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
+                }
+                ?>
                 <h3 class="titulo"><?php echo $user['Nombre'] ?> <a href="" class="boton-edit"><i class="fas fa-pencil-alt"></i></a></h3>
                 <p class="texto">
                 </p>

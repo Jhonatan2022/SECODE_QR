@@ -6,9 +6,43 @@ require_once '../models/database/database.php';
 
 if (!isset($_SESSION["user_id"])) {
 	header('Location: index.php');
-} else {
+} 
 
-	$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg FROM usuario WHERE Ndocumento = :id');
+
+function deleteQR($id, $path){
+	global $connection;
+	global $results;
+	$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
+	$records->bindParam(':id', $id);
+	if(!unlink('./pdf/'.$path)){
+		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
+	}
+	elseif ($records->execute()) {
+		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
+	} else {
+		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
+	}
+	return $message;
+}
+
+
+if(isset($_POST['action'])){
+	$id=$_POST['id_code'];
+	$path = $_POST['path'];
+	switch ($_POST['action']) {
+		case 'Eliminar':
+			$message = deleteQR($id,$path);
+			break;
+		case 'Editar':
+			# code...
+			break;
+		default:
+			# code...
+			break;
+	}
+}
+
+	$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,rol,Nombre FROM usuario WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
 
 	if ($records->execute()) {
@@ -17,7 +51,7 @@ if (!isset($_SESSION["user_id"])) {
 		$message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 	}
 
-	$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo FROM codigo_qr WHERE Ndocumento = :id');
+	$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo,nombre FROM codigo_qr WHERE Ndocumento = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
 
 
@@ -27,7 +61,7 @@ if (!isset($_SESSION["user_id"])) {
 	} else {
 		$message = array(' Error', 'Ocurrio un error en la consulta codigos user. intente de nuevo.', 'error');
 	}
-}
+
 
 
 
@@ -78,7 +112,7 @@ if (!isset($_SESSION["user_id"])) {
 			?>
 
 		</header>
-		<main class="container" >
+		<main class="container">
 			<!-- product section -->
 			<div class="product-section mt-150 mb-150 pt-4">
 				<div class="container pt-4 mb-5 center">
@@ -86,90 +120,128 @@ if (!isset($_SESSION["user_id"])) {
 						Mis codigos QR
 					</h1>
 				</div>
-				<div class="container">
-				<hr>
-				<?php if(count($results)<1){ ?>
-					<div class="container_empty" >
-						
-						<h3><i>No hay codigos Qr para mostrar</i></h3>
-						
-					</div>
-				<?php }else{  ?>
+				<div class="container ">
+					<hr>
+					<?php if (count($results) < 1) { ?>
+						<div class="container_empty ">
+
+							<h3><i >No hay codigos Qr para mostrar</i></h3>
+
+						</div>
+					<?php } else {  ?>
 
 
-					<?php foreach ($results as $code) { ?>
+						<?php foreach ($results as $code) { ?>
+							<div class="roww ">
+								<div class="col-lg-4 col-md-6 text-center">
+									<div class="single-product-item">
+										<div class="product-image">
+											<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
+												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributos'] ?>" alt=""></a>
+										</div>
+										<h3><?php echo $code['Titulo'] ?></h3>
 
+										<p class="product-price"><span><?php // echo $code['description'] 
+																		?></span> </p>
 
-
-						<div class="roww ">
-							<div class="col-lg-4 col-md-6 text-center">
-								<div class="single-product-item">
-									<div class="product-image">
-										<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
-											<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributos'] ?>" alt=""></a>
+										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
+										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> "><i class="fas fa-pen"></i> opciones</a>
 									</div>
-									<h3><?php echo $code['Titulo'] ?></h3>
-
-									<p class="product-price"><span><?php // echo $code['description'] 
-																	?></span> </p>
-
-									<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
-									<a class="cart-btn OptionsCodeQr"><i class="fas fa-pen"></i> opciones</a>
 								</div>
 							</div>
-						</div>
 
-						<?php if (isset($_GET['DataCode']) && !empty($_GET['DataCode']) && $_GET['DataCode'] == $code['Id_codigo']) {
-							$FormView = true;
-						} ?>
 
-						<div class="cont-optionsCode" <?php if (isset($FormView) && $FormView) {
-															echo 'style=" opacity:1; visibility: visible;"';
-														} ?>>
-							<div class="divcont">
-								<div class="icon-close">
-									<i>X</i>
-								</div>
-								<h3>Codigo Qr opciones</h3>
-								<form action="./dashboard.php" method="POST">
-									<div class="subcont-optionsCode">
-										<label for="Titulo-code">Titulo</label><br>
-										<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
-										<br>
-										<label for="FileLinkPath"> Archivo</label>
-										<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  ' . $code['Titulo'] . '.pdf' ?> </a>
 
-										<br>
-										<label>Fecha: <?php echo $code['Duracion'] ?></label>
-										<details>
-											<summary>
-												Vista Previa
-											</summary>
-
-											<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url='.$code['RutaArchivo'] ?>" frameborder="0" width="100%" height="300px"></iframe>
-
-										</details>
-
-										<label for="Description-code">Descripcion</label><br>
-										<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
-										<label for="UpdateDataForm">Other</label><br>
-										<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+							<div class="cont-optionsCode <?= 'contOptionsCode' . $code['Id_codigo'] ?>  ">
+								<div class="divcont">
+									<div class="icon-close <?= 'iconClose' . $code['Id_codigo'] ?>">
+										<i>X</i>
 									</div>
-									<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
-									<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar">
-									<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar">
+									<h3>Codigo Qr opciones</h3>
+									<form action="./dashboard.php" method="POST" >
+										<div class="subcont-optionsCode">
+											<label for="Titulo-code">Titulo</label><br>
+											<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
+											<br>
+											<label for="FileLinkPath"> Archivo</label>
+											<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  ' . $code['Titulo'] . '.pdf' ?> </a>
+
+											<br>
+											<label>Fecha: <?php echo $code['Duracion'] ?></label>
+											<details>
+												<summary>
+													Vista Previa
+												</summary>
+
+												<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url=' . $code['RutaArchivo'] ?>" frameborder="0" width="100%" height="300px"></iframe>
+
+											</details>
+
+											<label for="Description-code">Descripcion</label><br>
+											<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
+											<label for="UpdateDataForm">Other</label><br>
+											<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+										</div>
+										<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
+										<input type="hidden" name="path" value="<?= $code['nombre'] ?>">
+										<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="action">
+										<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="action">
 
 
-								</form>
+									</form>
+								</div>
+
+
 							</div>
 
 
-						</div>
+							<?php
+							$iconclose = "iconClose" . $code['Id_codigo'];
+							$btnOptions = "OptionsCodeQr" . $code['Id_codigo'];
+							$contOptions = "contOptionsCode" . $code['Id_codigo'];
 
-					<?php   }; ?>
+							?>
 
-				<?php } ?>
-				<hr>
+							<?php
+							echo " <script> " .
+								" " .
+								" var $iconclose = document.querySelector('.$iconclose'); " .
+								" var $btnOptions = document.querySelector('.$btnOptions'); " .
+								" var $contOptions = document.querySelector('.$contOptions'); " .
+								" " .
+								" $btnOptions.addEventListener('click', () => { " .
+								" console.log('ok'); " .
+								" $contOptions.style.opacity = '1'; " .
+								" $contOptions.style.visibility = 'visible'; " .
+								" }); " .
+								" $iconclose.addEventListener('click', () => { " .
+								" $contOptions.style.opacity = '0'; " .
+								" $contOptions.style.visibility = 'hidden'; " .
+								" }); " .
+								" </script> ";
+							?>
+
+							<style>
+								<?php echo '.cont-optionsCode' . $code['Id_codigo'] . ' {
+                            opacity: 0;
+                            visibility: hidden;
+                        }' ?>
+							</style>
+
+							<?php if (isset($_GET['DataCode']) && !empty($_GET['DataCode']) && $_GET['DataCode'] == $code['Id_codigo']) {
+								echo " <script> " .
+									" " .
+									" $contOptions.style.opacity = '1'; " .
+									" $contOptions.style.visibility = 'visible'; " .
+									" </script> ";
+							} ?>
+
+						<?php   }; ?>
+
+
+
+					<?php } ?>
+					<hr>
 				</div>
 			</div>
 			<!-- end product section -->
@@ -189,7 +261,7 @@ if (!isset($_SESSION["user_id"])) {
 		?>
 
 	</div>
-	<script src="./assets/js/dashboard.js"></script>
+	<!-- <script src="./assets/js/dashboard.js"></script> -->
 </body>
 
 </html>

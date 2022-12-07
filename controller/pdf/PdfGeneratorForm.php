@@ -120,12 +120,13 @@ $source = './'.$name;
      $duration=date("Y-m-d");
 
      $consult='INSERT INTO codigo_qr 
-     (`Id_codigo`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
-     VALUES (null , :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
+     (`Id_codigo`,`nombre`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
+     VALUES (null ,:nombre, :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
     
     $params= $connection->prepare($consult);
     $params->bindParam(':Ndoc',$_SESSION['user_id']);
     $params->bindParam(':Duracion',$duration);
+    $params->bindParam(':nombre',$name);
     $params->bindParam(':Titulo', $data['Titulo']);
     $params->bindParam(':Ruta',$urlCodeForm);
     $params->bindParam(':AtribDefault',$atribDefault);
