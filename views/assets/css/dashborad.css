@@ -173,5 +173,32 @@ img{
     margin-top: 2rem;
 }
 
+.cont-buttonform{
+     left:5px;
+     top: 50vh;
+     width: 100px;
+     height: fit-content;
+     position: absolute;
+     animation: identifier 3s linear 1s 2 ;
+     -webkit-animation: identifier 3s linear 1s 2 ;
+}
+
+@keyframes identifier {
+    0% {
+        opacity: 0;
+        rotate: 0deg;
+        visibility: hidden;
+    }
+    50% {
+        opacity: 0;
+        rotate: 180deg;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 1;
+        rotate: 360deg;
+        visibility: visible;
+    }
+}
 
 /*----END item qr css customization---*/

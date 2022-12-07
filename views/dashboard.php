@@ -6,18 +6,18 @@ require_once '../models/database/database.php';
 
 if (!isset($_SESSION["user_id"])) {
 	header('Location: index.php');
-} 
+}
 
 
-function deleteQR($id, $path){
+function deleteQR($id, $path)
+{
 	global $connection;
 	global $results;
 	$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
 	$records->bindParam(':id', $id);
-	if(!unlink('./pdf/'.$path)){
+	if (!unlink('./pdf/' . $path)) {
 		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
-	}
-	elseif ($records->execute()) {
+	} elseif ($records->execute()) {
 		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
 	} else {
 		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
@@ -26,12 +26,12 @@ function deleteQR($id, $path){
 }
 
 
-if(isset($_POST['action'])){
-	$id=$_POST['id_code'];
+if (isset($_POST['action'])) {
+	$id = $_POST['id_code'];
 	$path = $_POST['path'];
 	switch ($_POST['action']) {
 		case 'Eliminar':
-			$message = deleteQR($id,$path);
+			$message = deleteQR($id, $path);
 			break;
 		case 'Editar':
 			# code...
@@ -43,20 +43,29 @@ if(isset($_POST['action'])){
 }
 
 require_once '../models/user.php';
-$user = getUser($_SESSION['user_id'] );
+$user = getUser($_SESSION['user_id']);
 
-	$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo,nombre FROM codigo_qr WHERE Ndocumento = :id');
-	$records->bindParam(':id', $_SESSION['user_id']);
+$records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo,nombre FROM codigo_qr WHERE Ndocumento = :id');
+$records->bindParam(':id', $_SESSION['user_id']);
 
 
+if ($records->execute()) {
+	$results = $records->fetchAll(PDO::FETCH_ASSOC);
+	//$codes = $results;
+} else {
+	$message = array(' Error', 'Ocurrio un error en la consulta codigos user. intente de nuevo.', 'error');
+}
+
+if ($user['id'] == 10) {
+	$newEps = true;
+
+	$records = $connection->prepare('SELECT * FROM eps');
+	//$records->bindParam(':id', $user['id']);
 	if ($records->execute()) {
-		$results = $records->fetchAll(PDO::FETCH_ASSOC);
+		$eps = $records->fetchAll(PDO::FETCH_ASSOC);
 		//$codes = $results;
-	} else {
-		$message = array(' Error', 'Ocurrio un error en la consulta codigos user. intente de nuevo.', 'error');
 	}
-
-
+}
 
 
 ?>
@@ -118,7 +127,7 @@ $user = getUser($_SESSION['user_id'] );
 					<?php if (count($results) < 1) { ?>
 						<div class="container_empty ">
 
-							<h3><i >No hay codigos Qr para mostrar</i></h3>
+							<h3><i>No hay codigos Qr para mostrar</i></h3>
 
 						</div>
 					<?php } else {  ?>
@@ -151,7 +160,7 @@ $user = getUser($_SESSION['user_id'] );
 										<i>X</i>
 									</div>
 									<h3>Codigo Qr opciones</h3>
-									<form action="./dashboard.php" method="POST" >
+									<form action="./dashboard.php" method="POST">
 										<div class="subcont-optionsCode">
 											<label for="Titulo-code">Titulo</label><br>
 											<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
@@ -245,6 +254,88 @@ $user = getUser($_SESSION['user_id'] );
 					Nuevo <i class="fas fa-plus"></i>
 				</a>
 			</div>
+
+
+			<?php if (isset($newEps) && $newEps) { ?>
+
+
+				<script>
+					function setEps() {
+
+						Swal.fire({
+							title: '<strong><u>Cual es tu eps?</u></strong>',
+							icon: 'info',
+							html:
+
+								`
+<!-- The Modal -->
+<div class="" id="myModaleps">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Actualizacion de datos. EPS</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form action="../controller/formOptions.php" method="post" >
+
+								<div class="form-group">
+                                            <select class="form-control" >
+                                                <option value="1">EPS</option>
+												<option value="2">ARL</option>
+												<option value="3">AFP</option>
+												<option value="4">Caja de compensacion</option>
+                                            </select>
+								</div>
+								<div class="form-group">
+									
+                                            <select class="form-control" >
+                                            <?php foreach ($eps as $key => $value) {  ?>    
+
+												<?php if ($value['id'] == $user['id']) { ?>
+													<option value="<?php echo $value['id'] ?>" selected><?php echo $value['Nombre'] ?></option>
+												<?php } else { ?>
+
+												<option value="<?php echo $value['id'] ?>"><?php echo $value['Nombre'] ?></option>
+												<?php } ?>
+											<?php } ?>
+                                            </select>
+								</div>
+                                <button type="submit" name="update" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+`,
+							showCloseButton: true,
+							showCancelButton: true,
+							focusConfirm: false,
+							cancelButtonText: '<i class="fa fa-thumbs-down">  Haora no.</i>',
+							cancelButtonAriaLabel: 'Thumbs down'
+						})
+					}
+					setEps();
+				</script>
+
+
+				<a class="cart-btn OptionsCodeQr cont-button cont-buttonform" data-toggle="modal" onclick="setEps();">Cual es tu eps?</a>
+
+
+			<?php } ?>
+
+
 
 		</main>
 

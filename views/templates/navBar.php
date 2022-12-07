@@ -26,9 +26,10 @@
 
 							<li><a href="nosotros.html">Quienes Somos</a></li>
 							<li><a href="contact.html">Contáctanos</a></li>
-							<li><a href="#">Solicitar Código</a>
+							<li><a href="clinico.php">Solicitar Código</a>
 								<ul class="sub-menu">
-									<li><a href="clinico.php">Datos Clinicos</a>
+									<li><a href="formulario_datos_clinicos.php">Datos Clínicos</a>
+									<li><a href="formulario_medicamentos.php">Solicitud medicamentos</a>
 									</li>
 								</ul>
 							</li>
