@@ -285,22 +285,11 @@ elseif (isset($_POST['user-name']) &&
             <input type="password" name="password" placeholder="Contraseña" required />
           </div>
           <input type="submit" value="Ingresar" class="btn solid" />
-          <a class="social-text" href="./recovery/index.php" style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</a>
-          <p class="social-text">Puedes iniciar con estas plataformas.</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
+          <a href="./recovery/index.php" class="learn-more">
+          <span class="circle" aria-hidden="true">
+          <span class="icon arrow"></span></span>
+          <span class="button-text">Recuperar contraseña</span>
+      </a>
         </form>
         <form action="./iniciar.php" class="sign-up-form" method="POST">
           <!-- logo -->
@@ -329,23 +318,6 @@ elseif (isset($_POST['user-name']) &&
           <div id="terminos">
             <input type="checkbox" name="terminos" required>
             <u class="terminos">Terminos y Condiciones</u>
-          </div>
-
-
-          <p class="social-text">Puedes iniciar con estas plataformas.</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
           </div>
         </form>
       </div>
