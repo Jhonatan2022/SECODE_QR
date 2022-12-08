@@ -12,14 +12,15 @@ background-size: cover;
   margin: 25px;
   width: 340px;
   padding-bottom: 1em;
-  background-color: #000000e6;
+  background-color: #ffffff;
   display: flex;
+  z-index: 2;
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
-  box-shadow: 0 19px 38px rgba(30, 35, 33, 1), 0 15px 12px rgba(30, 35, 33, 0.2);
+  box-shadow: 0 19px 38px rgb(13 14 14), 15px -7px 12px rgb(30 35 33 / 52%);
   flex-wrap: wrap;
-  color: #f4f4f4;
+  color: #000000;
 }
 hr{
   width: 80%;
@@ -45,7 +46,7 @@ h4 {
 .list li {
   font-size: 17px;
   list-style: none;
-  border-bottom: 1px solid #ffffff6b;
+  border-bottom: 2px solid #00000079;
   padding: 15px;
 }
 
@@ -117,4 +118,5 @@ ol, ul {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: -7em;
 }
