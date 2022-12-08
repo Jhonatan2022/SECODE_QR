@@ -17,6 +17,8 @@ html {
 body {
     color: #404040;
     font-family: "Arial", Segoe UI, Tahoma, sans-serifl, Helvetica Neue, Helvetica;
+    background-color: #fff !important;
+    background-image: none !important;
 }
 
 /*=====================================
@@ -208,6 +210,21 @@ estilos generales
 
 .seccion-perfil-usuario .boton-redes.compartir {
     background: linear-gradient(45deg, #7918a3, #40A7FF);
+}
+
+.admin_div{
+    border: 2px solid #000;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgb(43, 48, 76);
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.admin_div>a:hover{
+    color:white
 }
 
 /* adactacion a dispositivos */

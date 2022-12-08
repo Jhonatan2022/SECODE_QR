@@ -1,3 +1,69 @@
+<?php
+session_start();
+
+//importamos DB
+require_once('../models/database/database.php');
+
+if(! isset($_SESSION['user_id'])){
+  $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
+ 
+}else{
+
+  if(isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/){
+    $id_code=$_GET['idFormEdit'];
+    $isAnewForm=false;
+  }else{
+    $isAnewForm=true;
+  }
+
+
+//funtionalities advanced pro
+if(! $isAnewForm){
+  $param=$connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimiento, us.Genero, dta.RH,dta.TipoAfiliacion, dta.Subsidio, dta.Departamento, dta.Tipo_de_sangre, dta.Estrato, dta.EsAlergico 
+  FROM usuario AS us 
+  INNER JOIN datos_clinicos AS dta 
+  ON dta.Id_codigo = :id_code and us.Ndocumento = :id_user ');
+  $param->bindParam(':id_code',$id_code);
+  $param->bindParam(':id_user',$_SESSION['user_id']);
+  
+  if($param->execute()){
+    $results=$param->fetch(PDO::FETCH_ASSOC);
+    echo 'ok'.$results['Nombre'];
+
+  }else{
+    $message= array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
+  }
+
+//Seting data strings
+
+$nombreUser=$results['Nombre'];
+
+}
+
+  if (
+    isset($_GET['GenerateError']) &&
+    !empty($_GET['GenerateError'])
+  ) {
+    $statusForm = $_GET['GenerateError'];
+    if ($statusForm == 1) {
+      $message = array('Error', 'Hubo un error en el preoceso, intente nuevamente', 'error');
+    } elseif ($statusForm == 22) {
+      $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos. En un momento sera redirigido.', 'success');
+      $id_code=$_GET['Data'];
+    }
+  } 
+
+
+}
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,53 +104,9 @@
 	</div>
     <!--PreLoader Ends-->
 
-<!-- header -->
-<div class="top-header-area" id="sticker">
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12 col-sm-12 text-center">
-      <div class="main-menu-wrap">
-        <!-- logo -->
-        <div class="site-logo">
-          <a href="index.html">
-            <img src="assets/img/logo.png" alt="">
-          </a>
-        </div>
-        <!-- logo -->
+<?php include('./templates/navBar.php') ?>
 
-        <!-- menu start -->
-          <nav class="main-menu">
-            <ul>
-              <li class="current-list-item"><a href="index.html">Inicio</a></li>
-              <li><a href="nosotros.html">Quienes Somos</a></li>	
-              <li><a href="#">Noticias</a>
-                <ul class="sub-menu">
-                  <li><a href="noticias.html">Noticias</a></li>
-                  <li><a href="noticia.html">Noticia Del día</a></li>
-                </ul>
-              </li>
-              <li><a href="contact.html">Contáctanos</a></li>
-              <li><a href="#">Solicitar Código</a>
-              <ul class="sub-menu">
-                <li><a href="formulario_datos_clinicos.html">Datos Clínicos</a>
-								<li><a href="formulario_medicamentos.html">Solicitud medicamentos</a>
-                </li>
-              </ul>
-              <li class="login-box"><a href="#">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span> SECODE_QR PLUS </a></li>
-            </ul>
-          </nav>	
-          <div class="mobile-menu"></div>
-          <!-- menu end -->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end header -->
+
 <!-- breadcrumb-section -->
 <div class="breadcrumb-section breadcrumb-bg">
   <div class="container">

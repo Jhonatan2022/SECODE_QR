@@ -1,14 +1,39 @@
 <?php
 $Ndocumento= $_GET['id'];
-require('../../main.php');
-require_once(BaseDir.'/models/database/database.php');
+
+session_start();
+
+if (!isset($_SESSION["user_id"])) {
+    http_response_code(404);
+    header('Location: ../../index.php');
+}
+
+require_once('../../main.php');
+require_once(BaseDir . '/models/database/database.php');
+
+$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,Nombre,rol FROM usuario WHERE Ndocumento = :id ');
+$records->bindParam(':id', $_SESSION['user_id']);
+
+if ($records->execute()) {
+    $resultsUser = $records->fetch(PDO::FETCH_ASSOC);
+} else {
+    $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
+}
+
+if($resultsUser['rol'] === '2'){
 
 
-$consulta= "SELECT * FROM usuario WHERE Ndocumento = :documento";
-$param=$connection->prepare($consulta);
-$param->bindParam(':documento', $Ndocumento);
-$param->execute();
-$usuario = $param->fetch(PDO::FETCH_ASSOC);
+    $consulta= "SELECT * FROM usuario WHERE Ndocumento = :documento";
+    $param=$connection->prepare($consulta);
+    $param->bindParam(':documento', $Ndocumento);
+    $param->execute();
+    $usuario = $param->fetch(PDO::FETCH_ASSOC);
+
+}else{
+    http_response_code(404);
+    header('Location: ../../index.php');
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -113,6 +138,12 @@ $usuario = $param->fetch(PDO::FETCH_ASSOC);
                         <input class="form-style" type="Telefono" name="Telefono" id="Telefono"   placeholder="Telefono" value ="<?php echo $usuario["Telefono"]; ?>"required>
                         <input type="hidden" name="accion" value = "editar_registro">
                         <i class="input-icon fas fa-phone"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <p>ROl 1: normal-- 2:administrador</p>
+                        <input class="form-style" type="tel"  name="rol" id="Telefono"   placeholder="rol" value ="<?php echo $usuario["rol"]; ?>">
+                        
+                        <i class="input-icon fas fa-rol"></i>
                     </div>
                     <div class="boton">
                         <div class="btn"><button type="submit" >Editar Datos</button></div>

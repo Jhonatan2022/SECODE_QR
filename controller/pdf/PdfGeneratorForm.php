@@ -44,7 +44,7 @@ ob_start();
 
     font-family: 'Nunito', sans-serif;">
         Datos Documento Clinico
-        <img src="../../views/assets/img/logo.png" alt="logo secodeqr" srcset="" style="
+        <img src="https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png" alt="logo secodeqr" style="
         width: 30px;height: 30px; object-fit: cover;float: right;">
     </h2>
 
@@ -120,12 +120,13 @@ $source = './'.$name;
      $duration=date("Y-m-d");
 
      $consult='INSERT INTO codigo_qr 
-     (`Id_codigo`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
-     VALUES (null , :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
+     (`Id_codigo`,`nombre`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
+     VALUES (null ,:nombre, :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
     
     $params= $connection->prepare($consult);
     $params->bindParam(':Ndoc',$_SESSION['user_id']);
     $params->bindParam(':Duracion',$duration);
+    $params->bindParam(':nombre',$name);
     $params->bindParam(':Titulo', $data['Titulo']);
     $params->bindParam(':Ruta',$urlCodeForm);
     $params->bindParam(':AtribDefault',$atribDefault);

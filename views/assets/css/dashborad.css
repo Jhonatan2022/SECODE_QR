@@ -26,8 +26,6 @@ img{
 	left: 0;
 	background: rgba(0,0,0,0.5);
 	transition: all 500ms ease;
-	opacity: 0;
-	visibility: hidden;
 	width: 100%;
 	height: 100vh;
 	/* height: auto; */
@@ -35,6 +33,8 @@ img{
 	justify-content: center;
 	align-items: center;
 	z-index: 700;
+    opacity: 0;
+    visibility: hidden;
 }
 
 
@@ -173,5 +173,32 @@ img{
     margin-top: 2rem;
 }
 
+.cont-buttonform{
+     right:5px;
+     top: 50vh;
+     width: 100px;
+     height: fit-content;
+     position: absolute;
+     animation: identifier 3s linear 1s 2 ;
+     -webkit-animation: identifier 3s linear 1s 2 ;
+}
+
+@keyframes identifier {
+    0% {
+        opacity: 0;
+        rotate: 0deg;
+        visibility: hidden;
+    }
+    50% {
+        opacity: 0;
+        rotate: 180deg;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 1;
+        rotate: 360deg;
+        visibility: visible;
+    }
+}
 
 /*----END item qr css customization---*/
