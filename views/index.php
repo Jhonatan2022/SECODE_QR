@@ -1,9 +1,19 @@
 <?php
+
 session_start();
+
 require_once '../models/user.php';
 
 if (isset($_SESSION["user_id"])) {
 	$user = getUser($_SESSION['user_id'] );
+	//secure fingerprint session 
+	$key = $user['Ndocumento'];
+	if (isset($_SESSION['fingerprint']) && $_SESSION['fingerprint'] != md5($_SERVER['HTTP_USER_AGENT'] . $key . $_SERVER['REMOTE_ADDR'])) {       
+		session_destroy();
+		header('Location: iniciar.php');
+		exit();     
+	}
+
 	if ($user['id'] == 10) {
 		$newEps = true;
 	
@@ -17,7 +27,6 @@ if (isset($_SESSION["user_id"])) {
 		}
 	}
 }
-
 
 
 ?>
