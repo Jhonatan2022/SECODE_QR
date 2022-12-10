@@ -31,11 +31,8 @@ if (isset($_REQUEST['update'])) {
             $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
             $limite_kb = 1000; //10 mb maximo
 
-            if (!in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024) {
-                $message = "Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes";
-            }
-
-            $tipoArchivo = $_FILES["Img_perfil"]["type"];
+            if ((in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024)) {
+                $tipoArchivo = $_FILES["Img_perfil"]["type"];
             $tamanoArchivo = $_FILES["Img_perfil"]["size"];
 
             $imagenSubida = fopen($_FILES["Img_perfil"]["tmp_name"], "r");
@@ -61,6 +58,11 @@ if (isset($_REQUEST['update'])) {
             if ($query->execute()) {
                 $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
             }
+            }else{
+                $message = ['error',"Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes",'error'];
+            }
+            
+            
         } else {
 
 
@@ -75,7 +77,7 @@ if (isset($_REQUEST['update'])) {
             $query->bindParam(':correo', $correo);
             $query->bindParam(':fechaNacimiento', $fechaNacimiento);
             $query->bindParam(':telefono', $telefono);
-
+            
             if ($query->execute()) {
                 $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
             }
@@ -97,7 +99,8 @@ $userForm = userform($_SESSION['user_id']);
     <title>Perfil de usuario</title>
     <!--style perfil-->
 
-    <?php include('./templates/header.php'); ?>
+    <?php include('./templates/header.php');
+    include('./templates/sweetalerts2.php'); ?>
 
     <link rel="stylesheet" href="./assets/css/perfil.css">
 
@@ -198,7 +201,8 @@ $userForm = userform($_SESSION['user_id']);
                                                         echo 'type="file" ';
                                                         break;
                                                     case 'FechaNacimiento':
-                                                        echo 'type="date" required ' . 'value="' . $value . ' " ';
+                                                        $value2 = date('Y-m-d', strtotime($value));
+                                                        echo 'type="date" required ' . 'value="' .$value2 .'" ';
                                                         break;
                                                     case 'Correo':
                                                         echo 'type="email" ' . 'value="' . $value . ' " ';
