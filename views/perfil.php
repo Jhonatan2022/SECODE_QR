@@ -27,6 +27,8 @@ if (isset($_REQUEST['update'])) {
         || $_POST["Telefono"] != ""
 
     ) {
+        $fechaNacimiento= date("Y-m-d", strtotime($fechaNacimiento));
+        $telefono=0;
         if (isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK) {
             $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
             $limite_kb = 1000; //10 mb maximo

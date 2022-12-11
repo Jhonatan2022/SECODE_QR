@@ -207,56 +207,35 @@ if (isset($_SESSION["user_id"])) {
 			icon: 'info',
 			html:
 
-				`
-<!-- The Modal -->
-<div class="" id="myModaleps">
-<div class="modal-dialog">
-	<div class="modal-content">
+			`
 
-		<!-- Modal Header -->
-		<div class="modal-header">
-			<h4 class="modal-title">Actualizacion de datos. EPS</h4>
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-		</div>
+<form action="../controller/formOptions.php" method="POST" >
 
-		<!-- Modal body -->
-		<div class="modal-body">
-			<form action="../controller/formOptions.php" method="post" >
-
-				<div class="form-group">
-							<select class="form-control" >
-								<option value="1">EPS</option>
-								<option value="2">ARL</option>
-								<option value="3">AFP</option>
-								<option value="4">Caja de compensacion</option>
-							</select>
-				</div>
-				<div class="form-group">
-					
-							<select class="form-control" >
-							<?php foreach ($eps as $key => $value) {  ?>    
-
-								<?php if ($value['id'] == $user['id']) { ?>
-									<option value="<?php echo $value['id'] ?>" selected><?php echo $value['Nombre'] ?></option>
-								<?php } else { ?>
-
-								<option value="<?php echo $value['id'] ?>"><?php echo $value['Nombre'] ?></option>
-								<?php } ?>
-							<?php } ?>
-							</select>
-				</div>
-				<button type="submit" name="update" class="btn btn-primary">Submit</button>
-			</form>
-		</div>
-
-		<!-- Modal footer -->
-		<div class="modal-footer">
-			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-		</div>
-
+	<div class="form-group">
+				<select class="form-control" >
+					<option value="1">EPS</option>
+					<option value="2">ARL</option>
+					<option value="3">AFP</option>
+					<option value="4">Caja de compensacion</option>
+				</select>
 	</div>
-</div>
-</div>
+	<div class="form-group">
+		
+				<select class="form-control" name='Eps' >
+				<?php foreach ($eps as $key => $value) {  ?>    
+
+					<?php if ($value['id'] == $user['id']) { ?>
+						<option value="<?php echo $value['id'] ?>" selected><?php echo $value['NombreEps'] ?></option>
+					<?php } else { ?>
+
+					<option value="<?php echo $value['id'] ?>"><?php echo $value['NombreEps'] ?></option>
+					<?php } ?>
+				<?php } ?>
+				</select>
+		
+	</div>
+	<button type="submit" name="update" class="btn btn-primary">Submit</button>
+</form>
 
 `,
 			showCloseButton: true,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 07-12-2022 a las 17:59:30
+-- Tiempo de generación: 11-12-2022 a las 06:25:59
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -43,7 +43,7 @@ CREATE TABLE `codigo_qr` (
 --
 
 INSERT INTO `codigo_qr` (`Id_codigo`, `nombre`, `Duracion`, `Ndocumento`, `Atributos`, `Titulo`, `RutaArchivo`, `Descripcion`) VALUES
-(47, '7119ee2e5e0ffad79c2408ec828d6bf2.pdf', '2022-12-07', 123456789, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120', 'sdadas', 'http://127.0.0.1/secodeqr/views/pdf/7119ee2e5e0ffad79c2408ec828d6bf2.pdf', NULL);
+(51, '09a9b1c5ed66c0d75bece94bbff17b3e.pdf', '2022-12-11', 123456789, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120', 'dsa', 'http://127.0.0.1/secodeqr/views/pdf/09a9b1c5ed66c0d75bece94bbff17b3e.pdf', NULL);
 
 -- --------------------------------------------------------
 
@@ -66,6 +66,7 @@ CREATE TABLE `condicion` (
 CREATE TABLE `datos_clinicos` (
   `Id_datos_clinicos` int(5) NOT NULL,
   `Id_codigo` int(5) NOT NULL,
+  `NdocumentoUser` int(11) NOT NULL,
   `RH` varchar(2) DEFAULT NULL,
   `TipoAfiliacion` varchar(15) NOT NULL,
   `Subsidio` int(1) NOT NULL DEFAULT 0,
@@ -83,7 +84,7 @@ CREATE TABLE `datos_clinicos` (
 
 CREATE TABLE `eps` (
   `id` int(9) NOT NULL,
-  `Nombre` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `NombreEps` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   `Direccion` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -91,7 +92,11 @@ CREATE TABLE `eps` (
 -- Volcado de datos para la tabla `eps`
 --
 
-INSERT INTO `eps` (`id`, `Nombre`, `Direccion`) VALUES
+INSERT INTO `eps` (`id`, `NombreEps`, `Direccion`) VALUES
+(1, 'EPS Sanitas', ''),
+(2, 'Capital salud', ''),
+(3, 'Compensar', ''),
+(4, 'EPS Cafam', ''),
 (10, 'eps', 'tal');
 
 -- --------------------------------------------------------
@@ -177,6 +182,13 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`Ndocumento`, `Nombre`, `rol`, `Direccion`, `Genero`, `Correo`, `Contrasena`, `FechaNacimiento`, `Telefono`, `id`, `Img_perfil`, `token_reset`, `TipoImg`) VALUES
+(123456789, 'luis fernando  ', 1, '  ', 'M', 'lfchaparro37@misena.edu.co', '$2y$10$yk/QMc5zgz7SWeAt2MkVd.pu3s1wpJHhkMqzi/9VIhqyRhWY9XRdW', '1970-01-01', 0, 3, NULL, '90368384543801', NULL);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -199,7 +211,8 @@ ALTER TABLE `condicion`
 --
 ALTER TABLE `datos_clinicos`
   ADD PRIMARY KEY (`Id_datos_clinicos`),
-  ADD KEY `Id_codigo` (`Id_codigo`);
+  ADD KEY `Id_codigo` (`Id_codigo`),
+  ADD KEY `NdocumentoUser` (`NdocumentoUser`);
 
 --
 -- Indices de la tabla `eps`
@@ -250,7 +263,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
-  MODIFY `Id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `Id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `QR_plus`
@@ -290,7 +303,8 @@ ALTER TABLE `condicion`
 -- Filtros para la tabla `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
-  ADD CONSTRAINT `datos_clinicos_ibfk_1` FOREIGN KEY (`Id_codigo`) REFERENCES `codigo_qr` (`Id_codigo`);
+  ADD CONSTRAINT `datos_clinicos_ibfk_1` FOREIGN KEY (`Id_codigo`) REFERENCES `codigo_qr` (`Id_codigo`),
+  ADD CONSTRAINT `datos_clinicos_ibfk_2` FOREIGN KEY (`NdocumentoUser`) REFERENCES `usuario` (`Ndocumento`);
 
 --
 -- Filtros para la tabla `formulario`
@@ -314,7 +328,8 @@ ALTER TABLE `Suscripcion`
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `rol` (`id`);
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `rol` (`id`),
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`id`) REFERENCES `eps` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
