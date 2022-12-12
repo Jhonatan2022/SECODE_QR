@@ -23,11 +23,11 @@ function getUser($id   ) {
 function getClinicData($id,$isnew) {
   global $connection;
   if(!$isnew){
-    $query = $connection->prepare('SELECT us.Nombre, us.FechaNacimiento, us.Genero,us.Telefono, us.Correo, us.id, dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre , cd.Condicion
+    $query = $connection->prepare('SELECT us.Nombre, us.FechaNacimiento, us.Genero,us.Telefono, us.Correo, us.id, dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre , cd.CondicionClinica
     FROM usuario AS us 
     INNER JOIN datos_clinicos AS dta
-    INNER JOIN condicion as cd
-      ON cd.Id_datos_clinicos = dta.Id_datos_clinicos and
+    INNER JOIN CondicionClinica as cd
+      ON cd.IDCondicionClinica = dta.IDDatosClinicos and
         us.Ndocumento = :id');
     $query->bindParam(':id', $id);
     $query->execute();
@@ -37,7 +37,7 @@ function getClinicData($id,$isnew) {
     FROM usuario AS us LEFT OUTER JOIN eps 
     ON eps.id = us.id 
     LEFT OUTER JOIN datos_clinicos AS dta
-    ON us.Ndocumento= dta.NdocumentoUser
+    ON us.Ndocumento= dta.NDocumento
     WHERE us.Ndocumento =:id');
     $query->bindParam(':id', $id);
     $query->execute();
@@ -74,5 +74,107 @@ function updateUserData($id, array $data) {
     $query->execute();
 }
 
+//functioons to return info data user
 
+function getUserData($id){ //complete info user data without table condicion clinica
+  global $connection;
+  $query = $connection->prepare('SELECT 
+  us.Ndocumento,tipdoc.TipoDocumento,us.Nombre,us.Apellidos,us.Correo,tipsus.TipoSuscripcion, sus.FechaExpiracion ,us.Direccion,lc.Localidad, gn.Genero, estr.Estrato, eps.NombreEps, rl.rol, us.FechaNacimiento,us.Telefono, us.Img_perfil, us.token_reset, us.TipoImg
+  FROM usuario AS us
+  LEFT OUTER JOIN tipodocumento AS tipdoc
+  ON us.TipoDoc = tipdoc.IDTipoDoc
+  LEFT OUTER JOIN genero AS gn
+  ON us.Genero = gn.IDGenero
+  LEFT OUTER JOIN estrato AS est 
+  ON us.Estrato = est.IDEstrato
+  LEFT OUTER JOIN rol AS rl
+  ON us.rol = rl.id
+  LEFT OUTER JOIN localidad AS lc
+  ON us.Localidad = lc.IDLocalidad
+  
+  LEFT OUTER JOIN Suscripcion as sus
+  ON sus.Ndocumento = us.Ndocumento
+  LEFT OUTER JOIN TipoSuscripcion AS tipsus
+  ON sus.TipoSuscripcion = tipsus.IDTipoSuscripcion
+  
+  LEFT OUTER JOIN eps 
+  ON us.id = eps.id
+  LEFT OUTER JOIN estrato AS estr 
+  ON us.Estrato = estr.IDEstrato
+  WHERE us.Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $user = $query->fetch(PDO::FETCH_ASSOC);
+  if (empty($user['Img_perfil']) || $user['Img_perfil'] == null) {
+    $user['Img_perfil'] = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/userimg.png";
+  } else {
+    $user['Img_perfil'] = 'data:' . $user['TipoImg'] . ";base64," . base64_encode($user['Img_perfil']);
+  }
+  return $user;
+}
+
+//function for the data tables
+function localidad() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM localidad');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function afiliacion() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM afiliacion');
+  $query->execute();
+  $afl = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $afl;
+}
+function Eps() {
+    global $connection;
+    $query = $connection->prepare('SELECT * FROM eps');
+    $query->execute();
+    $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $eps;
+}
+function Genero() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM Genero');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function rh() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM RH');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function tipoSangre() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM TipoSangre');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function tipoDocumento() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM tipodocumento');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function tipoSubsidio() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM TipoSubsidio');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function tipoSuscripcion() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM TipoSuscripcion');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
 ?>

@@ -11,7 +11,7 @@ $database = 'id16455213_secode_qr';
 $server = 'localhost';
 $username = 'root';
 $password = '';
-$database = 'id16455213_secode_qr';
+$database = 'finalsecode';
 
 try {
     $connection= new PDO("mysql:host=$server;dbname=$database", $username, $password);

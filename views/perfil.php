@@ -226,12 +226,15 @@ $userForm = userform($_SESSION['user_id']);
                                     <div class="form-group">
                                         <?php if ($key === 'Genero') { ?>
                                             <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
-                                                <option value="M" <?php if ($value === 'M') {
+                                                <option value="1" <?php if ($value === '1') {
                                                                         echo 'selected';
                                                                     } ?>>Masculino</option>
-                                                <option value="F" <?php if ($value === 'F') {
+                                                <option value="2" <?php if ($value === '2') {
                                                                         echo 'selected';
                                                                     } ?>>Femenino</option>
+                                                <option value="3" <?php if ($value === '3') {
+                                                                        echo 'selected';
+                                                                    } ?>>No binario</option>
                                             </select>
                                         <?php } ?>
                                     </div>

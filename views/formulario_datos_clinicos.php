@@ -3,9 +3,27 @@ session_start();
 
 //importamos DB
 require_once('../models/database/database.php');
+require_once '../models/user.php';
 
 if (!isset($_SESSION['user_id'])) {
   $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
+  $ClinicData =[
+    'Nombre'=>'',
+    'FechaNacimiento'=>'',
+    'NombreEps'=>'',
+    'Telefono'=>'',
+    'Correo'=>'',
+    'Genero'=>'',
+    'TipoAfiliacion'=>'',
+    'RH'=>'',
+    'Tipo_de_sangre'=>'',
+/*     'Subsidio'=>'',
+    'Departamento'=>'',
+    'Estrato'=>'',
+    'EsAlergico'=>'',
+    'CondicionClinica'=>'' */
+  ];
+
 } else {
 
   if (isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/) {
@@ -49,22 +67,20 @@ if (!isset($_SESSION['user_id'])) {
       $id_code = $_GET['Data'];
     }
   }
-}
-require_once '../models/user.php';
+
 $user = getUser($_SESSION['user_id']);
 
 if ($user['id'] == 10 && $newForm) {
   global $newEps;
   $newEps = true;
-  $records = $connection->prepare('SELECT * FROM eps');
-  //$records->bindParam(':id', $user['id']);
-  if ($records->execute()) {
-    $eps = $records->fetchAll(PDO::FETCH_ASSOC);
-    //$codes = $results;
-  }
+  $eps=eps();
 }
 
 $ClinicData = getClinicData($_SESSION['user_id'], $newForm);
+}
+$afiliacion=afiliacion();
+$rh=rh();
+$tipoSangre=tipoSangre();
 
 ?>
 
@@ -97,6 +113,7 @@ $ClinicData = getClinicData($_SESSION['user_id'], $newForm);
   <!-- responsive -->
   <link rel="stylesheet" href="assets/css/responsive.css">
 
+  <?include('./templates/sweetalerts2.php') ?>
 </head>
 
 <body>
@@ -222,62 +239,125 @@ $ClinicData = getClinicData($_SESSION['user_id'], $newForm);
               case 'Genero': ?>
                 <div class="question">
                   <p>Genero<span></span></p>
+
                   <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
-                <option value="M" <?php if ($value === 'M') {
-                                    echo 'selected';
-                                  } ?>>Masculino</option>
-                <option value="F" <?php if ($value === 'F') {
-                                    echo 'selected';
-                                  } ?>>Femenino</option>
-              </select>
+                    <option value="1" <?php if ($value === '1') {
+                                        echo 'selected';
+                                      } ?>>Masculino</option>
+                    <option value="2" <?php if ($value === '2') {
+                                        echo 'selected';
+                                      } ?>>Femenino</option>
+                    <option value="3" <?php if ($value === '3') {
+                                        echo 'selected';
+                                      } ?>>No binario</option>
+                  </select>
+
                 </div>
                 <?php break; ?>
-              <?php case 'TipoAfiliacion': ?>
-                         <h5>2. Socio economico</h5>
-          <br>
-          <div class="question">
-            <p>Tipo de afiliacion con la EPS <span class="required">*</span></p>
-            <div class="question-answer">
-              <input type="radio" value="none" id="radio_7" name="co-investigator" required />
-              <label for="radio_7" class="radio"><span>beneficiario</span></label>
-              <input type="radio" value="none" id="radio_8" name="co-investigator" required />
-              <label for="radio_8" class="radio"><span>cotizante</span></label>
-            </div>
-          </div>
+              <?php
+              case 'TipoAfiliacion': ?>
+                <br>
+                <h5>2. Socio economico</h5>
+                <br>
+                <div class="question">
+                  <p>Tipo de afiliacion con la EPS <span class="required">*</span></p>
+                  <div class="question-answer">           
+                  
+                    <?php foreach($afiliacion as $keyAf => $valueAf) {?>
+                      <? if($valueAf['IDAfiliacion'] == $value){?>
+                        <input type="radio" value="<?=$valueAf['IDAfiliacion'] ?>" id="<?=$valueAf['IDAfiliacion'] ?>"
+                        name="<?=$key?>" required checked/>
+                        <label for="<?=$valueAf['IDAfiliacion'] ?>" class="radio"><span><?=$valueAf['Afiliacion']?></span></label>
+                      <?}else{?>
+                    <input type="radio" value="<?=$valueAf['IDAfiliacion'] ?>" id="<?=$valueAf['IDAfiliacion'] ?>" 
+                    name="<?=$key?>" required />
+                    <label for="<?=$valueAf['IDAfiliacion'] ?>" class="radio"><span><?=$valueAf['Afiliacion']?></span></label>
+                  <?}?>
+
+                    <?}?>
+                  </div>
+                </div>
                 <?php break; ?>
 
-                <?php case 'RH': ?>
-                  <br>
-          <h5>1.Datos clinicos:</h5>
-          <div class="question">
-            <p>RH<span class="required"></span></p>
-            <div class="question-answer">
-              <input type="radio" value="none" id="radio_14" name="RH" required />
-              <label for="radio_14" class="radio"><span>+</span></label>
-              <input type="radio" value="none" id="radio_15" name="RH" required />
-              <label for="radio_15" class="radio"><span>-</span></label>
-            </div>
-          </div>
+              <?php
+              case 'RH': ?>
+                <br>
+                <h5>1.Datos clinicos:</h5>
+                <div class="question">
+                  <p>RH<span class="required"></span></p>
+                  <div class="question-answer">
+
+
+                  <?php foreach($rh as $keyrh => $valuerh) {?>
+                      <? if($valuerh['IDRH'] == $value){?>
+                        <input type="radio" value="<?=$valuerh['IDRH'] ?>" id="<?=$valuerh['IDRH'].$keyrh ?>"
+                        name="<?=$key?>" required checked/>
+                        <label for="<?=$valuerh['IDRH'].$keyrh ?>" class="radio"><span><?=$valuerh['RH']?></span></label>
+                      <?}else{?>
+                        <input type="radio" value="<?=$valuerh['IDRH'] ?>" id="<?=$valuerh['IDRH'].$keyrh ?>"
+                        name="<?=$key?>" required/>
+                        <label for="<?=$valuerh['IDRH'].$keyrh ?>" class="radio"><span><?=$valuerh['RH']?></span></label>
+                  <?}?>
+
+                    <?}?>
+                  </div>
+                </div>
                 <?php break; ?>
 
-                <?php case 'Tipo_de_sangre': ?>
-                  <br>
-          <div class="question">
-            <p>Tipo de sangre<span class="required"></span></p>
-            <div class="question-answer">
-              <input type="radio" value="none" id="radio_16" name="SANGRE" required />
-              <label for="radio_16" class="radio"><span>A</span></label>
-              <input type="radio" value="none" id="radio_17" name="SANGRE" required />
-              <label for="radio_17" class="radio"><span>B</span></label>
-              <input type="radio" value="none" id="radio_18" name="SANGRE" required />
-              <label for="radio_18" class="radio"><span>AB</span></label>
-              <input type="radio" value="none" id="radio_19" name="SANGRE" required />
-              <label for="radio_19" class="radio"><span>O</span></label>
-            </div>
-          </div>
-          <br>
+              <?php
+              case 'Tipo_de_sangre': ?>
+                <br>
+                <div class="question">
+                  <p>Tipo de sangre<span class="required"></span></p>
+                  <div class="question-answer">
+
+
+
+                  <?php foreach($tipoSangre as $keytps => $valuetps) {?>
+                      <? if($valuetps['IDTipoSangre'] == $value){?>
+                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
+                        name="<?=$key?>" required checked/>
+                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                      <?}else{?>
+                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
+                        name="<?=$key?>" required />
+                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                  <?}?>
+
+                    <?}?>
+                  </div>
+                </div>
+                <br>
                 <?php break; ?>
-              <?php default: ?>
+
+                <?php
+              case 'Tipo_de_sangre': ?>
+                <br>
+                <div class="question">
+                  <p>Tipo de sangre<span class="required"></span></p>
+                  <div class="question-answer">
+
+
+
+                  <?php foreach($tipoSangre as $keytps => $valuetps) {?>
+                      <? if($valuetps['IDTipoSangre'] == $value){?>
+                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
+                        name="<?=$key?>" required checked/>
+                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                      <?}else{?>
+                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
+                        name="<?=$key?>" required />
+                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                  <?}?>
+
+                    <?}?>
+                  </div>
+                </div>
+                <br>
+                <?php break; ?>
+
+              <?php
+              default: ?>
                 # code...
             <?php break;
             } ?>
@@ -310,6 +390,7 @@ $ClinicData = getClinicData($_SESSION['user_id'], $newForm);
                 <p>Otro<span class="required"></span></p>
                 <input type="text" name="name" required placeholder="Especificar condición" />
               </div>
+
               <div class="question">
                 <p>¿Es alergico algun medicamento?<span class="required"></span></p>
                 <div class="question-answer">
