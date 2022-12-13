@@ -33,7 +33,7 @@ function getClinicData($id,$isnew) {
     $query->execute();
     $data = $query->fetch(PDO::FETCH_ASSOC);
   }else{
-    $query = $connection->prepare('SELECT us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre
+    $query = $connection->prepare('SELECT us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.IDcondicionesClinicas, dta.AlergiaMedicamento
     FROM usuario AS us LEFT OUTER JOIN eps 
     ON eps.id = us.id 
     LEFT OUTER JOIN datos_clinicos AS dta
@@ -152,6 +152,13 @@ function rh() {
 function tipoSangre() {
   global $connection;
   $query = $connection->prepare('SELECT * FROM TipoSangre');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+function condicionClinica() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM CondicionClinica');
   $query->execute();
   $eps = $query->fetchAll(PDO::FETCH_ASSOC);
   return $eps;

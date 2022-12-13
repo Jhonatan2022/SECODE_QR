@@ -8,6 +8,7 @@ require_once '../models/user.php';
 if (!isset($_SESSION['user_id'])) {
   $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
   $ClinicData =[
+    'Titulo'=>'',
     'Nombre'=>'',
     'FechaNacimiento'=>'',
     'NombreEps'=>'',
@@ -17,6 +18,7 @@ if (!isset($_SESSION['user_id'])) {
     'TipoAfiliacion'=>'',
     'RH'=>'',
     'Tipo_de_sangre'=>'',
+    'IDcondicionesClinicas'=>'',
 /*     'Subsidio'=>'',
     'Departamento'=>'',
     'Estrato'=>'',
@@ -81,6 +83,7 @@ $ClinicData = getClinicData($_SESSION['user_id'], $newForm);
 $afiliacion=afiliacion();
 $rh=rh();
 $tipoSangre=tipoSangre();
+$condicion = condicionClinica();
 
 ?>
 
@@ -174,11 +177,14 @@ $tipoSangre=tipoSangre();
     <div class="screen">
       <div class="screen__content">
         <form action="../controller/pdf/PdfGeneratorForm.php" method="POST" novalidate>
-
+        <div class="item">
+        <p>Titulo del formulario</p>
+        <input type="text" name="TituloForm"/>
+      </div>
           <?php foreach ($ClinicData as $key => $value) { ?>
             <?php
             switch ($key) {
-              case 'Nombre': ?>
+               case 'Nombre': ?>
                 <div class="item">
                   <p>Nombres</p>
                   <input type="text" name="<?= $key ?>" required value="<?= $value ?>" />
@@ -315,18 +321,69 @@ $tipoSangre=tipoSangre();
 
                   <?php foreach($tipoSangre as $keytps => $valuetps) {?>
                       <? if($valuetps['IDTipoSangre'] == $value){?>
-                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
+                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['TipoSangre'].$keytps ?>"
                         name="<?=$key?>" required checked/>
-                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                        <label for="<?=$valuetps['TipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
                       <?}else{?>
-                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
+                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['TipoSangre'].$keytps ?>"
                         name="<?=$key?>" required />
-                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                        <label for="<?=$valuetps['TipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
                   <?}?>
 
                     <?}?>
                   </div>
                 </div>
+                <br>
+                <?php break; ?>
+
+                <?php
+              case 'IDcondicionesClinicas': ?>
+                <br>
+                <div class="question">
+            <p>¿Cuenta con alguna de las siguientes condiciones?:<span class="required">*</span></p>
+            <div class="question-answer checkbox-item">
+
+
+            <?php foreach ($condicion as $keycond => $valuecond) { ?>
+
+<?php if($value==null) {?>
+
+<div>
+  <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" required />
+  <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
+</div>
+<?}else{
+   $value2 = json_decode($value, true);
+
+    //foreach ($datarray as $keydat => $valuedat) {
+    for ($position=0; $position < count($value2) ; $position++) { 
+        $valor = $value2[$position];
+        
+      
+    if($valor==$valuecond['IDCondicionClinica']){
+      $checked = 'checked';
+    }else{
+      $checked = '';
+    }
+    ?>
+    <div>
+      <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?=$checked?> required />
+      <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
+    </div>
+
+
+  <? }?>
+
+
+
+<? } ?>                    
+<? } ?>
+              <div class="item">
+                <p>Otro<span class="required"></span></p>
+                <input type="text" name="name" required placeholder="Especificar condición" />
+              </div>
+              </div>
+              </div>
                 <br>
                 <?php break; ?>
 
@@ -356,6 +413,7 @@ $tipoSangre=tipoSangre();
                 <br>
                 <?php break; ?>
 
+
               <?php
               default: ?>
                 # code...
@@ -363,33 +421,7 @@ $tipoSangre=tipoSangre();
             } ?>
 
           <?php  }  ?>
-          <div class="question">
-            <p>¿Cuenta con alguna de las siguientes condiciones?:<span class="required">*</span></p>
-            <div class="question-answer checkbox-item">
-              <div>
-                <input type="checkbox" value="none" id="check_1" name="checklist" required />
-                <label for="check_1" class="check"><span>Presion alta</span></label>
-              </div>
-              <div>
-                <input type="checkbox" value="none" id="check_2" name="checklist" required />
-                <label for="check_2" class="check"><span>Diabetes</span></label>
-              </div>
-              <div>
-                <input type="checkbox" value="none" id="check_3" name="checklist" required />
-                <label for="check_3" class="check"><span>afecciones cardiacas</span></label>
-              </div>
-              <div>
-                <input type="checkbox" value="none" id="check_4" name="checklist" required />
-                <label for="check_4" class="check"><span>Covid-19</span></label>
-              </div>
-              <div>
-                <input type="checkbox" value="none" id="check_5" name="checklist" required />
-                <label for="check_5" class="check"><span>Enfermedades respiratorias</span></label>
-              </div>
-              <div class="item">
-                <p>Otro<span class="required"></span></p>
-                <input type="text" name="name" required placeholder="Especificar condición" />
-              </div>
+
 
               <div class="question">
                 <p>¿Es alergico algun medicamento?<span class="required"></span></p>
@@ -400,8 +432,8 @@ $tipoSangre=tipoSangre();
                   <label for="radio_21" class="radio"><span>No</span></label>
                 </div>
               </div>
-            </div>
-          </div>
+            
+          
           <br />
           <button>
             GENERAR
