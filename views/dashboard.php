@@ -4,21 +4,33 @@ use Svg\Tag\Path;
 
 session_start();
 require_once '../models/database/database.php';
-
+require_once '../models/user.php';
 if (!isset($_SESSION["user_id"])) {
 	header('Location: index.php');
 }
 
 
 function deleteQR($id, $path)
-{
-	global $connection;
+{global $connection;
 	global $results;
+	$query="SELECT qr.DatosClinicos FROM codigo_qr as qr WHERE qr.id_codigo= :id";
+	$records = $connection->prepare($query);
+	$records->bindParam(':id', $id);
+	$records->execute();
+	$resultsdta = $records->fetch(PDO::FETCH_ASSOC);
+
 	$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
 	$records->bindParam(':id', $id);
 	if (!unlink('./pdf/' . $path)) {
 		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
 	} elseif ($records->execute()) {
+		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
+	} else {
+		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
+	}
+	$records = $connection->prepare('DELETE FROM datos_clinicos WHERE datos_clinicos.IDDatosClinicos = :dta');
+	$records->bindParam(':dta', $resultsdta['DatosClinicos']);
+	if ($records->execute()) {
 		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
 	} else {
 		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
@@ -43,7 +55,7 @@ if (isset($_POST['action'])) {
 	}
 }
 
-require_once '../models/user.php';
+
 $user = getUser($_SESSION['user_id']);
 
 $records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, atr.Atributo , eps.NombreEps, us.id
@@ -230,7 +242,7 @@ if ($user['id'] == 10) {
 											<label for="Description-code">Descripcion</label><br>
 											<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
 											<label for="UpdateDataForm">Other</label><br>
-											<a href="./clinico.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<a href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
 										</div>
 										<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
 										<input type="hidden" name="path" value="<?= $code['nombre'] ?>">

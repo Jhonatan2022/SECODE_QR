@@ -5,9 +5,10 @@ session_start();
 require_once('../models/database/database.php');
 require_once '../models/user.php';
 
+// si el usuario no ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
   $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
-  $ClinicData =[
+  $ClinicData =[ //datos de registro de ejmplo
     'Titulo'=>'',
     'Nombre'=>'',
     'FechaNacimiento'=>'',
@@ -19,11 +20,7 @@ if (!isset($_SESSION['user_id'])) {
     'RH'=>'',
     'Tipo_de_sangre'=>'',
     'IDcondicionesClinicas'=>'',
-/*     'Subsidio'=>'',
-    'Departamento'=>'',
-    'Estrato'=>'',
-    'EsAlergico'=>'',
-    'CondicionClinica'=>'' */
+    'AlergiaMedicamento'=>'',
   ];
 
 } else {
@@ -33,21 +30,26 @@ if (!isset($_SESSION['user_id'])) {
     $newForm = false;
   } else {
     $newForm = true;
+
   }
 
 
   //funtionalities advanced pro
+  /*
   if (!$newForm) {
-    $param = $connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimiento, us.Genero, dta.RH,dta.TipoAfiliacion, dta.Subsidio, dta.Departamento, dta.Tipo_de_sangre, dta.Estrato, dta.EsAlergico 
-  FROM usuario AS us 
-  INNER JOIN datos_clinicos AS dta 
-  ON dta.Id_codigo = :id_code and us.Ndocumento = :id_user ');
-    $param->bindParam(':id_code', $id_code);
+    $param = $connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimiento, us.Genero, dta.RH,dta.TipoAfiliacion, dta.TipoSubsidio, dta.Tipo_de_sangre, dta.AlergiaMedicamento 
+    FROM usuario AS us 
+    LEFT OUTER JOIN datos_clinicos AS dta 
+    ON dta.NDocumento = :id_user
+    LEFT OUTER JOIN codigo_qr as qr
+    ON qr.DatosClinicos = dta.IDDatosClinicos; ');
+    //$param->bindParam(':id_code', $id_code1);
     $param->bindParam(':id_user', $_SESSION['user_id']);
 
     if ($param->execute()) {
       $results = $param->fetch(PDO::FETCH_ASSOC);
-      echo 'ok' . $results['Nombre'];
+
+      //echo 'ok' . $results['Nombre'];
     } else {
       $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
     }
@@ -56,6 +58,7 @@ if (!isset($_SESSION['user_id'])) {
 
     $nombreUser = $results['Nombre'];
   }
+  */
 
   if (
     isset($_GET['GenerateError']) &&
@@ -65,9 +68,13 @@ if (!isset($_SESSION['user_id'])) {
     if ($statusForm == 1) {
       $message = array('Error', 'Hubo un error en el preoceso, intente nuevamente', 'error');
     } elseif ($statusForm == 22) {
+      $statusForm = $_GET['GenerateError'];
       $message = array('Realizado correctamente', 'Ingrese a su dashboard y verifique sus codigos. En un momento sera redirigido.', 'success');
       $id_code = $_GET['Data'];
+      $id_codealert = $_GET['Data'];
     }
+  }else{
+    $id_code = '';
   }
 
 $user = getUser($_SESSION['user_id']);
@@ -78,12 +85,14 @@ if ($user['id'] == 10 && $newForm) {
   $eps=eps();
 }
 
-$ClinicData = getClinicData($_SESSION['user_id'], $newForm);
+$ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
+
 }
 $afiliacion=afiliacion();
 $rh=rh();
 $tipoSangre=tipoSangre();
 $condicion = condicionClinica();
+$alergia = alergia();
 
 ?>
 
@@ -121,6 +130,7 @@ $condicion = condicionClinica();
 
 <body>
 
+
   <?php if (!empty($message)) :
   ?>
 
@@ -133,18 +143,7 @@ $condicion = condicionClinica();
   <?php endif;
   ?>
 
-
-  <?php if (isset($id_code) && $statusForm == 22) : ?>
-
-
-    <script>
-      setTimeout(() => {
-        location.href = 'dashboard.php?DataCode=<?php echo $id_code; ?>';
-      }, 5000);
-    </script>
-  <?php endif;
-  ?>
-
+ 
   <!--PreLoader-->
   <div class="loader">
     <div class="inner"></div>
@@ -176,15 +175,23 @@ $condicion = condicionClinica();
   <div class="container_form">
     <div class="screen">
       <div class="screen__content">
-        <form action="../controller/pdf/PdfGeneratorForm.php" method="POST" novalidate>
-        <div class="item">
-        <p>Titulo del formulario</p>
-        <input type="text" name="TituloForm"/>
-      </div>
+        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico<?php if (isset($_GET['idFormEdit'])){echo '&idclinico='.$_GET['idFormEdit'];}?>" method="POST" novalidate>
+<?php if (empty ($clinicoData) && $newForm) { 
+
+  $message=array('Advertencia','solo Puede llenar el formulario una vez','warning');
+  echo'</form>';
+  }else{?>
           <?php foreach ($ClinicData as $key => $value) { ?>
             <?php
             switch ($key) {
-               case 'Nombre': ?>
+              case 'Titulo': ?>
+              <div class="item">
+                <p>Titulo del formulario</p>
+                <input type="text" name="<?= $key?>" value="<?$value?>"/>
+              </div>
+                <?php break; ?>
+
+              <?php case 'Nombre': ?>
                 <div class="item">
                   <p>Nombres</p>
                   <input type="text" name="<?= $key ?>" required value="<?= $value ?>" />
@@ -207,7 +214,7 @@ $condicion = condicionClinica();
                   <p>EPS<span class="required">*</span></p>
 
                   <select class="form-control" name='<?= $key ?>'>
-                    <?php if ($newEps) { ?>
+                    <?php if (isset($newEps) && $newEps) { ?>
                       <?php foreach ($eps as $keyEps => $valueEPS) {  ?>
 
                         <?php if ($valueEPS['id'] == $user['id']) { ?>
@@ -219,7 +226,7 @@ $condicion = condicionClinica();
 
                       <?php } ?>
                     <?php } else {  ?>
-                      <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                      <option value="<?php echo $value ?>"><?php echo $value ?></option>
                     <?php } ?>
                   </select>
                 </div>
@@ -380,7 +387,7 @@ $condicion = condicionClinica();
 <? } ?>
               <div class="item">
                 <p>Otro<span class="required"></span></p>
-                <input type="text" name="name" required placeholder="Especificar condición" />
+                <input type="text" name="<?php $key?>" required placeholder="Especificar condición" />
               </div>
               </div>
               </div>
@@ -388,31 +395,27 @@ $condicion = condicionClinica();
                 <?php break; ?>
 
                 <?php
-              case 'Tipo_de_sangre': ?>
+              case 'AlergiaMedicamento': ?>
                 <br>
                 <div class="question">
-                  <p>Tipo de sangre<span class="required"></span></p>
-                  <div class="question-answer">
+                <p>¿Es alergico algun medicamento?<span class="required"></span></p>
+                <div class="question-answer">
 
-
-
-                  <?php foreach($tipoSangre as $keytps => $valuetps) {?>
-                      <? if($valuetps['IDTipoSangre'] == $value){?>
-                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
-                        name="<?=$key?>" required checked/>
-                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
-                      <?}else{?>
-                        <input type="radio" value="<?=$valuetps['IDTipoSangre'] ?>" id="<?=$valuetps['IDTipoSangre'].$keytps ?>"
-                        name="<?=$key?>" required />
-                        <label for="<?=$valuerh['IDTipoSangre'].$keytps ?>" class="radio"><span><?=$valuetps['TipoSangre']?></span></label>
+                <?foreach ($alergia as $keyal => $valueal) {?>
+                  <?if($valueal['IDAlergiaMedicamento']==$value){?>
+                    <input type="radio" value="<?=$valueal['IDAlergiaMedicamento'] ?>" id="<?=$valueal['AlergiaMedicamento'].$keyal ?>"
+                    name="<?=$key?>" required checked/>
+                    <label for="<?=$valueal['AlergiaMedicamento'].$keyal ?>" class="radio"><span><?=$valueal['AlergiaMedicamento']?></span></label>
+                  <?}else{?>
+                    <input type="radio" value="<?=$valueal['IDAlergiaMedicamento'] ?>" id="<?=$valueal['AlergiaMedicamento'].$keyal ?>"
+                    name="<?=$key?>" required />
+                    <label for="<?=$valueal['AlergiaMedicamento'].$keyal ?>" class="radio"><span><?=$valueal['AlergiaMedicamento']?></span></label>
                   <?}?>
-
-                    <?}?>
-                  </div>
+                <?}?>
                 </div>
+              </div>
                 <br>
                 <?php break; ?>
-
 
               <?php
               default: ?>
@@ -420,21 +423,7 @@ $condicion = condicionClinica();
             <?php break;
             } ?>
 
-          <?php  }  ?>
-
-
-              <div class="question">
-                <p>¿Es alergico algun medicamento?<span class="required"></span></p>
-                <div class="question-answer">
-                  <input type="radio" value="none" id="radio_20" name="aler" required />
-                  <label for="radio_20" class="radio"><span>Si</span></label>
-                  <input type="radio" value="none" id="radio_21" name="aler" required />
-                  <label for="radio_21" class="radio"><span>No</span></label>
-                </div>
-              </div>
-            
-          
-          <br />
+          <?php  }?>
           <button>
             GENERAR
 
@@ -449,6 +438,10 @@ $condicion = condicionClinica();
       </div>
     </div>
   </div>
+          <?php  }?>
+          
+              
+ 
   <!-- end formulario -->
   <!-- footer -->
   <div class="footer-area">
@@ -493,6 +486,17 @@ $condicion = condicionClinica();
     </div>
   </div>
   <!-- end copyright -->
+  <?php if (!empty($message)) :
+  ?>
+
+    <script>
+      Swal.fire(
+        '<?php echo $message[0]; ?>',
+        '<?php echo $message[1]; ?>',
+        '<?php echo $message[2]; ?>')
+    </script>
+  <?php endif;
+  ?>
 
   <!-- jquery -->
   <script src="assets/js/jquery-1.11.3.min.js"></script>
