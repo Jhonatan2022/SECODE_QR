@@ -6,7 +6,7 @@ if (!isset($_SESSION["user_id"])) {
     http_response_code(404);
     header('Location: ../../index.php');
 }
-
+require_once('../config.php');
 require_once('../../main.php');
 require_once(BaseDir . '/models/database/database.php');
 
@@ -50,10 +50,10 @@ if($resultsUser['rol'] === '2'){
 
 
 function editar_registro() {
-    $server = 'localhost';
-    $username = 'root';
-    $password = '';
-    $database = 'finalsecode';
+    $server = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $database = DB_NAME;
     $conexion = mysqli_connect($server,$username,$password,$database);
     extract($_POST);
     $consulta="UPDATE usuario SET Ndocumento = '$Ndocumento', Nombre = '$Nombre', Direccion = '$Direccion',
@@ -65,10 +65,10 @@ function editar_registro() {
 }
 
 function eliminar_registro() {
-    $server = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'finalsecode';
+    $server = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $database = DB_NAME;
     $conexion = mysqli_connect($server,$username,$password,$database);
     extract($_POST);
     $Ndocumento= $_POST['Ndocumento'];
@@ -80,10 +80,10 @@ $database = 'finalsecode';
 }
 
 function acceso_user() {
-    $server = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'id16455213_secode_qr';
+    $server = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $database = DB_NAME;
     $Ndocumento=$_POST['Ndocumento'];
     $Contrasena=$_POST['Contrasena'];
     session_start();
