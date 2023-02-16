@@ -2,7 +2,7 @@
 
 
 
-require_once '../models/database/database.php';
+//require_once '../models/database/database.php';
 
 function getUser($id   ) {
     global $connection;
