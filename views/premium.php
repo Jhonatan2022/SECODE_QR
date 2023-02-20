@@ -1,8 +1,17 @@
+<?php
+
+session_start();
+
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Servicio Estandar</title>
+  <title>Servicio Premium</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/service.css" />
 
@@ -51,7 +60,7 @@
 									<li><a href="clinico.html">Datos Clinicos</a>
 									</li>
 								</ul>
-								<li class="login-box"><a href="#">
+								<li class="login-box"><a href="servicios.php">
 									<span></span>
 									<span></span>
 									<span></span>
@@ -74,7 +83,7 @@
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
 						<p>SECØDE_QR</p>
-						<h1>Servicio Estandar</h1>
+						<h1>Servicio Premium</h1>
 					</div>
 				</div>
 			</div>
@@ -84,19 +93,21 @@
 
     <div class="package-container">
       <div class="packages">
-        <h4 class="h">Estandar</h4>
-        <hr>
-        <h4 class="text2">$26.700</h4>
         <ul class="list">
           <hr>
-          <li class="included"><i class="fas fa-check"></i>8 QR en la nube</li>
-          <li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>          
+          <li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
+          <li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
           <li class="included"><i class="fas fa-check"></i></li>
-          <li class="excluded"><i class="fas fa-close"></i></li>
+          <li class="included"><i class="fas fa-check"></i></li>
         </ul>
+      </div>
+	  <div class="packages">
+        <h4 class="h">Premium</h4>
+        <hr class="hhh">
+        <h4 class="text2">$51.000</h4>
         <a href="#" class="button button12">Comprar Ahora</a>
-        <a href="servicios.html" class="button button13">Cancelar</a>
-      </div> 
+		<a href="servicios.html" class="button button13">Cancelar</a>
+      </div>
     </div>
 
   <!-- copyright -->
