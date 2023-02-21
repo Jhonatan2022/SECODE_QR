@@ -1,23 +1,18 @@
 <?php
-
-
 session_start();
-
 require_once '../../models/database/database.php';
-
+require_once '../../main.php';
 if(! isset($_SESSION['user_id'])){
     http_response_code(404);
-    header('Location: ../views/');
-   
+    //header('Location: ../views/');
 }else{
-
-
-    $data=array('Nombre'=>$_POST['UserName'],
+    $data=array(
+    'Titulo'=>$_POST['TituloForm'],
+    'Nombre'=>$_POST['UserName'],
     'Direccion'=>$_POST['UserLocationDir'],
-    'FechaNacimineto'=>$_POST['UserDateBorn'],
+    'FechaNacimiento'=>$_POST['UserDateBorn'],
     'Telefono'=>$_POST['UserPhone'],
     'Correo'=>$_POST['UserEmail'],
-    'Titulo'=>$_POST['TituloForm'],
     /*
     'Genero'=>$_POST['nameUser'],
     'RH'=>$_POST['nameUser'],
@@ -27,18 +22,10 @@ if(! isset($_SESSION['user_id'])){
     'Tipo_de_sangre'=>$_POST['nameUser'],
     'Estrato'=>$_POST['nameUser'],
     'EsAlergico'=>$_POST['nameUser'],*/
-    
-);
-}
-
-?>
-
-
-
-
-<?php
+);}
+?><?php
 ob_start();
-    $imgLogo= "http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/assets/img/nosotros.jpg ";
+    $imgLogo= "http://".$_SERVER['HTTP_HOST']."/secodeqr/secode/views/assets/img/nosotros.jpg ";
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,14 +44,9 @@ ob_start();
 
     font-family: 'Nunito', sans-serif;">
         Datos Documento Clinico
-        <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F2.bp.blogspot.com%2F-QrRgcI7ytzM%2FVWA07PLEpRI%2FAAAAAAAACnE%2Fux2xfsx8Ltk%2Fs1600%2FSena-colombia-logo-vector.png&f=1&nofb=1" alt="logo sena" srcset="" style="
+        <img src="https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png" alt="logo secodeqr" style="
         width: 30px;height: 30px; object-fit: cover;float: right;">
     </h2>
-
-
-    <div style="padding:10px; border-radius:3px; margin: 0 auto; margin-top:20px;margin-bottom: 20px; outline:2px solid #5d2aaf; width: 90%;font-family: 'Nunito', sans-serif; background-color: #d0d3ec;">
-
-    
 
     </div>
     <center>
@@ -94,16 +76,10 @@ ob_start();
 <?php //include('../views/templates/footerWebUser.php') ?>
 </body>
 </html>
-
-
 <?php
-
 $html_doc=ob_get_clean();
-
 require_once '../../main.php';
-
 require_once BaseDir.'/vendor/autoload.php';
-
 // reference the Dompdf namespace
 use Dompdf\Dompdf;
 // instantiate and use the dompdf class
@@ -138,24 +114,23 @@ $source = './'.$name;
 
  if(rename($source,$des) ){
      $Moved = true;
-     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/SECODE_QR/secode/views/pdf/'.$name;
+     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/'.$name;
      $atribDefault='&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
 
      $duration=date("Y-m-d");
 
      $consult='INSERT INTO codigo_qr 
-     (`Id_codigo`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
-     VALUES (null , :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
+     (`Id_codigo`,`nombre`, `Duracion`, `Ndocumento`, `Titulo`, `RutaArchivo`, `Atributos`) 
+     VALUES (null ,:nombre, :Duracion, :Ndoc, :Titulo, :Ruta, :AtribDefault) ';
     
     $params= $connection->prepare($consult);
     $params->bindParam(':Ndoc',$_SESSION['user_id']);
     $params->bindParam(':Duracion',$duration);
+    $params->bindParam(':nombre',$name);
     $params->bindParam(':Titulo', $data['Titulo']);
     $params->bindParam(':Ruta',$urlCodeForm);
     $params->bindParam(':AtribDefault',$atribDefault);
-
     if ($params->execute()) {
-
         $p=$connection->prepare('SELECT Id_codigo 
         FROM codigo_qr 
         WHERE Ndocumento = :Ndoc
@@ -164,28 +139,16 @@ $source = './'.$name;
         if ($p->execute()) {
             $idcode=$p->fetch(PDO::FETCH_ASSOC);
             $id=$idcode['Id_codigo'];
-
             header('Location: ../../views/clinico.php?GenerateError=22&Data='.$id);
         }else{
             echo 'no';
             header('Location: ../../views/clinico.php?GenerateError=1');
-        }
-
-        
+        }        
     }else{
         header('Location: ../../views/clinico.php?GenerateError=1');
     }
-
-
  }else{
     $Moved=false;
  }
-
-
-
-
-// Output the generated PDF to Browser
-//$dompdf->stream('archivo.pdf',array('Attachment'=>false));
-
 
 ?>

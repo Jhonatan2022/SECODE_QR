@@ -5,18 +5,22 @@ background-attachment: fixed;
 background-size: cover;
 }
  
+.h{
+  margin-top: 1em;
+}
 .packages {
   margin: 25px;
   width: 340px;
   padding-bottom: 1em;
-  background-color: #000000c6;
+  background-color: #ffffff;
   display: flex;
+  z-index: 2;
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
-  box-shadow: 0 19px 38px rgba(30, 35, 33, 1), 0 15px 12px rgba(30, 35, 33, 0.2);
+  box-shadow: 0 19px 38px rgb(13 14 14), 15px -7px 12px rgb(30 35 33 / 52%);
   flex-wrap: wrap;
-  color: #f4f4f4;
+  color: #000000;
 }
 hr{
   width: 80%;
@@ -42,7 +46,7 @@ h4 {
 .list li {
   font-size: 17px;
   list-style: none;
-  border-bottom: 1px solid #ffffff6b;
+  border-bottom: 2px solid #00000079;
   padding: 15px;
 }
 
@@ -67,7 +71,20 @@ ol, ul {
 
 .button1:hover {
   transform: scale(1.2);
+  color: white;
   box-shadow: 0 0 10px 0 #ff007c inset, 0 0 20px 2px #ff007c;
+}
+
+.button12:hover {
+  transform: scale(1.2);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px 0 #0011ff inset, 0 0 20px 2px #0011ff;
+}
+
+.button13:hover {
+  transform: scale(1.2);
+  color: white;
+  box-shadow: 0 0 10px 0 #810000 inset, 0 0 15px 2px #810000;
 }
 
 .button2:hover {
@@ -77,6 +94,7 @@ ol, ul {
 
 .button3:hover {
   transform: scale(1.2);
+  color: white;
   box-shadow: 0 0 10px 0 #4b0081 inset, 0 0 15px 2px #4b0081;
 }
 
@@ -84,7 +102,11 @@ ol, ul {
   background-color: #ff007c;
 }
 
-.button2 {
+.button13{
+  background-color: #ff0000;
+}
+
+.button2, .button12{
   background-color: #3b9fb6;
 }
 
@@ -96,5 +118,5 @@ ol, ul {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 7em;
+  margin-top: -7em;
 }

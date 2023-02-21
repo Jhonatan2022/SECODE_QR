@@ -21,11 +21,11 @@
 ```sh
 #windows
 #Descarga del proyecto
-git clone https://github.com/Jhonatan2022/SECODE_QR.git 
+git clone https://github.com/Jhonatan2022/SECODE_QR.git secode
 
-move SECODE_QR/  C:/xampp/htdocs/
+move secode  C:/xampp/htdocs/
 
-cd C:/xampp/htdocs/SECODE_QR
+cd C:/xampp/htdocs/secode
 
 composer install
 
@@ -34,12 +34,12 @@ composer update
 
 ```sh
 #Linux
-#Descarga del proyecto
-git clone https://github.com/Jhonatan2022/SECODE_QR.git 
+#Descarga del proyecto completo
+git clone https://github.com/Jhonatan2022/SECODE_QR.git secode
 
-mv SECODE_QR /opt/lampp/htdocs/
+mv secode /opt/lampp/htdocs/
 
-cd /opt/lampp/htdocs/SECODE_QR
+cd /opt/lampp/htdocs/secode
 
 composer install
 

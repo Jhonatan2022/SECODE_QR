@@ -1,0 +1,95 @@
+.paypal-button-container{
+    position:relative;
+    display:block;
+    padding-bottom: 30%;
+}
+
+.top-header-area{
+    position: relative;
+}
+nav.main-menu ul li a {
+    color: #000000;
+    font-weight: 700;
+    display: block;
+    padding: 15px;
+}
+
+img{
+    
+}
+
+.recibo table {
+    table-layout: fixed;
+    width: 60%;
+    border-collapse: collapse;
+    border: 1px solid rgb(192, 192, 192);
+  }
+  
+  .recibo table thead th:nth-child(1) {
+    width: 15%;
+  }
+  
+  .recibo table thead th:nth-child(2) {
+    width: 20%;
+  }
+  
+  .recibo table thead th:nth-child(3) {
+    width: 15%;
+  }
+  
+  .recibo table thead th:nth-child(4) {
+    width: 35%;
+  }
+  
+  .recibo table th, td {
+    padding: 15px;
+  }
+
+  button {
+    --color: #4ab7cf;
+    font-family: inherit;
+    display: inline-block;
+    width: 8em;
+    height: 2.6em;
+    line-height: 2.5em;
+    margin: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--color);
+    transition: color .5s;
+    z-index: 1;
+    font-size: 17px;
+    border-radius: 6px;
+    font-weight: bold;
+    color: var(--color);
+   }
+   
+   button:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: var(--color);
+    height: 150px;
+    width: 200px;
+    border-radius: 50%;
+   }
+   
+   button:hover {
+    color: #fff;
+   }
+   
+   button:before {
+    top: 100%;
+    left: 100%;
+    transition: all .7s;
+   }
+   
+   button:hover:before {
+    top: -30px;
+    left: -30px;
+   }
+   
+   button:active:before {
+    background: #3a0ca3;
+    transition: background 0s;
+   }

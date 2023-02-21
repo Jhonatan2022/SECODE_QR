@@ -1,9 +1,40 @@
 <?php
 $Ndocumento= $_GET['id'];
-$conexion= mysqli_connect("localhost", "root", "", "id16455213_secode_qr");
-$consulta= "SELECT * FROM usuario WHERE Ndocumento = $Ndocumento";
-$resultado = mysqli_query($conexion, $consulta);
-$usuario = mysqli_fetch_assoc($resultado);
+
+session_start();
+
+if (!isset($_SESSION["user_id"])) {
+    http_response_code(404);
+    header('Location: ../../index.php');
+}
+
+require_once('../../main.php');
+require_once(BaseDir . '/models/database/database.php');
+
+$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,Nombre,rol FROM usuario WHERE Ndocumento = :id ');
+$records->bindParam(':id', $_SESSION['user_id']);
+
+if ($records->execute()) {
+    $resultsUser = $records->fetch(PDO::FETCH_ASSOC);
+} else {
+    $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
+}
+
+if($resultsUser['rol'] === '2'){
+
+
+    $consulta= "SELECT * FROM usuario WHERE Ndocumento = :documento";
+    $param=$connection->prepare($consulta);
+    $param->bindParam(':documento', $Ndocumento);
+    $param->execute();
+    $usuario = $param->fetch(PDO::FETCH_ASSOC);
+
+}else{
+    http_response_code(404);
+    header('Location: ../../index.php');
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
@@ -72,54 +103,53 @@ $usuario = mysqli_fetch_assoc($resultado);
     
     <img src="../img/SECODE_QR.png" style="margin-left:550px;">
     <hr class="hr" style="margin-left:120px;">
+
+
     <form action="../includes/funcion.php" method="POST">
-        <div id="login">
-            <div class="container"> 
-                <div id="login-row" class="row justify-content-center align-items-center">
-                    <div id="login-column" class ="col-md-6">
-                        <div id="login-box" class="col-md-12">
-                            <br>
-                            <br>
-                            <h3 class="text-center">Editar usuario</h3>
-                            <div class="form-group">
-                                <label for="Ndocumento" class="form-label">Documento</label><br>
-                                <input type="text" id="Ndocumento" name="Ndocumento" class="form-control" value ="<?php echo $usuario["Ndocumento"]; ?>"required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Nombre">Nombre completos</label><br>
-                                <input type="text" id="Nombre" name="Nombre" class="form-control"  placeholder="Nombres de usuario" value ="<?php echo $usuario["Nombre"]; ?>"required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Direccion" class="form-label">Direccion</label><br>
-                                <input type="text" id="Direccion" name="Direccion" class="form-control" placeholder="Direccion" value ="<?php echo $usuario["Direccion"]; ?>"required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Genero" class="form-label">Genero</label><br>
-                                <input type="text" id="Genero" name="Genero" class="form-control" placeholder="Genero usuario" value ="<?php echo $usuario["Genero"]; ?>"required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Correo" class="form-label">Correo</label><br>
-                                <input type="email" id="Correo" name="Correo" class="form-control" placeholder="Correo usuario" value ="<?php echo $usuario["Correo"]; ?>"required>
-                            </div>
-                            <div class="form-group">
-                                <label for="FechaNacimiento" class="form-label">FechaNacimiento</label><br>
-                                <input type="date" id="FechaNacimiento" name="FechaNacimiento" class="form-control" placeholder="Fecha de nacimiento usuario" value ="<?php echo $usuario["FechaNacimiento"]; ?>"required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Telefono" class="form-label">Telefono</label><br>
-                                <input type="Telefono" name="Telefono" id="Telefono" class="form-control" placeholder="Telefono" value ="<?php echo $usuario["Telefono"]; ?>"required>
-                                <input type="hidden" name="accion" value = "editar_registro">
-                            </div>
-                            <br>
-                            <div class="mb-3">
-                                    
-                                    <button type="submit" class="btn btn-success" >Editar</button>
-                                   <a href="tablero.php" class="btn btn-danger">Cancelar</a>
-                                   
-                                </div>
-                        </div>
+            <div class="card-3d-wrap mx-auto">
+            <div class="card-front">
+                <div class="center-wrap">
+                    <h4 class="mb-4 pb-3">Edidar Datos De Usuario</h4>
+                    <div class="form-group">
+                        <input class="form-style" type="text" id="Ndocumento" name="Ndocumento"   value ="<?php echo $usuario["Ndocumento"]; ?>"required>
+                        <i class="input-icon fas fa-regular fa-id-card-clip"></i>
                     </div>
-                </div>          
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="text" id="Nombre" name="Nombre"  placeholder="Nombres de usuario" value ="<?php echo $usuario["Nombre"]; ?>"required>
+                        <i class="input-icon fas fa-user"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="text" id="Direccion" name="Direccion"   placeholder="Direccion" value ="<?php echo $usuario["Direccion"]; ?>"required>
+                        <i class="input-icon fas fa-regular fa-location-dot"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="text" id="Genero" name="Genero"   placeholder="Genero usuario" value ="<?php echo $usuario["Genero"]; ?>"required>
+                        <i class="input-icon fas fa-solid fa-venus-mars"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="email" id="Correo" name="Correo"   placeholder="Correo usuario" value ="<?php echo $usuario["Correo"]; ?>"required>
+                        <i class="input-icon fas fa-at"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="date" id="FechaNacimiento" name="FechaNacimiento"   placeholder="Fecha de nacimiento usuario" value ="<?php echo $usuario["FechaNacimiento"]; ?>"required>
+                        <i class="input-icon fas fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input class="form-style" type="Telefono" name="Telefono" id="Telefono"   placeholder="Telefono" value ="<?php echo $usuario["Telefono"]; ?>"required>
+                        <input type="hidden" name="accion" value = "editar_registro">
+                        <i class="input-icon fas fa-phone"></i>
+                    </div>
+                    <div class="form-group mt-2">
+                        <p>ROl 1: normal-- 2:administrador</p>
+                        <input class="form-style" type="tel"  name="rol" id="Telefono"   placeholder="rol" value ="<?php echo $usuario["rol"]; ?>">
+                        
+                        <i class="input-icon fas fa-rol"></i>
+                    </div>
+                    <div class="boton">
+                        <div class="btn"><button type="submit" >Editar Datos</button></div>
+                        <div class="btn"><a href="tablero.php">Cancelar</a></div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

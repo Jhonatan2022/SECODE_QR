@@ -60,7 +60,7 @@ if (isset($_POST['CorreoUser'])) {
 
                     $shtml = file_get_contents('template.html');
                     //reemplazar sección de plantilla html con el css cargado y mensaje creado
-                    $cuerpo = str_replace("href='link'", "href='http://$host/SECODE_QR/views/recovery/recupera.php?tokenUserMail=$tokenReset' ", $shtml);
+                    $cuerpo = str_replace("href='link'", "href='http://$host/secodeqr/views/recovery/recupera.php?tokenUserMail=$tokenReset' ", $shtml);
                     $mail->Body = $cuerpo; //cuerpo del mensaje
                     $mail->AltBody = '---'; //Mensaje de sólo texto si el receptor no acepta HTML
 
@@ -112,11 +112,13 @@ if (isset($_POST['CorreoUser'])) {
 
         <script>
             function cancelarform() {
-                document.getElementById("formrecupera").style.display = "none";
+                //document.getElementById("formrecupera").style.display = "none";
+                window.location.href="../index.php" ;
+                
             }
         </script>
         <div class="caja_popup" id="formrecupera">
-            <form action="" class="contenedor_popup " method="POST" style="width: 50vw ;border-radius: 16px ;border: 4px solid; border-color:#6610f2; padding:2em; background:#fff; margin-top:8rem">
+            <form action="" class="contenedor_popup " id='form' method="POST">
                 <table>
                     <tr>
                         <th colspan="2" class="h2" style="padding: 15px">Recuperar contraseña
@@ -164,6 +166,27 @@ if (isset($_POST['CorreoUser'])) {
 
             body #formrecupera tr {
                 padding-top: 1rem;
+            }
+
+            #form{
+                width: 50vw ;
+                border-radius: 16px ;
+                border: 4px solid;
+                border-color:#6610f2;
+                padding:2em;
+                background:#fff;
+                margin-top:8rem;
+            }
+
+            /*responsive */
+
+            @media screen and (max-width: 600px) {
+                body #formrecupera {
+                    width: 100 vw;
+                }
+                #form{
+                    width: 100vw ;
+                }
             }
         </style>
 

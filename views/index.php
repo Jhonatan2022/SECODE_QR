@@ -1,5 +1,24 @@
 <?php
-session_start()
+session_start();
+require_once '../models/user.php';
+
+if (isset($_SESSION["user_id"])) {
+	$user = getUser($_SESSION['user_id'] );
+	if ($user['id'] == 10) {
+		$newEps = true;
+	
+		$records = $connection->prepare('SELECT * FROM eps');
+		//$records->bindParam(':id', $user['id']);
+		if ($records->execute()) {
+			$eps = $records->fetchAll(PDO::FETCH_ASSOC);
+			//$codes = $results;
+		}else{
+			$message = 'Error al cargar los datos';
+		}
+	}
+}
+
+
 
 ?>
 
@@ -30,6 +49,10 @@ session_start()
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
 
+	<?php
+	include('./templates/sweetalerts2.php'); ?>
+	
+
 
 	<link rel="stylesheet" href="oo.css">
 </head>
@@ -45,49 +68,7 @@ session_start()
 	</div>
     <!--PreLoader Ends-->
 
-	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.html">
-								<img src="assets/img/logo.png" alt="">	
-							</a>
-						</div>
-						<!-- logo -->	
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="nosotros.html">Quienes Somos</a></li>	
-								<li><a href="contact.html">Contáctanos</a></li>
-								<li><a href="#">Solicitar Código</a>
-								<ul class="sub-menu">
-									<li><a href="clinico.php">Datos Clinicos</a>
-									</li>
-								</ul>
-								<?php if (isset($_SESSION['user_id'])){ ?>
-										<li id='button-exit'><a href="../controller/exit/">salir</a>
-								<?php } ?>
-								
-								<li class="login-box"><a href="#">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						</nav>	
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end header -->
+	<?php include 'templates/navBar.php'; ?>
 
 	<!-- hero area -->
 	<div class="hero-area hero-bg">
@@ -185,9 +166,9 @@ session_start()
 						<div class="product-image">
 							<a href="single-product.html"><img src="./assets/img/qrfor.png" alt=""></a>
 						</div>
-						<h3>Formulario</h3>
+						<h3>Solicitud de medicamentos</h3>
 						<p class="product-price"><span>QR Para generar formulario con <br> solicitud de medicamentos</span> </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
+						<a href="formulario_medicamentos.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center">
@@ -195,9 +176,9 @@ session_start()
 						<div class="product-image">
 							<a href="single-product.html"><img src="./assets/img/qrfor.png" alt=""></a>
 						</div>
-						<h3>Datos Básicos</h3>
+						<h3>Datos Clínicos</h3>
 						<p class="product-price"><span>QR Para solicitar datos básicos <br> de la persona</span> </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
+						<a href="formulario_datos_clinicos.html" class="cart-btn"><i class="fas fa-qrcode"></i> Solicitar Código</a>
 					</div>
 				</div>
 			</div>
@@ -205,48 +186,95 @@ session_start()
 	</div>
 	<!-- end product section -->
 
+
+	<?php if (isset($newEps) && $newEps) { ?>
+
+
+<script>
+	function setEps() {
+
+		Swal.fire({
+			title: '<strong><u>Cual es tu eps?</u></strong>',
+			icon: 'info',
+			html:
+
+				`
+<!-- The Modal -->
+<div class="" id="myModaleps">
+<div class="modal-dialog">
+	<div class="modal-content">
+
+		<!-- Modal Header -->
+		<div class="modal-header">
+			<h4 class="modal-title">Actualizacion de datos. EPS</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+			<form action="../controller/formOptions.php" method="post" >
+
+				<div class="form-group">
+							<select class="form-control" >
+								<option value="1">EPS</option>
+								<option value="2">ARL</option>
+								<option value="3">AFP</option>
+								<option value="4">Caja de compensacion</option>
+							</select>
+				</div>
+				<div class="form-group">
+					
+							<select class="form-control" >
+							<?php foreach ($eps as $key => $value) {  ?>    
+
+								<?php if ($value['id'] == $user['id']) { ?>
+									<option value="<?php echo $value['id'] ?>" selected><?php echo $value['Nombre'] ?></option>
+								<?php } else { ?>
+
+								<option value="<?php echo $value['id'] ?>"><?php echo $value['Nombre'] ?></option>
+								<?php } ?>
+							<?php } ?>
+							</select>
+				</div>
+				<button type="submit" name="update" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+		</div>
+
+	</div>
+</div>
+</div>
+
+`,
+			showCloseButton: true,
+			showCancelButton: true,
+			focusConfirm: false,
+			cancelButtonText: '<i class="fa fa-thumbs-down">  Haora no.</i>',
+			cancelButtonAriaLabel: 'Thumbs down'
+		})
+	}
+	setEps();
+</script>
+
+
+<a class="cart-btn OptionsCodeQr cont-button cont-buttonform" data-toggle="modal" onclick="setEps();">Cual es tu eps?</a>
+
+
+<?php } ?>
+
 	<!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box about-widget">
-						<h2 class="widget-title">Misión</h2>
-						<p>El proyecto surge debido a la problemática de la accesibilidad y coste de poseer su información médica, por lo tanto se plantea administrar o adjuntar a través de un código QR, el manejo de dicha información.</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box get-in-touch">
-						<h2 class="widget-title">Visión</h2>
-						<p>Impactar a la problematica social,mediante las Tecnologias de la informacion, durante 3 semestres.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php
+     include('./templates/footer.php');
+    ?>
 	<!-- end footer -->
-	
 	<!-- copyright -->
-	<div class="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
-				</div>
-				<div class="col-lg-6 text-right col-md-12">
-					<div class="social-icons">
-						<ul>
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php
+     include('./templates/footer_copyrights.php');
+    ?>
 	<!-- end copyright -->
 	
 	<!-- jquery -->

@@ -23,7 +23,7 @@ html {
 
 .login-box a:hover {
   background: #00ced9;
-  border-radius: 5px;
+  border-radius: 0px;
   box-shadow: 0 0 5px #4ba7cf,
               0 0 25px #4ba7cf,
               0 0 50px #4ba7cf,
@@ -116,7 +116,6 @@ body {
   font-size: 1rem;
   letter-spacing: 0.1px;
   line-height: 1.8;
-  color: #4ba8cf;
   overflow-x: hidden;
 }
 
@@ -140,7 +139,6 @@ a:hover {
 h1, .h1,
 h2, .h2,
 h3, .h3,
-h4, .h4,
 h5, .h5,
 h6, .h6 {
   font-family: "Poppins", sans-serif;
@@ -152,7 +150,6 @@ h6, .h6 {
 h1:last-child, .h1:last-child,
 h2:last-child, .h2:last-child,
 h3:last-child, .h3:last-child,
-h4:last-child, .h4:last-child,
 h5:last-child, .h5:last-child,
 h6:last-child, .h6:last-child {
   margin: 0;
@@ -515,7 +512,6 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   background-attachment: fixed;
   padding-top: 200px;
 }
-
 .breadcrumb-section:after {
   position: absolute;
   left: 0;
@@ -530,6 +526,7 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   background-size: cover;
   z-index: -1;
 }
+
 
 .breadcrumb-section1 {
   padding: 150px 0;

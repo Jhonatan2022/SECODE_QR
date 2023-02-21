@@ -17,11 +17,12 @@ html {
 body {
     color: #404040;
     font-family: "Arial", Segoe UI, Tahoma, sans-serifl, Helvetica Neue, Helvetica;
+    background-color: #fff !important;
+    background-image: none !important;
 }
 
 /*=====================================
-estilos de la utilidad
-Copiar esto
+estilos generales
 =====================================*/
 .seccion-perfil-usuario .perfil-usuario-body,
 .seccion-perfil-usuario {
@@ -36,7 +37,7 @@ Copiar esto
     display: flex;
     justify-content: center;
     background: linear-gradient(#a454f5, transparent);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.80rem;
 }
 
 .seccion-perfil-usuario .perfil-usuario-portada {
@@ -105,8 +106,12 @@ Copiar esto
     height: 45px;
     border-radius: 50%;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
 }
-
 .seccion-perfil-usuario .perfil-usuario-body {
     width: 70%;
     position: relative;
@@ -134,6 +139,8 @@ Copiar esto
     background-color: #fff;
     border-radius: 15px;
     width: 100%;
+    margin-bottom: -130px;
+
 }
 
 .seccion-perfil-usuario .perfil-usuario-bio {
@@ -164,6 +171,8 @@ Copiar esto
     flex-direction: column;
 }
 
+/* Estilo de botones e iconos del software*/
+
 .seccion-perfil-usuario .redes-sociales .boton-redes {
     border: 0;
     background-color: #fff;
@@ -189,22 +198,33 @@ Copiar esto
     border-radius: 50%;
     color: #fff;
     font-size: 1.4rem;
-    background: linear-gradient(45deg, #fc97fa, #89c0f0);
+    background: linear-gradient(45deg, #cd46ca, #b4dcff);
 }
 .seccion-perfil-usuario .redes-sociales .boton-redes+.boton-redes {
     margin-top: .5rem;
 }
 
-.seccion-perfil-usuario .boton-redes.facebook {
-    background-color: #5955FF;
+.seccion-perfil-usuario .boton-redes.qr {
+    background-color: #35cae1;
 }
 
-.seccion-perfil-usuario .boton-redes.twitter {
-    background-color: #35E1BF;
+.seccion-perfil-usuario .boton-redes.compartir {
+    background: linear-gradient(45deg, #7918a3, #40A7FF);
 }
 
-.seccion-perfil-usuario .boton-redes.instagram {
-    background: linear-gradient(45deg, #FF2DFD, #40A7FF);
+.admin_div{
+    border: 2px solid #000;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgb(43, 48, 76);
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.admin_div>a:hover{
+    color:white
 }
 
 /* adactacion a dispositivos */
@@ -219,6 +239,7 @@ Copiar esto
     }
 
     .seccion-perfil-usuario .redes-sociales {
+        display: none;
         position: relative;
         flex-direction: row;
         width: 100%;

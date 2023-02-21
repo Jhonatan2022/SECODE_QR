@@ -12,8 +12,12 @@ if (isset($_SESSION['user_id'])) {
 //importamos conexion base de datos
 require_once '../models/database/database.php';
 
+
 //si el usuario va a iniciar sesion
-if (!empty($_POST['email']) && !empty($_POST['password'])) {
+if (isset($_POST['email']) &&
+    isset($_POST['password']) &&
+    !empty($_POST['email']) && 
+    !empty($_POST['password'])) {
 
   $email_user1 = $_POST['email'];
   $password_user1 = $_POST['password'];
@@ -33,17 +37,18 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
           //varaibles user definition from session
           $_SESSION['user_id'] = $results['Ndocumento'];
+          $_SESSION['Correo'] = $results['Correo'];
           $_SESSION['Nombre'] = $results['Nombre'];
           $_SESSION['Direccion'] = $results['Direccion'];
           $_SESSION['Genero'] = $results['Genero'];
           $_SESSION['FechaNacimiento'] = $results['FechaNacimiento'];
           $_SESSION['Telefono'] = $results['Telefono'];
-          if(empty($results['Img_perfil']) || $results['Img_perfil']==null){
-            $_SESSION['Img_perfil'] = "http://".$_SERVER['HTTP_HOST']."/SECODE_QR/secode/views/assets/img/userimg.png";
-          }else{
-            $_SESSION['Img_perfil'] ='data:'.$results['TipoImg'].";base64,".base64_encode($results['Img_perfil']) ;
+          if (empty($results['Img_perfil']) || $results['Img_perfil'] == null) {
+            $_SESSION['Img_perfil'] = "./assets/img/userimg.png";
+          } else {
+            $_SESSION['Img_perfil'] = 'data:' . $results['TipoImg'] . ";base64," . base64_encode($results['Img_perfil']);
           }
-          
+
           header("Location: ./index.php");
         } else {
 
@@ -61,16 +66,25 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
   }
 } //si el usuario va a registrarse
-elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_POST['user-password']) && !empty($_POST['user-name'])) {
+elseif (isset($_POST['user-name']) &&
+        isset($_POST['user-email'])&& 
+        isset($_POST['user-password']) &&
+        isset($_POST['num-doc']) &&
+        isset($_POST['terminos']) &&
+        !empty($_POST['num-doc']) && 
+        !empty($_POST['user-email']) &&
+        !empty($_POST['user-password']) && 
+        !empty($_POST['user-name'])) {
 
   //variables de datos ingresados
   $email_user = $_POST['user-email'];
-  $numdoc = intval($_POST['num-doc']);
+  $numdoc = $_POST['num-doc'];
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
-  $token=rand(124324, 876431167878435);
+  $token = rand(124324, 876431167878435);
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
+
 
     //consulta que verifica la existencia de el correo ingresado
     $consult = "SELECT Correo,Ndocumento FROM usuario WHERE Correo= :useremail OR Ndocumento= :Ndocument";
@@ -108,7 +122,6 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
 
         if ($params->execute()) {
           $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
-
         } else {
           $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
         }
@@ -142,12 +155,92 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
   <!-- fontawesome -->
-
-  <?php
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <!-- SweetAlert2 -->
+      <?php
   include('./templates/sweetalerts2.php');
   ?>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+
+
+  <style>
+    #terminos {
+      background: none;
+      color: rgb(0, 0, 0);
+      border: 0;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    #terminos:hover {
+      cursor: pointer;
+    }
+
+    .terminos {
+      max-width: 90%;
+      margin: auto;
+      color: black;
+      text-align: justify;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    b {
+      font-size: 30px;
+      color: black;
+      text-align: left;
+    }
+
+    button {
+      font-size: 16px;
+      margin-left: 5px;
+    }
+
+    u {
+      margin-left: 10px
+    }
+  </style>
 </head>
+
+
+  <style>
+    button {
+  background: none;
+  color: rgb(0, 0, 0);
+  border: 0;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.terminos {
+        max-width: 90%;
+        margin: auto;
+        color: black;
+        text-align: justify;
+        font-size: 18px;
+      }
+
+      b {
+        font-size: 30px;
+        color: black;
+        text-align: left;
+      }
+      
+      button{
+        font-size: 16px;
+        margin-left: 5px;
+      }
+
+      u{
+        margin-left: 10px
+      }
+  </style>
 
 <body>
 
@@ -192,26 +285,15 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
             <input type="password" name="password" placeholder="Contraseña" required />
           </div>
           <input type="submit" value="Ingresar" class="btn solid" />
-          <a class="social-text" href="./recovery/index.php"  style="cursor:pointer; padding:5px; outline:1px solid #a5f; ">Recuperar Contraseña.</a>
-          <p class="social-text">Puedes iniciar con estas plataformas.</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
+          <a href="./recovery/index.php" class="learn-more">
+          <span class="circle" aria-hidden="true">
+          <span class="icon arrow"></span></span>
+          <span class="button-text">Recuperar contraseña</span>
+      </a>
         </form>
         <form action="./iniciar.php" class="sign-up-form" method="POST">
           <!-- logo -->
-          <a href="index.html">
+          <a href="./index.php">
             <img src="assets/img/logo.png" alt=""> </a>
           <!-- logo -->
           <h2 class="title">Registrarse</h2>
@@ -231,22 +313,11 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
             <i class="fas fa-lock"></i>
             <input type="password" placeholder="Password" name="user-password" required />
           </div>
-          <input type="submit" class="btn" value="Registrar" />
 
-          <p class="social-text">Puedes iniciar con estas plataformas.</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
+          <input type="submit" class="btn" value="Registrar" />
+          <div id="terminos">
+            <input type="checkbox" name="terminos" required>
+            <u class="terminos">Terminos y Condiciones</u>
           </div>
         </form>
       </div>
@@ -285,6 +356,7 @@ elseif (!empty($_POST['num-doc']) && !empty($_POST['user-email']) && !empty($_PO
   <script src="assets/js/jquery-1.11.3.min.js"></script>
   <!-- main js -->
   <script src="assets/js/main.js"></script>
+  <script src="./assets/js/terminos.js"></script>
 
 </body>
 
