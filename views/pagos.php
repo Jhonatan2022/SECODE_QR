@@ -2,6 +2,11 @@
 
 session_start();
 
+require_once('../models/database/database.php');
+require_once('../models/user.php');
+
+$user = getUser($_SESSION['user_id']);
+
 if(isset($_SESSION['user_id'])){
 $planrecibido= $_GET['plan'];
 if ($planrecibido == 'basico'){
@@ -38,63 +43,19 @@ if ($planrecibido == 'basico'){
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="assets/css/all.min.css">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-	<!-- animate css -->
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<!-- mean menu css -->
-	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
-	<!-- main style -->
-	<link rel="stylesheet" href="assets/css/main.css">
-	<!-- responsive -->
-	<link rel="stylesheet" href="assets/css/responsive.css">
 
-    <link rel="stylesheet" href="assets/css/Paypal.css" />
+	<?php include('./templates/header.php') ?>
+	<?php  include('./templates/sweetalerts2.php')?>
+
+    <link rel="stylesheet" href="./assets/css/Paypal.css" />
     
 </head>
 <body>
     <div class="container">
     <header>
-    <div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.php">
-								<img src="assets/img/logo.png" alt="">	
-							</a>
-						</div>
-						<!-- logo -->	
 
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="nosotros.html">Quienes Somos</a></li>	
-								<li><a href="contact.html">Contáctanos</a></li>
-								<li><a href="#">Solicitar Código</a>
-								<ul class="sub-menu">
-									<li><a href="clinico.html">Datos Clinicos</a>
-									</li>
-								</ul>
-								<li class="login-box"><a href="#">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						</nav>	
-						<div class="mobile-menu"></div>
-                        <hr style="width:100%; color:black;">
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php include('./templates/navBar.php') ?>
+
     </header>
     </div>
 <main>
@@ -235,22 +196,7 @@ if ($planrecibido == 'basico'){
 	<!-- end copyright 	-->
 	
 
-
-  
-	<!-- jquery -->
-	<script src="assets/js/jquery-1.11.3.min.js"></script>
-	<!-- bootstrap -->
-	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<!-- isotope -->
-	<script src="assets/js/jquery.isotope-3.0.6.min.js"></script>
-	<!-- magnific popup -->
-	<script src="assets/js/jquery.magnific-popup.min.js"></script>
-	<!-- mean menu -->
-	<script src="assets/js/jquery.meanmenu.min.js"></script>
-	<!-- sticker js -->
-	<script src="assets/js/sticker.js"></script>
-	<!-- main js -->
-	<script src="assets/js/main.js"></script>
+<?php include('./templates/footerWebUser.php') ?>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -96,7 +96,7 @@
         <h4 class="h">Premium</h4>
         <hr class="hhh">
         <h4 class="text2">$51.000</h4>
-        <a href="payments/pagos.php?plan=premium " class="button button12">Comprar Ahora</a>
+        <a href="pagos.php?plan=premium " class="button button12">Comprar Ahora</a>
 		<a href="servicios.html" class="button button13">Cancelar</a>
       </div>
     </div>

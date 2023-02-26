@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+require_once '../models/database/database.php';
 require_once '../models/user.php';
 $user = getUser($_SESSION['user_id'] );
 ?>

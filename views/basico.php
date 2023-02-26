@@ -93,7 +93,7 @@
           <li class="excluded"><i class="fas fa-close"></i></li>
           <li class="excluded"><i class="fas fa-close"></i></li>
         </ul>
-        <a href="payments/pagos.php?plan=basico" class="button button12">Comprar Ahora</a>
+        <a href="pagos.php?plan=basico" class="button button12">Comprar Ahora</a>
 		<a href="servicios.html" class="button button13">Cancelar</a>
       </div>
     </div>
