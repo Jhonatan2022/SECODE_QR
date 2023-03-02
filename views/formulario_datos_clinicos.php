@@ -354,19 +354,38 @@ $alergia = alergia();
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" required />
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
-                          <? } else {
+                          
+                          <? } //falta guardar datso en array y luego pasarlos a la base de datos
+                          /* 
+                          else {
+                            $datarray = json_decode($value, true);
+                            $arrayName = array();
+                            foreach ($datarray as $keydat => $valuedat) {
+                              $arrayName += array($keydat => $valuedat);
+                            }
+                            var_dump($arrayName);
+                            if (in_array($valuecond['CondicionClinica'], $arrayName)) {
+                              $checked = 'checked';
+                            } else {
+                              $checked = '';
+                            }
+                           } */
+
+                          print_r($arrayName);
+
                           $value2 = json_decode($value, true);
 
                           //foreach ($datarray as $keydat => $valuedat) {
-                          for ($position = 0; $position < count($value2); $position++) {
+                          for ($position = 1; $position < count($value2)+1; $position++) {
                             $valor = $value2[$position];
 
-
-                            if ($valor == $valuecond['IDCondicionClinica']) {
+                            var_dump($valor);
+                            if ($valor == $valuecond['CondicionClinica']) {
                               $checked = 'checked';
                             } else {
                               $checked = '';
                             }/* Falta cambiar los datos en el ejmplo de aca abajo pasando los datos de html*/
+                          }
                           ?>
                             <div>
                               <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?= $checked ?> required />
@@ -378,8 +397,8 @@ $alergia = alergia();
 
 
 
-                        <? } ?>
-                      <? } ?>
+                        
+                      
                       <div class="item">
                         <p>Otro<span class="required"></span></p>
                         <input type="text" name="<?php $key ?>" required placeholder="Especificar condición" />

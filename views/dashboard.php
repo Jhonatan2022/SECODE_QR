@@ -1,6 +1,6 @@
 <?php
 
-use Svg\Tag\Path;
+
 
 session_start();
 require_once '../models/database/database.php';
