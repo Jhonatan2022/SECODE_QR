@@ -79,7 +79,7 @@ if ($planrecibido == 'basico'){
 					
 					<div class="col-lg-7 col-md-7 col-sm-12">
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" style="background:white; border-radius:8px;">
 								<thead>
 									<tr>
 										<th>Producto</th>
@@ -95,7 +95,7 @@ if ($planrecibido == 'basico'){
 																				
 										<tr>
 											<td colspan="2">
-												<p class="h3 text-end" id="total"><?php echo $precio ?></p>
+												<p class="h3 text-end" id="total">$<b><?php echo $precio ?></p>
 											</td>
 										</tr>
 										

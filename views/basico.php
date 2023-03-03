@@ -1,5 +1,7 @@
 <?php
 
+require_once '../models/database/database.php';
+
 session_start();
 
 require_once '../models/user.php';
@@ -71,7 +73,7 @@ $user = getUser($_SESSION['user_id'] );
         <hr class="hhh">
         <h4 class="text2">9.900</h4>
         <a href="#" class="button button12">Comprar Ahora</a>
-		<a href="servicios.html" class="button button13">Cancelar</a>
+		<a href="pagos.php?plan=basico" class="button button13">Cancelar</a>
       </div>
     </div>
 

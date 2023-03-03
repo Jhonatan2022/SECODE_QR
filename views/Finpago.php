@@ -81,7 +81,7 @@ if($query->execute()){
     <link rel="stylesheet" href="./assets/css/Paypal.css" />
     
 </head>
-<body>
+<body background = "white">
     <div class="container">
     <header>
     <div class="top-header-area" id="sticker">
