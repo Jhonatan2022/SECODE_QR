@@ -139,7 +139,14 @@ $alergia = alergia();
     </script>
   <?php endif;
   ?>
-
+<?php if (isset($id_code) && isset($statusForm) && $statusForm == 22) : ?>
+  <script>
+      setTimeout(() => {
+        location.href = 'dashboard.php?DataCode=<?php echo $id_code; ?>';
+      }, 5000);
+      </script> 
+    <?php endif; 
+    ?>
 
   <!--PreLoader-->
   <div class="loader">
@@ -356,22 +363,22 @@ $alergia = alergia();
                           </div>
                           
                           <? } //falta guardar datso en array y luego pasarlos a la base de datos
-                          /* 
+                          
                           else {
                             $datarray = json_decode($value, true);
                             $arrayName = array();
                             foreach ($datarray as $keydat => $valuedat) {
                               $arrayName += array($keydat => $valuedat);
                             }
-                            var_dump($arrayName);
+                            //var_dump($arrayName);
                             if (in_array($valuecond['CondicionClinica'], $arrayName)) {
                               $checked = 'checked';
                             } else {
                               $checked = '';
                             }
-                           } */
+                           } 
 
-                          print_r($arrayName);
+                          //print_r($arrayName);
 
                           $value2 = json_decode($value, true);
 
@@ -379,12 +386,13 @@ $alergia = alergia();
                           for ($position = 1; $position < count($value2)+1; $position++) {
                             $valor = $value2[$position];
 
-                            var_dump($valor);
-                            if ($valor == $valuecond['CondicionClinica']) {
+                            //var_dump($valor);
+                            /* if ($valor == $valuecond['CondicionClinica']) {
                               $checked = 'checked';
                             } else {
                               $checked = '';
-                            }/* Falta cambiar los datos en el ejmplo de aca abajo pasando los datos de html*/
+                            } */
+                            /* Falta cambiar los datos en el ejmplo de aca abajo pasando los datos de html*/
                           }
                           ?>
                             <div>

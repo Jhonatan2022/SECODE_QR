@@ -9,21 +9,38 @@ if(! isset($_SESSION['user_id'])){
     if(isset($_GET['formulario']) && $_GET['formulario'] == 'clinico'){
 
         //covert array to json
-        $array= $_POST['IDcondicionesClinicas'];
-        $json = json_encode($array);
+        $array= $_POST['arraycond'];
+
+        /* $datarray = json_decode($value, true); */
+        $clndata = array();
+        //var_dump($arrayName);
+        if ('1'==$array) {
+          $clndata+=array('1' => 'Presión alta');
+        } elseif ('2'==$array) {
+          $clndata+=array('1' => 'Diabetes');
+        } elseif ('3'==$array) {
+          $clndata+=array('1' => 'Afecciones cardíacas');
+        } elseif ('4'==$array) {
+          $clndata+=array('1' => 'Covid-19');
+        } elseif ('5'==$array) {
+          $clndata+=array('1' => 'Enfermedades respiratorias');
+        }
+
+
+        $json = json_encode($clndata);
 
         $query = $connection->prepare('insert into datos_clinicos 
-        (NDocumento,TipoAfiliacion,RH,Tipo_de_sangre,IDcondicionesClinicas,AlergiaMedicamento) 
-        values (:NDocumento,:TipoAfiliacion,:RH,:Tipo_de_sangre,:IDcondicionesClinicas,:AlergiaMedicamento)');
+        (NDocumento,TipoAfiliacion,RH,Tipo_de_sangre,arraycond,AlergiaMedicamento) 
+        values (:NDocumento,:TipoAfiliacion,:RH,:Tipo_de_sangre,:arraycond,:AlergiaMedicamento)');
                 $query->bindParam(':NDocumento', $_SESSION['user_id']);
                 $query->bindParam(':TipoAfiliacion', $_POST['TipoAfiliacion']);
                 $query->bindParam(':RH', $_POST['RH']);
                 $query->bindParam(':Tipo_de_sangre', $_POST['Tipo_de_sangre']);
-                $query->bindParam(':IDcondicionesClinicas', $json);
+                $query->bindParam(':arraycond', $json);
                 $query->bindParam(':AlergiaMedicamento', $_POST['AlergiaMedicamento']);
                 $result=$query->execute();
         if($result){
-            $query = $connection->prepare('SELECT * FROM datos_clinicos WHERE NDocumento = :NDocumento');
+            $query = $connection->prepare('SELECT * FROM datos_clinicos WHERE NDocumento = :NDocumento ORDER by -IDDatosClinicos;');
             $query->bindParam(':NDocumento', $_SESSION['user_id']);
             $query->execute();
             $resultclinico=$query->fetch(PDO::FETCH_ASSOC);
@@ -61,7 +78,7 @@ if(! isset($_SESSION['user_id'])){
         }elseif($_POST['Tipo_de_sangre']==4){
             $_POST['Tipo_de_sangre']='O';
         }
-        if($_POST['IDcondicionesClinicas']==1){
+        /* if($_POST['IDcondicionesClinicas']==1){
             $condicione+='Presiona Alta, ';
         }elseif($_POST['IDcondicionesClinicas']==2){
             $condicione+='Diabetes, ';
@@ -71,11 +88,11 @@ if(! isset($_SESSION['user_id'])){
             $condicione+='Covid-19, ';
         }elseif($_POST['IDcondicionesClinicas']==5){
             $condicione+='Enfermedad Respiratoria,';
-        }
+        } */
 
         global $data;
         $data=array(
-            'Titulo'=>$_POST['TituloForm'],
+            'Titulo'=>$_POST['Titulo'],
             'Nombre'=>$_POST['Nombre'],
             'FechaNacimiento'=>$_POST['FechaNacimiento'],
             'Nombre Eps'=>$_POST['NombreEps'],
@@ -85,7 +102,7 @@ if(! isset($_SESSION['user_id'])){
             'Tipo de Afiliacion'=>$_POST['TipoAfiliacion'],
             'RH'=>$_POST['RH'],
             'Tipo de Sangre'=>$_POST['Tipo_de_sangre'],
-            'Condiciones Clinicas'=>$condicione,
+            /* 'Condiciones Clinicas'=>$condicione, */
         );
     }elseif (isset($_GET['formulario']) && $_GET['formulario'] == 'clinico' && isset($_GET['idclinico']) ) {
         $variable=true;
@@ -234,8 +251,8 @@ $source = './'.$name;
      $duration=date("Y-m-d");
 
      $consult='INSERT INTO codigo_qr 
-     (`Id_codigo`,`nombre`, `Duracion`, `Ndocumento`, `Titulo`, `DatosClinicos`, `RutaArchivo`, `Atributos`) 
-     VALUES (null ,:nombre, :Duracion, :Ndoc, :Titulo, :iddatos,:Ruta, :AtribDefault) ';
+     (`Id_codigo`,`nombre`, `Duracion`, `Ndocumento`, `Titulo`, `DatosClinicos`, `RutaArchivo` ) 
+     VALUES (null ,:nombre, :Duracion, :Ndoc, :Titulo, :iddatos,:Ruta) ';
     
     $params= $connection->prepare($consult);
     $params->bindParam(':Ndoc',$_SESSION['user_id']);
@@ -244,7 +261,7 @@ $source = './'.$name;
     $params->bindParam(':Titulo', $data['Titulo']);
     $params->bindParam(':Ruta',$urlCodeForm);
     $params->bindParam(':iddatos',$resultclinico['IDDatosClinicos']);
-    $params->bindParam(':AtribDefault',$atribDefault);
+    /* $params->bindParam(':AtribDefault',$atribDefault); */
     if ($params->execute()) {
         $p=$connection->prepare('SELECT Id_codigo 
         FROM codigo_qr 

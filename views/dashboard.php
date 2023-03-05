@@ -58,7 +58,7 @@ if (isset($_POST['action'])) {
 
 $user = getUser($_SESSION['user_id']);
 
-$records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, atr.Atributo , eps.NombreEps, us.id
+$records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
 FROM codigo_qr AS qr
 LEFT OUTER JOIN AtributosQr AS atr 
 ON qr.Atributos = atr.IDAtributosQr
@@ -206,12 +206,11 @@ if ($user['id'] == 10) {
 										}
 
 										?>
-										"><i class="fas fa-pen"></i> Solicitar Cita Medica</a>
+										" target="_blank" ><i class="fas fa-pen"></i> Solicitar Cita Medica</a>
 										<?php } ?>
 									</div>
 								</div>
 							</div>
-
 
 
 							<div class="cont-optionsCode <?= 'contOptionsCode' . $code['Id_codigo'] ?>  ">
