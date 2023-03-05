@@ -6,7 +6,7 @@ if(! isset($_SESSION['user_id'])){
     http_response_code(404);
     //header('Location: ../views/');
 }else{
-    if(isset($_GET['formulario']) && $_GET['formulario'] == 'clinico'){
+    if(isset($_GET['formulario']) && $_GET['formulario'] == 'clinico'){//flata validar primero edicion de formulario
 
         //covert array to json
         $array= $_POST['arraycond'];
@@ -200,7 +200,7 @@ ob_start();
 
 <strong>
     <p style="text-align: center;">
-        <a href="https://secodeqr.000wehostapp.com/">Secode Qr</a>
+        <a href="http://secodeqr.000webhostapp.com/">Secode Qr</a>
     </p>
 </strong>
 

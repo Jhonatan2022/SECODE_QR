@@ -24,12 +24,6 @@ if (!isset($_SESSION['user_id'])) {
   ];
 } else {
 
-  if (isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/) {
-    $id_code = $_GET['idFormEdit'];
-    $newForm = false;
-  } else {
-    $newForm = true;
-  }
 
 
   //funtionalities advanced pro
@@ -58,6 +52,14 @@ if (!isset($_SESSION['user_id'])) {
   }
   */
 
+
+  if (isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/) {
+    $id_code = $_GET['idFormEdit'];
+    $newForm = false;
+  } else {
+    $newForm = true;
+    $id_code = '';
+  }
   if (
     isset($_GET['GenerateError']) &&
     !empty($_GET['GenerateError'])
@@ -71,9 +73,8 @@ if (!isset($_SESSION['user_id'])) {
       $id_code = $_GET['Data'];
       $id_codealert = $_GET['Data'];
     }
-  } else {
-    $id_code = '';
-  }
+  } 
+
 
   $user = getUser($_SESSION['user_id']);
 
@@ -179,11 +180,8 @@ $alergia = alergia();
   <div class="container_form">
     <div class="screen">
       <div class="screen__content">
-        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico
-        <?php if (isset($_GET['idFormEdit'])) {
-          echo '&idclinico=' . $_GET['idFormEdit'];
-        } ?>" method="POST" novalidate>
-          <?php if (empty($ClinicData) && $newForm) {
+        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico<?php if (isset($_GET['idFormEdit'])) {echo '&idclinico=' . $_GET['idFormEdit'];} ?>" method="POST" novalidate>
+          <?php if (empty($ClinicData) ) {
 
             $message = array('Advertencia', 'solo Puede llenar el formulario una vez', 'warning');
             echo '</form>';
@@ -355,7 +353,7 @@ $alergia = alergia();
 
                       <?php foreach ($condicion as $keycond => $valuecond) { ?>
 
-                        <?php if ($value == null) { ?>
+                        <?php if ($value == null || $value == '' ) { ?>
 
                           <div>
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" required />
@@ -376,24 +374,18 @@ $alergia = alergia();
                             } else {
                               $checked = '';
                             }
-                           } 
+                           
 
                           //print_r($arrayName);
 
-                          $value2 = json_decode($value, true);
+                          //$value2 = json_decode($value, true);
 
                           //foreach ($datarray as $keydat => $valuedat) {
-                          for ($position = 1; $position < count($value2)+1; $position++) {
+                          /* for ($position = 1; $position < count($value2)+1; $position++) {
                             $valor = $value2[$position];
 
-                            //var_dump($valor);
-                            /* if ($valor == $valuecond['CondicionClinica']) {
-                              $checked = 'checked';
-                            } else {
-                              $checked = '';
-                            } */
-                            /* Falta cambiar los datos en el ejmplo de aca abajo pasando los datos de html*/
-                          }
+            
+                          } */
                           ?>
                             <div>
                               <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?= $checked ?> required />
@@ -401,7 +393,7 @@ $alergia = alergia();
                             </div>
 
 
-                          <? } ?>
+                          <?}  } ?>
 
 
 
