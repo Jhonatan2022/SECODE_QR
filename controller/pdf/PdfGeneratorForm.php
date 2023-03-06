@@ -2,32 +2,94 @@
 session_start();
 require_once '../../models/database/database.php';
 require_once '../../main.php';
+
+function arraytojson(){
+            //covert array to json
+            $array= $_POST['arraycond'];
+
+            /* $datarray = json_decode($value, true); */
+            $clndata = array();
+            //var_dump($arrayName);
+            if ('1'==$array) {
+              $clndata+=array('1' => 'Presión alta');
+            } elseif ('2'==$array) {
+              $clndata+=array('1' => 'Diabetes');
+            } elseif ('3'==$array) {
+              $clndata+=array('1' => 'Afecciones cardíacas');
+            } elseif ('4'==$array) {
+              $clndata+=array('1' => 'Covid-19');
+            } elseif ('5'==$array) {
+              $clndata+=array('1' => 'Enfermedades respiratorias');
+            }
+    return $json = json_encode($clndata);
+}
+
+
+function globadata(){
+    if($_POST['Genero']==1){
+        $_POST['Genero']='Masculino';
+    }elseif($_POST['Genero']==2){
+        $_POST['Genero']='Femenino';
+    }elseif($_POST['Genero']==3){
+        $_POST['Genero']='Otro';
+    }
+
+    if($_POST['TipoAfiliacion']==1){
+        $_POST['TipoAfiliacion']='Cotizante';
+    }elseif($_POST['TipoAfiliacion']==2){
+        $_POST['TipoAfiliacion']='Contributivo';
+    }
+
+    if($_POST['RH']==1){
+        $_POST['RH']='Positivo';
+    }elseif($_POST['RH']==2){
+        $_POST['RH']='Negativo';
+    }
+
+    if($_POST['Tipo_de_sangre']==1){
+        $_POST['Tipo_de_sangre']='A';
+    }elseif($_POST['Tipo_de_sangre']==2){
+        $_POST['Tipo_de_sangre']='B';
+    }elseif($_POST['Tipo_de_sangre']==3){
+        $_POST['Tipo_de_sangre']='AB';
+    }elseif($_POST['Tipo_de_sangre']==4){
+        $_POST['Tipo_de_sangre']='O';
+    }
+    /* if($_POST['IDcondicionesClinicas']==1){
+        $condicione+='Presiona Alta, ';
+    }elseif($_POST['IDcondicionesClinicas']==2){
+        $condicione+='Diabetes, ';
+    }elseif($_POST['IDcondicionesClinicas']==3){
+        $condicione+='Afecciones cardiacas, ';
+    }elseif($_POST['IDcondicionesClinicas']==4){
+        $condicione+='Covid-19, ';
+    }elseif($_POST['IDcondicionesClinicas']==5){
+        $condicione+='Enfermedad Respiratoria,';
+    } */
+
+    global $data;
+    $data=array(
+        'Titulo'=>$_POST['Titulo'],
+        'Nombre'=>$_POST['Nombre'],
+        'FechaNacimiento'=>$_POST['FechaNacimiento'],
+        'Nombre Eps'=>$_POST['NombreEps'],
+        'Telefono'=>$_POST['Telefono'],
+        'Correo'=>$_POST['Correo'],
+        'Genero'=>$_POST['Genero'],
+        'Tipo de Afiliacion'=>$_POST['TipoAfiliacion'],
+        'RH'=>$_POST['RH'],
+        'Tipo de Sangre'=>$_POST['Tipo_de_sangre'],
+        /* 'Condiciones Clinicas'=>$condicione, */
+    );
+}
+
 if(! isset($_SESSION['user_id'])){
     http_response_code(404);
     //header('Location: ../views/');
 }else{
-    if(isset($_GET['formulario']) && $_GET['formulario'] == 'clinico'){//flata validar primero edicion de formulario
+    if(isset($_GET['formulario']) && $_GET['formulario'] == 'clinico' && !isset($_GET['idclinico'])){//flata validar primero edicion de formulario
 
-        //covert array to json
-        $array= $_POST['arraycond'];
-
-        /* $datarray = json_decode($value, true); */
-        $clndata = array();
-        //var_dump($arrayName);
-        if ('1'==$array) {
-          $clndata+=array('1' => 'Presión alta');
-        } elseif ('2'==$array) {
-          $clndata+=array('1' => 'Diabetes');
-        } elseif ('3'==$array) {
-          $clndata+=array('1' => 'Afecciones cardíacas');
-        } elseif ('4'==$array) {
-          $clndata+=array('1' => 'Covid-19');
-        } elseif ('5'==$array) {
-          $clndata+=array('1' => 'Enfermedades respiratorias');
-        }
-
-
-        $json = json_encode($clndata);
+        $json = arraytojson();
 
         $query = $connection->prepare('insert into datos_clinicos 
         (NDocumento,TipoAfiliacion,RH,Tipo_de_sangre,arraycond,AlergiaMedicamento) 
@@ -49,70 +111,20 @@ if(! isset($_SESSION['user_id'])){
             echo 'error';
         }
 
-        if($_POST['Genero']==1){
-            $_POST['Genero']='Masculino';
-        }elseif($_POST['Genero']==2){
-            $_POST['Genero']='Femenino';
-        }elseif($_POST['Genero']==3){
-            $_POST['Genero']='Otro';
-        }
+        globadata();
 
-        if($_POST['TipoAfiliacion']==1){
-            $_POST['TipoAfiliacion']='Cotizante';
-        }elseif($_POST['TipoAfiliacion']==2){
-            $_POST['TipoAfiliacion']='Contributivo';
-        }
 
-        if($_POST['RH']==1){
-            $_POST['RH']='Positivo';
-        }elseif($_POST['RH']==2){
-            $_POST['RH']='Negativo';
-        }
-
-        if($_POST['Tipo_de_sangre']==1){
-            $_POST['Tipo_de_sangre']='A';
-        }elseif($_POST['Tipo_de_sangre']==2){
-            $_POST['Tipo_de_sangre']='B';
-        }elseif($_POST['Tipo_de_sangre']==3){
-            $_POST['Tipo_de_sangre']='AB';
-        }elseif($_POST['Tipo_de_sangre']==4){
-            $_POST['Tipo_de_sangre']='O';
-        }
-        /* if($_POST['IDcondicionesClinicas']==1){
-            $condicione+='Presiona Alta, ';
-        }elseif($_POST['IDcondicionesClinicas']==2){
-            $condicione+='Diabetes, ';
-        }elseif($_POST['IDcondicionesClinicas']==3){
-            $condicione+='Afecciones cardiacas, ';
-        }elseif($_POST['IDcondicionesClinicas']==4){
-            $condicione+='Covid-19, ';
-        }elseif($_POST['IDcondicionesClinicas']==5){
-            $condicione+='Enfermedad Respiratoria,';
-        } */
-
-        global $data;
-        $data=array(
-            'Titulo'=>$_POST['Titulo'],
-            'Nombre'=>$_POST['Nombre'],
-            'FechaNacimiento'=>$_POST['FechaNacimiento'],
-            'Nombre Eps'=>$_POST['NombreEps'],
-            'Telefono'=>$_POST['Telefono'],
-            'Correo'=>$_POST['Correo'],
-            'Genero'=>$_POST['Genero'],
-            'Tipo de Afiliacion'=>$_POST['TipoAfiliacion'],
-            'RH'=>$_POST['RH'],
-            'Tipo de Sangre'=>$_POST['Tipo_de_sangre'],
-            /* 'Condiciones Clinicas'=>$condicione, */
-        );
     }elseif (isset($_GET['formulario']) && $_GET['formulario'] == 'clinico' && isset($_GET['idclinico']) ) {
         $variable=true;
                 //update the database with the new data
-                $query = $connection->prepare('UPDATE datos_clinicos SET TipoAfiliacion = :TipoAfiliacion, RH = :RH, Tipo_de_sangre = :Tipo_de_sangre, IDcondicionesClinicas = :IDcondicionesClinicas, AlergiaMedicamento = :AlergiaMedicamento WHERE NDocumento = :NDocumento AND IDDatosClinicos = :IDDatosClinicos');
+                $json = arraytojson();
+
+                $query = $connection->prepare('UPDATE datos_clinicos SET TipoAfiliacion = :TipoAfiliacion, RH = :RH, Tipo_de_sangre = :Tipo_de_sangre, arraycond = :arraycond, AlergiaMedicamento = :AlergiaMedicamento WHERE NDocumento = :NDocumento AND IDDatosClinicos = :IDDatosClinicos');
                 $query->bindParam(':NDocumento', $_POST['NDocumento']);
                 $query->bindParam(':TipoAfiliacion', $_POST['TipoAfiliacion']);
                 $query->bindParam(':RH', $_POST['RH']);
                 $query->bindParam(':Tipo_de_sangre', $_POST['Tipo_de_sangre']);
-                $query->bindParam(':IDcondicionesClinicas', $_POST['IDcondicionesClinicas']);
+                $query->bindParam(':arraycond', $json);
                 $query->bindParam(':AlergiaMedicamento', $_POST['AlergiaMedicamento']);
                 $query->bindParam(':IDDatosClinicos', $_GET['idclinico']);
                 $query->execute();
