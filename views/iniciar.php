@@ -34,6 +34,10 @@ if (isset($_POST['email']) &&
     if (!empty($results)) {
       try {
         if (count($results) > 0 && password_verify($password_user1, $results['Contrasena'])) {
+          //ssecure seesion start
+          $keysecret = $results['Ndocumento'];
+          $_SESSION['fingerprint'] = md5($_SERVER['HTTP_USER_AGENT'] . $keysecret . $_SERVER['REMOTE_ADDR']);
+          session_regenerate_id(true);
 
           //varaibles user definition from session
           $_SESSION['user_id'] = $results['Ndocumento'];

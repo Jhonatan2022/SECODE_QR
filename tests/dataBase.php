@@ -3,8 +3,6 @@
 class dataBase extends \PHPUnit\Framework\TestCase
 {
 
-
-
     public function testPushAndPop()
     {
 
@@ -21,8 +19,6 @@ class dataBase extends \PHPUnit\Framework\TestCase
         } catch (PDOException $e) {
             $res = "Connection failed: " . $e->getMessage();
         }
-
-
 
         $this->assertEquals('Connected successfully', $res);
     }

@@ -12,12 +12,16 @@
     "authors": [
         {
             "name": "Luis Fernando",
-            "email": "luis.chaparro173@educacionbogota.edu.co"
+            "email": "lfchaparro37@misena.edu.co"
         }
     ],
     "require": {
         "dompdf/dompdf": "^2.0",
         "phpmailer/phpmailer": "^6.6",
+<<<<<<< HEAD
         "fpdf/fpdf": "^1.85"
+=======
+        "setasign/fpdf": "^1.8"
+>>>>>>> withpays
     }
 }

@@ -1,31 +1,70 @@
 <?php
 
+<<<<<<< HEAD
 
+=======
+session_start();
+>>>>>>> withpays
 
-if (isset($_POST['accion'])){
-    switch($_POST['accion']){
-        case 'editar_registro':
-            editar_registro();
+if (!isset($_SESSION["user_id"])) {
+    http_response_code(404);
+    header('Location: ../../index.php');
+}
+require_once('../config.php');
+require_once('../../main.php');
+require_once(BaseDir . '/models/database/database.php');
+
+$records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,Nombre,rol FROM usuario WHERE Ndocumento = :id ');
+$records->bindParam(':id', $_SESSION['user_id']);
+
+if ($records->execute()) {
+    $resultsUser = $records->fetch(PDO::FETCH_ASSOC);
+} else {
+    $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
+}
+
+if($resultsUser['rol'] === '2'){
+    if (isset($_POST['accion'])){
+        switch($_POST['accion']){
+            case 'editar_registro':
+                editar_registro();
+                    break;
+    
+                case 'eliminar_registro':
+                eliminar_registro();
+    
+                break;        
+    
+                case 'acceso_user';
+                acceso_user();
                 break;
-
-            case 'eliminar_registro':
-            eliminar_registro();
-
-            break;        
-
-            case 'acceso_user';
-            acceso_user();
-            break;
-
+    
+        }
     }
+}else{
+    http_response_code(404);
+    header('Location: ../../index.php');
 }
 
 
+
+
+
+
+
+
 function editar_registro() {
+<<<<<<< HEAD
     $server = 'localhost';
     $username = 'root';
     $password = '';
     $database = 'id16455213_secode_qr';
+=======
+    $server = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $database = DB_NAME;
+>>>>>>> withpays
     $conexion = mysqli_connect($server,$username,$password,$database);
     extract($_POST);
     $consulta="UPDATE usuario SET Ndocumento = '$Ndocumento', Nombre = '$Nombre', Direccion = '$Direccion',
@@ -37,10 +76,17 @@ function editar_registro() {
 }
 
 function eliminar_registro() {
+<<<<<<< HEAD
     $server = 'localhost';
 $username = 'root';
 $password = '';
 $database = 'id16455213_secode_qr';
+=======
+    $server = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $database = DB_NAME;
+>>>>>>> withpays
     $conexion = mysqli_connect($server,$username,$password,$database);
     extract($_POST);
     $Ndocumento= $_POST['Ndocumento'];
@@ -52,10 +98,17 @@ $database = 'id16455213_secode_qr';
 }
 
 function acceso_user() {
+<<<<<<< HEAD
     $server = 'localhost';
 $username = 'root';
 $password = '';
 $database = 'id16455213_secode_qr';
+=======
+    $server = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $database = DB_NAME;
+>>>>>>> withpays
     $Ndocumento=$_POST['Ndocumento'];
     $Contrasena=$_POST['Contrasena'];
     session_start();

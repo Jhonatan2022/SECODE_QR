@@ -12,6 +12,11 @@ if ($plan == 22){$plan = 2;
 elseif($plan == 56){$plan = 4;
 }
 elseif($plan == 99){$plan = 3;
+<<<<<<< HEAD
+=======
+}else{
+	header('Location: ./iniciar.php');
+>>>>>>> withpays
 }
 
 $query1='SELECT tps.precio, tps.TipoSuscripcion FROM TipoSuscripcion AS tps WHERE tps.IDTipoSuscripcion = :plan';
@@ -33,7 +38,11 @@ $query->bindParam(':tipsus', $plan);
 $query->bindParam(':fecha', $date);
 $query->bindParam(':numr', $idfactura);
 if($query->execute()){
+<<<<<<< HEAD
 	$pdf='../controller/pdf/pdfpago.php?num='.$idfactura.'&plan='.$plan.'&precio='.$precio['precio'].'&tipo='.$precio['TipoSuscripcion'].'&fecha='.$date.'';
+=======
+	$pdf='../controller/pdf/pdfpago.php';
+>>>>>>> withpays
 }else{
 	$pdf='#';
 }
@@ -55,6 +64,11 @@ if($query->execute()){
     <!-- LInk desde el panel de datos de Pypal, (SDK Javascript)-->
     <script src="https://www.paypal.com/sdk/js?client-id=AVhw-RveYQh4KiLBXWa8eXUIo0pAE3d0xrgq9VK9MHGvZ65eozHU62aKJYLGNqrqWXdT0gm-En9KYCX2&currency=USD"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> withpays
 	<link rel="stylesheet" href="assets/css/service.css" />
   <!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
@@ -62,6 +76,7 @@ if($query->execute()){
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
+<<<<<<< HEAD
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -78,6 +93,24 @@ if($query->execute()){
     
 </head>
 <body>
+=======
+	<link rel="stylesheet" href="./assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="./assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="./assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="./assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="./assets/css/responsive.css">
+
+    <link rel="stylesheet" href="./assets/css/Paypal.css" />
+    
+</head>
+<body background = "white">
+>>>>>>> withpays
     <div class="container">
     <header>
     <div class="top-header-area" id="sticker">
@@ -88,7 +121,11 @@ if($query->execute()){
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.php">
+<<<<<<< HEAD
 								<img src="assets/img/logo.png" alt="">	
+=======
+								<img src="../assets/img/logo.png" alt="">	
+>>>>>>> withpays
 							</a>
 						</div>
 						<!-- logo -->	
@@ -143,7 +180,11 @@ if($query->execute()){
     <tr>
       <th scope="row" colspan="2">NIT: 12345678-1</th>
       <th scope="row" colspan="2">Fecha: <?= $date ?>  </th>
+<<<<<<< HEAD
 	  <th><button><a download="Recibo de pago" href=".<?=$pdf?> onclick="config()">Descargar</a></button></th>
+=======
+	  <th><button><a download="Recibo de pago" href="<?=$pdf?>" onclick="config()">Descargar</a></button></th>
+>>>>>>> withpays
     </tr>
   </tbody>
   <tfoot>
@@ -179,6 +220,7 @@ if($query->execute()){
 
   
 	<!-- jquery -->
+<<<<<<< HEAD
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
 	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -192,6 +234,21 @@ if($query->execute()){
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+=======
+	<script src="./assets/js/jquery-1.11.3.min.js"></script>
+	<!-- bootstrap -->
+	<script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+	<!-- isotope -->
+	<script src="./assets/js/jquery.isotope-3.0.6.min.js"></script>
+	<!-- magnific popup -->
+	<script src="./assets/js/jquery.magnific-popup.min.js"></script>
+	<!-- mean menu -->
+	<script src="./assets/js/jquery.meanmenu.min.js"></script>
+	<!-- sticker js -->
+	<script src="./assets/js/sticker.js"></script>
+	<!-- main js -->
+	<script src="./assets/js/main.js"></script>
+>>>>>>> withpays
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

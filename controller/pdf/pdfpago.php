@@ -2,7 +2,11 @@
 session_start();
 
 require_once "../../models/database/database.php";
+<<<<<<< HEAD
 
+=======
+require_once "../../vendor/autoload.php";
+>>>>>>> withpays
 require_once "../../models/user.php";
 
 #$plan = $_GET['plan'];
@@ -15,7 +19,14 @@ require_once "../../models/user.php";
 $user = getUser($_SESSION['user_id']);
 
 
+<<<<<<< HEAD
 	require "code128.php";
+=======
+	use setasign\Fpdi\Fpdi;
+
+	# Creación del objeto de la clase heredada #
+
+>>>>>>> withpays
 
 	$pdf = new FPDF('P','mm','Letter');
 	$pdf->SetMargins(17,17,17);

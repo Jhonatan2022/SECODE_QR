@@ -3,12 +3,13 @@ session_start();
 
 //importamos DB
 require_once('../models/database/database.php');
+require_once '../models/user.php';
 
 if(! isset($_SESSION['user_id'])){
   $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
  
 }else{
-
+  $user = getUser($_SESSION['user_id'] );
   if(isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/){
     $id_code=$_GET['idFormEdit'];
     $isAnewForm=false;
@@ -57,6 +58,7 @@ $nombreUser=$results['Nombre'];
 }
 require_once '../models/user.php';
 $user = getUser($_SESSION['user_id'] );
+
 
 
 

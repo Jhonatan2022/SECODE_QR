@@ -1,5 +1,6 @@
 <?php
 
+use Svg\Tag\Path;
 
 session_start();
 require_once '../models/database/database.php';
@@ -45,7 +46,19 @@ if (isset($_POST['action'])) {
 require_once '../models/user.php';
 $user = getUser($_SESSION['user_id']);
 
+<<<<<<< HEAD
 $records = $connection->prepare('	SELECT Atributos,Titulo,RutaArchivo,Duracion,Descripcion,Id_codigo,nombre FROM codigo_qr WHERE Ndocumento = :id');
+=======
+$records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, atr.Atributo , eps.NombreEps, us.id
+FROM codigo_qr AS qr
+LEFT OUTER JOIN AtributosQr AS atr 
+ON qr.Atributos = atr.IDAtributosQr
+LEFT OUTER JOIN usuario as us
+ON qr.Ndocumento = us.Ndocumento 
+LEFT OUTER JOIN eps
+ON us.id= eps.id
+WHERE us.Ndocumento = :id');
+>>>>>>> withpays
 $records->bindParam(':id', $_SESSION['user_id']);
 
 
@@ -148,7 +161,11 @@ if ($user['id'] == 10) {
 									<div class="single-product-item">
 										<div class="product-image">
 											<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
+<<<<<<< HEAD
 												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributos'] ?>" alt=""></a>
+=======
+												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributo'] ?>" alt=""></a>
+>>>>>>> withpays
 										</div>
 										<h3><?php echo $code['Titulo'] ?></h3>
 
@@ -157,6 +174,39 @@ if ($user['id'] == 10) {
 
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> "><i class="fas fa-pen"></i> opciones</a>
+<<<<<<< HEAD
+=======
+										<?php if($code['id']!=10){ ?>
+										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> " href="
+										<?php 
+										switch($code['NombreEps']){
+											case 'Capital Salud':
+												echo 'https://www.capitalsalud.gov.co/menu-citas/';
+											break;
+											case 'Sanitas':
+												echo 'https://www.epssanitas.com/';
+											break;
+											case 'Compesar':
+												echo 'https://corporativo.compensar.com/salud/compensar-eps/cita-medica';
+											break;
+											case 'Colsubsidio':
+												echo 'https://www.colsubsidio.com/tu-salud/ips/gestion';
+											break;
+											case 'Famisanar':
+												echo 'https://www.cafam.com.co/tx/salud';
+											break;
+											case 'Comfenalco':
+												echo 'https://www.comfenalcoeps.com/';
+											break;
+											default:
+												echo 'https://www.google.com/search?q=citas+medicas+bogota&oq=citas+medicas+bogota';
+											break;
+										}
+
+										?>
+										"><i class="fas fa-pen"></i> Solicitar Cita Medica</a>
+										<?php } ?>
+>>>>>>> withpays
 									</div>
 								</div>
 							</div>
@@ -277,6 +327,7 @@ if ($user['id'] == 10) {
 							html:
 
 								`
+<<<<<<< HEAD
 <!-- The Modal -->
 <div class="" id="myModaleps">
                 <div class="modal-dialog">
@@ -291,6 +342,10 @@ if ($user['id'] == 10) {
                         <!-- Modal body -->
                         <div class="modal-body">
                             <form action="../controller/formOptions.php" method="post" >
+=======
+
+                            <form action="../controller/formOptions.php" method="POST" >
+>>>>>>> withpays
 
 								<div class="form-group">
                                             <select class="form-control" >
@@ -302,6 +357,7 @@ if ($user['id'] == 10) {
 								</div>
 								<div class="form-group">
 									
+<<<<<<< HEAD
                                             <select class="form-control" >
                                             <?php foreach ($eps as $key => $value) {  ?>    
 
@@ -326,6 +382,23 @@ if ($user['id'] == 10) {
                     </div>
                 </div>
             </div>
+=======
+                                            <select class="form-control" name='Eps' >
+                                            <?php foreach ($eps as $key => $value) {  ?>    
+
+												<?php if ($value['id'] == $user['id']) { ?>
+													<option value="<?php echo $value['id'] ?>" selected><?php echo $value['NombreEps'] ?></option>
+												<?php } else { ?>
+
+												<option value="<?php echo $value['id'] ?>"><?php echo $value['NombreEps'] ?></option>
+												<?php } ?>
+											<?php } ?>
+                                            </select>
+									
+								</div>
+                                <button type="submit" name="update" class="btn btn-primary">Submit</button>
+                            </form>
+>>>>>>> withpays
 
 `,
 							showCloseButton: true,

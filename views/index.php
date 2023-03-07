@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 require_once '../models/user.php';
 
@@ -19,7 +20,36 @@ if (isset($_SESSION["user_id"])) {
 }
 
 
+=======
+>>>>>>> withpays
 
+session_start();
+require_once '../models/database/database.php';
+require_once '../models/user.php';
+
+if (isset($_SESSION["user_id"])) {
+	$user = getUser($_SESSION['user_id'] );
+	//secure fingerprint session 
+	$key = $user['Ndocumento'];
+	if (isset($_SESSION['fingerprint']) && $_SESSION['fingerprint'] != md5($_SERVER['HTTP_USER_AGENT'] . $key . $_SERVER['REMOTE_ADDR'])) {       
+		session_destroy();
+		header('Location: iniciar.php');
+		exit();     
+	}
+
+	if ($user['id'] == 10) {
+		$newEps = true;
+	
+		$records = $connection->prepare('SELECT * FROM eps');
+		//$records->bindParam(':id', $user['id']);
+		if ($records->execute()) {
+			$eps = $records->fetchAll(PDO::FETCH_ASSOC);
+			//$codes = $results;
+		}else{
+			$message = 'Error al cargar los datos';
+		}
+	}
+}
 ?>
 
 <!DOCTYPE html>
@@ -198,6 +228,7 @@ if (isset($_SESSION["user_id"])) {
 			icon: 'info',
 			html:
 
+<<<<<<< HEAD
 				`
 <!-- The Modal -->
 <div class="" id="myModaleps">
@@ -248,6 +279,37 @@ if (isset($_SESSION["user_id"])) {
 	</div>
 </div>
 </div>
+=======
+			`
+
+<form action="../controller/formOptions.php" method="POST" >
+
+	<div class="form-group">
+				<select class="form-control" >
+					<option value="1">EPS</option>
+					<option value="2">ARL</option>
+					<option value="3">AFP</option>
+					<option value="4">Caja de compensacion</option>
+				</select>
+	</div>
+	<div class="form-group">
+		
+				<select class="form-control" name='Eps' >
+				<?php foreach ($eps as $key => $value) {  ?>    
+
+					<?php if ($value['id'] == $user['id']) { ?>
+						<option value="<?php echo $value['id'] ?>" selected><?php echo $value['NombreEps'] ?></option>
+					<?php } else { ?>
+
+					<option value="<?php echo $value['id'] ?>"><?php echo $value['NombreEps'] ?></option>
+					<?php } ?>
+				<?php } ?>
+				</select>
+		
+	</div>
+	<button type="submit" name="update" class="btn btn-primary">Submit</button>
+</form>
+>>>>>>> withpays
 
 `,
 			showCloseButton: true,

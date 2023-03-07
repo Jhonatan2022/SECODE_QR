@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+<?php
+
+session_start();
+
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
+?>
+
+
+>>>>>>> withpays
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -28,6 +40,7 @@
 <body>
 	
 	<!-- header -->
+<<<<<<< HEAD
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -65,6 +78,10 @@
 			</div>
 		</div>
 	</div>
+=======
+	 <!--Portada de usuario-->
+	 <?php include('./templates/navBar.php'); ?>
+>>>>>>> withpays
 	<!-- end header -->
 
 	<!-- breadcrumb-section -->
@@ -96,7 +113,11 @@
         <h4 class="h">Premium</h4>
         <hr class="hhh">
         <h4 class="text2">$51.000</h4>
+<<<<<<< HEAD
         <a href="pagos.php?plan=premium " class="button button12">Comprar Ahora</a>
+=======
+        <a href="#" class="button button12">Comprar Ahora</a>
+>>>>>>> withpays
 		<a href="servicios.html" class="button button13">Cancelar</a>
       </div>
     </div>

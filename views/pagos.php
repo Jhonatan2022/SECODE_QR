@@ -2,6 +2,14 @@
 
 session_start();
 
+<<<<<<< HEAD
+=======
+require_once('../models/database/database.php');
+require_once('../models/user.php');
+
+$user = getUser($_SESSION['user_id']);
+
+>>>>>>> withpays
 if(isset($_SESSION['user_id'])){
 $planrecibido= $_GET['plan'];
 if ($planrecibido == 'basico'){
@@ -28,7 +36,11 @@ if ($planrecibido == 'basico'){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Pagos Secode_QR</title>
+=======
+    <title>Pagos SECODE_QR</title>
+>>>>>>> withpays
     <!-- LInk desde el panel de datos de Pypal, (SDK Javascript)-->
     <script src="https://www.paypal.com/sdk/js?client-id=AVhw-RveYQh4KiLBXWa8eXUIo0pAE3d0xrgq9VK9MHGvZ65eozHU62aKJYLGNqrqWXdT0gm-En9KYCX2&currency=USD"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
@@ -38,6 +50,7 @@ if ($planrecibido == 'basico'){
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+<<<<<<< HEAD
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="assets/css/all.min.css">
 	<!-- bootstrap -->
@@ -52,11 +65,19 @@ if ($planrecibido == 'basico'){
 	<link rel="stylesheet" href="assets/css/responsive.css">
 
     <link rel="stylesheet" href="assets/css/Paypal.css" />
+=======
+
+	<?php include('./templates/header.php') ?>
+	<?php  include('./templates/sweetalerts2.php')?>
+
+    <link rel="stylesheet" href="./assets/css/Paypal.css" />
+>>>>>>> withpays
     
 </head>
 <body>
     <div class="container">
     <header>
+<<<<<<< HEAD
     <div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -95,6 +116,11 @@ if ($planrecibido == 'basico'){
 			</div>
 		</div>
 	</div>
+=======
+
+	<?php include('./templates/navBar.php') ?>
+
+>>>>>>> withpays
     </header>
     </div>
 <main>
@@ -118,7 +144,11 @@ if ($planrecibido == 'basico'){
 					
 					<div class="col-lg-7 col-md-7 col-sm-12">
 						<div class="table-responsive">
+<<<<<<< HEAD
 							<table class="table">
+=======
+							<table class="table" style="background:white; border-radius:8px;">
+>>>>>>> withpays
 								<thead>
 									<tr>
 										<th>Producto</th>
@@ -134,7 +164,11 @@ if ($planrecibido == 'basico'){
 																				
 										<tr>
 											<td colspan="2">
+<<<<<<< HEAD
 												<p class="h3 text-end" id="total"><?php echo $precio ?></p>
+=======
+												<p class="h3 text-end" id="total">$<b><?php echo $precio ?></p>
+>>>>>>> withpays
 											</td>
 										</tr>
 										
@@ -183,7 +217,11 @@ if ($planrecibido == 'basico'){
 					//time out utilizado para mostrar mensaje de aprobacion.
 					Swal.fire(
 							'Realizado correctamente',
+<<<<<<< HEAD
 							'En un momento será redirigido a sus detalles de compra y su factura.',
+=======
+							'En un momento sera redirigido a sus detalles de compra y se factura.',
+>>>>>>> withpays
 							'success'
 						)
 					 setTimeout(() => {
@@ -235,6 +273,7 @@ if ($planrecibido == 'basico'){
 	<!-- end copyright 	-->
 	
 
+<<<<<<< HEAD
 
   
 	<!-- jquery -->
@@ -251,6 +290,9 @@ if ($planrecibido == 'basico'){
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
+=======
+<?php include('./templates/footerWebUser.php') ?>
+>>>>>>> withpays
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+<?php
+
+require_once '../models/database/database.php';
+
+session_start();
+
+require_once '../models/user.php';
+$user = getUser($_SESSION['user_id'] );
+?>
+
+
+>>>>>>> withpays
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -28,6 +42,7 @@
 <body>
 	
 	<!-- header -->
+<<<<<<< HEAD
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -65,6 +80,10 @@
 			</div>
 		</div>
 	</div>
+=======
+	 <!--Portada de usuario-->
+	 <?php include('./templates/navBar.php'); ?>
+>>>>>>> withpays
 	<!-- end header -->
 
 	<!-- breadcrumb-section -->
@@ -82,19 +101,37 @@
 	</div>
 	<!-- end breadcrumb section -->
 
+<<<<<<< HEAD
     <div class="package-container">
       <div class="packages">
         <hr>
         <h4 class="text2">$9.900</h4>
+=======
+	<div class="package-container">
+      <div class="packages">
+>>>>>>> withpays
         <ul class="list">
           <hr>
           <li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
           <li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
+<<<<<<< HEAD
           <li class="excluded"><i class="fas fa-close"></i></li>
           <li class="excluded"><i class="fas fa-close"></i></li>
         </ul>
         <a href="pagos.php?plan=basico" class="button button12">Comprar Ahora</a>
 		<a href="servicios.html" class="button button13">Cancelar</a>
+=======
+          <li class="included"><i class="fas fa-check"></i></li>
+          <li class="included"><i class="fas fa-check"></i></li>
+        </ul>
+      </div>
+	  <div class="packages">
+        <h4 class="h">Básico</h4>
+        <hr class="hhh">
+        <h4 class="text2">9.900</h4>
+        <a href="#" class="button button12">Comprar Ahora</a>
+		<a href="pagos.php?plan=basico" class="button button13">Cancelar</a>
+>>>>>>> withpays
       </div>
     </div>
 

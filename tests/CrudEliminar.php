@@ -2,9 +2,6 @@
 
 class CrudEliminar extends \PHPUnit\Framework\TestCase
 {
-
-
-
     public function testElimianar()
     {
         //Elimiar un usuario crud eliminar.

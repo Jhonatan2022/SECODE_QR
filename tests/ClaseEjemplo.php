@@ -12,5 +12,8 @@ class ClaseEjemplo
     }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> withpays
 ?>

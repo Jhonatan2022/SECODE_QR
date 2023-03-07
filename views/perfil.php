@@ -27,15 +27,25 @@ if (isset($_REQUEST['update'])) {
         || $_POST["Telefono"] != ""
 
     ) {
+<<<<<<< HEAD
+=======
+        $fechaNacimiento= date("Y-m-d", strtotime($fechaNacimiento));
+        $telefono=0;
+>>>>>>> withpays
         if (isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK) {
             $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
             $limite_kb = 1000; //10 mb maximo
 
+<<<<<<< HEAD
             if (!in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024) {
                 $message = "Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes";
             }
 
             $tipoArchivo = $_FILES["Img_perfil"]["type"];
+=======
+            if ((in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024)) {
+                $tipoArchivo = $_FILES["Img_perfil"]["type"];
+>>>>>>> withpays
             $tamanoArchivo = $_FILES["Img_perfil"]["size"];
 
             $imagenSubida = fopen($_FILES["Img_perfil"]["tmp_name"], "r");
@@ -61,6 +71,14 @@ if (isset($_REQUEST['update'])) {
             if ($query->execute()) {
                 $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
             }
+<<<<<<< HEAD
+=======
+            }else{
+                $message = ['error',"Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes",'error'];
+            }
+            
+            
+>>>>>>> withpays
         } else {
 
 
@@ -75,7 +93,11 @@ if (isset($_REQUEST['update'])) {
             $query->bindParam(':correo', $correo);
             $query->bindParam(':fechaNacimiento', $fechaNacimiento);
             $query->bindParam(':telefono', $telefono);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> withpays
             if ($query->execute()) {
                 $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
             }
@@ -97,7 +119,12 @@ $userForm = userform($_SESSION['user_id']);
     <title>Perfil de usuario</title>
     <!--style perfil-->
 
+<<<<<<< HEAD
     <?php include('./templates/header.php'); ?>
+=======
+    <?php include('./templates/header.php');
+    include('./templates/sweetalerts2.php'); ?>
+>>>>>>> withpays
 
     <link rel="stylesheet" href="./assets/css/perfil.css">
 
@@ -198,7 +225,12 @@ $userForm = userform($_SESSION['user_id']);
                                                         echo 'type="file" ';
                                                         break;
                                                     case 'FechaNacimiento':
+<<<<<<< HEAD
                                                         echo 'type="date" required ' . 'value="' . $value . ' " ';
+=======
+                                                        $value2 = date('Y-m-d', strtotime($value));
+                                                        echo 'type="date" required ' . 'value="' .$value2 .'" ';
+>>>>>>> withpays
                                                         break;
                                                     case 'Correo':
                                                         echo 'type="email" ' . 'value="' . $value . ' " ';
@@ -220,12 +252,24 @@ $userForm = userform($_SESSION['user_id']);
                                     <div class="form-group">
                                         <?php if ($key === 'Genero') { ?>
                                             <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+<<<<<<< HEAD
                                                 <option value="M" <?php if ($value === 'M') {
                                                                         echo 'selected';
                                                                     } ?>>Masculino</option>
                                                 <option value="F" <?php if ($value === 'F') {
                                                                         echo 'selected';
                                                                     } ?>>Femenino</option>
+=======
+                                                <option value="1" <?php if ($value === '1') {
+                                                                        echo 'selected';
+                                                                    } ?>>Masculino</option>
+                                                <option value="2" <?php if ($value === '2') {
+                                                                        echo 'selected';
+                                                                    } ?>>Femenino</option>
+                                                <option value="3" <?php if ($value === '3') {
+                                                                        echo 'selected';
+                                                                    } ?>>No binario</option>
+>>>>>>> withpays
                                             </select>
                                         <?php } ?>
                                     </div>

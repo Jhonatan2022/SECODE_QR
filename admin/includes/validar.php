@@ -1,5 +1,9 @@
 <?php
 
+<<<<<<< HEAD
+=======
+include_once '../config.php';
+>>>>>>> withpays
 
 
     if(strlen($_POST['Ndocumento'])>=1 && strlen($_POST['Nombre'])>=1 && strlen($_POST['Direccion'])>=1
@@ -14,10 +18,17 @@
         $Telefono = $_POST['Telefono'];
        
         $consulta="INSERT INTO usuario (Ndocumento, Nombre, Direccion, Genero, Correo, FechaNacimiento, Telefono) VALUES ('$Ndocumento','$Nombre','$Direccion','$Genero','$Correo','$FechaNacimiento','$Telefono')";
+<<<<<<< HEAD
         $server = 'localhost';
         $username = 'root';
         $password = '';
         $database = 'id16455213_secode_qr';
+=======
+        $server = DB_SERVER;
+        $username = DB_USERNAME;
+        $password = DB_PASSWORD;
+        $database = DB_NAME;
+>>>>>>> withpays
         $conexion = mysqli_connect($server,$username,$password,$database);
         mysqli_query($conexion, $consulta);
         mysqli_close($conexion);

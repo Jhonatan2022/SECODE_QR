@@ -55,7 +55,7 @@ ob_start();
     <div>
         <h2 style="text-align: center;">Datos:</h2>
 
-<?php foreach($data as $key => $value){  ?>
+<?php foreach($_POST as $key => $value){  ?>
 
     <p style="padding:5px;background:#d0d3ec; color:black">
             <spam style="color:#5d2aaf;font-weight: bold;"> <?php echo $key ?> </spam>
@@ -115,7 +115,11 @@ $source = './'.$name;
  if(rename($source,$des) ){
      $Moved = true;
      $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/'.$name;
+<<<<<<< HEAD
      $atribDefault='&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
+=======
+     $atribDefault=1;
+>>>>>>> withpays
 
      $duration=date("Y-m-d");
 
@@ -139,13 +143,20 @@ $source = './'.$name;
         if ($p->execute()) {
             $idcode=$p->fetch(PDO::FETCH_ASSOC);
             $id=$idcode['Id_codigo'];
+<<<<<<< HEAD
             header('Location: ../../views/clinico.php?GenerateError=22&Data='.$id);
         }else{
             echo 'no';
             header('Location: ../../views/clinico.php?GenerateError=1');
+=======
+            header('Location: '.$_SERVER['HTTP_REFERER'].'?GenerateError=22&Data='.$id);
+        }else{
+            echo 'no';
+            header('Location: '.$_SERVER['HTTP_REFERER'].'?GenerateError=1');
+>>>>>>> withpays
         }        
     }else{
-        header('Location: ../../views/clinico.php?GenerateError=1');
+        header('Location: '.$_SERVER['HTTP_REFERER'].'?GenerateError=1');
     }
  }else{
     $Moved=false;
