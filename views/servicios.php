@@ -31,7 +31,20 @@ $user = getUser($_SESSION['user_id'] );
 	<?php
 		include('./templates/navBar.php');
 	?>
-
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>SECØDE_QR</p>
+						<h1>Servicios</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
 	<div class="package-container">
 		<div class="packages">
 			<h4 class="h">Básico</h4>
