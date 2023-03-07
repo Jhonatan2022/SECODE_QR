@@ -3,7 +3,9 @@
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
-$user = getUser($_SESSION['user_id'] );
+if(isset($_SESSION['user_id'])){
+	$user = getUser($_SESSION['user_id'] );
+}
 ?>
 
 
@@ -69,7 +71,14 @@ $user = getUser($_SESSION['user_id'] );
           <li class="included"><i class="fas fa-check"></i></li>
           <li class="excluded"><i class="fas fa-close"></i></li>
         </ul>
-        <a href="payments/pagos.php?plan=estandar" class="button button12">Comprar Ahora</a>
+		<form action="pagos.php" method="post">
+		<input type="hidden" name="plan" value="estandar">
+		<button type="submit" class="button button12" style="border:none;">
+		Comprar Ahora
+		</button>
+		</form>
+		
+       <!--  <a href="#" class="button button12">Comprar Ahora</a> -->
         <a href="servicios.php" class="button button13">Cancelar</a>
       </div> 
     </div>

@@ -1,3 +1,13 @@
+<?php
+if(isset($_SESSION['user_id'])){
+	$param=$connection->prepare("SELECT tp.TipoSuscripcion FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id");
+	$param->bindParam(':id', $_SESSION['user_id']);
+	$param->execute();
+	$datosSus = $param->fetch(PDO::FETCH_ASSOC);
+}else{
+	$datosSus = 0;
+}
+?>
 <!-- header -->
 <div class="top-header-area" id="sticker">
 	<div class="container">
@@ -45,12 +55,22 @@
 								</li>
 
 							<?php } ?>
-
-							<li class="login-box"><a href="servicios.php">
+							<?php
+							if($datosSus == 0){?>
+								<li class="login-box"><a href="servicios.php">
 									<span></span>
 									<span></span>
 									<span></span>
-									<span></span> SECODE_QR PLUS </a></li>
+									<span></span> SECODE_QR PLUS </a>
+								</li>
+							<?}else{?>
+								<li class="login-box"><a href="Finpago.php">
+									<span></span>
+									<span></span>
+									<span></span>
+									<span></span><?='Plan: '.$datosSus['TipoSuscripcion']?> </a>
+								</li>
+							<?}?>	
 						</ul>
 
 					</nav>

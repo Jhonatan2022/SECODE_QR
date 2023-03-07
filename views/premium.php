@@ -3,7 +3,9 @@
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
-$user = getUser($_SESSION['user_id'] );
+if(isset($_SESSION['user_id'])){
+	$user = getUser($_SESSION['user_id'] );
+}
 ?>
 
 
@@ -70,7 +72,12 @@ $user = getUser($_SESSION['user_id'] );
         <h4 class="h">Premium</h4>
         <hr class="hhh">
         <h4 class="text2">$51.000</h4>
-        <a href="pagos.php?plan=premium " class="button button12">Comprar Ahora</a>
+		<form action="pagos.php" method="post">
+		<input type="hidden" name="plan" value="premium">
+		<button type="submit" class="button button12" style="border:none;">
+		Comprar Ahora
+		</button>
+		</form>
 		<a href="servicios.php" class="button button13">Cancelar</a>
       </div>
     </div>
