@@ -57,10 +57,15 @@ function editar_registro() {
     $conexion = mysqli_connect($server,$username,$password,$database);
     extract($_POST);
     $consulta="UPDATE usuario SET Ndocumento = '$Ndocumento', Nombre = '$Nombre', Direccion = '$Direccion',
-    Genero ='$Genero', Correo = '$Correo' , FechaNacimiento = '$FechaNacimiento' , Telefono = '$Telefono'  WHERE Ndocumento = '$Ndocumento'";
+    Genero ='$Genero', Correo = '$Correo' , FechaNacimiento = '$FechaNacimiento' , Telefono = '$Telefono', rol = '$rol'  WHERE Ndocumento = '$Ndocumento'";
 
-    mysqli_query($conexion, $consulta);
-    header('Location: ../views/tablero.php');
+    if(mysqli_query($conexion, $consulta)){
+        header('Location: ../views/tablero.php?estado=1');
+    }else{
+        header('Location: ../views/tablero.php?estado=2');
+    }
+
+    
 
 }
 

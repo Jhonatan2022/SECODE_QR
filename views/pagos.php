@@ -34,6 +34,7 @@ if ($planrecibido == 'basico'){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagos SECODE_QR</title>
+    <title>Pagos Secode_QR</title>
     <!-- LInk desde el panel de datos de Pypal, (SDK Javascript)-->
     <script src="https://www.paypal.com/sdk/js?client-id=AVhw-RveYQh4KiLBXWa8eXUIo0pAE3d0xrgq9VK9MHGvZ65eozHU62aKJYLGNqrqWXdT0gm-En9KYCX2&currency=USD"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
@@ -79,7 +80,11 @@ if ($planrecibido == 'basico'){
 					
 					<div class="col-lg-7 col-md-7 col-sm-12">
 						<div class="table-responsive">
+<<<<<<< HEAD
 							<table class="table" style="background:white; border-radius:8px;">
+=======
+							<table class="table">
+>>>>>>> LCH-login
 								<thead>
 									<tr>
 										<th>Producto</th>
@@ -95,7 +100,11 @@ if ($planrecibido == 'basico'){
 																				
 										<tr>
 											<td colspan="2">
+<<<<<<< HEAD
 												<p class="h3 text-end" id="total">$<b><?php echo $precio ?></p>
+=======
+												<p class="h3 text-end" id="total"><?php echo $precio ?></p>
+>>>>>>> LCH-login
 											</td>
 										</tr>
 										

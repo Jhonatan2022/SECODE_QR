@@ -82,6 +82,7 @@ if($query->execute()){
     
 </head>
 <body background = "white">
+<body>
     <div class="container">
     <header>
     <div class="top-header-area" id="sticker">

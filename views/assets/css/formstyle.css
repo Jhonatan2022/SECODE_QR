@@ -382,3 +382,13 @@ width: calc(50% - 8px);
 i{
 	color: white;
 }
+
+@media screen and (max-width: 600px) {
+	form{
+		width: 100% !important;
+	}
+	.screen{
+		width: 95% !important;
+	}
+}
+	
