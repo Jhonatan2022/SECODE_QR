@@ -54,7 +54,7 @@ if($resultsUser['rol'] === '2'){
     <nav class="main-navbar">
         <ul class="navbar-container">
             <li class="logo" style="margin-top: -4px;">
-                <a href="../views/tablero.php" class="navbar-link">
+                <a href="../../views/" class="navbar-link">
                     <img src="../img/logito.svg" style="width:50px; margin-right:-10px;">
                     <span class="link-text" style="font-weight:500;">SECODE_QR</span>
                 </a>
@@ -93,7 +93,7 @@ if($resultsUser['rol'] === '2'){
                 </a>
             </li>
             <li class="navbar-item">
-                <a href="#" class="navbar-link">
+                <a href="../../views/perfil.php" class="navbar-link">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="power-off" class="fa-primary" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:20px;  margin-top:-50px;">
                         <path fill="currentColor" d="M400 54.1c63 45 104 118.6 104 201.9 0 136.8-110.8 247.7-247.5 248C120 504.3 8.2 393 8 256.4 7.9 173.1 48.9 99.3 111.8 54.2c11.7-8.3 28-4.8 35 7.7L162.6 90c5.9 10.5 3.1 23.8-6.6 31-41.5 30.8-68 79.6-68 134.9-.1 92.3 74.5 168.1 168 168.1 91.6 0 168.6-74.2 168-169.1-.3-51.8-24.7-101.8-68.1-134-9.7-7.2-12.4-20.5-6.5-30.9l15.8-28.1c7-12.4 23.2-16.1 34.8-7.8zM296 264V24c0-13.3-10.7-24-24-24h-32c-13.3 0-24 10.7-24 24v240c0 13.3 10.7 24 24 24h32c13.3 0 24-10.7 24-24z">
                         </path>
@@ -198,7 +198,11 @@ if($resultsUser['rol'] === '2'){
             border-color: #530046;
         }
     </style>
-
+<?php
+if(isset($_GET['estado'])){
+    $estado=$_GET['estado'];
+    if ($estado==1) { echo "<script> alert('Usuario modificado correctamente'); </script>";}elseif($estado==2){ echo "<script> alert('ERROR al modificar usuario'); </script>";}
+}?>
 </body>
 
 </html>

@@ -53,7 +53,7 @@ if($resultsUser['rol'] === '2'){
 <nav class="main-navbar">
         <ul class="navbar-container">
             <li class="logo" style="margin-top: -4px;">
-                <a href="../views/tablero.php" class="navbar-link">
+                <a href="../../views/" class="navbar-link">
                 <img src="../img/logito.svg" style="width:50px; margin-right:-10px;">
                     <span class="link-text" style="font-weight:500;">SECODE_QR</span>
                 </a>
@@ -88,7 +88,7 @@ if($resultsUser['rol'] === '2'){
                 </a>
             </li>
             <li class="navbar-item">
-                <a href="#" class="navbar-link">
+                <a href="../../views/perfil.php" class="navbar-link">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="power-off" class="fa-primary"
                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:20px;  margin-top:-50px;">
                         <path fill="currentColor"
@@ -115,35 +115,53 @@ if($resultsUser['rol'] === '2'){
                         <i class="input-icon fas fa-regular fa-id-card-clip"></i>
                     </div>
                     <div class="form-group mt-2">
-                        <input class="form-style" type="text" id="Nombre" name="Nombre"  placeholder="Nombres de usuario" value ="<?php echo $usuario["Nombre"]; ?>"required>
+                        <input class="form-style" type="text" id="Nombre" name="Nombre"  placeholder="Nombres de usuario" value ="<?php echo $usuario["Nombre"]; ?>"required maxlength="28">
                         <i class="input-icon fas fa-user"></i>
                     </div>
                     <div class="form-group mt-2">
-                        <input class="form-style" type="text" id="Direccion" name="Direccion"   placeholder="Direccion" value ="<?php echo $usuario["Direccion"]; ?>"required>
+                        <input class="form-style" type="text" id="Direccion" name="Direccion"   placeholder="Direccion" value ="<?php echo $usuario["Direccion"]; ?>" maxlength="35">
                         <i class="input-icon fas fa-regular fa-location-dot"></i>
                     </div>
+
                     <div class="form-group mt-2">
-                        <input class="form-style" type="text" id="Genero" name="Genero"   placeholder="Genero usuario" value ="<?php echo $usuario["Genero"]; ?>"required>
+                    <select class="form-control ml-2" id="Genero" name="Genero" >
+                      <option value="1" <?php if ($usuario["Genero"] === '1') {
+                                          echo 'selected';
+                                        } ?>>Masculino</option>
+                      <option value="2" <?php if ($usuario["Genero"] === '2') {
+                                          echo 'selected';
+                                        } ?>>Femenino</option>
+                      <option value="3" <?php if ($usuario["Genero"] === '3') {
+                                          echo 'selected';
+                                        } ?>>No binario</option>
+                    </select>
                         <i class="input-icon fas fa-solid fa-venus-mars"></i>
                     </div>
+
                     <div class="form-group mt-2">
                         <input class="form-style" type="email" id="Correo" name="Correo"   placeholder="Correo usuario" value ="<?php echo $usuario["Correo"]; ?>"required>
                         <i class="input-icon fas fa-at"></i>
                     </div>
                     <div class="form-group mt-2">
-                        <input class="form-style" type="date" id="FechaNacimiento" name="FechaNacimiento"   placeholder="Fecha de nacimiento usuario" value ="<?php echo $usuario["FechaNacimiento"]; ?>"required>
+                        <input class="form-style" type="date" id="FechaNacimiento" name="FechaNacimiento"   placeholder="Fecha de nacimiento usuario" value ="<?php echo $usuario["FechaNacimiento"]; ?>">
                         <i class="input-icon fas fa-solid fa-calendar-days"></i>
                     </div>
                     <div class="form-group mt-2">
-                        <input class="form-style" type="Telefono" name="Telefono" id="Telefono"   placeholder="Telefono" value ="<?php echo $usuario["Telefono"]; ?>"required>
+                        <input class="form-style" type="Telefono" name="Telefono" id="Telefono"   placeholder="Telefono" value ="<?php echo $usuario["Telefono"]; ?>" maxlength="12">
                         <input type="hidden" name="accion" value = "editar_registro">
                         <i class="input-icon fas fa-phone"></i>
                     </div>
                     <div class="form-group mt-2">
-                        <p>ROl 1: normal-- 2:administrador</p>
-                        <input class="form-style" type="tel"  name="rol" id="Telefono"   placeholder="rol" value ="<?php echo $usuario["rol"]; ?>">
-                        
-                        <i class="input-icon fas fa-rol"></i>
+                        <p><strong>ROL USUARIO</strong> 1: normal-- 2:administrador</p>
+
+                        <select class="form-control ml-2" id="rol" name="rol" >
+                      <option value="1" <?php if ($usuario["rol"] === '1') {
+                                          echo 'selected';
+                                        } ?>>Usuario Normal</option>
+                      <option value="2" <?php if ($usuario["rol"] === '2') {
+                                          echo 'selected';
+                                        } ?>>Usuario Administrador</option>
+                    </select>
                     </div>
                     <div class="boton">
                         <div class="btn"><button type="submit" >Editar Datos</button></div>
