@@ -2,9 +2,7 @@
 
 class projectTest extends \PHPUnit\Framework\TestCase
 {
-
-
-
+    
     public function testPushAndPop()
     {        /*
              _       _         _                         _ 
@@ -40,7 +38,6 @@ class projectTest extends \PHPUnit\Framework\TestCase
                 $message = array(' Error', 'Ocurrio un error en la consulta codigos user. intente de nuevo.', 'error');
             }
         }
-
 
         $this->assertEquals('No ha iniciado sesion ', $message[1]);
     }
