@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 12-12-2022 a las 06:32:41
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 7.4.29
+-- Host: localhost
+-- Generation Time: Mar 08, 2023 at 12:55 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `finalsecode`
+-- Database: `finalsecode`
 --
 
 -- --------------------------------------------------------
@@ -83,7 +83,7 @@ INSERT INTO `AlergiaMedicamento` (`IDAlergiaMedicamento`, `AlergiaMedicamento`) 
 
 CREATE TABLE `AtributosQr` (
   `IDAtributosQr` int(2) NOT NULL,
-  `Atributo` varchar(80) NOT NULL
+  `Atributosqr` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -103,8 +103,17 @@ CREATE TABLE `codigo_qr` (
   `Ndocumento` int(11) NOT NULL,
   `DatosClinicos` int(4) DEFAULT NULL,
   `FormularioMedicamentos` int(4) DEFAULT NULL,
-  `Atributos` int(2) NOT NULL
+  `Atributos` int(2) DEFAULT NULL,
+  `Atributo` varchar(200) DEFAULT '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `codigo_qr`
+--
+
+INSERT INTO `codigo_qr` (`id_codigo`, `Titulo`, `nombre`, `Fecha`, `Duracion`, `RutaArchivo`, `Descripcion`, `Ndocumento`, `DatosClinicos`, `FormularioMedicamentos`, `Atributos`, `Atributo`) VALUES
+(18, '', '80e6fa50b31197f66559a91357ba3f8e.pdf', NULL, '2023-03-05', 'http://127.0.0.1/secodeqr/views/pdf/80e6fa50b31197f66559a91357ba3f8e.pdf', NULL, 123456789, 17, NULL, NULL, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120'),
+(24, '', 'c4662d2e4ef0ae962acca34fbf11b903.pdf', NULL, '2023-03-08', 'http://127.0.0.1/secodeqr/views/pdf/c4662d2e4ef0ae962acca34fbf11b903.pdf', NULL, 123456789, 22, NULL, NULL, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120');
 
 -- --------------------------------------------------------
 
@@ -151,7 +160,9 @@ CREATE TABLE `datos_clinicos` (
 --
 
 INSERT INTO `datos_clinicos` (`IDDatosClinicos`, `NDocumento`, `TipoAfiliacion`, `TipoSubsidio`, `Tipo_de_sangre`, `RH`, `CondicionClinica`, `AlergiaMedicamento`, `arraycond`) VALUES
-(1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}');
+(1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}'),
+(17, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}'),
+(22, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}');
 
 -- --------------------------------------------------------
 
@@ -316,7 +327,7 @@ CREATE TABLE `Suscripcion` (
 --
 
 INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `FechaExpiracion`, `TipoSuscripcion`, `fecha_inicio`, `numero_recibo`, `token`) VALUES
-(1, 123456789, '2022-12-15', 3, NULL, NULL, NULL);
+(29, 123456789, NULL, 3, '2023-03-08', 2459909968, 'ceeddb86b995ded82e974be21d2d1c43');
 
 -- --------------------------------------------------------
 
@@ -396,7 +407,8 @@ CREATE TABLE `TipoSuscripcion` (
 INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `precio`) VALUES
 (1, 'Gratis', 0),
 (2, 'Basico', 3000),
-(3, 'Premium', 7000);
+(3, 'Estandar', 20000),
+(4, 'Premium', 50000);
 
 -- --------------------------------------------------------
 
@@ -409,7 +421,7 @@ CREATE TABLE `usuario` (
   `TipoDoc` int(2) DEFAULT 1,
   `Nombre` varchar(30) NOT NULL,
   `Apellidos` varchar(30) DEFAULT NULL,
-  `Correo` varchar(50) NOT NULL,
+  `Correo` varchar(60) NOT NULL,
   `Direccion` varchar(40) DEFAULT NULL,
   `Localidad` int(2) DEFAULT NULL,
   `Genero` int(2) DEFAULT NULL,
@@ -429,6 +441,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
+(12345678, 1, 'jacinto Admin ', NULL, 'jarlen@gmail.com', NULL, NULL, NULL, NULL, 10, 1, NULL, NULL, NULL, 'd6039d4523fc1014727b71c9e26d02cd', NULL, '$2y$10$56koWbSBIWhWhCvD9IkV7ubByQdqA1K0YxRAtJfFKJWAfNi4zZ2Bq'),
 (123456789, 1, 'Andres   ', 'Suarez', 'lfchaparro37@misena.edu.co', 'calle 13   ', 3, 1, 3, 3, 2, '2022-12-05', 0, NULL, '65465465435432', 'image/jpeg', '$2y$10$yk/QMc5zgz7SWeAt2MkVd.pu3s1wpJHhkMqzi/9VIhqyRhWY9XRdW');
 
 --
@@ -603,7 +616,7 @@ ALTER TABLE `AtributosQr`
 -- AUTO_INCREMENT for table `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
-  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `CondicionClinica`
@@ -615,7 +628,7 @@ ALTER TABLE `CondicionClinica`
 -- AUTO_INCREMENT for table `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
-  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `FormularioMedicamentos`
@@ -627,7 +640,7 @@ ALTER TABLE `FormularioMedicamentos`
 -- AUTO_INCREMENT for table `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
-  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `TipoSubsidio`
@@ -639,7 +652,7 @@ ALTER TABLE `TipoSubsidio`
 -- AUTO_INCREMENT for table `TipoSuscripcion`
 --
 ALTER TABLE `TipoSuscripcion`
-  MODIFY `IDTipoSuscripcion` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IDTipoSuscripcion` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+use PHPMailer\PHPMailer\OAuth;
 
 session_start();
 
@@ -7,21 +9,30 @@ require_once('../models/user.php');
 
 $user = getUser($_SESSION['user_id']);
 
-if(isset($_SESSION['user_id'])){
-$planrecibido= $_GET['plan'];
+$param=$connection->prepare("SELECT * FROM Suscripcion WHERE Ndocumento = :id");
+$param->bindParam(':id', $_SESSION['user_id']);
+$param->execute();
+$datos = $param->fetch(PDO::FETCH_ASSOC);
+
+
+if(isset($_SESSION['user_id']) && isset($_POST['plan']) && $datos == 0){
+$planrecibido= $_POST['plan'];
 if ($planrecibido == 'basico'){
-	$plan = 'Plan Básico SECODE_QR';
-	$precio = '9900';
+	$plan = 2;
 	$etiqueta=22;
 }elseif($planrecibido == 'estandar'){
-	$plan = 'Plan Estandar SECODE_QR';
-	$precio = '26700';
+	$plan = 3;
 	$etiqueta=56;
 }elseif ($planrecibido =='premium'){
-	$plan = 'Plan Premium SECODE_QR';
-	$precio = '51000';
+	$plan = 4;
 	$etiqueta=99;
 }
+
+$param=$connection->prepare("SELECT * FROM TipoSuscripcion WHERE IDTipoSuscripcion = :plan");
+$param->bindParam(':plan', $plan);
+$param->execute();
+$Plandatos = $param->fetch(PDO::FETCH_ASSOC);
+$token=$user['token_reset'];
 }else{
 	header('Location: ./iniciar.php');
 }
@@ -80,11 +91,7 @@ if ($planrecibido == 'basico'){
 					
 					<div class="col-lg-7 col-md-7 col-sm-12">
 						<div class="table-responsive">
-<<<<<<< HEAD
-							<table class="table" style="background:white; border-radius:8px;">
-=======
 							<table class="table">
->>>>>>> LCH-login
 								<thead>
 									<tr>
 										<th>Producto</th>
@@ -93,18 +100,16 @@ if ($planrecibido == 'basico'){
 									</tr>
 								</thead>
 								<tbody>
-																				<tr>
-												<td style="color:#4b0081"><b><?php echo $plan ?></b></td>
-												<td style="color:#4ab7cf">$<b><?php echo $precio ?></b></td>
+											<tr>
+												<td style="color:#4b0081"><b><?='Plan en la platafroma: '. $Plandatos['TipoSuscripcion']?></b></td>
+												<td>$<b><?= $Plandatos['precio']?></b></td>
 											</tr>
 																				
 										<tr>
 											<td colspan="2">
-<<<<<<< HEAD
-												<p class="h3 text-end" id="total">$<b><?php echo $precio ?></p>
-=======
-												<p class="h3 text-end" id="total"><?php echo $precio ?></p>
->>>>>>> LCH-login
+
+												<p class="h3 text-end" id="total"><?= $Plandatos['precio'] ?></p>
+
 											</td>
 										</tr>
 										
@@ -126,7 +131,7 @@ if ($planrecibido == 'basico'){
 			headers: myHeaders
 			};
 
-			fetch("https://api.apilayer.com/fixer/convert?to=USD&from=COP&amount=<?= $precio ?>", requestOptions)
+			fetch("https://api.apilayer.com/fixer/convert?to=USD&from=COP&amount=<?= intval($Plandatos['precio']) ?>", requestOptions)
 			.then(response => response.text())
 			.then(result => {let data = JSON.parse(result); 
                 console.log(`la moneda es :${data.result}`);
@@ -153,12 +158,12 @@ if ($planrecibido == 'basico'){
 					//time out utilizado para mostrar mensaje de aprobacion.
 					Swal.fire(
 							'Realizado correctamente',
-							'En un momento sera redirigido a sus detalles de compra y se factura.',
+							'En un momento sera redirigido a sus detalles de compra y su factura.',
 							'success'
 						)
 					 setTimeout(() => {
-						window.location.href="Finpago.php?plan=<?= $etiqueta?>";
-					 }, 7000); // 7 segs 
+						window.location.href="Finpago.php?plan=<?=$etiqueta.'&token='.$token?>";
+					 }, 5000); // 5 segs 
                         
                 });
 
@@ -169,7 +174,7 @@ if ($planrecibido == 'basico'){
 					icon: 'error',
 					title: 'Pago cancelado',
 					text: 'Se ha cancelado el pago!',
-					footer: '<a href="servicios.html">Intentar nuevamente?</a>'
+					footer: '<a href="servicios.php">Intentar nuevamente?</a>'
 					})
             }
         }).render('#paypal-button-container');
@@ -179,7 +184,7 @@ if ($planrecibido == 'basico'){
 					icon: 'error',
 					title: 'No se puede realizar el pago',
 					text: `Error interno!${error}`,
-					footer: '<a href="servicios.html">Intentar nuevamente?</a>'
+					footer: '<a href="servicios.php">Intentar nuevamente?</a>'
 					})
 			});
         //Users   email: sb-7cosb23375447@personal.example.com    Password: zX1[zA<f
