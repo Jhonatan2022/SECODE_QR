@@ -5,7 +5,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
+					<p>Copyrights &copy; <?=date('Y')?> - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">

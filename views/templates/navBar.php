@@ -34,8 +34,8 @@ if(isset($_SESSION['user_id'])){
 
 						<ul>
 
-							<li><a href="nosotros.html">Quienes Somos</a></li>
-							<li><a href="contact.html">Contáctanos</a></li>
+							<li><a href="nosotros.php">Quienes Somos</a></li>
+							<li><a href="contact.php">Contáctanos</a></li>
 							<li><a href="clinico.php">Solicitar Código</a>
 								<ul class="sub-menu">
 									<li><a href="formulario_datos_clinicos.php">Datos Clínicos</a>
@@ -46,7 +46,7 @@ if(isset($_SESSION['user_id'])){
 							<?php if (isset($_SESSION['user_id'])) { ?>
 								<li id='button-exit' class="user">
 									<img src="<?= $user['Img_perfil'] ?>" alt="">
-									<code> <?= $user['Nombre'] ?></code>
+									<strong style="color: black;"> <?= $user['Nombre'] ?></strong>
 									<ul class="sub-menu">
 										<li><a href="perfil.php">Mi perfil</a></li>
 										<li><a href="dashboard.php">Mis documentos</a></li>

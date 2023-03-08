@@ -209,7 +209,7 @@ $alergia = alergia();
                   $val = date('Y-m-d', strtotime($value)); ?>
                   <div class="item">
                     <p>Fecha de nacimiento</p>
-                    <input type="date" name="<?= $key ?>" value="<?= $val ?>" required />
+                    <input type="date" name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
                   </div>
                   <?php break; ?>
 

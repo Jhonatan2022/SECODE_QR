@@ -87,7 +87,8 @@ if (isset($_REQUEST['update'])) {
     }
 }
 
-$user = getUser($_SESSION['user_id']);
+$roluser = getUser($_SESSION['user_id']);
+$user = getUserData($_SESSION['user_id']);
 $userForm = userform($_SESSION['user_id']);
 
 
@@ -159,7 +160,7 @@ $userForm = userform($_SESSION['user_id']);
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
                 <?php
-                if ($user['rol'] === '2') {
+                if ($roluser['rol'] === '2') {
                     echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
                 }
                 ?>
@@ -232,9 +233,6 @@ $userForm = userform($_SESSION['user_id']);
                                                 <option value="2" <?php if ($value === '2') {
                                                                         echo 'selected';
                                                                     } ?>>Femenino</option>
-                                                <option value="3" <?php if ($value === '3') {
-                                                                        echo 'selected';
-                                                                    } ?>>No binario</option>
                                             </select>
                                         <?php } ?>
                                     </div>
@@ -255,22 +253,48 @@ $userForm = userform($_SESSION['user_id']);
             </div>
             <div class="perfil-usuario-footer">
                 <ul class="lista-datos">
-                    <li><i class="icono fas fa-map-signs"></i> Direccion: <strong><?php echo $user['Direccion'] ?></strong> </li>
-                    <li><i class="icono fas fa-phone"></i> Telefono: <strong>
+                    <li><i class="icono fas fa-home"></i>Direccion: <strong><?php echo $user['Direccion'] ?></strong> </li>
+                    <li><i class="icono fas fa-phone"></i>Telefono: <strong>
                             <?php echo $user['Telefono'] ?>
                         </strong> </li>
-                    <li><i class="icono fas fa-user"></i> Genero <strong>
+                    <li><i class="icono fas fa-user"></i>Genero <strong>
                             <?php echo $user['Genero'] ?>
                         </strong></li>
-                    <li><i class="icono fas fa-building"></i> Cargo</li>
+                    <li><i class="icono fas fa-building"></i>Eps: 
+                    <strong>
+                            <?= $user['NombreEps'] ?>
+                    </strong>
+                    </li>
+                    <li><i class="icono fas fa-user"></i>ROL:
+                    <strong>
+                            <?= $user['rol'] ?>
+                    </strong>
+                    </li>
                 </ul>
                 <ul class="lista-datos">
-                    <li><i class="icono fas fa-map-marker-alt"></i> Localidad:</li>
-                    <li><i class="icono fas fa-calendar-alt"></i> Fecha nacimiento: <strong>
+                    <li><i class="icono fas fa-address-card"></i>Tipo de documento:
+                        <strong>
+                                <?= $user['TipoDocumento'] ?>
+                        </strong>
+                    </li>
+                    <li><i class="icono fas fa-map-marker-alt"></i>Localidad:
+                    <strong>
+                            <?= $user['Localidad'] ?>
+                    </strong>
+                    </li>
+                    <li><i class="icono fas fa-calendar-alt"></i>Fecha nacimiento: <strong>
                             <?php echo $user['FechaNacimiento'] ?>
                         </strong> </li>
-                    <li><i class="icono fas fa-user-check"></i> Registro.</li>
-                    <li><i class="icono fas fa-share-alt"></i> Redes sociales.</li>
+                    <li><i class="icono fas fa-user-check"></i>Estrato: 
+                    <strong>
+                            <?= $user['Estrato'] ?>
+                    </strong>
+                    </li>
+                    <li><i class="icono fas fa-envelope"></i>Correo:
+                        <strong>
+                                <?= $user['Correo'] ?>
+                        </strong>
+                    </li>
                 </ul>
             </div>
             <div class="redes-sociales">

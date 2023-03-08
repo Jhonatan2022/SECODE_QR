@@ -62,7 +62,7 @@ if($query->execute()){
 	$verFactura=true;
 	$precio=getSuscription($_SESSION['user_id']);
 	$idfactura = $precio['numero_recibo'];
-	$date= date('Y-m-d');
+	$date= $precio['fecha_inicio'];
 	$pdf='../controller/pdf/pdfpago.php';
 
 }else{
@@ -115,16 +115,18 @@ if($query->execute()){
 <main>
 <div class = "recibo">
 <table style="margin:25vh auto; background-color:#F1F0F1;">
-<?if(isset($verFactura) && $verFactura){ ?>
-		<h2 style="display: block;">Detalles de facturacion</h2>
-		<?}else{?>
-      <h2>Finalizacion de compra</h2>
-	  <?}?>
-  <caption>Copyrights &copy; 2022 - SECØDE_QR, Salud e información al instante.</caption>
+  <caption>Copyrights &copy; <?=date('Y')?> - SECØDE_QR, Salud e información al instante.</caption>
   <thead>
     <tr class="tabla1">
       <th scope="col"><img src="../views/assets/img/logo.png" alt="SECODE_QR" width="100px"></th>
       <th scope="col">SECODE_QR</th>
+	  <th colspan="3">
+	  <?if(isset($verFactura) && $verFactura){ ?>
+		<h3 style="position:relative;">Detalles de facturacion</h3>
+		<?}else{?>
+      <h2>Finalizacion de compra</h2>
+	  <?}?>
+	  </th>
     </tr>
   </thead>
   <tbody>
@@ -163,7 +165,7 @@ if($query->execute()){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
+					<p>Copyrights &copy; <?=date('Y')?> - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">
@@ -211,6 +213,11 @@ if($query->execute()){
 			}, 3500);
 		};
 	</script>
+	<style>
+		nav.main-menu ul li a {
+			color: black;
+		}
+	</style>
 </footer>
 
 </body>

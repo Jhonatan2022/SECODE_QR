@@ -1,3 +1,14 @@
+<?php
+
+session_start();
+require_once '../models/database/database.php';
+require_once '../models/user.php';
+if(isset($_SESSION['user_id'])){
+	$user = getUser($_SESSION['user_id'] );
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,54 +50,7 @@
 	</div>
     <!--PreLoader Ends-->
 	
-	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.php">
-								<img src="assets/img/logo.png" alt="">	
-							</a>
-						</div>
-						<!-- logo -->
-						<!--boton de inicio-->
-						<div class="site-logo">
-							<a class="button--secondary" href="index.php">
-								<span class="text">INICIO</span>
-							<span class="icon-arrow"></span>
-							</a>
-						</div>
-						<!--boton de inicion end-->
-
-						 <!-- menu start -->
-						 <nav class="main-menu">
-							<ul>
-							  <li><a href="nosotros.html">Quienes Somos</a></li>
-							  <li><a href="contact.html">Contáctanos</a></li>
-							  <li>
-								<a href="#">Solicitar Código</a>
-								<ul class="sub-menu">
-								  <li><a href="clinico.html">Datos Clinicos</a></li>
-								</ul>
-							  </li>
-							  <li class="login-box"><a href="#">
-								<span></span>
-								<span></span>
-								<span></span>
-								<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						  </nav>
-						  <div class="mobile-menu"></div>
-						  <!-- menu end -->
-						</div>
-					  </div>
-					</div>
-				  </div>
-				</div>
-				<!-- end header -->
+	<?php include_once('./templates/navBar.php');?>
 				
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
@@ -155,64 +119,11 @@
 	</div>
 	<!-- end google map section
 
-<!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box about-widget">
-						<h2 class="widget-title">Misión</h2>
-						<p>El proyecto surge debido a la problemática de la accesibilidad y coste de poseer su información médica, por lo tanto se plantea administrar o adjuntar a través de un código QR, el manejo de dicha información.</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box get-in-touch">
-						<h2 class="widget-title">Visión</h2>
-						<p>Impactar a la problematica social,mediante las Tecnologias de la informacion, durante 3 semestres.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end footer -->
+	<?php include_once('./templates/footer.php');?>
 	
-	<!-- copyright -->
-	<div class="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<p>Copyright &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>,  Salud e información al instante.</p>
-				</div>
-				<div class="col-lg-6 text-right col-md-12">
-					<div class="social-icons">
-						<ul>
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end copyright -->
+	<?php include_once('./templates/footer_copyrights.php');?>
 	
-	<!-- jquery -->
-	<script src="assets/js/jquery-1.11.3.min.js"></script>
-	<!-- bootstrap -->
-	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<!-- isotope -->
-	<script src="assets/js/jquery.magnific-popup.min.js"></script>
-	<!-- isotope -->
-	<script src="assets/js/jquery.isotope-3.0.6.min.js"></script>
-	<!-- mean menu -->
-	<script src="assets/js/jquery.meanmenu.min.js"></script>
-	<!-- sticker js -->
-	<script src="assets/js/sticker.js"></script>
-	<!-- main js -->
-	<script src="assets/js/main.js"></script>
+
 	
 </body>
 </html>
