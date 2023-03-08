@@ -1,17 +1,16 @@
-<<<<<<< HEAD
+
 <?php
 
 require_once '../models/database/database.php';
 
 session_start();
-
+require_once '../models/database/database.php';
 require_once '../models/user.php';
-$user = getUser($_SESSION['user_id'] );
+if(isset($_SESSION['user_id'])){
+	$user = getUser($_SESSION['user_id'] );
+}
 ?>
 
-
-=======
->>>>>>> LCH-login
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -44,43 +43,8 @@ $user = getUser($_SESSION['user_id'] );
 	<!-- header -->
 	 <!--Portada de usuario-->
 	 <?php include('./templates/navBar.php'); ?>
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.php">
-								<img src="assets/img/logo.png" alt="">	
-							</a>
-						</div>
-						<!-- logo -->	
 
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="nosotros.html">Quienes Somos</a></li>	
-								<li><a href="contact.html">Contáctanos</a></li>
-								<li><a href="#">Solicitar Código</a>
-								<ul class="sub-menu">
-									<li><a href="clinico.html">Datos Clinicos</a>
-									</li>
-								</ul>
-								<li class="login-box"><a href="#">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						</nav>	
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
 	<!-- end header -->
 
 	<!-- breadcrumb-section -->
@@ -100,6 +64,7 @@ $user = getUser($_SESSION['user_id'] );
 
 	<div class="package-container">
       <div class="packages">
+
     <div class="package-container">
       <div class="packages">
         <hr>
@@ -108,20 +73,15 @@ $user = getUser($_SESSION['user_id'] );
           <hr>
           <li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
           <li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-          <li class="included"><i class="fas fa-check"></i></li>
-          <li class="included"><i class="fas fa-check"></i></li>
-        </ul>
-      </div>
-	  <div class="packages">
-        <h4 class="h">Básico</h4>
-        <hr class="hhh">
-        <h4 class="text2">9.900</h4>
-        <a href="#" class="button button12">Comprar Ahora</a>
-		<a href="pagos.php?plan=basico" class="button button13">Cancelar</a>
           <li class="excluded"><i class="fas fa-close"></i></li>
           <li class="excluded"><i class="fas fa-close"></i></li>
         </ul>
-        <a href="pagos.php?plan=basico" class="button button12">Comprar Ahora</a>
+		<form action="pagos.php" method="post">
+		<input type="hidden" name="plan" value="basico">
+		<button type="submit" class="button button12" style="border:none;">
+		Comprar Ahora
+		</button>
+		</form>
 		<a href="servicios.html" class="button button13">Cancelar</a>
       </div>
     </div>

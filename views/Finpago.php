@@ -2,17 +2,34 @@
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
-
-if(isset($_SESSION['user_id'])){
 $user = getUser($_SESSION['user_id']);
+$param=$connection->prepare("SELECT * FROM Suscripcion WHERE Ndocumento = :id");
+$param->bindParam(':id', $_SESSION['user_id']);
+$param->execute();
+$datos = $param->fetch(PDO::FETCH_ASSOC);
+
+
+
+if(isset($_SESSION['user_id']) && isset($_GET['plan']) && isset($_GET['token']) && $datos == 0 ){
+
 
 $plan = $_GET['plan'];
 if ($plan == 22){$plan = 2;
 }
-elseif($plan == 56){$plan = 4;
+elseif($plan == 56){$plan = 3;
 }
-elseif($plan == 99){$plan = 3;
+elseif($plan == 99){$plan = 4;
 }else{
+	header('Location: ./iniciar.php');
+}
+
+$query1='SELECT us.Ndocumento FROM usuario as us WHERE us.token_reset = :token';
+$query = $connection->prepare($query1);
+$query->bindParam(':token', $_GET['token']);
+$query->execute();
+$usercompare = $query->fetch(PDO::FETCH_ASSOC);
+
+if($usercompare['Ndocumento'] != $_SESSION['user_id']){
 	header('Location: ./iniciar.php');
 }
 
@@ -26,19 +43,27 @@ $precio = $query->fetch(PDO::FETCH_ASSOC);
 $idfactura = random_int(2142314324,8957349578);
 //date now 
 $date= date('Y-m-d');
-
-$query1='INSERT INTO Suscripcion (IDSuscripcion,Ndocumento,FechaExpiracion, TipoSuscripcion, fecha_inicio, numero_recibo) 
-VALUES (null, :ndoc, null, :tipsus, :fecha, :numr)';
+$token = bin2hex(random_bytes(16));
+$query1='INSERT INTO Suscripcion (IDSuscripcion,Ndocumento,FechaExpiracion, TipoSuscripcion, fecha_inicio, numero_recibo, token) 
+VALUES (null, :ndoc, null, :tipsus, :fecha, :numr, :token)';
 $query = $connection->prepare($query1);
 $query->bindParam(':ndoc', $_SESSION['user_id']);
 $query->bindParam(':tipsus', $plan);
 $query->bindParam(':fecha', $date);
 $query->bindParam(':numr', $idfactura);
+$query->bindParam(':token', $token);
 if($query->execute()){
 	$pdf='../controller/pdf/pdfpago.php';
-}else{
-	$pdf='#';
 }
+
+
+
+}elseif($datos != 0){
+	$verFactura=true;
+	$precio=getSuscription($_SESSION['user_id']);
+	$idfactura = $precio['numero_recibo'];
+	$date= date('Y-m-d');
+	$pdf='../controller/pdf/pdfpago.php';
 
 }else{
 	header('Location: ./iniciar.php');
@@ -85,49 +110,17 @@ if($query->execute()){
 <body>
     <div class="container">
     <header>
-    <div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="index.php">
-								<img src="../assets/img/logo.png" alt="">	
-							</a>
-						</div>
-						<!-- logo -->	
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li><a href="nosotros.html">Quienes Somos</a></li>	
-								<li><a href="contact.html">Contáctanos</a></li>
-								<li><a href="#">Solicitar Código</a>
-								<ul class="sub-menu">
-									<li><a href="clinico.html">Datos Clinicos</a>
-									</li>
-								</ul>
-								<li class="login-box"><a href="servicios.html">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span> SECODE_QR PLUS </a></li>
-							</ul>
-						</nav>	
-						<div class="mobile-menu"></div>
-                        <hr style="width:100%; color:black;">
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+		<?php include_once './templates/navBar.php'; ?>
     </header>
     </div>
 <main>
 <div class = "recibo">
 <table style="margin:25vh auto; background-color:#F1F0F1;">
+<?if(isset($verFactura) && $verFactura){ ?>
+		<h2 style="display: block;">Detalles de facturacion</h2>
+		<?}else{?>
+      <h2>Finalizacion de compra</h2>
+	  <?}?>
   <caption>Copyrights &copy; 2022 - SECØDE_QR, Salud e información al instante.</caption>
   <thead>
     <tr class="tabla1">
@@ -154,7 +147,11 @@ if($query->execute()){
   <tfoot>
     <tr>
       <th scope="row" colspan="2">Recibo N°: <?= $idfactura ?></th>
+	  <?if(isset($verFactura) && $verFactura){ ?>
+		<th colspan="3">Valor: <?=' $'.$precio['precio']?>COP</th>
+		<?}else{?>
       <th colspan="3">Monto a pagar: <?=' $'.$precio['precio']?>COP</th>
+	  <?}?>
     </tr>
   </tfoot>
 </table>

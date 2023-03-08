@@ -20,6 +20,15 @@ function getUser($id   ) {
     
 }
 
+function getSuscription($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetch(PDO::FETCH_ASSOC);
+  return $datos;
+}
+
 function getClinicData($id,$isnew, $codigo) {
   global $connection;
   if(!$isnew){ /* si es true -> evalua false  */

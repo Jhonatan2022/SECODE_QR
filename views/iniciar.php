@@ -85,7 +85,7 @@ elseif (isset($_POST['user-name']) &&
   $numdoc = $_POST['num-doc'];
   $password_user = $_POST['user-password'];
   $name_user = $_POST['user-name'];
-  $token = rand(124324, 876431167878435);
+  $token = bin2hex(random_bytes(16));
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
 
@@ -303,7 +303,7 @@ elseif (isset($_POST['user-name']) &&
           <h2 class="title">Registrarse</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Nombre completo" maxlength="200" name="user-name" required />
+            <input type="text" placeholder="Nombre completo" maxlength="30" name="user-name" required />
           </div>
           <div class="input-field">
             <i class="fas fa-id-card"></i>
@@ -311,7 +311,7 @@ elseif (isset($_POST['user-name']) &&
           </div>
           <div class="input-field">
             <i class="fas fa-at"></i>
-            <input type="email" placeholder="Email" maxlength="150" name="user-email" required />
+            <input type="email" placeholder="Email" maxlength="60" name="user-email" required />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
