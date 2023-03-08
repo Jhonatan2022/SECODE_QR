@@ -13,6 +13,11 @@ require_once "../../models/user.php";
 #$tipo = $_GET['tipo'];
 
 $user = getUser($_SESSION['user_id']);
+$suscription = getSuscription($_SESSION['user_id']);
+$date=  date('d-m-Y');
+$nfact = $suscription['numero_recibo'];
+$plan = $suscription['TipoSuscripcion'];
+$precio = $suscription['precio'];
 
 
 	use setasign\Fpdi\Fpdi;
@@ -55,10 +60,10 @@ $user = getUser($_SESSION['user_id']);
 	$pdf->SetFont('Arial','',10);
 	$pdf->Cell(30,7,utf8_decode("Fecha de emisión:"),0,0);
 	$pdf->SetTextColor(97,97,97);
-	$pdf->Cell(116,7,utf8_decode(date("d/m/Y", strtotime("13-09-2022"))." ".date("h:s A")),0,0,'L');
+	$pdf->Cell(116,7,utf8_decode(date("d/m/Y", strtotime("$date"))." ".date(" g:i a")),0,0,'L');
 	$pdf->SetFont('Arial','B',10);
 	$pdf->SetTextColor(75,12,75);
-	$pdf->Cell(35,7,utf8_decode(strtoupper("Factura Nro.")),0,0,'C');
+	$pdf->Cell(35,7,utf8_decode(strtoupper("Factura Nro.$nfact")),0,0,'C');
 
 	$pdf->Ln(10);
 
@@ -103,11 +108,11 @@ $user = getUser($_SESSION['user_id']);
 
 
 	/*----------  Detalles de la tabla  ----------*/
-$pdf->Cell(90,7,utf8_decode("Suscripcion en la plataforma SECODE_QR con el plan:"/*.$plan*/),'L',0,'C');
-	$pdf->Cell(15,7,utf8_decode("7"),'L',0,'C');
-	$pdf->Cell(25,7,utf8_decode(''),'L',0,'C');
-	$pdf->Cell(19,7,utf8_decode("$0.00 USD"),'L',0,'C');
-	$pdf->Cell(32,7,utf8_decode("$70.00 USD"),'LR',0,'C');
+$pdf->Cell(90,7,utf8_decode("Suscripcion en la plataforma SECODE_QR con el plan: $plan"/*.$plan*/),'L',0,'C');
+	$pdf->Cell(15,7,utf8_decode("1"),'L',0,'C');
+	$pdf->Cell(25,7,utf8_decode("$$precio COP"),'L',0,'C');
+	$pdf->Cell(19,7,utf8_decode("$0.00 COP"),'L',0,'C');
+	$pdf->Cell(32,7,utf8_decode("$$precio COP"),'LR',0,'C');
 	$pdf->Ln(7);
 	/*----------  Fin Detalles de la tabla  ----------*/
 
@@ -119,7 +124,7 @@ $pdf->Cell(90,7,utf8_decode("Suscripcion en la plataforma SECODE_QR con el plan:
 	$pdf->Cell(100,7,utf8_decode(''),'T',0,'C');
 	$pdf->Cell(15,7,utf8_decode(''),'T',0,'C');
 	$pdf->Cell(32,7,utf8_decode("SUBTOTAL"),'T',0,'C');
-	$pdf->Cell(34,7,utf8_decode("+ $70.00 USD"),'T',0,'C');
+	$pdf->Cell(34,7,utf8_decode("+ $$precio COP"),'T',0,'C');
 
 	$pdf->Ln(7);
 
@@ -128,7 +133,7 @@ $pdf->Cell(90,7,utf8_decode("Suscripcion en la plataforma SECODE_QR con el plan:
 
 
 	$pdf->Cell(32,7,utf8_decode("TOTAL A PAGAR"),'T',0,'C');
-	$pdf->Cell(34,7,utf8_decode("$70.00 USD"),'T',0,'C');
+	$pdf->Cell(34,7,utf8_decode("$$precio COP"),'T',0,'C');
 
 	$pdf->Ln(12);
 

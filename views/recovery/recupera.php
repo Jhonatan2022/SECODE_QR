@@ -21,8 +21,8 @@ if (
     $tokenEmail = $_GET['tokenUserMail'];
     if (
         filter_var($email_rec, FILTER_VALIDATE_EMAIL) &&
-        filter_var($userDoc, FILTER_VALIDATE_INT) &&
-        filter_var($tokenEmail, FILTER_VALIDATE_INT)/* &&
+        filter_var($userDoc, FILTER_VALIDATE_INT) /* &&
+        filter_var($tokenEmail, FILTER_VALIDATe) *//* &&
         count($userDoc) > 8 &&
         count($userDoc) < 11 */
     ) {

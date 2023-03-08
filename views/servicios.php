@@ -3,7 +3,10 @@
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
-$user = getUser($_SESSION['user_id'] );
+if(isset($_SESSION['user_id'])){
+	$user = getUser($_SESSION['user_id'] );
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +60,7 @@ $user = getUser($_SESSION['user_id'] );
 				<li class="excluded"><i class="fas fa-close"></i></li>
 				<li class="excluded"><i class="fas fa-close"></i></li>
 			</ul>
-			<a href="#" class="button button1">Obtener</a>
+			<a href="basico.php" class="button button1">Obtener</a>
 		</div>
 		<div class="packages">
 			<h4 class="hh">Estandar</h4>
@@ -70,7 +73,7 @@ $user = getUser($_SESSION['user_id'] );
 				<li class="included"><i class="fas fa-check"></i></li>
 				<li class="excluded"><i class="fas fa-close"></i></li>
 			</ul>
-			<a href="#" class="button button2">Obtener</a>
+			<a href="estandar.php" class="button button2">Obtener</a>
 		</div>
 		<div class="packages">
 			<h4 class="hhh">Premium</h4>
@@ -83,7 +86,7 @@ $user = getUser($_SESSION['user_id'] );
 				<li class="included"><i class="fas fa-check"></i></li>
 				<li class="included"><i class="fas fa-check"></i></li>
 			</ul>
-			<a href="#" class="button button3">Obtener </a>
+			<a href="premium.php" class="button button3">Obtener </a>
 		</div>
 	</div>
 	</div>
