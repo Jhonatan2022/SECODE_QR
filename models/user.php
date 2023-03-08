@@ -29,6 +29,33 @@ function getSuscription($id){
   return $datos;
 }
 
+function getQR($id){
+
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM codigo_qr WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $datos;
+}
+
+function getFormula($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM FormularioMedicamentos WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetch(PDO::FETCH_ASSOC);
+  return $datos;
+}
+
+function getClinica($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM datos_clinicos WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $datos;
+}
 function getClinicData($id,$isnew, $codigo) {
   global $connection;
   if(!$isnew){ /* si es true -> evalua false  */

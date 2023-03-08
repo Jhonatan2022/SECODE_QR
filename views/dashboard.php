@@ -39,6 +39,7 @@ function deleteQR($id, $path)
 }
 
 
+
 if (isset($_POST['action'])) {
 	$id = $_POST['id_code'];
 	$path = $_POST['path'];
