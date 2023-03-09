@@ -6,6 +6,7 @@ require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
 }
+$planinfo=getTipoSuscripcion();
 ?>
 
 
@@ -61,7 +62,7 @@ if(isset($_SESSION['user_id'])){
     <div class="package-container">
       <div class="packages">
         <hr>
-        <h4 class="text2">$9.900</h4>
+        <h4 class="text2">$ <?=$planinfo[1]['precio'];?> COP</h4>
         <ul class="list">
           <hr>
           <li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
@@ -75,7 +76,7 @@ if(isset($_SESSION['user_id'])){
 		Comprar Ahora
 		</button>
 		</form>
-		<a href="servicios.html" class="button button13">Cancelar</a>
+		<a href="servicios.php" class="button button13">Cancelar</a>
       </div>
     </div>
 

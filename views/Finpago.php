@@ -206,7 +206,7 @@ if($query->execute()){
 				position: 'center',
 				icon: 'success',
 				title: 'Descarga completada',
-				text:'Esta factura será enviada a su correo electrónico',
+				text:'Descarga completada con exito',
 				showConfirmButton: true,
 				timer: 3500
 				})

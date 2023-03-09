@@ -106,7 +106,13 @@ $userForm = userform($_SESSION['user_id']);
     include('./templates/sweetalerts2.php'); ?>
 
     <link rel="stylesheet" href="./assets/css/perfil.css">
-
+    <style>
+label {
+    color: #4b0081;
+    font-size: larger;
+    font-weight: bolder;
+}
+    </style>
 </head>
 
 <body>
@@ -172,7 +178,6 @@ $userForm = userform($_SESSION['user_id']);
                 <p class="texto">
                 </p>
             </div>
-
             <!-- The Modal -->
             <div class="modal" id="myModal">
                 <div class="modal-dialog">
@@ -188,7 +193,6 @@ $userForm = userform($_SESSION['user_id']);
                         <div class="modal-body">
 
 
-
                             <form action="" method="post" enctype="multipart/form-data">
 
                                 <?php
@@ -198,7 +202,7 @@ $userForm = userform($_SESSION['user_id']);
                                         <input <?php
                                                 switch ($key) {
                                                     case 'Nombre':
-                                                        echo  'value="' . $value . ' " ';
+                                                        echo  'value="' . $value . ' " maxlength="28" ';
                                                         break;
                                                     case 'Img_perfil':
                                                         echo 'type="file" ';
@@ -208,22 +212,25 @@ $userForm = userform($_SESSION['user_id']);
                                                         echo 'type="date" required ' . 'value="' .$value2 .'" ';
                                                         break;
                                                     case 'Correo':
-                                                        echo 'type="email" ' . 'value="' . $value . ' " ';
+                                                        echo 'type="email" maxlength="35" ' . 'value="' . $value . ' " ';
                                                         break;
                                                     case 'Genero':
-                                                        echo 'type="hidden" ' . 'value="' . $value . ' " ';
+                                                        echo 'type="hidden"  ' . 'value="' . $value . ' " ';
                                                         break;
                                                     case 'Telefono':
-                                                        echo 'type="tel" ' . 'value="' . $value . ' " ';
+                                                        echo 'type="tel" maxlength="12" ' . 'value="' . $value . ' " ';
                                                         break;
                                                     default:
-                                                        echo 'type="text" ' . 'value="' . $value . ' " ';
+                                                        echo 'type="text" maxlength="35" ' . 'value="' . $value . ' " ';
                                                         break;
                                                 }
-                                                ?> class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+                                                ?> class="form-control" style="    width: 99%;
+                                                padding: 15px;
+                                                border: 2px solid #4b0081;
+                                                border-radius: 5px;" id="<?= $key ?>" name="<?= $key ?>">
 
                                     </div>
-
+                                                
                                     <div class="form-group">
                                         <?php if ($key === 'Genero') { ?>
                                             <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
@@ -241,6 +248,9 @@ $userForm = userform($_SESSION['user_id']);
                                 ?>
                                 <button type="submit" name="update" class="btn btn-primary">Submit</button>
                             </form>
+                            <div style="border: 3px solid purple; border-radius: 5px; display: inline; float: right; font-weight:bolder; ">
+                                <a href="../controller/cambiarpass.php" style="margin: 1em">cambiar contraseña</a>
+                            </div>
                         </div>
 
                         <!-- Modal footer -->
