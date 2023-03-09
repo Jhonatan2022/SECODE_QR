@@ -123,7 +123,7 @@ $alergia = alergia();
   <!-- responsive -->
   <link rel="stylesheet" href="assets/css/responsive.css">
 
-  <? include('./templates/sweetalerts2.php') ?>
+  <?php include('./templates/sweetalerts2.php') ?>
 </head>
 
 <body>
@@ -192,7 +192,7 @@ $alergia = alergia();
                 case 'Titulo': ?>
                   <div class="item">
                     <p>Titulo del formulario</p>
-                    <input type="text" name="<?= $key ?>" value="<? $value ?>" />
+                    <input type="text" name="<?= $key ?>" value="<?php $value ?>" />
                   </div>
                   <?php break; ?>
 
@@ -283,15 +283,15 @@ $alergia = alergia();
                     <div class="question-answer">
 
                       <?php foreach ($afiliacion as $keyAf => $valueAf) { ?>
-                        <? if ($valueAf['IDAfiliacion'] == $value) { ?>
+                        <?php if ($valueAf['IDAfiliacion'] == $value) { ?>
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valueAf['IDAfiliacion'] ?>" class="radio"><span><?= $valueAf['Afiliacion'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required />
                           <label for="<?= $valueAf['IDAfiliacion'] ?>" class="radio"><span><?= $valueAf['Afiliacion'] ?></span></label>
-                        <? } ?>
+                        <?php } ?>
 
-                      <? } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
@@ -306,15 +306,15 @@ $alergia = alergia();
 
 
                       <?php foreach ($rh as $keyrh => $valuerh) { ?>
-                        <? if ($valuerh['IDRH'] == $value) { ?>
+                        <?php if ($valuerh['IDRH'] == $value) { ?>
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valuerh['IDRH'] . $keyrh ?>" class="radio"><span><?= $valuerh['RH'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuerh['IDRH'] . $keyrh ?>" class="radio"><span><?= $valuerh['RH'] ?></span></label>
-                        <? } ?>
+                        <?php } ?>
 
-                      <? } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
@@ -329,15 +329,15 @@ $alergia = alergia();
 
 
                       <?php foreach ($tipoSangre as $keytps => $valuetps) { ?>
-                        <? if ($valuetps['IDTipoSangre'] == $value) { ?>
+                        <?php if ($valuetps['IDTipoSangre'] == $value) { ?>
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valuetps['TipoSangre'] . $keytps ?>" class="radio"><span><?= $valuetps['TipoSangre'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuetps['TipoSangre'] . $keytps ?>" class="radio"><span><?= $valuetps['TipoSangre'] ?></span></label>
-                        <? } ?>
+                        <?php } ?>
 
-                      <? } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <br>
@@ -360,7 +360,7 @@ $alergia = alergia();
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
                           
-                          <? } //falta guardar datso en array y luego pasarlos a la base de datos
+                          <?php } //falta guardar datso en array y luego pasarlos a la base de datos
                           
                           else {
                             $datarray = json_decode($value, true);
@@ -393,7 +393,7 @@ $alergia = alergia();
                             </div>
 
 
-                          <?}  } ?>
+                          <?php }  } ?>
 
 
 
@@ -415,15 +415,15 @@ $alergia = alergia();
                     <p>¿Es alergico algun medicamento?<span class="required"></span></p>
                     <div class="question-answer">
 
-                      <? foreach ($alergia as $keyal => $valueal) { ?>
-                        <? if ($valueal['IDAlergiaMedicamento'] == $value) { ?>
+                      <?php foreach ($alergia as $keyal => $valueal) { ?>
+                        <?php if ($valueal['IDAlergiaMedicamento'] == $value) { ?>
                           <input type="radio" value="<?= $valueal['IDAlergiaMedicamento'] ?>" id="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" class="radio"><span><?= $valueal['AlergiaMedicamento'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valueal['IDAlergiaMedicamento'] ?>" id="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" name="<?= $key ?>" required />
                           <label for="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" class="radio"><span><?= $valueal['AlergiaMedicamento'] ?></span></label>
-                        <? } ?>
-                      <? } ?>
+                        <?php } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <br>

@@ -121,11 +121,11 @@ if($query->execute()){
       <th scope="col"><img src="../views/assets/img/logo.png" alt="SECODE_QR" width="100px"></th>
       <th scope="col">SECODE_QR</th>
 	  <th colspan="3">
-	  <?if(isset($verFactura) && $verFactura){ ?>
+	  <?php if(isset($verFactura) && $verFactura){ ?>
 		<h3 style="position:relative;">Detalles de facturacion</h3>
-		<?}else{?>
+		<?php }else{?>
       <h2>Finalizacion de compra</h2>
-	  <?}?>
+	  <?php }?>
 	  </th>
     </tr>
   </thead>
@@ -148,11 +148,11 @@ if($query->execute()){
   <tfoot>
     <tr>
       <th scope="row" colspan="2">Recibo N°: <?= $idfactura ?></th>
-	  <?if(isset($verFactura) && $verFactura){ ?>
+	  <?php if(isset($verFactura) && $verFactura){ ?>
 		<th colspan="3">Valor: <?=' $'.$precio['precio']?>COP</th>
-		<?}else{?>
+		<?php }else{?>
       <th colspan="3">Monto a pagar: <?=' $'.$precio['precio']?>COP</th>
-	  <?}?>
+	  <?php }?>
     </tr>
   </tfoot>
 </table>

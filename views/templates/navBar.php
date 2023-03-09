@@ -63,14 +63,14 @@ if(isset($_SESSION['user_id'])){
 									<span></span>
 									<span></span> SECODE_QR PLUS </a>
 								</li>
-							<?}else{?>
+							<?php }else{ ?>
 								<li class="login-box"><a href="Finpago.php">
 									<span></span>
 									<span></span>
 									<span></span>
 									<span></span><?='Plan: '.$datosSus['TipoSuscripcion']?> </a>
 								</li>
-							<?}?>	
+							<?php } ?>	
 						</ul>
 
 					</nav>
