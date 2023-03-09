@@ -266,9 +266,6 @@ $alergia = alergia();
                       <option value="2" <?php if ($value === '2') {
                                           echo 'selected';
                                         } ?>>Femenino</option>
-                      <option value="3" <?php if ($value === '3') {
-                                          echo 'selected';
-                                        } ?>>No binario</option>
                     </select>
 
                   </div>

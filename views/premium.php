@@ -6,6 +6,7 @@ require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
 }
+$planinfo=getTipoSuscripcion();
 ?>
 
 
@@ -71,7 +72,7 @@ if(isset($_SESSION['user_id'])){
 	  <div class="packages">
         <h4 class="h">Premium</h4>
         <hr class="hhh">
-
+        <h4 class="text2">$ <?=$planinfo[3]['precio'];?> COP</h4>
 		<form action="pagos.php" method="post">
 		<input type="hidden" name="plan" value="premium">
 		<button type="submit" class="button button12" style="border:none;">

@@ -54,6 +54,10 @@ if(isset($_SESSION['user_id'])){
 									</ul>
 								</li>
 
+							<?php }else{?>
+								<li class="fas fa-user" style="margin-right: 2px;"></li>
+								<a href="iniciar.php" id='btn-login-nav'>Iniciar Sesión</a>
+								
 							<?php } ?>
 							<?php
 							if($datosSus == 0){?>
@@ -104,4 +108,15 @@ if(isset($_SESSION['user_id'])){
 			display: none;
 		}
 	}
+	#btn-login-nav{
+		color: #000;
+		font-size: 1.2rem;
+		margin: 0;
+		display: inline-block;
+		font-weight: bolder;
+	}
+	#btn-login-nav:hover{
+		color: purple;
+	}
+
 </style>

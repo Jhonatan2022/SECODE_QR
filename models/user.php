@@ -155,6 +155,13 @@ function getUserData($id){ //complete info user data without table condicion cli
 }
 
 //function for the data tables
+function getTipoSuscripcion(){
+  global $connection;
+  $query = $connection->prepare('SELECT TipoSuscripcion, precio	,cantidad_qr,Editar, citas FROM TipoSuscripcion ');
+  $query->execute();
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $datos;
+}
 function localidad() {
   global $connection;
   $query = $connection->prepare('SELECT * FROM localidad');

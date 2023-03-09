@@ -6,7 +6,7 @@ require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
 }
-
+$planinfo=getTipoSuscripcion();
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +52,7 @@ if(isset($_SESSION['user_id'])){
 		<div class="packages">
 			<h4 class="h">Básico</h4>
 			<hr>
-			<h4 class="text2">$9.900</h4>
+			<h4 class="text2">$ <?=$planinfo[1]['precio'];?> COP</h4>
 			<ul class="list">
 				<hr>
 				<li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
@@ -63,9 +63,9 @@ if(isset($_SESSION['user_id'])){
 			<a href="basico.php" class="button button1">Obtener</a>
 		</div>
 		<div class="packages">
-			<h4 class="hh">Estandar</h4>
+			<h4 class="h">Estandar</h4>
 			<hr>
-			<h4 class="text2">$26.700</h4>
+			<h4 class="text2">$ <?=$planinfo[2]['precio'];?> COP</h4>
 			<ul class="list">
 				<hr>
 				<li class="included"><i class="fas fa-check"></i>8 QR en la nube</li>
@@ -76,9 +76,9 @@ if(isset($_SESSION['user_id'])){
 			<a href="estandar.php" class="button button2">Obtener</a>
 		</div>
 		<div class="packages">
-			<h4 class="hhh">Premium</h4>
+			<h4 class="h">Premium</h4>
 			<hr class="hhh">
-			<h4 class="text2">$51.000</h4>
+			<h4 class="text2">$ <?=$planinfo[2]['precio'];?> COP</h4>
 			<ul class="list">
 				<hr>
 				<li class="included"><i class="fas fa-check"></i>10 QR en la nube</li>
