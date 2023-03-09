@@ -77,7 +77,7 @@ if (isset($_SESSION["user_id"])) {
 	</div>
     <!--PreLoader Ends-->
 
-	<?php include 'templates/navBar.php'; ?>
+	<?php include_once('./templates/navBar.php') ?>
 
 	<!-- hero area -->
 	<div class="hero-area hero-bg">

@@ -131,9 +131,6 @@ if($resultsUser['rol'] === '2'){
                       <option value="2" <?php if ($usuario["Genero"] === '2') {
                                           echo 'selected';
                                         } ?>>Femenino</option>
-                      <option value="3" <?php if ($usuario["Genero"] === '3') {
-                                          echo 'selected';
-                                        } ?>>No binario</option>
                     </select>
                         <i class="input-icon fas fa-solid fa-venus-mars"></i>
                     </div>
