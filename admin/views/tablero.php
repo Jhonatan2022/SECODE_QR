@@ -117,6 +117,9 @@ if($resultsUser['rol'] === '2'){
             <input type="text">
 
         </div>
+        <div id="datos">
+
+        
 
             <table class="table table-striped table-info align-text-top " id="table_id">
                 <thead>

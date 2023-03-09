@@ -160,7 +160,7 @@ $userForm = userform($_SESSION['user_id']);
             <div class="perfil-usuario-bio">
                 <?php
                 if ($user['rol'] === '2') {
-                    echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
+                    echo '<div class="admin_div"><a href="../admin/views/tablero.php"><b>Tablero de gestion</b></a></div>';
                 }
                 ?>
                 <h3 class="titulo"><?php echo $user['Nombre'] ?>
