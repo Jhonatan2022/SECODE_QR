@@ -12,6 +12,32 @@ require_once(BaseDir . '/models/user.php');
 $user = getUser($_SESSION['user_id']);
 $resultsUser = getUser($_SESSION['user_id']);
 if ($resultsUser['rol'] === '2') {
+    if(isset($_POST['IDTipoSuscripcion'], $_POST['submit'])){
+        $id = $_POST['IDTipoSuscripcion'];
+        $tipo = $_POST['TipoSuscripcion'];
+        $precio = $_POST['precio'];
+        $cantidad = $_POST['cantidad_qr'];
+        $editar = $_POST['Editar'];
+        $citas = $_POST['citas'];
+        $nombre_archivo = $_POST['nombre_archivo'];
+        try{
+            $query = $connection->prepare('UPDATE TipoSuscripcion SET TipoSuscripcion = :tipo, precio = :precio, cantidad_qr = :cantidad, citas = :citas, Editar = :editar, nombre_archivo = :nombrear WHERE IDTipoSuscripcion = :id');
+            $query->bindParam(':id', $id);
+            $query->bindParam(':tipo', $tipo);
+            $query->bindParam(':precio', $precio);
+            $query->bindParam(':cantidad', $cantidad);
+            $query->bindParam(':citas', $citas);
+            $query->bindParam(':editar', $editar);
+            $query->bindParam(':nombrear', $nombre_archivo);
+            if($query->execute()){
+                $message = array('completado exitosamente', 'Datos actualizados correctamente', 'success');
+            }else{
+                $message = array('Error', 'No se pudo actualizar los datos, sin error', 'error');
+            }
+        }catch(PDOException $e){
+            $message = array('Error', 'No se pudo actualizar los datos con error '.$e, 'error');
+        }
+    }
     $planes = getTipoSuscripcion();
 } else {
     http_response_code(404);
@@ -21,7 +47,7 @@ if ($resultsUser['rol'] === '2') {
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,16 +68,34 @@ if ($resultsUser['rol'] === '2') {
     <link rel="stylesheet" href="../../views/assets/css/main.css">
     <!-- responsive -->
     <link rel="stylesheet" href="../../views/assets/css/responsive.css">
+    <!-- Animate.css -->
     <link rel="stylesheet" href="../css/es.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<!-- use Sweet Alerts2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>planes</title>
 </head>
 
 <body>
+
+<?php if (!empty($message)) {
+	?>
+
+		<script>
+			Swal.fire(
+				'<?php echo $message[0]; ?>',
+				'<?php echo $message[1]; ?>',
+				'<?php echo $message[2]; ?>')
+		</script>
+	<?php };
+	?>
     <?php include('../../views/templates/navBar.php') ?>
     <main class="container">
         <div class="container">
             <div class="row">
-                <div class="col-12" style="margin-top: 6rem;">
+                <div class="col-12" style="margin-top: 7rem;">
+                <a href="tablero.php" style="color: black; font-size:2rem; font-weight:bolder"> <-- REGRESAR</a>
                     <h1>Planes</h1>
 
                     <?php foreach ($planes as $key) { ?>
@@ -64,7 +108,49 @@ if ($resultsUser['rol'] === '2') {
                                             <label for="<?= $valkey ?>"><?= $valkey ?></label>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="" name="<?= $valkey ?>" id="<?= $valkey ?>" value="<?= $value ?>">
+                                            <?php switch ($valkey) { 
+                                            case 'IDTipoSuscripcion': ?>
+                                                    <input class="form-control" type="hidden" name="<?= $valkey ?>" id="<?= $valkey ?>" value="<?= $value ?>">
+                                                    <?php break; ?>
+                                            <?php case 'TipoSuscripcion': ?>
+                                                    <input class="form-control" type="text" maxlength="15" name="<?= $valkey ?>" id="<?= $valkey ?>" value="<?= $value ?>">
+                                                    <?php break; ?>
+                                                <?php
+                                                case 'precio': ?>
+                                                    <input class="form-control" type="tel" maxlength="6" name="<?= $valkey ?>" id="<?= $valkey ?>" value="<?= $value ?>">
+                                                    <?php break; ?>
+                                                <?php
+                                                case 'cantidad_qr': ?>
+                                                    <input class="form-control" type="tel" maxlength="2" name="<?= $valkey ?>" id="<?= $valkey ?>" value="<?= $value ?>">
+                                                    <?php break; ?>
+                                                <?php
+                                                case 'Editar': ?>
+                                                    <select name="<?=$valkey?>" id="<?=$valkey?>">
+                                                        <option value="NO" <?php if ($value === 'NO') {
+                                                                                echo 'selected';
+                                                                            } ?>>NO</option>
+                                                        <option value="SI" <?php if ($value === 'SI') {
+                                                                                echo 'selected';
+                                                                            } ?>>SI</option>
+                                                    </select>
+                                                    <?php break; ?>
+                                                <?php
+                                                case 'citas': ?>
+                                                    <select name="<?=$valkey?>" id="<?=$valkey?>">
+                                                        <option value="NO" <?php if ($value === 'NO') {
+                                                                                echo 'selected';
+                                                                            } ?>>NO</option>
+                                                        <option value="SI" <?php if ($value === 'SI') {
+                                                                                echo 'selected';
+                                                                            } ?>>SI</option>
+                                                    </select>
+                                                    <?php break; ?>
+                                                <?php
+                                                default: ?>
+                                                    <input class="form-control" type="text" name="<?= $valkey ?>" id="<?= $valkey ?>" value="<?= $value ?>">
+                                                    <?php break; ?>
+                                            <?php } ?>
+
                                         </td>
                                     </tr>
 

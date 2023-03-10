@@ -361,7 +361,7 @@ if ($user['id'] == 10) {
 							showCloseButton: true,
 							showCancelButton: true,
 							focusConfirm: false,
-							cancelButtonText: '<i class="fa fa-thumbs-down">  Haora no.</i>',
+							cancelButtonText: '<i class="fa fa-thumbs-down">  Ahora no.</i>',
 							cancelButtonAriaLabel: 'Thumbs down'
 						})
 					}
