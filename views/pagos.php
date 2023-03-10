@@ -15,7 +15,7 @@ $param->execute();
 $datos = $param->fetch(PDO::FETCH_ASSOC);
 
 
-if(isset($_SESSION['user_id']) && isset($_POST['plan']) && $datos == 0){
+if(isset($_SESSION['user_id']) && isset($_POST['plan']) && $datos['TipoSuscripcion'] == 1){
 $planrecibido= $_POST['plan'];
 if ($planrecibido == 'basico'){
 	$plan = 2;
