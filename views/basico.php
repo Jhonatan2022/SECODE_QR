@@ -9,7 +9,7 @@ require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
 }
-$planinfo=getTipoSuscripcion();
+$plan=getPlan(2);
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ $planinfo=getTipoSuscripcion();
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
 						<p>SECØDE_QR</p>
-						<h1>Servicio Básico</h1>
+						<h1>Servicio <?=$plan['TipoSuscripcion']?></h1>
 					</div>
 				</div>
 			</div>
@@ -67,23 +67,26 @@ $planinfo=getTipoSuscripcion();
       <div class="packages">
 
     <div class="package-container">
-      <div class="packages">
-        <hr>
-        <h4 class="text2">$ <?=$planinfo[1]['precio'];?> COP</h4>
-        <ul class="list">
-          <hr>
-          <li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
-          <li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-          <li class="excluded"><i class="fas fa-close"></i></li>
-          <li class="excluded"><i class="fas fa-close"></i></li>
-        </ul>
-		<form action="pagos.php" method="post">
-		<input type="hidden" name="plan" value="basico">
-		<button type="submit" class="button button12" style="border:none;">
-		Comprar Ahora
-		</button>
-		</form>
-		<a href="servicios.php" class="button button13">Cancelar</a>
+
+			<div class="packages">
+			<h4 class="h"><?=$plan['TipoSuscripcion']?></h4>
+			<hr>
+			<h4 class="text2">$ <?=$plan['precio']?> COP</h4>
+			<ul class="list">
+				<hr>
+				<li class="included"><i class="fas fa-check"></i><?=$plan['cantidad_qr']?> QR en la nube</li>
+				<li class="<?php if($plan['Editar']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['Editar']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i><?=$plan['Editar']?> hay opción actualizar código</li>
+				<li class="<?php if($plan['citas']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['citas']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['citas']?> hay opcion de reenvio a pagina de citas Eps</li>
+			</ul>
+			<form action="pagos.php" method="post">
+				<input type="hidden" name="plan" value="basico">
+				<button type="submit" class="button button12" style="border:none;">
+				Comprar Ahora
+				</button>
+			</form>
+			<a href="servicios.php" class="button button13">Cancelar</a>
+		</div>
       </div>
     </div>
 

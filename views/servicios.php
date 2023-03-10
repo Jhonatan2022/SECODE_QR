@@ -49,45 +49,24 @@ $planinfo=getTipoSuscripcion();
 	</div>
 	<!-- end breadcrumb section -->
 	<div class="package-container">
-		<div class="packages">
-			<h4 class="h">Básico</h4>
+		<?php foreach($planinfo as $plan){?>
+			<div class="packages">
+			<h4 class="h"><?=$plan['TipoSuscripcion']?></h4>
 			<hr>
-			<h4 class="text2">$ <?=$planinfo[1]['precio'];?> COP</h4>
+			<h4 class="text2">$ <?=$plan['precio']?> COP</h4>
 			<ul class="list">
 				<hr>
-				<li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
-				<li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-				<li class="excluded"><i class="fas fa-close"></i></li>
-				<li class="excluded"><i class="fas fa-close"></i></li>
+				<li class="included"><i class="fas fa-check"></i><?=$plan['cantidad_qr']?> QR en la nube</li>
+				<li class="<?php if($plan['Editar']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['Editar']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i><?=$plan['Editar']?> hay opción actualizar código</li>
+				<li class="<?php if($plan['citas']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['citas']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['citas']?> hay opcion de reenvio a pagina de citas Eps</li>
 			</ul>
-			<a href="basico.php" class="button button1">Obtener</a>
+			<a href="<?=$plan['nombre_archivo'];?>" class="button 
+			<?php if($plan['IDTipoSuscripcion']==2){echo 'button1';}
+			elseif($plan['IDTipoSuscripcion']==3){echo 'button2';}
+			elseif($plan['IDTipoSuscripcion']==4){echo 'button3';}?>">Obtener</a>
 		</div>
-		<div class="packages">
-			<h4 class="h">Estandar</h4>
-			<hr>
-			<h4 class="text2">$ <?=$planinfo[2]['precio'];?> COP</h4>
-			<ul class="list">
-				<hr>
-				<li class="included"><i class="fas fa-check"></i>8 QR en la nube</li>
-				<li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-				<li class="included"><i class="fas fa-check"></i></li>
-				<li class="excluded"><i class="fas fa-close"></i></li>
-			</ul>
-			<a href="estandar.php" class="button button2">Obtener</a>
-		</div>
-		<div class="packages">
-			<h4 class="h">Premium</h4>
-			<hr class="hhh">
-			<h4 class="text2">$ <?=$planinfo[2]['precio'];?> COP</h4>
-			<ul class="list">
-				<hr>
-				<li class="included"><i class="fas fa-check"></i>10 QR en la nube</li>
-				<li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-				<li class="included"><i class="fas fa-check"></i></li>
-				<li class="included"><i class="fas fa-check"></i></li>
-			</ul>
-			<a href="premium.php" class="button button3">Obtener </a>
-		</div>
+		<?php }?>
 	</div>
 	</div>
 	<br>

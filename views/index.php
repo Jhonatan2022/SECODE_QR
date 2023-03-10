@@ -241,7 +241,7 @@ if (isset($_SESSION["user_id"])) {
 			showCloseButton: true,
 			showCancelButton: true,
 			focusConfirm: false,
-			cancelButtonText: '<i class="fa fa-thumbs-down">  Haora no.</i>',
+			cancelButtonText: '<i class="fa fa-thumbs-down">  Ahora no.</i>',
 			cancelButtonAriaLabel: 'Thumbs down'
 		})
 	}

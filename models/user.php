@@ -153,11 +153,19 @@ function getUserData($id){ //complete info user data without table condicion cli
   }
   return $user;
 }
+function getPlan($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM TipoSuscripcion WHERE IDTipoSuscripcion = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetch(PDO::FETCH_ASSOC);
+  return $datos;
+}
 
 //function for the data tables
 function getTipoSuscripcion(){
   global $connection;
-  $query = $connection->prepare('SELECT TipoSuscripcion, precio	,cantidad_qr,Editar, citas FROM TipoSuscripcion ');
+  $query = $connection->prepare('SELECT * FROM TipoSuscripcion ');
   $query->execute();
   $datos = $query->fetchAll(PDO::FETCH_ASSOC);
   return $datos;
