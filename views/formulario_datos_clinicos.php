@@ -442,11 +442,14 @@ $alergia = alergia();
               } ?>
 
             <?php  } ?>
-            <button>
-              GENERAR
-
-              <i class="fas fa-qrcode"></i>
-            </button>
+            <?php  if(!isset($_SESSION['user_id'])){ ?>
+            <a href="./iniciar.php"><button type="button" >INICIA SESION </button></a>            
+         <?php  }  else { ?>
+          <button type="submit" id="BtnSendFormClinic">
+         Generar codigo
+          </button>
+          
+          <?php  }?>
         </form>
       </div>
       <div class="screen__background">

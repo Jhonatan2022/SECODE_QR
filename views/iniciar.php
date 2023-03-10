@@ -124,7 +124,10 @@ elseif (isset($_POST['user-name']) &&
         $params->bindParam(':token', $token);
         //estabklecemos los parametros de la consulta
 
-        if ($params->execute()) {
+        $query= "INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `TipoSuscripcion`) VALUES (NULL, :numdoc, 1)";
+        $params2 = $connection->prepare($query);
+        $params2->bindParam(':numdoc', $numdoc);
+        if ($params->execute() && $params2->execute()) {
           $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
         } else {
           $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
@@ -303,7 +306,7 @@ elseif (isset($_POST['user-name']) &&
           <h2 class="title">Registrarse</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Nombre completo" maxlength="30" name="user-name" required />
+            <input type="text" placeholder="Nombres" maxlength="30" name="user-name" required />
           </div>
           <div class="input-field">
             <i class="fas fa-id-card"></i>

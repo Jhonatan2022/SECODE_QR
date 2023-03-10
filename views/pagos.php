@@ -121,74 +121,105 @@ $token=$user['token_reset'];
 				</div>
 			</div>
 		</main>
-    <script>
-		var myHeaders = new Headers();
-			myHeaders.append("apikey", "dErSiffTvccdgLEGW8P8cRe6jMdYCPRL");
+		<script>
 
-			var requestOptions = {
-			method: 'GET',
-			redirect: 'follow',
-			headers: myHeaders
-			};
+Swal.fire(
+	'Atencion!',
+	'Cambiaremos el valor de la transaccion a una moneda Internacional (USD). No se preocupe, el valor de la transaccion no cambiara.',
+	'info'
+)
+var myHeaders = new Headers();
+	myHeaders.append("apikey", "dErSiffTvccdgLEGW8P8cRe6jMdYCPRL");
 
-			fetch("https://api.apilayer.com/fixer/convert?to=USD&from=COP&amount=<?= intval($Plandatos['precio']) ?>", requestOptions)
-			.then(response => response.text())
-			.then(result => {let data = JSON.parse(result); 
-                console.log(`la moneda es :${data.result}`);
-				var total = Math.round(data.result);
+	var requestOptions = {
+	method: 'GET',
+	redirect: 'follow',
+	headers: myHeaders
+	};
 
-				paypal.Buttons({
-            //Se modifican los botones importados de la libreria de Paypal
-            style:{
-                color: 'blue',
-                shape: 'pill',
-                label: 'pay'
-            },
-            createOrder: function(data, actions){
-                return actions.order.create({
-                    purchase_units:[{
-                        amount:{
-                            value: total
-                        }
-                    }]
-                });
-            },
-            onApprove: function(data, actions){
-                actions.order.capture().then(function(detalles){ 
-					//time out utilizado para mostrar mensaje de aprobacion.
-					Swal.fire(
-							'Realizado correctamente',
-							'En un momento sera redirigido a sus detalles de compra y su factura.',
-							'success'
-						)
-					 setTimeout(() => {
-						window.location.href="Finpago.php?plan=<?=$etiqueta.'&token='.$token?>";
-					 }, 5000); // 5 segs 
-                        
-                });
+	fetch("https://api.apilayer.com/fixer/convert?to=USD&from=COP&amount=<?= intval($Plandatos['precio']) ?>", requestOptions)
+	.then(response => response.text())
+	.then(result => {let data = JSON.parse(result); 
+		console.log(`la moneda es :${data.result}`);
+		var total = Math.round(data.result);
 
-            },
-
-            onCancel: function(data,){
-                Swal.fire({
-					icon: 'error',
-					title: 'Pago cancelado',
-					text: 'Se ha cancelado el pago!',
-					footer: '<a href="servicios.php">Intentar nuevamente?</a>'
+		paypal.Buttons({
+	//Se modifican los botones importados de la libreria de Paypal
+	style:{
+		color: 'blue',
+		shape: 'pill',
+		label: 'pay'
+	},
+	createOrder: function(data, actions){
+		return actions.order.create({
+			purchase_units:[{
+				amount:{
+					value: total
+				}
+			}]
+		});
+	},
+	onApprove: function(data, actions){
+		actions.order.capture().then(function(detalles){ 
+			//time out utilizado para mostrar mensaje de aprobacion.
+				
+					//send data to php in POST plan and token
+					datos = {
+						'plan':'<?=$etiqueta?>',
+						'token':'<?=$token?>'
+					}
+					$.ajax({
+						type: "POST",
+						url:'../controller/validarpago.php',
+						data:datos,
+						success:function(r){
+							if(r == 1){
+								Swal.fire({
+									icon: 'success',
+									title: 'Pago realizado',
+									text: 'En un momento sera redirigido a sus detalles de compra y su factura!.',
+									})
+									setTimeout(() => {
+										window.location.href=" ./Finpago.php";
+									 }, 5000); // 5 segs 
+							}else{
+								Swal.fire({
+									icon: 'error',
+									title: 'No se puede realizar el pago',
+									text: 'Se ha cancelado el pago!',
+									footer: '<a href="servicios.php">Intentar nuevamente?</a>'
+									})
+							}
+							console.log(r);
+						}
 					})
-            }
-        }).render('#paypal-button-container');
+				
+
+				
+		});
+
+	},
+
+	onCancel: function(data,){
+		Swal.fire({
+			icon: 'error',
+			title: 'Pago cancelado',
+			text: 'Se ha cancelado el pago!',
+			footer: '<a href="servicios.php">Intentar nuevamente?</a>'
 			})
-			.catch(error => {
-				Swal.fire({
-					icon: 'error',
-					title: 'No se puede realizar el pago',
-					text: `Error interno!${error}`,
-					footer: '<a href="servicios.php">Intentar nuevamente?</a>'
-					})
-			});
-        //Users   email: sb-7cosb23375447@personal.example.com    Password: zX1[zA<f
-    </script>
+	}
+}).render('#paypal-button-container');
+	})
+	.catch(error => {
+		Swal.fire({
+			icon: 'error',
+			title: 'No se puede realizar el pago',
+			text: `Error interno!${error}`,
+			footer: '<a href="servicios.php">Intentar nuevamente?</a>'
+			})
+	});
+//Users   email: sb-7cosb23375447@personal.example.com    Password: zX1[zA<f
+</script>
 <footer style="position:fixed; bottom:0; width:100%;">
 <div class="copyright">
 		<div class="container">
