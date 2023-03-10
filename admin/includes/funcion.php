@@ -1,6 +1,6 @@
 <?php
 
-use PhpParser\Node\Stmt\For_;
+
 
 session_start();
 
@@ -88,6 +88,10 @@ function eliminar_registro() {
 
         $query->execute();
     }
+    $query=$connection->prepare('DELETE FROM Suscripcion WHERE Ndocumento = :id');
+    $query->bindParam(':id', $_POST['Ndocumento']);
+    $query->execute();
+
     $query=$connection->prepare('DELETE FROM datos_clinicos WHERE Ndocumento = :id');
     $query->bindParam(':id', $_POST['Ndocumento']);
     $query->execute();

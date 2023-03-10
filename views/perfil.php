@@ -17,86 +17,96 @@ if (isset($_REQUEST['update'])) {
     $correo = $_POST["Correo"];
     $fechaNacimiento = $_POST["FechaNacimiento"];
     $telefono = $_POST["Telefono"];
-
     $Apellidos=$_POST["Apellidos"];
     $Localidad=$_POST["Localidad"];
     $Estrato=$_POST["Estrato"];
     $TipoDoc=$_POST["TipoDoc"];
 
-    if (
-        $_POST["Nombre"] != ""
-        || $_POST["Direccion"] != ""
-        || $_POST["Genero"] != ""
-        || $_POST["Correo"] != ""
-        || $_POST["FechaNacimiento"] != ""
-        || $_POST["Telefono"] != ""
-        || $_POST["Apellidos"] != ""
-        || $_POST["Localidad"] != ""
-        || $_POST["Estrato"] != ""
-        || $_POST["TipoDoc"] != ""
+    $sql = "SELECT COUNT(us.Correo) FROM usuario AS us WHERE us.Correo =:correo AND us.Ndocumento != :id";
+    $query = $connection->prepare($sql);
+    $query->bindParam(':correo', $correo);
+    $query->bindParam(':id', $id_us);
+    $query->execute();
+    $count = $query->fetchColumn();
+    if ($count > 0) {
+        $message = ['error',"Correo ya registrado por otro usuario, intente de nuevo",'error'];
+    }else{
 
-    ) {
-        $fechaNacimiento= date("Y-m-d", strtotime($fechaNacimiento));
-        if (isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK) {
-            $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
-            $limite_kb = 1000; //10 mb maximo
+        if (
+            $_POST["Nombre"] != ""
+            || $_POST["Direccion"] != ""
+            || $_POST["Genero"] != ""
+            || $_POST["Correo"] != ""
+            || $_POST["FechaNacimiento"] != ""
+            || $_POST["Telefono"] != ""
+            || $_POST["Apellidos"] != ""
+            || $_POST["Localidad"] != ""
+            || $_POST["Estrato"] != ""
+            || $_POST["TipoDoc"] != ""
 
-            if ((in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024)) {
-                $tipoArchivo = $_FILES["Img_perfil"]["type"];
-            $tamanoArchivo = $_FILES["Img_perfil"]["size"];
+        ) {
+                $fechaNacimiento= date("Y-m-d", strtotime($fechaNacimiento));
+                if (isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK) {
+                    $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
+                    $limite_kb = 1000; //10 mb maximo
 
-            $imagenSubida = fopen($_FILES["Img_perfil"]["tmp_name"], "r");
-            $binariosImagen = fread($imagenSubida, $tamanoArchivo);
-            //$binariosImagen = PDO::quote($binariosImagen,);
-            $img = $binariosImagen;
+                    if ((in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024)) {
+                        $tipoArchivo = $_FILES["Img_perfil"]["type"];
+                    $tamanoArchivo = $_FILES["Img_perfil"]["size"];
 
-
-            $sql = "UPDATE usuario SET Img_perfil = :img , TipoImg = :tipo,
-            Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
-            WHERE Ndocumento = :id";
-            $query = $connection->prepare($sql);
-            $query->bindParam(':id', $id_us);
-            $query->bindParam(':img', $img);
-            $query->bindParam(':tipo', $tipoArchivo);
-            $query->bindParam(':nombre', $nombre);
-            $query->bindParam(':direccion', $direccion);
-            $query->bindParam(':genero', $genero);
-            $query->bindParam(':correo', $correo);
-            $query->bindParam(':fechaNacimiento', $fechaNacimiento);
-            $query->bindParam(':telefono', $telefono);
-            $query->bindParam(':apellidos', $Apellidos);
-            $query->bindParam(':localidad', $Localidad);
-            $query->bindParam(':estrato', $Estrato);
-            $query->bindParam(':tipodoc', $TipoDoc);
-
-            if ($query->execute()) {
-                $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
-            }
-            }else{
-                $message = ['error',"Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes",'error'];
-            }
-            
-            
-        } else {
+                    $imagenSubida = fopen($_FILES["Img_perfil"]["tmp_name"], "r");
+                    $binariosImagen = fread($imagenSubida, $tamanoArchivo);
+                    //$binariosImagen = PDO::quote($binariosImagen,);
+                    $img = $binariosImagen;
 
 
-            $sql = "UPDATE usuario SET 
-            Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
-            WHERE Ndocumento = :id";
-            $query = $connection->prepare($sql);
-            $query->bindParam(':id', $id_us);
-            $query->bindParam(':nombre', $nombre);
-            $query->bindParam(':direccion', $direccion);
-            $query->bindParam(':genero', $genero);
-            $query->bindParam(':correo', $correo);
-            $query->bindParam(':fechaNacimiento', $fechaNacimiento);
-            $query->bindParam(':telefono', $telefono);
-            $query->bindParam(':apellidos', $Apellidos);
-            $query->bindParam(':localidad', $Localidad);
-            $query->bindParam(':estrato', $Estrato);
-            $query->bindParam(':tipodoc', $TipoDoc);
-            if ($query->execute()) {
-                $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
+                $sql = "UPDATE usuario SET Img_perfil = :img , TipoImg = :tipo,
+                Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
+                WHERE Ndocumento = :id";
+                $query = $connection->prepare($sql);
+                $query->bindParam(':id', $id_us);
+                $query->bindParam(':img', $img);
+                $query->bindParam(':tipo', $tipoArchivo);
+                $query->bindParam(':nombre', $nombre);
+                $query->bindParam(':direccion', $direccion);
+                $query->bindParam(':genero', $genero);
+                $query->bindParam(':correo', $correo);
+                $query->bindParam(':fechaNacimiento', $fechaNacimiento);
+                $query->bindParam(':telefono', $telefono);
+                $query->bindParam(':apellidos', $Apellidos);
+                $query->bindParam(':localidad', $Localidad);
+                $query->bindParam(':estrato', $Estrato);
+                $query->bindParam(':tipodoc', $TipoDoc);
+
+                    if ($query->execute()) {
+                        $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
+                    }
+                    }else{
+                        $message = ['error',"Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes",'error'];
+                    }
+                    
+                    
+                } else {
+
+
+                $sql = "UPDATE usuario SET 
+                Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
+                WHERE Ndocumento = :id";
+                $query = $connection->prepare($sql);
+                $query->bindParam(':id', $id_us);
+                $query->bindParam(':nombre', $nombre);
+                $query->bindParam(':direccion', $direccion);
+                $query->bindParam(':genero', $genero);
+                $query->bindParam(':correo', $correo);
+                $query->bindParam(':fechaNacimiento', $fechaNacimiento);
+                $query->bindParam(':telefono', $telefono);
+                $query->bindParam(':apellidos', $Apellidos);
+                $query->bindParam(':localidad', $Localidad);
+                $query->bindParam(':estrato', $Estrato);
+                $query->bindParam(':tipodoc', $TipoDoc);
+                if ($query->execute()) {
+                    $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
+                }
             }
         }
     }
