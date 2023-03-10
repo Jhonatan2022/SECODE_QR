@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['plan']) && isset($_POST['token'
         header('Location: ./iniciar.php');
     }
 
-    $query1 = 'SELECT tps.precio, tps.TipoSuscripcion FROM TipoSuscripcion AS tps WHERE tps.IDTipoSuscripcion = :plan';
+    $query1 = 'SELECT tps.precio, tps.TipoSuscripcion,tiempo FROM TipoSuscripcion AS tps WHERE tps.IDTipoSuscripcion = :plan';
     $query = $connection->prepare($query1);
     $query->bindParam(':plan', $plan);
     $query->execute();
@@ -44,11 +44,14 @@ if (isset($_SESSION['user_id']) && isset($_POST['plan']) && isset($_POST['token'
     $idfactura = random_int(2142314324, 8957349578);
     //date now 
     $date = date('Y-m-d');
+    $nuevafecha = strtotime ( '+'.$precio['tiempo'].' month' , strtotime ( $date ) ) ;
+    $datexp=date ( 'Y-m-j' , $nuevafecha );
     $token = bin2hex(random_bytes(16));
-    $query1 = 'UPDATE Suscripcion SET  Ndocumento = :ndoc, TipoSuscripcion = :tipsus, fecha_inicio = :fecha, numero_recibo = :numr, token = :token WHERE Ndocumento = :ndoc';
+    $query1 = 'UPDATE Suscripcion SET  Ndocumento = :ndoc, TipoSuscripcion = :tipsus, fecha_inicio = :fecha, FechaExpiracion = :fechaexp , numero_recibo = :numr, token = :token WHERE Ndocumento = :ndoc';
     $query = $connection->prepare($query1);
     $query->bindParam(':ndoc', $_SESSION['user_id']);
     $query->bindParam(':tipsus', $plan);
+    $query->bindParam(':fechaexp', $datexp);
     $query->bindParam(':fecha', $date);
     $query->bindParam(':numr', $idfactura);
     $query->bindParam(':token', $token);

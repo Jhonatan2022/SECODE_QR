@@ -13,18 +13,11 @@ if (isset($_SESSION["user_id"])) {
 		header('Location: iniciar.php');
 		exit();     
 	}
+	verifyDateExpiration($user['Ndocumento']);
 
 	if ($user['id'] == 10) {
 		$newEps = true;
-	
-		$records = $connection->prepare('SELECT * FROM eps');
-		//$records->bindParam(':id', $user['id']);
-		if ($records->execute()) {
-			$eps = $records->fetchAll(PDO::FETCH_ASSOC);
-			//$codes = $results;
-		}else{
-			$message = 'Error al cargar los datos';
-		}
+		$eps = Eps();
 	}
 }
 

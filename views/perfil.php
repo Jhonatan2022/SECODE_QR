@@ -111,7 +111,7 @@ if (isset($_REQUEST['update'])) {
         }
     }
 }
-
+verifyDateExpiration($_SESSION['user_id']);
 $roluser = getUser($_SESSION['user_id']);
 $user = getUserData($_SESSION['user_id']);
 $userForm = userform($_SESSION['user_id']);

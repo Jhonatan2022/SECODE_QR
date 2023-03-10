@@ -58,6 +58,7 @@ if (isset($_POST['action'])) {
 
 
 $user = getUser($_SESSION['user_id']);
+verifyDateExpiration($user['Ndocumento']);
 if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '1'){
 	$message = array(' Error', 'No puede crear mas Codigos Qr, actualice su membresia', 'error');
 }if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '2'){

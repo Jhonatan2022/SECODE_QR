@@ -169,6 +169,16 @@ function getPlan($id){
   $datos = $query->fetch(PDO::FETCH_ASSOC);
   return $datos;
 }
+function verifyDateExpiration($id){
+  global $connection;
+  //verify the time to expire the suscription of the user
+	$suscription = getSuscription($id);
+	if($suscription['FechaExpiracion'] != null && ($suscription['FechaExpiracion'] <= date("Y-m-d"))){
+		$query= $connection->prepare('UPDATE Suscripcion SET FechaExpiracion = null, TipoSuscripcion = 1, fecha_inicio =null, numero_recibo = null, token = null WHERE Ndocumento = :id');
+    $query->bindParam(':id', $id);
+    $query->execute();
+	}
+}
 
 //function for the data tables
 function getTipoSuscripcion(){

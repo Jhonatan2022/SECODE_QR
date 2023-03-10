@@ -71,7 +71,7 @@ if($datos['TipoSuscripcion'] != 1){
   <caption>Copyrights &copy; <?=date('Y')?> - SECØDE_QR, Salud e información al instante.</caption>
   <thead>
     <tr class="tabla1">
-      <th scope="col"><img src="../views/assets/img/logo.png" alt="SECODE_QR" width="100px"></th>
+      <th scope="col"><img src="../views/assets/img/logo.png" alt="SECODE_QR" width="100vw"></th>
       <th scope="col">SECODE_QR</th>
 	  <th colspan="3">
 	  <?php if(isset($verFactura) && $verFactura){ ?>
@@ -97,6 +97,9 @@ if($datos['TipoSuscripcion'] != 1){
       <th scope="row" colspan="2">Fecha: <?= $date ?>  </th>
 	  <th><button><a download="Recibo de pago" href="<?=$pdf?>" onclick="config()">Descargar</a></button></th>
     </tr>
+	<tr>
+	<th scope="row" colspan="2">Fecha Expiracion Plan: <?= $precio['FechaExpiracion'] ?>  </th>
+	</tr>
   </tbody>
   <tfoot>
     <tr>
