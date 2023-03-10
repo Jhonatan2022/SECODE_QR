@@ -18,6 +18,11 @@ if (isset($_REQUEST['update'])) {
     $fechaNacimiento = $_POST["FechaNacimiento"];
     $telefono = $_POST["Telefono"];
 
+    $Apellidos=$_POST["Apellidos"];
+    $Localidad=$_POST["Localidad"];
+    $Estrato=$_POST["Estrato"];
+    $TipoDoc=$_POST["TipoDoc"];
+
     if (
         $_POST["Nombre"] != ""
         || $_POST["Direccion"] != ""
@@ -25,10 +30,13 @@ if (isset($_REQUEST['update'])) {
         || $_POST["Correo"] != ""
         || $_POST["FechaNacimiento"] != ""
         || $_POST["Telefono"] != ""
+        || $_POST["Apellidos"] != ""
+        || $_POST["Localidad"] != ""
+        || $_POST["Estrato"] != ""
+        || $_POST["TipoDoc"] != ""
 
     ) {
         $fechaNacimiento= date("Y-m-d", strtotime($fechaNacimiento));
-        $telefono=0;
         if (isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK) {
             $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
             $limite_kb = 1000; //10 mb maximo
@@ -44,7 +52,7 @@ if (isset($_REQUEST['update'])) {
 
 
             $sql = "UPDATE usuario SET Img_perfil = :img , TipoImg = :tipo,
-            Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono
+            Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
             WHERE Ndocumento = :id";
             $query = $connection->prepare($sql);
             $query->bindParam(':id', $id_us);
@@ -56,6 +64,10 @@ if (isset($_REQUEST['update'])) {
             $query->bindParam(':correo', $correo);
             $query->bindParam(':fechaNacimiento', $fechaNacimiento);
             $query->bindParam(':telefono', $telefono);
+            $query->bindParam(':apellidos', $Apellidos);
+            $query->bindParam(':localidad', $Localidad);
+            $query->bindParam(':estrato', $Estrato);
+            $query->bindParam(':tipodoc', $TipoDoc);
 
             if ($query->execute()) {
                 $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
@@ -69,7 +81,7 @@ if (isset($_REQUEST['update'])) {
 
 
             $sql = "UPDATE usuario SET 
-            Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono
+            Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
             WHERE Ndocumento = :id";
             $query = $connection->prepare($sql);
             $query->bindParam(':id', $id_us);
@@ -79,7 +91,10 @@ if (isset($_REQUEST['update'])) {
             $query->bindParam(':correo', $correo);
             $query->bindParam(':fechaNacimiento', $fechaNacimiento);
             $query->bindParam(':telefono', $telefono);
-            
+            $query->bindParam(':apellidos', $Apellidos);
+            $query->bindParam(':localidad', $Localidad);
+            $query->bindParam(':estrato', $Estrato);
+            $query->bindParam(':tipodoc', $TipoDoc);
             if ($query->execute()) {
                 $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
             }
@@ -91,7 +106,9 @@ $roluser = getUser($_SESSION['user_id']);
 $user = getUserData($_SESSION['user_id']);
 $userForm = userform($_SESSION['user_id']);
 
-
+$localidad = localidad();
+$tipodoc=tipoDocumento();
+$estrato=estrato();
 
 ?>
 
@@ -170,7 +187,7 @@ label {
                     echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
                 }
                 ?>
-                <h3 class="titulo"><?php echo $user['Nombre'] ?>
+                <h3 class="titulo"><?=$user['Nombre'].$user['Apellidos'] ?>
                     <a data-toggle="modal" data-target="#myModal" class="boton-edit">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
@@ -204,6 +221,9 @@ label {
                                                     case 'Nombre':
                                                         echo  'value="' . $value . ' " maxlength="28" ';
                                                         break;
+                                                    case 'Apellidos':
+                                                            echo  'value="' . $value . ' " maxlength="28" ';
+                                                        break;
                                                     case 'Img_perfil':
                                                         echo 'type="file" ';
                                                         break;
@@ -214,11 +234,20 @@ label {
                                                     case 'Correo':
                                                         echo 'type="email" maxlength="35" ' . 'value="' . $value . ' " ';
                                                         break;
+                                                    case 'Localidad':
+                                                            echo 'type="hidden"  ' . 'value="' . $value . ' " ';
+                                                        break;
                                                     case 'Genero':
                                                         echo 'type="hidden"  ' . 'value="' . $value . ' " ';
                                                         break;
+                                                    case 'Estrato':
+                                                            echo 'type="hidden"  ' . 'value="' . $value . ' " ';
+                                                        break;
+                                                    case 'TipoDoc':
+                                                            echo 'type="hidden"  ' . 'value="' . $value . ' " ';
+                                                        break;
                                                     case 'Telefono':
-                                                        echo 'type="tel" maxlength="12" ' . 'value="' . $value . ' " ';
+                                                            echo 'type="tel" maxlength="12" ' . 'value="' . $value . ' " ';
                                                         break;
                                                     default:
                                                         echo 'type="text" maxlength="35" ' . 'value="' . $value . ' " ';
@@ -241,8 +270,39 @@ label {
                                                                         echo 'selected';
                                                                     } ?>>Femenino</option>
                                             </select>
+                                        <?php } if($key == 'Localidad') {?>
+                                            <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+                                            <?php foreach($localidad as $keylocalidad=> $valuelocalidad){?>
+                                                
+                                                    <option value="<?= $valuelocalidad['IDLocalidad']?>" 
+                                                    <?php if ($value === $valuelocalidad['IDLocalidad']) {echo 'selected'; } ?>>
+                                                    <?= $valuelocalidad['Localidad']?></option>
+                                                
+                                            <?php }?>
+                                            </select>
+                                        <?php }if($key == 'Estrato'){  ?>
+                                            <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+                                            <?php foreach($estrato as $keylocalidad=> $valuelocalidad){?>
+                                                
+                                                    <option value="<?= $valuelocalidad['IDEstrato']?>" 
+                                                    <?php if ($value === $valuelocalidad['IDEstrato']) {echo 'selected'; } ?>>
+                                                    <?= $valuelocalidad['Estrato']?></option>
+                                                
+                                            <?php }?>
+                                            </select>
+                                        <?php }if($key == 'TipoDoc'){  ?>
+                                            <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+                                            <?php foreach($tipodoc as $keylocalidad=> $valuelocalidad){?>
+                                                
+                                                    <option value="<?= $valuelocalidad['IDTipoDoc']?>" 
+                                                    <?php if ($value === $valuelocalidad['IDTipoDoc']) {echo 'selected'; } ?>>
+                                                    <?= $valuelocalidad['TipoDocumento']?></option>
+                                                
+                                            <?php }?>
+                                            </select>
                                         <?php } ?>
                                     </div>
+                                    
 
                                 <?php    }
                                 ?>

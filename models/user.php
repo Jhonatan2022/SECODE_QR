@@ -91,7 +91,7 @@ function getClinicData($id,$isnew, $codigo) {
 function userform($id) {
   //$data =implode(', ', $data1);
   global $connection;
-  $query = $connection->prepare('SELECT Nombre,Direccion,Genero,Correo,FechaNacimiento,Telefono,Img_perfil FROM usuario WHERE Ndocumento = :id');
+  $query = $connection->prepare('SELECT Nombre, Apellidos,Direccion,Genero,Correo, Localidad, Estrato, TipoDoc, FechaNacimiento,Telefono,Img_perfil FROM usuario WHERE Ndocumento = :id');
   $query->bindParam(':id', $id);
   $query->execute();
   $user = $query->fetch(PDO::FETCH_ASSOC);
@@ -177,6 +177,14 @@ function localidad() {
   $eps = $query->fetchAll(PDO::FETCH_ASSOC);
   return $eps;
 }
+function estrato() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM estrato');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+
 function afiliacion() {
   global $connection;
   $query = $connection->prepare('SELECT * FROM afiliacion');
