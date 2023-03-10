@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 10, 2023 at 05:59 AM
+-- Host: localhost
+-- Generation Time: Mar 10, 2023 at 02:04 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `administrador`
+-- Table structure for table `Administrador`
 --
 
-CREATE TABLE `administrador` (
+CREATE TABLE `Administrador` (
   `IDAdministrador` int(3) NOT NULL,
   `Correo` varchar(40) NOT NULL,
   `Contraseña` varchar(90) NOT NULL,
@@ -58,19 +58,19 @@ INSERT INTO `afiliacion` (`IDAfiliacion`, `Afiliacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `alergiamedicamento`
+-- Table structure for table `AlergiaMedicamento`
 --
 
-CREATE TABLE `alergiamedicamento` (
+CREATE TABLE `AlergiaMedicamento` (
   `IDAlergiaMedicamento` int(2) NOT NULL,
   `AlergiaMedicamento` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `alergiamedicamento`
+-- Dumping data for table `AlergiaMedicamento`
 --
 
-INSERT INTO `alergiamedicamento` (`IDAlergiaMedicamento`, `AlergiaMedicamento`) VALUES
+INSERT INTO `AlergiaMedicamento` (`IDAlergiaMedicamento`, `AlergiaMedicamento`) VALUES
 (1, 'Visual'),
 (2, 'Oral'),
 (3, 'Epitelial');
@@ -78,10 +78,10 @@ INSERT INTO `alergiamedicamento` (`IDAlergiaMedicamento`, `AlergiaMedicamento`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `atributosqr`
+-- Table structure for table `AtributosQr`
 --
 
-CREATE TABLE `atributosqr` (
+CREATE TABLE `AtributosQr` (
   `IDAtributosQr` int(2) NOT NULL,
   `Atributosqr` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -107,30 +107,22 @@ CREATE TABLE `codigo_qr` (
   `Atributo` varchar(200) DEFAULT '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `codigo_qr`
---
-
-INSERT INTO `codigo_qr` (`id_codigo`, `Titulo`, `nombre`, `Fecha`, `Duracion`, `RutaArchivo`, `Descripcion`, `Ndocumento`, `DatosClinicos`, `FormularioMedicamentos`, `Atributos`, `Atributo`) VALUES
-(18, '', '80e6fa50b31197f66559a91357ba3f8e.pdf', NULL, '2023-03-05', 'http://127.0.0.1/secodeqr/views/pdf/80e6fa50b31197f66559a91357ba3f8e.pdf', NULL, 123456789, 17, NULL, NULL, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120'),
-(24, '', 'c4662d2e4ef0ae962acca34fbf11b903.pdf', NULL, '2023-03-08', 'http://127.0.0.1/secodeqr/views/pdf/c4662d2e4ef0ae962acca34fbf11b903.pdf', NULL, 123456789, 22, NULL, NULL, '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `condicionclinica`
+-- Table structure for table `CondicionClinica`
 --
 
-CREATE TABLE `condicionclinica` (
+CREATE TABLE `CondicionClinica` (
   `IDCondicionClinica` int(2) NOT NULL,
   `CondicionClinica` varchar(35) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `condicionclinica`
+-- Dumping data for table `CondicionClinica`
 --
 
-INSERT INTO `condicionclinica` (`IDCondicionClinica`, `CondicionClinica`) VALUES
+INSERT INTO `CondicionClinica` (`IDCondicionClinica`, `CondicionClinica`) VALUES
 (1, 'Presión alta'),
 (2, 'Diabetes'),
 (3, 'Afecciones cardíacas'),
@@ -160,9 +152,7 @@ CREATE TABLE `datos_clinicos` (
 --
 
 INSERT INTO `datos_clinicos` (`IDDatosClinicos`, `NDocumento`, `TipoAfiliacion`, `TipoSubsidio`, `Tipo_de_sangre`, `RH`, `CondicionClinica`, `AlergiaMedicamento`, `arraycond`) VALUES
-(1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}'),
-(17, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}'),
-(22, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}');
+(1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}');
 
 -- --------------------------------------------------------
 
@@ -216,10 +206,10 @@ INSERT INTO `estrato` (`IDEstrato`, `Estrato`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `formulariomedicamentos`
+-- Table structure for table `FormularioMedicamentos`
 --
 
-CREATE TABLE `formulariomedicamentos` (
+CREATE TABLE `FormularioMedicamentos` (
   `IDFormularioMedicamentos` int(4) NOT NULL,
   `Ndocumento` int(11) NOT NULL,
   `CodigoQR` int(4) NOT NULL,
@@ -285,19 +275,19 @@ INSERT INTO `localidad` (`IDLocalidad`, `Localidad`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rh`
+-- Table structure for table `RH`
 --
 
-CREATE TABLE `rh` (
+CREATE TABLE `RH` (
   `IDRH` int(1) NOT NULL,
   `RH` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `rh`
+-- Dumping data for table `RH`
 --
 
-INSERT INTO `rh` (`IDRH`, `RH`) VALUES
+INSERT INTO `RH` (`IDRH`, `RH`) VALUES
 (1, '+'),
 (2, '-');
 
@@ -323,10 +313,10 @@ INSERT INTO `rol` (`id`, `rol`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `suscripcion`
+-- Table structure for table `Suscripcion`
 --
 
-CREATE TABLE `suscripcion` (
+CREATE TABLE `Suscripcion` (
   `IDSuscripcion` int(4) NOT NULL,
   `Ndocumento` int(11) NOT NULL,
   `FechaExpiracion` date DEFAULT NULL,
@@ -337,10 +327,10 @@ CREATE TABLE `suscripcion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `suscripcion`
+-- Dumping data for table `Suscripcion`
 --
 
-INSERT INTO `suscripcion` (`IDSuscripcion`, `Ndocumento`, `FechaExpiracion`, `TipoSuscripcion`, `fecha_inicio`, `numero_recibo`, `token`) VALUES
+INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `FechaExpiracion`, `TipoSuscripcion`, `fecha_inicio`, `numero_recibo`, `token`) VALUES
 (29, 123456789, NULL, 3, '2023-03-08', 2459909968, 'ceeddb86b995ded82e974be21d2d1c43');
 
 -- --------------------------------------------------------
@@ -365,19 +355,19 @@ INSERT INTO `tipodocumento` (`IDTipoDoc`, `TipoDocumento`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tiposangre`
+-- Table structure for table `TipoSangre`
 --
 
-CREATE TABLE `tiposangre` (
+CREATE TABLE `TipoSangre` (
   `IDTipoSangre` int(1) NOT NULL,
   `TipoSangre` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tiposangre`
+-- Dumping data for table `TipoSangre`
 --
 
-INSERT INTO `tiposangre` (`IDTipoSangre`, `TipoSangre`) VALUES
+INSERT INTO `TipoSangre` (`IDTipoSangre`, `TipoSangre`) VALUES
 (1, 'A'),
 (2, 'B'),
 (3, 'AB'),
@@ -386,29 +376,29 @@ INSERT INTO `tiposangre` (`IDTipoSangre`, `TipoSangre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tiposubsidio`
+-- Table structure for table `TipoSubsidio`
 --
 
-CREATE TABLE `tiposubsidio` (
+CREATE TABLE `TipoSubsidio` (
   `IDTipoSubsidio` int(2) NOT NULL,
   `TipoSubsidio` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tiposubsidio`
+-- Dumping data for table `TipoSubsidio`
 --
 
-INSERT INTO `tiposubsidio` (`IDTipoSubsidio`, `TipoSubsidio`) VALUES
+INSERT INTO `TipoSubsidio` (`IDTipoSubsidio`, `TipoSubsidio`) VALUES
 (1, 'Cotizante'),
 (2, 'Subsidiado');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tiposuscripcion`
+-- Table structure for table `TipoSuscripcion`
 --
 
-CREATE TABLE `tiposuscripcion` (
+CREATE TABLE `TipoSuscripcion` (
   `IDTipoSuscripcion` int(1) NOT NULL,
   `TipoSuscripcion` varchar(25) DEFAULT NULL,
   `nombre_archivo` varchar(15) DEFAULT NULL,
@@ -419,10 +409,10 @@ CREATE TABLE `tiposuscripcion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tiposuscripcion`
+-- Dumping data for table `TipoSuscripcion`
 --
 
-INSERT INTO `tiposuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`) VALUES
+INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`) VALUES
 (1, 'Gratis', '', 0, 1, 'NO', 'NO'),
 (2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO'),
 (3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO'),
@@ -459,16 +449,16 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
-(123456789, 1, 'Andres    ', 'Suarez', 'lfchaparro37@misena.edu.co', 'calle 13    ', 14, 2, 3, 3, 2, '2022-12-05', 0, NULL, '65465465435432', 'image/jpeg', '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
+(123456789, 1, 'Andres', 'Suarez ', 'lfchaparro37@misena.edu.co', 'calle 13     ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '65465465435432', 'image/jpeg', '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `administrador`
+-- Indexes for table `Administrador`
 --
-ALTER TABLE `administrador`
+ALTER TABLE `Administrador`
   ADD PRIMARY KEY (`IDAdministrador`),
   ADD KEY `TipoRol` (`TipoRol`);
 
@@ -479,15 +469,15 @@ ALTER TABLE `afiliacion`
   ADD PRIMARY KEY (`IDAfiliacion`);
 
 --
--- Indexes for table `alergiamedicamento`
+-- Indexes for table `AlergiaMedicamento`
 --
-ALTER TABLE `alergiamedicamento`
+ALTER TABLE `AlergiaMedicamento`
   ADD PRIMARY KEY (`IDAlergiaMedicamento`);
 
 --
--- Indexes for table `atributosqr`
+-- Indexes for table `AtributosQr`
 --
-ALTER TABLE `atributosqr`
+ALTER TABLE `AtributosQr`
   ADD PRIMARY KEY (`IDAtributosQr`);
 
 --
@@ -501,9 +491,9 @@ ALTER TABLE `codigo_qr`
   ADD KEY `Atributos` (`Atributos`) USING BTREE;
 
 --
--- Indexes for table `condicionclinica`
+-- Indexes for table `CondicionClinica`
 --
-ALTER TABLE `condicionclinica`
+ALTER TABLE `CondicionClinica`
   ADD PRIMARY KEY (`IDCondicionClinica`);
 
 --
@@ -532,9 +522,9 @@ ALTER TABLE `estrato`
   ADD PRIMARY KEY (`IDEstrato`);
 
 --
--- Indexes for table `formulariomedicamentos`
+-- Indexes for table `FormularioMedicamentos`
 --
-ALTER TABLE `formulariomedicamentos`
+ALTER TABLE `FormularioMedicamentos`
   ADD PRIMARY KEY (`IDFormularioMedicamentos`),
   ADD KEY `Ndocumento` (`Ndocumento`),
   ADD KEY `FormularioMedicamentos_ibfk_2` (`CodigoQR`);
@@ -552,9 +542,9 @@ ALTER TABLE `localidad`
   ADD PRIMARY KEY (`IDLocalidad`);
 
 --
--- Indexes for table `rh`
+-- Indexes for table `RH`
 --
-ALTER TABLE `rh`
+ALTER TABLE `RH`
   ADD PRIMARY KEY (`IDRH`);
 
 --
@@ -564,9 +554,9 @@ ALTER TABLE `rol`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `suscripcion`
+-- Indexes for table `Suscripcion`
 --
-ALTER TABLE `suscripcion`
+ALTER TABLE `Suscripcion`
   ADD PRIMARY KEY (`IDSuscripcion`),
   ADD KEY `Ndocumento` (`Ndocumento`),
   ADD KEY `TipoSuscripcion` (`TipoSuscripcion`);
@@ -578,21 +568,21 @@ ALTER TABLE `tipodocumento`
   ADD PRIMARY KEY (`IDTipoDoc`);
 
 --
--- Indexes for table `tiposangre`
+-- Indexes for table `TipoSangre`
 --
-ALTER TABLE `tiposangre`
+ALTER TABLE `TipoSangre`
   ADD PRIMARY KEY (`IDTipoSangre`);
 
 --
--- Indexes for table `tiposubsidio`
+-- Indexes for table `TipoSubsidio`
 --
-ALTER TABLE `tiposubsidio`
+ALTER TABLE `TipoSubsidio`
   ADD PRIMARY KEY (`IDTipoSubsidio`);
 
 --
--- Indexes for table `tiposuscripcion`
+-- Indexes for table `TipoSuscripcion`
 --
-ALTER TABLE `tiposuscripcion`
+ALTER TABLE `TipoSuscripcion`
   ADD PRIMARY KEY (`IDTipoSuscripcion`);
 
 --
@@ -612,63 +602,63 @@ ALTER TABLE `usuario`
 --
 
 --
--- AUTO_INCREMENT for table `administrador`
+-- AUTO_INCREMENT for table `Administrador`
 --
-ALTER TABLE `administrador`
+ALTER TABLE `Administrador`
   MODIFY `IDAdministrador` int(3) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `alergiamedicamento`
+-- AUTO_INCREMENT for table `AlergiaMedicamento`
 --
-ALTER TABLE `alergiamedicamento`
+ALTER TABLE `AlergiaMedicamento`
   MODIFY `IDAlergiaMedicamento` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `atributosqr`
+-- AUTO_INCREMENT for table `AtributosQr`
 --
-ALTER TABLE `atributosqr`
+ALTER TABLE `AtributosQr`
   MODIFY `IDAtributosQr` int(2) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
-  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `condicionclinica`
+-- AUTO_INCREMENT for table `CondicionClinica`
 --
-ALTER TABLE `condicionclinica`
+ALTER TABLE `CondicionClinica`
   MODIFY `IDCondicionClinica` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
-  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT for table `formulariomedicamentos`
+-- AUTO_INCREMENT for table `FormularioMedicamentos`
 --
-ALTER TABLE `formulariomedicamentos`
+ALTER TABLE `FormularioMedicamentos`
   MODIFY `IDFormularioMedicamentos` int(4) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `suscripcion`
+-- AUTO_INCREMENT for table `Suscripcion`
 --
-ALTER TABLE `suscripcion`
-  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+ALTER TABLE `Suscripcion`
+  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT for table `tiposubsidio`
+-- AUTO_INCREMENT for table `TipoSubsidio`
 --
-ALTER TABLE `tiposubsidio`
+ALTER TABLE `TipoSubsidio`
   MODIFY `IDTipoSubsidio` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tiposuscripcion`
+-- AUTO_INCREMENT for table `TipoSuscripcion`
 --
-ALTER TABLE `tiposuscripcion`
+ALTER TABLE `TipoSuscripcion`
   MODIFY `IDTipoSuscripcion` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
@@ -676,9 +666,9 @@ ALTER TABLE `tiposuscripcion`
 --
 
 --
--- Constraints for table `administrador`
+-- Constraints for table `Administrador`
 --
-ALTER TABLE `administrador`
+ALTER TABLE `Administrador`
   ADD CONSTRAINT `Administrador_ibfk_1` FOREIGN KEY (`TipoRol`) REFERENCES `rol` (`id`);
 
 --
@@ -687,8 +677,8 @@ ALTER TABLE `administrador`
 ALTER TABLE `codigo_qr`
   ADD CONSTRAINT `codigo_qr_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`),
   ADD CONSTRAINT `codigo_qr_ibfk_2` FOREIGN KEY (`DatosClinicos`) REFERENCES `datos_clinicos` (`IDDatosClinicos`),
-  ADD CONSTRAINT `codigo_qr_ibfk_3` FOREIGN KEY (`FormularioMedicamentos`) REFERENCES `formulariomedicamentos` (`IDFormularioMedicamentos`),
-  ADD CONSTRAINT `codigo_qr_ibfk_4` FOREIGN KEY (`Atributos`) REFERENCES `atributosqr` (`IDAtributosQr`);
+  ADD CONSTRAINT `codigo_qr_ibfk_3` FOREIGN KEY (`FormularioMedicamentos`) REFERENCES `FormularioMedicamentos` (`IDFormularioMedicamentos`),
+  ADD CONSTRAINT `codigo_qr_ibfk_4` FOREIGN KEY (`Atributos`) REFERENCES `AtributosQr` (`IDAtributosQr`);
 
 --
 -- Constraints for table `datos_clinicos`
@@ -696,25 +686,25 @@ ALTER TABLE `codigo_qr`
 ALTER TABLE `datos_clinicos`
   ADD CONSTRAINT `datos_clinicos_ibfk_1` FOREIGN KEY (`NDocumento`) REFERENCES `usuario` (`Ndocumento`),
   ADD CONSTRAINT `datos_clinicos_ibfk_2` FOREIGN KEY (`TipoAfiliacion`) REFERENCES `afiliacion` (`IDAfiliacion`),
-  ADD CONSTRAINT `datos_clinicos_ibfk_3` FOREIGN KEY (`CondicionClinica`) REFERENCES `condicionclinica` (`IDCondicionClinica`),
-  ADD CONSTRAINT `datos_clinicos_ibfk_4` FOREIGN KEY (`AlergiaMedicamento`) REFERENCES `alergiamedicamento` (`IDAlergiaMedicamento`),
-  ADD CONSTRAINT `datos_clinicos_ibfk_5` FOREIGN KEY (`TipoSubsidio`) REFERENCES `tiposubsidio` (`IDTipoSubsidio`),
-  ADD CONSTRAINT `datos_clinicos_ibfk_6` FOREIGN KEY (`Tipo_de_sangre`) REFERENCES `tiposangre` (`IDTipoSangre`),
-  ADD CONSTRAINT `datos_clinicos_ibfk_7` FOREIGN KEY (`RH`) REFERENCES `rh` (`IDRH`);
+  ADD CONSTRAINT `datos_clinicos_ibfk_3` FOREIGN KEY (`CondicionClinica`) REFERENCES `CondicionClinica` (`IDCondicionClinica`),
+  ADD CONSTRAINT `datos_clinicos_ibfk_4` FOREIGN KEY (`AlergiaMedicamento`) REFERENCES `AlergiaMedicamento` (`IDAlergiaMedicamento`),
+  ADD CONSTRAINT `datos_clinicos_ibfk_5` FOREIGN KEY (`TipoSubsidio`) REFERENCES `TipoSubsidio` (`IDTipoSubsidio`),
+  ADD CONSTRAINT `datos_clinicos_ibfk_6` FOREIGN KEY (`Tipo_de_sangre`) REFERENCES `TipoSangre` (`IDTipoSangre`),
+  ADD CONSTRAINT `datos_clinicos_ibfk_7` FOREIGN KEY (`RH`) REFERENCES `RH` (`IDRH`);
 
 --
--- Constraints for table `formulariomedicamentos`
+-- Constraints for table `FormularioMedicamentos`
 --
-ALTER TABLE `formulariomedicamentos`
+ALTER TABLE `FormularioMedicamentos`
   ADD CONSTRAINT `FormularioMedicamentos_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`),
   ADD CONSTRAINT `FormularioMedicamentos_ibfk_2` FOREIGN KEY (`CodigoQR`) REFERENCES `codigo_qr` (`id_codigo`);
 
 --
--- Constraints for table `suscripcion`
+-- Constraints for table `Suscripcion`
 --
-ALTER TABLE `suscripcion`
+ALTER TABLE `Suscripcion`
   ADD CONSTRAINT `Suscripcion_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`),
-  ADD CONSTRAINT `Suscripcion_ibfk_2` FOREIGN KEY (`TipoSuscripcion`) REFERENCES `tiposuscripcion` (`IDTipoSuscripcion`);
+  ADD CONSTRAINT `Suscripcion_ibfk_2` FOREIGN KEY (`TipoSuscripcion`) REFERENCES `TipoSuscripcion` (`IDTipoSuscripcion`);
 
 --
 -- Constraints for table `usuario`
