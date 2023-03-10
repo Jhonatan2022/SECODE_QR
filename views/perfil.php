@@ -133,6 +133,7 @@ $estrato=estrato();
     include('./templates/sweetalerts2.php'); ?>
 
     <link rel="stylesheet" href="./assets/css/perfil.css">
+
     <style>
 label {
     color: #4b0081;
@@ -197,7 +198,7 @@ label {
                     echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
                 }
                 ?>
-                <h3 class="titulo"><?=$user['Nombre'].$user['Apellidos'] ?>
+                <h3 class="titulo"><?=$user['Nombre'].' '.$user['Apellidos'] ?>
                     <a data-toggle="modal" data-target="#myModal" class="boton-edit">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
@@ -321,6 +322,9 @@ label {
                             <div style="border: 3px solid purple; border-radius: 5px; display: inline; float: right; font-weight:bolder; ">
                                 <a href="../controller/cambiarpass.php" style="margin: 1em">cambiar contraseña</a>
                             </div>
+                            <div style="border: 3px solid red; border-radius: 5px; display: inline; float: right; font-weight:bolder; ">
+                                <a href="#" onclick="verificar()" style="margin: 1em"><li class="fa fa-trash"></li> Eliminar cuenta</a>
+                            </div>
                         </div>
 
                         <!-- Modal footer -->
@@ -420,6 +424,46 @@ label {
     <script src="assets/js/sticker.js"></script>
     <!-- main js -->
     <script src="assets/js/main.js"></script>
+    <script>
+function verificar(){
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Esta seguro de eliminar su cuenta?',
+  text: "Perdera todos sus datos, no podra recuperarlos, realize una copia de seguridad antes de eliminar su cuenta!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'si, Eliminarla!',
+  cancelButtonText: 'No, cancelar!',
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
+    swalWithBootstrapButtons.fire(
+      'Deleted!',
+      'Su cuenta ha sido eliminada',
+      'success'
+    );<?php $datos='?Ndocumento='.$user['Ndocumento'].'&token='.$user['token_reset'];?>
+    setTimeout(()=>{ window.location.href = `../controller/eliminar.php<?=$datos?>`; }, 2000);
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Cancelado',
+      'Su cuenta no ha sido eliminada',
+      'error'
+    )
+  }
+})
+    }
+
+</script>
 </body>
 
 </html>

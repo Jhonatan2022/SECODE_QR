@@ -38,6 +38,14 @@ function getQR($id){
   $datos = $query->fetchAll(PDO::FETCH_ASSOC);
   return $datos;
 }
+function getQRCount($id){
+  global $connection;
+  $query = $connection->prepare('SELECT COUNT(qr.id_codigo) FROM codigo_qr AS qr WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetchColumn();
+  return $datos;
+}
 
 function getFormula($id){
   global $connection;

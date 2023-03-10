@@ -63,9 +63,6 @@ $plan=getPlan(2);
 	</div>
 	<!-- end breadcrumb section -->
 
-	<div class="package-container">
-      <div class="packages">
-
     <div class="package-container">
 
 			<div class="packages">

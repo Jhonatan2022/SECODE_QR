@@ -51,9 +51,16 @@ if (!isset($_SESSION['user_id'])) {
     $nombreUser = $results['Nombre'];
   }
   */
+  $countQR=getQRCount($_SESSION['user_id']);
+  $suscripcion = getSuscription($_SESSION['user_id']);
+  if(intval($suscripcion['cantidad_qr']) <= $countQR ){
+    header('Location: dashboard.php?GenerateError=1');
+  }
+  if(isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'NO'){
+    header('Location: dashboard.php?GenerateError=2');
+  }
 
-
-  if (isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/) {
+  if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'SI') {
     $id_code = $_GET['idFormEdit'];
     $newForm = false;
   } else {
@@ -91,6 +98,7 @@ $rh = rh();
 $tipoSangre = tipoSangre();
 $condicion = condicionClinica();
 $alergia = alergia();
+$suscripcion = getSuscription($user['Ndocumento']);
 
 ?>
 
@@ -180,10 +188,10 @@ $alergia = alergia();
   <div class="container_form">
     <div class="screen">
       <div class="screen__content">
-        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico<?php if (isset($_GET['idFormEdit'])) {echo '&idclinico=' . $_GET['idFormEdit'];} ?>" method="POST" novalidate>
-          <?php if (empty($ClinicData) ) {
+        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico<?php if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'SI') {echo '&idclinico=' . $_GET['idFormEdit'];} ?>" method="POST" novalidate>
+          <?php if (empty($ClinicData)) {
 
-            $message = array('Advertencia', 'solo Puede llenar el formulario una vez', 'warning');
+            $message = array('Advertencia', 'solo Puede llenar el formulario una vez, o no tiene permisos de edicion', 'warning');
             echo '</form>';
           } else { ?>
             <?php foreach ($ClinicData as $key => $value) { ?>

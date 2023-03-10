@@ -58,6 +58,11 @@ if (isset($_POST['action'])) {
 
 
 $user = getUser($_SESSION['user_id']);
+if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '1'){
+	$message = array(' Error', 'No puede crear mas Codigos Qr, actualice su membresia', 'error');
+}if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '2'){
+	$message = array(' Error', 'No puede Editar formularios, actualice su membresia', 'error');
+}
 
 $records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
 FROM codigo_qr AS qr
@@ -88,7 +93,7 @@ if ($user['id'] == 10) {
 		//$codes = $results;
 	}
 }
-
+$suscripcion = getSuscription($_SESSION['user_id']);
 
 ?>
 
@@ -119,17 +124,7 @@ if ($user['id'] == 10) {
 
 <body>
 
-	<?php if (!empty($message)) {
-	?>
 
-		<script>
-			Swal.fire(
-				'<?php echo $message[0]; ?>',
-				'<?php echo $message[1]; ?>',
-				'<?php echo $message[2]; ?>')
-		</script>
-	<?php };
-	?>
 
 	<!--PreLoader-->
 	<div class="loader">
@@ -179,7 +174,8 @@ if ($user['id'] == 10) {
 
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> "><i class="fas fa-pen"></i> opciones</a>
-										<?php if($code['id']!=10){ ?>
+
+										<?php if($code['id']!=10 && $suscripcion['citas']=='SI'){ ?>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> " href="
 										<?php 
 										switch($code['NombreEps']){
@@ -214,7 +210,7 @@ if ($user['id'] == 10) {
 							</div>
 
 
-							<div class="cont-optionsCode <?= 'contOptionsCode' . $code['Id_codigo'] ?>  ">
+							<div class="cont-optionsCode <?= 'contOptionsCode' . $code['Id_codigo'] ?>  " style='z-index:1100'>
 								<div class="divcont">
 									<div class="icon-close <?= 'iconClose' . $code['Id_codigo'] ?>">
 										<i>X</i>
@@ -242,7 +238,9 @@ if ($user['id'] == 10) {
 											<label for="Description-code">Descripcion</label><br>
 											<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
 											<label for="UpdateDataForm">Other</label><br>
+											<?php if($suscripcion['Editar']=='SI'):?>
 											<a href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<?php endif;?>
 										</div>
 										<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
 										<input type="hidden" name="path" value="<?= $code['nombre'] ?>">
@@ -385,6 +383,17 @@ if ($user['id'] == 10) {
 
 	</div>
 	<!-- <script src="./assets/js/dashboard.js"></script> -->
+	<?php if (!empty($message)) {
+	?>
+
+		<script>
+			Swal.fire(
+				'<?php echo $message[0]; ?>',
+				'<?php echo $message[1]; ?>',
+				'<?php echo $message[2]; ?>')
+		</script>
+	<?php };
+	?>
 </body>
 
 </html>
