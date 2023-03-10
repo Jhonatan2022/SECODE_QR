@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2023 at 09:19 AM
+-- Generation Time: Mar 10, 2023 at 05:59 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -262,10 +262,25 @@ CREATE TABLE `localidad` (
 
 INSERT INTO `localidad` (`IDLocalidad`, `Localidad`) VALUES
 (1, 'Usme'),
-(2, 'kenedy'),
+(2, 'Kenedy'),
 (3, 'Suba'),
 (4, 'Tunjuelito'),
-(5, 'Ciudad Bolivar');
+(5, 'Ciudad Bolivar'),
+(6, 'Chapinero'),
+(7, 'Antonio Nariño'),
+(8, 'Barrios Unidos'),
+(9, 'Bosa'),
+(10, 'Engativa'),
+(11, 'Fontibón'),
+(12, 'La Candelaria'),
+(13, 'Los Mártires'),
+(14, 'Puente Aranda'),
+(15, 'Rafael Uribe Ur'),
+(16, 'San Cristóbal'),
+(17, 'Santa Fe'),
+(18, 'Sumapaz'),
+(19, 'Teusaquillo'),
+(20, 'Usaquén');
 
 -- --------------------------------------------------------
 
@@ -396,6 +411,7 @@ INSERT INTO `tiposubsidio` (`IDTipoSubsidio`, `TipoSubsidio`) VALUES
 CREATE TABLE `tiposuscripcion` (
   `IDTipoSuscripcion` int(1) NOT NULL,
   `TipoSuscripcion` varchar(25) DEFAULT NULL,
+  `nombre_archivo` varchar(15) DEFAULT NULL,
   `precio` int(8) DEFAULT NULL,
   `cantidad_qr` int(2) DEFAULT NULL,
   `Editar` varchar(2) NOT NULL,
@@ -406,11 +422,11 @@ CREATE TABLE `tiposuscripcion` (
 -- Dumping data for table `tiposuscripcion`
 --
 
-INSERT INTO `tiposuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `precio`, `cantidad_qr`, `Editar`, `citas`) VALUES
-(1, 'Gratis', 0, 1, 'NO', 'NO'),
-(2, 'Básico', 9900, 5, 'NO', 'NO'),
-(3, 'Estandar', 26000, 8, 'SI', 'NO'),
-(4, 'Premium', 51000, 10, 'SI', 'SI');
+INSERT INTO `tiposuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`) VALUES
+(1, 'Gratis', '', 0, 1, 'NO', 'NO'),
+(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO'),
+(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO'),
+(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI');
 
 -- --------------------------------------------------------
 
@@ -443,7 +459,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
-(123456789, 1, 'Andres   ', 'Suarez', 'lfchaparro37@misena.edu.co', 'calle 13   ', 3, 1, 3, 3, 2, '2022-12-05', 0, NULL, '65465465435432', 'image/jpeg', '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
+(123456789, 1, 'Andres    ', 'Suarez', 'lfchaparro37@misena.edu.co', 'calle 13    ', 14, 2, 3, 3, 2, '2022-12-05', 0, NULL, '65465465435432', 'image/jpeg', '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
 
 --
 -- Indexes for dumped tables
