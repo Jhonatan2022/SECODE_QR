@@ -92,13 +92,14 @@ if (!isset($_SESSION['user_id'])) {
   }
 
   $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
+  $suscripcion = getSuscription($user['Ndocumento']);
 }
 $afiliacion = afiliacion();
 $rh = rh();
 $tipoSangre = tipoSangre();
 $condicion = condicionClinica();
 $alergia = alergia();
-$suscripcion = getSuscription($user['Ndocumento']);
+
 
 ?>
 
