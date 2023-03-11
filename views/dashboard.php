@@ -38,7 +38,27 @@ function deleteQR($id, $path)
 	return $message;
 }
 
+function editarForm($idQr){
 
+	if (isset($_POST['QRatributo']) && getSuscription($_SESSION['user_id'])['EditarQR'] == 'SI') {
+		$atrib = $_POST['QRatributo'];
+	} else {
+		$atrib = '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
+	}
+	global $connection;
+	$query = "UPDATE codigo_qr SET Titulo = :titulo, Descripcion = :descripcion, Atributo = :atr WHERE Id_codigo = :id";
+	$records = $connection->prepare($query);
+	$records->bindParam(':titulo', $_POST['Titulo']);
+	$records->bindParam(':descripcion', $_POST['Descripcion']);
+	$records->bindParam(':atr', $atrib);
+	$records->bindParam(':id', $idQr);
+	if ($records->execute()) {
+		$message = array(' Exito', 'Codigo Qr editado correctamente.', 'success');
+	} else {
+		$message = array(' Error', 'Ocurrio un error al editar el codigo Qr. intente de nuevo.', 'error');
+	}
+	return $message;
+}
 
 if (isset($_POST['action'])) {
 	$id = $_POST['id_code'];
@@ -47,8 +67,8 @@ if (isset($_POST['action'])) {
 		case 'Eliminar':
 			$message = deleteQR($id, $path);
 			break;
-		case 'Editar':
-			# code...
+		case 'Actualizar':
+			$message = editarForm($id);
 			break;
 		default:
 			# code...
@@ -169,10 +189,9 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributo'] ?>" alt=""></a>
 										</div>
 										<h3><?php echo $code['Titulo'] ?></h3>
-
-										<p class="product-price"><span><?php // echo $code['description'] 
-																		?></span> </p>
-
+										<div class="container">
+										<p class="product-price"><span><?=''//$code['Descripcion'] ?></span> </p>
+										</div>
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> "><i class="fas fa-pen"></i> opciones</a>
 
@@ -220,7 +239,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 									<form action="./dashboard.php" method="POST">
 										<div class="subcont-optionsCode">
 											<label for="Titulo-code">Titulo</label><br>
-											<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
+											<input type="text" id='Titulo-code' name="Titulo" value="<?php echo $code['Titulo'] ?>">
 											<br>
 											<label for="FileLinkPath"> Archivo</label>
 											<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  ' . $code['Titulo'] . '.pdf' ?> </a>
@@ -228,27 +247,44 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 											<br>
 											<label>Fecha: <?php echo $code['Duracion'] ?></label>
 											<details>
-												<summary>
-													Vista Previa
+												<summary style="font-size:larger; font-weight:bolder;">
+													Vista Previa (Dispositivos moviles)
 												</summary>
 
-												<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url=' . $code['RutaArchivo'] ?>" frameborder="0" width="100%" height="300px"></iframe>
+												<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url=' . $code['RutaArchivo'] ?>" frameborder="0" width="100%" height="500px"></iframe>
 
 											</details>
 
 											<label for="Description-code">Descripcion</label><br>
-											<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
-											<label for="UpdateDataForm">Other</label><br>
+											<textarea type="text" maxlength="95" id="Description-code" class='Description-code' name="Descripcion" value=""><?= $code['Descripcion'] ?></textarea>
+											<label for="UpdateDataForm" style="font-size:Medium; font-weight:bolder; color:purple;" >Other</label><br>
+											<?php if($suscripcion['EditarQR']=='SI'):?>
+											<input id="qr-href" type="hidden" name="QRatributo" value="">
+											<?php endif;?>
+											<details style="background-color: #d5d5d5; border-radius: 7px;">
+												<summary style="font-size:medium;">
+													Personalizar Qr
+												</summary>												
+												<?php include './templates/qr.php' ?>
+											</details>
+											<br>
 											<?php if($suscripcion['Editar']=='SI'):?>
-											<a href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<a style="font-size:medium; font-weight:bolder; padding:5px" href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<?php else:?>
+												<a style="font-size:medium; font-weight:bolder; padding:5px"  href="#" type="button" class="button btn-info disabled" >Actualizar formulario <i class="fas fa-pen"> </i></a>
+												<h5 style="color:tomato">Por favor Compra una Membresia 🎁</h5>
 											<?php endif;?>
 										</div>
 										<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
 										<input type="hidden" name="path" value="<?= $code['nombre'] ?>">
-										<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="action">
-										<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="action">
-
-
+										<?php if($suscripcion['precio']==0):?>
+												<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="#">
+												<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="#">
+												<h5 style="color:tomato">Por favor Compra una Membresia 🎁</h5>
+											<?php else:?>
+												<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="action">
+												<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="action">
+										<?php endif;?>
 									</form>
 								</div>
 
@@ -309,7 +345,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 
 			<div class="cont-button">
 
-				<a href="./clinico.php" class="link-button-new">
+				<a href="./formulario_datos_clinicos.php" class="link-button-new">
 					Nuevo <i class="fas fa-plus"></i>
 				</a>
 			</div>

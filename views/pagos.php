@@ -125,7 +125,7 @@ $token=$user['token_reset'];
 
 Swal.fire(
 	'Atencion!',
-	'Cambiaremos el valor de la transaccion a una moneda Internacional (USD). No se preocupe, el valor de la transaccion no cambiara.',
+	'Cambiaremos el valor de la moneda local a una moneda Internacional (USD). No se preocupe, el valor de la transaccion no cambiara.',
 	'info'
 )
 var myHeaders = new Headers();
@@ -220,25 +220,28 @@ var myHeaders = new Headers();
 	});
 //Users   email: sb-7cosb23375447@personal.example.com    Password: zX1[zA<f
 </script>
-<footer style="position:fixed; bottom:0; width:100%;">
-<div class="copyright">
+<footer style="position:fixed; bottom:0; width:100%; z-index: 111">
+	<!-- footer -->
+	<div class="copyright">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
+					<p>Copyrights &copy; <?=date('Y')?> - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">
 						<ul>
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
+						    <li><a href="https://www.facebook.com/profile.php?id=100083136654560" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+							<li><a href="https://twitter.com/TeamSecode" target="_blank"><i class="fab fa-twitter"></i></a></li>
+							<li><a href="https://www.instagram.com/teamsecode/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+							<li><a href="https://github.com/Jhonatan2022/SECODE_QR" target="_blank"><i class="fab fa-github"></i></a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end copyright 	-->
+	<!-- end footer -->
 	
 
 <?php include('./templates/footerWebUser.php') ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 10, 2023 at 02:04 AM
+-- Generation Time: Mar 11, 2023 at 03:06 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -152,7 +152,8 @@ CREATE TABLE `datos_clinicos` (
 --
 
 INSERT INTO `datos_clinicos` (`IDDatosClinicos`, `NDocumento`, `TipoAfiliacion`, `TipoSubsidio`, `Tipo_de_sangre`, `RH`, `CondicionClinica`, `AlergiaMedicamento`, `arraycond`) VALUES
-(1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}');
+(1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}'),
+(26, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}');
 
 -- --------------------------------------------------------
 
@@ -331,7 +332,7 @@ CREATE TABLE `Suscripcion` (
 --
 
 INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `FechaExpiracion`, `TipoSuscripcion`, `fecha_inicio`, `numero_recibo`, `token`) VALUES
-(29, 123456789, NULL, 3, '2023-03-08', 2459909968, 'ceeddb86b995ded82e974be21d2d1c43');
+(29, 123456789, NULL, 4, '2023-03-08', 2459909968, 'ceeddb86b995ded82e974be21d2d1c43');
 
 -- --------------------------------------------------------
 
@@ -405,18 +406,20 @@ CREATE TABLE `TipoSuscripcion` (
   `precio` int(8) DEFAULT NULL,
   `cantidad_qr` int(2) DEFAULT NULL,
   `Editar` varchar(2) NOT NULL,
-  `citas` varchar(2) NOT NULL
+  `citas` varchar(2) NOT NULL,
+  `tiempo` int(2) NOT NULL,
+  `EditarQR` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `TipoSuscripcion`
 --
 
-INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`) VALUES
-(1, 'Gratis', '', 0, 1, 'NO', 'NO'),
-(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO'),
-(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO'),
-(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI');
+INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`, `tiempo`, `EditarQR`) VALUES
+(1, 'Gratis', '', 0, 1, 'NO', 'NO', 0, 'NO'),
+(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO', 1, 'NO'),
+(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO', 3, 'NO'),
+(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI', 6, 'SI');
 
 -- --------------------------------------------------------
 
@@ -623,7 +626,7 @@ ALTER TABLE `AtributosQr`
 -- AUTO_INCREMENT for table `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
-  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `CondicionClinica`
@@ -635,7 +638,7 @@ ALTER TABLE `CondicionClinica`
 -- AUTO_INCREMENT for table `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
-  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `FormularioMedicamentos`
@@ -647,7 +650,7 @@ ALTER TABLE `FormularioMedicamentos`
 -- AUTO_INCREMENT for table `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
-  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `TipoSubsidio`

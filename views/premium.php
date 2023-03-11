@@ -68,6 +68,8 @@ $plan=getPlan(4);
 				<li class="<?php if($plan['Editar']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['Editar']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i><?=$plan['Editar']?> hay opción actualizar código</li>
 				<li class="<?php if($plan['citas']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['citas']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
 				<?=$plan['citas']?> hay opcion de reenvio a pagina de citas Eps</li>
+				<li class="<?php if($plan['EditarQR']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['EditarQR']?> hay opcion de personalizar Qr</li>
 		</ul>
       </div>
 	  <div class="packages">
