@@ -27,11 +27,6 @@ if($resultsUser['rol'] === '2'){
     header('Location: ../../index.php');
 }
 
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -107,62 +102,78 @@ if($resultsUser['rol'] === '2'){
     <main>
         <img src="../img/SECODE_QR.png" style="margin-left:40%;">
         <hr class="hr" style="margin-left:10%;">
-        <div style="margin-left:60%; margin-top:4%">
+        <div style="margin-left:60%; margin-bottom:5%">
             <a class="btn btn-info" href="../views/registraru.php">Registrar</a>
         </div>
         <br>
-        <div class="col-8" style="margin-left:1%; margin-top:2%;">
-        <div class="form-1-2">
-            <label for="cajaBusqueda">Buscar:</label>
-            <input type="text">
+        <section>
+            <div class="col-md-9 text-center" style="margin-left:auto; margin-top:-15%;">
+                <form action="pdfReporte.php" method="post" accept-charset="utf-8">
+                  <div class="row">
+                    <div class="col">
+                      <input type="date" name="fechaCreacion" class="form-control"  placeholder="Fecha de Inicio" required>
+                    </div>
+                    <div class="col">
+                      <input type="date" name="fechaFin" class="form-control" placeholder="Fecha Final" required>
+                    </div>
+                    <div class="col">
+                      <span class="btn btn-dark mb-1" id="filtro"><i class="fas fa-search"></i></span>
+                        <button type="submit" class="btn btn-danger mb-1"><i class="far fa-file-pdf" style ="width:100px;"></i></button>
+                        </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-10 text-center mt-5">     
+                <span id="loaderFiltro">  </span>
+              </div>
 
-        </div>
-        <div id="datos">
-
-        
-
-            <table class="table table-striped table-info align-text-top " id="table_id">
+            <div class="col-10" style="margin-left:1%; margin-top:5%;">
+            <div class="table resultadoFiltro">
+            <table class="table table-hover align-text-top" id="tablausuario">
                 <thead>
-                    <tr style="border-radius:12px;">
-                        <th class="table-dark">N°Documento</th>
-                        <th class="table-dark">Nombre</th>
-                        <th class="table-dark">Direccion</th>
-                        <th class="table-dark">Genero</th>
-                        <th class="table-dark">Correo</th>
-                        <th class="table-dark">FechaNacimiento</th>
-                        <th class="table-dark">Telefono</th>
-                        <th class="table-dark">Modificar</th>
+                    <tr>
+                        <th scope="col">N°Documento</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Genero</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Fecha creación</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Modificar</th>
                     </tr>
                 </thead>
+
+                <?php
+              include('configuracion.php');
+              $sqlfinalsecode = ('SELECT * FROM usuario ORDER BY fechaCreacion ASC');
+              $query = mysqli_query($con, $sqlfinalsecode);
+              $i =1;
+                while ($dataRow = mysqli_fetch_array($query)) { ?>
+
+
                 <tbody>
-
-
-                    <?php foreach ($usuarios as $usuario) { ?>
                         <tr>
-                            <td><?= $usuario['Ndocumento'] ?></td>
-                            <td><?= $usuario['Nombre'] ?></td>
-                            <td><?= $usuario['Direccion'] ?></td>
-                            <td><?= $usuario['Genero'] ?></td>
-                            <td><?= $usuario['Correo'] ?></td>
-                            <td><?= $usuario['FechaNacimiento'] ?></td>
-                            <td><?= $usuario['Telefono'] ?></td>
+                            <td><?php echo $dataRow['Ndocumento']; ?> </td>
+                            <td> <?php echo $dataRow['Nombre']; ?> </td>
+                            <td> <?php echo $dataRow['Direccion']; ?> </td>
+                            <td> <?php echo $dataRow['Genero']; ?></td>
+                            <td> <?php echo $dataRow['Correo']; ?> </td>
+                            <td> <?php echo $dataRow['fechaCreacion']; ?></td>
+                            <td> <?php echo $dataRow['Telefono']; ?></td>
                             <td>
-                                <a class="btn btn-info mb-2" href="editar.php?id=<?= $usuario['Ndocumento'] ?> ">
-                                    <i class="fa fa-edit"></i> </a>
+                                <a class="btn btn-warning mb-10" href="editar.php?id=<?= $usuario['Ndocumento'] ?> ">
+                                <i class="fas fa-user-edit"></i>
 
                                 <a class="btn btn-danger" href="eliminar.php?id=<?= $usuario['Ndocumento'] ?>">
                                     <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
-                    <?php } ?>
-                    <?php if (count($usuario) < 1) { ?>
-                        <tr class="text-center">
-                            <td colspan="16">No existen registros</td>
-                        </tr>
+
                     <?php } ?>
                 </tbody>
             </table>
-        </div>
+            </div>
+        </section>
     </main>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -204,6 +215,48 @@ if(isset($_GET['estado'])){
     $estado=$_GET['estado'];
     if ($estado==1) { echo "<script> alert('Usuario modificado correctamente'); </script>";}elseif($estado==2){ echo "<script> alert('ERROR al modificar usuario'); </script>";}
 }?>
+
+
+<script>
+  $(function() {
+      setTimeout(function(){
+        $('body').addClass('loaded');
+      }, 1000);
+
+
+//FILTRANDO REGISTROS
+$("#filtro").on("click", function(e){ 
+  e.preventDefault();
+  
+  loaderF(true);
+
+  var f_ingreso = $('input[name=fechaCreacion]').val();
+  var f_fin = $('input[name=fechaFin]').val();
+  console.log(f_ingreso + '' + f_fin);
+
+  if(f_ingreso !="" && f_fin !=""){
+    $.post("filtro.php", {f_ingreso, f_fin}, function (data) {
+      $("#tablausuario").hide();
+      $(".resultadoFiltro").html(data);
+      loaderF(false);
+    });  
+  }else{
+    $("#loaderFiltro").html('<p style="color:red;  font-weight:bold;">Debe seleccionar ambas fechas</p>');
+  }
+} );
+
+
+function loaderF(statusLoader){
+    console.log(statusLoader);
+    if(statusLoader){
+      $("#loaderFiltro").show();
+      $("#loaderFiltro").html('<img class="img-fluid" src="../img/cargando.svg" style="left:50%; right: 50%; width:50px;">');
+    }else{
+      $("#loaderFiltro").hide();
+    }
+  }
+});
+</script>
 </body>
 
 </html>
