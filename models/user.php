@@ -67,7 +67,7 @@ function getClinica($id){
 function getClinicData($id,$isnew, $codigo) {
   global $connection;
   if(!$isnew){ /* si es true -> evalua false  */
-    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
+    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,us.Estrato, us.Localidad,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
     FROM usuario AS us LEFT OUTER JOIN eps 
     ON eps.id = us.id 
     LEFT OUTER JOIN datos_clinicos AS dta
@@ -80,7 +80,7 @@ function getClinicData($id,$isnew, $codigo) {
     $query->execute();
     $data = $query->fetch(PDO::FETCH_ASSOC);
   }else{
-    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
+    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero, us.Estrato,us.Localidad,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
     FROM usuario AS us LEFT OUTER JOIN eps 
     ON eps.id = us.id 
     LEFT OUTER JOIN datos_clinicos AS dta
