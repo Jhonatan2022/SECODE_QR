@@ -79,6 +79,9 @@ if (isset($_POST['action'])) {
 
 $user = getUser($_SESSION['user_id']);
 verifyDateExpiration($user['Ndocumento']);
+if(isset($_POST['Privacidad'], $_POST['id'])){
+	echo 'hola';
+}
 if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '1'){
 	$message = array(' Error', 'No puede crear mas Codigos Qr, actualice su membresia', 'error');
 }if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '2'){
@@ -193,6 +196,47 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<p class="product-price"><span><?=''//$code['Descripcion'] ?></span> </p>
 										</div>
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
+										<?php if($suscripcion['CompartirPerfil'] == 'SI'){ ?>
+										<div>
+											<label for="Privacidad">Privacidad del codigo Qr</label>
+											<input type="checkbox" name="Privacidad" id="Privacidad">
+
+											<script>
+												var Privacidad = document.getElementById('Privacidad');
+												Privacidad.addEventListener('change', function() {
+													if (Privacidad.checked) {
+														// Hacer algo si el checkbox ha sido seleccionado
+														//alert('Privacidad');
+														$.ajax({
+															url: 'dashboard.php',
+															type: 'POST',
+															data: {
+																Privacidad: '1',
+																id: <?php echo $code['Id_codigo'] ?>
+															},
+															success: function(response) {
+																console.log(response);
+															}
+														});
+													} else {
+														// Hacer algo si el checkbox ha sido deseleccionado
+														//alert('Publico');
+														$.ajax({
+															url: 'ajax.php',
+															type: 'POST',
+															data: {
+																Privacidad: '0',
+																id: <?php echo $code['Id_codigo'] ?>
+															},
+															success: function(response) {
+																console.log(response);
+															}
+														});
+													}
+												});
+											</script>
+										</div>
+										<?php } ?>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> "><i class="fas fa-pen"></i> opciones</a>
 
 										<?php if($code['id']!=10 && $suscripcion['citas']=='SI'){ ?>
