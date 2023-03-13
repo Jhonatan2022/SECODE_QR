@@ -228,7 +228,7 @@ $compartido=false;
                 <?php } ?>
                 </h3>
                 <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center;">
-                    <?php if ($roluser['rol'] === '2' && ! $compartido) {
+                    <?php if ($roluser['rol'] === 2 && ! $compartido) {
                         echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
                     } ?>
                     <div class="flex-items">

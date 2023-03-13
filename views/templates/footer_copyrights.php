@@ -1,7 +1,7 @@
 <footer>
 
 	<!-- footer -->
-	<div class="copyright">
+	<div class="copyright" style="position:relative; bottom:0">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
