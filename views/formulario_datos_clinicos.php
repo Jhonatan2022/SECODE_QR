@@ -92,9 +92,28 @@ if (!isset($_SESSION['user_id'])) {
     $newEps = true;
     $eps = eps();
   }
-
-  $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
   $suscripcion = getSuscription($user['Ndocumento']);
+  if($suscripcion['RellenarFormulario'] == 'SI'){
+  $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
+  }else{
+    $ClinicData = [ //datos de registro de ejemplo
+      'Titulo' => '',
+      'Nombre' => '',
+      'FechaNacimiento' => '',
+      'NombreEps' => '',
+      'Telefono' => '',
+      'Correo' => '',
+      'Genero' => '',
+      'Estrato' => '',
+      'Localidad' => '',
+      'TipoAfiliacion' => '',
+      'RH' => '',
+      'Tipo_de_sangre' => '',
+      'IDcondicionesClinicas' => '',
+      'AlergiaMedicamento' => '',
+    ];
+  }
+
 }
 $afiliacion = afiliacion();
 $rh = rh();

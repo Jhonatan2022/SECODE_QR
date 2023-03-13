@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2023 at 03:06 AM
+-- Generation Time: Mar 13, 2023 at 08:05 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -106,6 +106,13 @@ CREATE TABLE `codigo_qr` (
   `Atributos` int(2) DEFAULT NULL,
   `Atributo` varchar(200) DEFAULT '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `codigo_qr`
+--
+
+INSERT INTO `codigo_qr` (`id_codigo`, `Titulo`, `nombre`, `Fecha`, `Duracion`, `RutaArchivo`, `Descripcion`, `Ndocumento`, `DatosClinicos`, `FormularioMedicamentos`, `Atributos`, `Atributo`) VALUES
+(28, 'lol', '519250a55d4c68e2cfe1cd1a905eea12.pdf', NULL, '2023-03-10', 'http://127.0.0.1/secodeqr/views/pdf/519250a55d4c68e2cfe1cd1a905eea12.pdf', 'lkjlkjlkjklkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk', 123456789, 26, NULL, NULL, '&light=1d0b0b&dark=ff7070&size=300');
 
 -- --------------------------------------------------------
 
@@ -408,18 +415,20 @@ CREATE TABLE `TipoSuscripcion` (
   `Editar` varchar(2) NOT NULL,
   `citas` varchar(2) NOT NULL,
   `tiempo` int(2) NOT NULL,
-  `EditarQR` varchar(2) NOT NULL
+  `EditarQR` varchar(2) NOT NULL,
+  `CompartirPerfil` varchar(2) NOT NULL,
+  `RellenarFormulario` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `TipoSuscripcion`
 --
 
-INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`, `tiempo`, `EditarQR`) VALUES
-(1, 'Gratis', '', 0, 1, 'NO', 'NO', 0, 'NO'),
-(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO', 1, 'NO'),
-(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO', 3, 'NO'),
-(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI', 6, 'SI');
+INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`, `tiempo`, `EditarQR`, `CompartirPerfil`, `RellenarFormulario`) VALUES
+(1, 'Gratis', '', 0, 1, 'NO', 'NO', 0, 'NO', 'NO', 'NO'),
+(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO', 1, 'NO', 'NO', 'NO'),
+(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO', 3, 'NO', 'SI', 'SI'),
+(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI', 6, 'SI', 'SI', 'SI');
 
 -- --------------------------------------------------------
 
@@ -442,6 +451,8 @@ CREATE TABLE `usuario` (
   `FechaNacimiento` date DEFAULT NULL,
   `Telefono` int(12) DEFAULT NULL,
   `Img_perfil` longblob DEFAULT NULL,
+  `CompartirUrl` varchar(60) DEFAULT NULL,
+  `Compartido` int(1) DEFAULT NULL,
   `token_reset` varchar(40) DEFAULT NULL,
   `TipoImg` varchar(10) DEFAULT NULL,
   `Contrasena` varchar(80) NOT NULL
@@ -451,8 +462,8 @@ CREATE TABLE `usuario` (
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
-(123456789, 1, 'Andres', 'Suarez ', 'lfchaparro37@misena.edu.co', 'calle 13     ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '65465465435432', 'image/jpeg', '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
+INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `CompartirUrl`, `Compartido`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
+(123456789, 1, 'Andres', 'Suarez    ', 'lfchaparro37@misena.edu.co', 'calle 13                  ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '94619168763076591', 1, '65465465435432', NULL, '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
 
 --
 -- Indexes for dumped tables
@@ -650,7 +661,7 @@ ALTER TABLE `FormularioMedicamentos`
 -- AUTO_INCREMENT for table `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
-  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `TipoSubsidio`

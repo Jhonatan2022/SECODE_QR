@@ -70,6 +70,10 @@ $plan=getPlan(4);
 				<?=$plan['citas']?> hay opcion de reenvio a pagina de citas Eps</li>
 				<li class="<?php if($plan['EditarQR']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
 				<?=$plan['EditarQR']?> hay opcion de personalizar Qr</li>
+				<li class="<?php if($plan['CompartirPerfil']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['CompartirPerfil']?> hay opcion de compartir mi perfil.</li>
+				<li class="<?php if($plan['RellenarFormulario']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['RellenarFormulario']?> hay opcion de autorellenar formularios</li>
 		</ul>
       </div>
 	  <div class="packages">

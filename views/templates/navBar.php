@@ -5,6 +5,7 @@ if(isset($_SESSION['user_id'])){
 	$param->execute();
 	$datosSus = $param->fetch(PDO::FETCH_ASSOC);
 	$suscripcion = getSuscription($_SESSION['user_id']);
+	$usuarioActual= getUser($_SESSION['user_id']);
 }else{
 	$suscripcion=null;
 }
@@ -46,8 +47,8 @@ if(isset($_SESSION['user_id'])){
 							</li>
 							<?php if (isset($_SESSION['user_id'])) { ?>
 								<li id='button-exit' class="user">
-									<img src="<?= $user['Img_perfil'] ?>" alt="">
-									<strong style="color: black;"> <?= $user['Nombre'] ?></strong>
+									<img src="<?= $usuarioActual['Img_perfil'] ?>" alt="">
+									<strong style="color: black;"> <?= $usuarioActual['Nombre'] ?></strong>
 									<ul class="sub-menu">
 										<li><a href="perfil.php">Mi perfil</a></li>
 										<li><a href="dashboard.php">Mis documentos</a></li>
