@@ -1,68 +1,81 @@
 <!--Conexión base de datos-->
 <?php
-session_start();
+session_start(); # init the session user if exist
 
 require_once '../models/database/database.php';
 //require_once '../controller/userController.php';
-require_once '../models/user.php';
+require_once '../models/user.php'; # import the fucntions of user
+
+#
+# firts validation, if the profile is shared by the owner user
+#
 
 if (/* !isset($_SESSION['user_id']) &&  */isset($_GET['compartir']) && filter_var($_GET['compartir'], FILTER_VALIDATE_INT ) ) {
+
+    #verify if the url shared is asociate to an user 
 
     $query = $connection->prepare("SELECT * FROM usuario WHERE CompartirUrl = :compartir");
     $query->bindParam(':compartir', $_GET['compartir']);
     $query->execute();
-    $userperfil = $query->fetch(PDO::FETCH_ASSOC);
-    $suscripcion=getSuscription($userperfil['Ndocumento']);
+    $userperfil = $query->fetch(PDO::FETCH_ASSOC);          # save the result into varible
+    $suscripcion=getSuscription($userperfil['Ndocumento']); # get the suscription of user 
+    
+    ## validate the permissions of share Profile 
+
     if($suscripcion['CompartirPerfil']=='NO'|| $userperfil['Compartido']!=1 || $userperfil <1){
-        header('Location: ./index.php');
+        header('Location: ./index.php'); # if not return to the init page
         exit;
     }
-    $roluser = $userperfil;
-    $user=getUserData($userperfil['Ndocumento']);
-    $userForm = userform($userperfil['Ndocumento']);
-    $localidad = localidad();
-    $tipodoc = tipoDocumento();
-    $estrato = estrato();
+    
+    # if is validate the permissions we declarate variables for the view
+    #
 
-    if(isset($_SESSION['user_id'])){
-        $SessionUser = getUser($_SESSION['user_id']);
+    $roluser = $userperfil;                             # all data from user
+    $user=getUserData($userperfil['Ndocumento']);       # equal variable 
+    $userForm = userform($userperfil['Ndocumento']);    # data visible for the interface of user
+    $localidad = localidad();   ## variable localidad
+    $tipodoc = tipoDocumento(); ## documnet type
+    $estrato = estrato();       ## Estrato
+
+    if(isset($_SESSION['user_id'])){                    # if exixs an user with started session 
+        $SessionUser = getUser($_SESSION['user_id']);   # save his data in a varible 
     }
 
     $queryQR=$connection->prepare("SELECT * FROM codigo_qr WHERE Ndocumento = :id AND Privacidad = 1");
-    $queryQR->bindParam(':id', $user['Ndocumento']);
-    $queryQR->execute();
-    $results= $queryQR->fetchAll(PDO::FETCH_ASSOC);
+    $queryQR->bindParam(':id', $user['Ndocumento']);    #Consult to DB searching the codes QR's with 
+    $queryQR->execute();                                #Privacy in mode public
+    $results= $queryQR->fetchAll(PDO::FETCH_ASSOC);     #save ALL the results in a varible
 
-    $compartido=true;
-}elseif(isset($_SESSION['user_id']) && !isset($_GET['compartir'])){
-    $roluser = getUser($_SESSION['user_id']);
-    $suscripcion = getSuscription($_SESSION['user_id']);
+    $compartido=true;       # Set the varible status in mode true.
+}elseif(isset($_SESSION['user_id']) && !isset($_GET['compartir'])){         # if the user is in his profile without share 
+    $roluser = getUser($_SESSION['user_id']);               #Set the varibles with the info of session user
+    $suscripcion = getSuscription($_SESSION['user_id']);    #Set the varible suscription
 
-if (isset($_REQUEST['update'])) {
+if (isset($_REQUEST['update'])) {     #we validate, is there a try to update data in the form user
 
-    $id_us = $_SESSION["user_id"];
-    $nombre = $_POST["Nombre"];
-    $direccion = $_POST["Direccion"];
-    $genero = $_POST["Genero"];
-    $correo = $_POST["Correo"];
-    $fechaNacimiento = $_POST["FechaNacimiento"];
-    $telefono = $_POST["Telefono"];
-    $Apellidos = $_POST["Apellidos"];
+    $id_us = $_SESSION["user_id"];                  #
+    $nombre = $_POST["Nombre"];                     # we save the values that we recive by POST method
+    $direccion = $_POST["Direccion"];               #if exixst
+    $genero = $_POST["Genero"];                     #
+    $correo = $_POST["Correo"];                     #
+    $fechaNacimiento = $_POST["FechaNacimiento"];   #
+    $telefono = $_POST["Telefono"];                 #
+    $Apellidos = $_POST["Apellidos"];               #
     $Localidad = $_POST["Localidad"];
     $Estrato = $_POST["Estrato"];
     $TipoDoc = $_POST["TipoDoc"];
 
     $sql = "SELECT COUNT(us.Correo) FROM usuario AS us WHERE us.Correo =:correo AND us.Ndocumento != :id";
-    $query = $connection->prepare($sql);
-    $query->bindParam(':correo', $correo);
-    $query->bindParam(':id', $id_us);
-    $query->execute();
-    $count = $query->fetchColumn();
-    if ($count > 0) {
-        $message = ['error', "Correo ya registrado por otro usuario, intente de nuevo", 'error'];
-    } else {
+    $query = $connection->prepare($sql);    #we validate that the email had not been registed in DB
+    $query->bindParam(':correo', $correo);  #
+    $query->bindParam(':id', $id_us);       #
+    $query->execute();                      #exucute the consult
+    $count = $query->fetchColumn();         #save the results ina a varible
+    if ($count > 0) {           # we compare the varible is not mayor like 0
+        $message = ['error', "Correo ya registrado por otro usuario, intente de nuevo", 'error'];   # return the message 
+    } else {        # if all is correct
 
-        if (
+        if (                                # we cerify the values of POST aren't empty
             $_POST["Nombre"] != ""
             || $_POST["Direccion"] != ""
             || $_POST["Genero"] != ""
@@ -75,21 +88,25 @@ if (isset($_REQUEST['update'])) {
             || $_POST["TipoDoc"] != ""
 
         ) {
-            $fechaNacimiento = date("Y-m-d", strtotime($fechaNacimiento));
+            $fechaNacimiento = date("Y-m-d", strtotime($fechaNacimiento)); #we convert the date 
             if (isset($_FILES['Img_perfil']) && $_FILES['Img_perfil']['error'] == UPLOAD_ERR_OK) {
+                #
+                #if the user send a file to update the profile image 
+                #types of files permited
                 $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png", "image/pneg");
-                $limite_kb = 1000; //10 mb maximo
+                $limite_kb = 1000; //10 mb maximo tamaño archivo
 
                 if ((in_array($_FILES['Img_perfil']['type'], $permitidos) && $_FILES['Img_perfil']['size'] <= $limite_kb * 1024)) {
-                    $tipoArchivo = $_FILES["Img_perfil"]["type"];
-                    $tamanoArchivo = $_FILES["Img_perfil"]["size"];
+                    #we validate the params
+                    $tipoArchivo = $_FILES["Img_perfil"]["type"];   #the file type
+                    $tamanoArchivo = $_FILES["Img_perfil"]["size"]; #the size of the file
 
                     $imagenSubida = fopen($_FILES["Img_perfil"]["tmp_name"], "r");
                     $binariosImagen = fread($imagenSubida, $tamanoArchivo);
                     //$binariosImagen = PDO::quote($binariosImagen,);
-                    $img = $binariosImagen;
+                    $img = $binariosImagen;         #img in bynaru mode to send to DB
 
-
+                    #consult to Db for update the data
                     $sql = "UPDATE usuario SET Img_perfil = :img , TipoImg = :tipo,
                 Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
                 WHERE Ndocumento = :id";
@@ -108,20 +125,20 @@ if (isset($_REQUEST['update'])) {
                     $query->bindParam(':estrato', $Estrato);
                     $query->bindParam(':tipodoc', $TipoDoc);
 
-                    if ($query->execute()) {
+                    if ($query->execute()) {    #if all correct return the message
                         $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
                     }
-                } else {
+                } else {    #return bad message 
                     $message = ['error', "Archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes", 'error'];
                 }
-            } else {
-                if (isset($_POST['quitarfoto'])) {
+            } else {    #if not exixst the file to upload
+                if (isset($_POST['quitarfoto'])) { #if the user want to quit his image profile
                     $sql = "UPDATE usuario SET Img_perfil = null , TipoImg = null WHERE Ndocumento = :id";
                     $query2 = $connection->prepare($sql);
                     $query2->bindParam(':id', $id_us);
                     $query2->execute();
                 }
-
+                #create consulto update data without file upload
                 $sql = "UPDATE usuario SET 
                 Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
                 WHERE Ndocumento = :id";
@@ -137,22 +154,22 @@ if (isset($_REQUEST['update'])) {
                 $query->bindParam(':localidad', $Localidad);
                 $query->bindParam(':estrato', $Estrato);
                 $query->bindParam(':tipodoc', $TipoDoc);
-                if ($query->execute()) {
+                if ($query->execute()) {    #return message
                     $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
                 }
             }
         }
     }
 }
-verifyDateExpiration($_SESSION['user_id']);
-$user = getUserData($_SESSION['user_id']);
-$userForm = userform($_SESSION['user_id']);
+verifyDateExpiration($_SESSION['user_id']); #we execute te function to validate the expiration time to the suscription user
+$user = getUserData($_SESSION['user_id']);  #set user data
+$userForm = userform($_SESSION['user_id']); #set user form
 $localidad = localidad();
 $tipodoc = tipoDocumento();
 $estrato = estrato();
-$compartido=false;
+$compartido=false;      ## Set the varible status in mode false.
 }else{
-    header('Location: ./index.php');
+    header('Location: ./index.php'); #if the user aren't log in, return to index page
     exit;
 }
 
@@ -231,25 +248,28 @@ $compartido=false;
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
                 <h3 class="titulo"><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?>
-                <?php if(! $compartido){ ?>
+                <?php if(! $compartido){ ?> 
+                    <!-- if the profile aren't in shared mode -->
                     <a data-toggle="modal" data-target="#myModal" class="boton-edit">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                 <?php } ?>
                 </h3>
                 <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center;">
-                    <?php if ($roluser['rol'] == 2 && ! $compartido) {
+                    <?php if ($roluser['rol'] == 2 && ! $compartido) { 
+                        ## if the user is an administrator 
                         echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
                     } ?>
                     <div class="flex-items">
                         Descripcion
                     </div>
                     <?php if ( ! $compartido && $suscripcion['CompartirPerfil'] == "SI" ) { ?>
+                        <!-- if the user have permissions to share his profile  -->
                         <label for="">Compartir Perfil</label>
                         <a data-toggle="modal" data-target="#myModalPerfil" class="boton-edit">
                             <i class="fas fa-user-alt"></i>
                         </a>
-                        <div class="modal" id="myModalPerfil">
+                         <div class="modal" id="myModalPerfil"><!-- modal of options share profile; default hidden -->
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
@@ -266,21 +286,26 @@ $compartido=false;
                                             <form>
                                                 <label for="CompartirPerfil">Compartir perfil.</label>
                                                 <input type="checkbox" id="CompartirPerfil" value=" " onclick="recordatorio();" name="CompartirPerfil" <?php if($roluser['Compartido']==1){echo 'checked';}?>>
+                                                <!-- input to check the option, it is validate to db status; when click execute a fucntion to activate o deactivate -->
                                                 <?php if($roluser['Compartido']==1){?>
+                                                    <!-- if the profile is shared we display the data to share -->
                                                 <div id="contperfil"  >
                                                     <a href="<?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario' ?>" target="_blank">
                                                         <?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario' ?>
                                                     </a>
+                                                    <!-- link to share -->
                                                     <br>
                                                     <a href="<?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario' ?>" target="_blank">
                                                         <img src="<?= 'https://quickchart.io/qr?text=' .'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario'.'&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120' ?>" alt="">
                                                     </a>
+                                                    <!-- image to share -->
                                                 </div>
                                                 <?php }?>
                                             </form>
                                             <script>
                                                 function recordatorio() {
                                                     <?php if ($roluser['Compartido'] == 1) { ?>
+                                                        //if in the db the status is shared; activated
                                                         Swal.fire({
                                                             title: 'Desactivar compartir perfil',
                                                             text: "Esta opción le permite desactivar la opción de compartir su perfil con otras personas, ¿Desea continuar?",
@@ -290,6 +315,7 @@ $compartido=false;
                                                             cancelButtonColor: '#d33',
                                                             confirmButtonText: 'Si, desactivar!'
                                                         }) <?php } else { ?>
+                                                            // if in the DB the status is disabled;
                                                         Swal.fire({
                                                             title: 'Compartir perfil',
                                                             text: "Esta opción le permite compartir su perfil con otras personas, ¿Desea continuar?",
@@ -302,25 +328,26 @@ $compartido=false;
                                                     <?php } ?>
                                                         .then((result) => {
                                                             var CompartirPerfil = document.getElementById("CompartirPerfil");
+                                                            //save de varible input checkbox
                                                             if (result.isConfirmed) {
-                                                                $.ajax({
-                                                                    url: '../controller/compartirp.php',
-                                                                    type: 'POST',
-                                                                    data: {
+                                                                $.ajax({                                    //send the data with ajax
+                                                                    url: '../controller/compartirp.php',    //file to send
+                                                                    type: 'POST',                           //method
+                                                                    data: {                                 // data to send
                                                                         id: 1,
-                                                                        compartir: <?= $roluser['Compartido'] ?>
+                                                                        compartir: <?= $roluser['Compartido'] ?>    //status bd
                                                                     },
                                                                     success: function(data) {
-                                                                        if (data == 1) {
+                                                                        if (data == 1) {    //if the result = 1
                                                                             Swal.fire(
                                                                                 'Cambios actualizados',
                                                                                 'Sus cambios han sido actualizados',
                                                                                 'success'
                                                                             )
                                                                             setTimeout(function() {
-                                                                                window.location.reload();
+                                                                                window.location.reload();   //reload the page after 1.5 segs
                                                                             }, 1600);
-                                                                        } else {
+                                                                        } else {                            //if have an error
                                                                             Swal.fire(
                                                                                 'Cambios  no actualizados',
                                                                                 'Sus cambios no han sido actualizados' + data,
@@ -329,9 +356,9 @@ $compartido=false;
                                                                         }
                                                                     }
                                                                 })
-                                                            }else{
+                                                            }else{      // if the operation is canceled
                                                                 if (CompartirPerfil.checked) {
-                                                                    CompartirPerfil.checked = false;
+                                                                    CompartirPerfil.checked = false;    //return the values to original status
                                                                 } else {
                                                                     CompartirPerfil.checked = true;
                                                                 }
@@ -351,6 +378,7 @@ $compartido=false;
                         </div>
                     <?php } ?>
                     <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
+                        <!-- if the user have not verified his email -->
                     <div class="flex-items">
                         <a href="##"  id="btnVerificarEmail" style=" border:3px solid purple; border-radius:5px; padding:5px" >VERIFICAR CUENTA</a>
                     </div>
@@ -662,14 +690,14 @@ $compartido=false;
                                         }
                                     });
                                 </script>
+                                <?php }elseif(! isset($_SESSION['user_id'])){?>
+                                    <a href="iniciar.php" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px">
+                                     INICIAR SESION</a>
                                 <?php }elseif($SessionUser['Verificado']!=1){ ?>
                                     <a href="##" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar mensaje</a>
                                      <h5 style="color:tomato">Por favor primero verifica tu cuenta. ✅ </h5>
-                                <?php }elseif(! isset($_SESSION['user_id'])){?>
-                                    <a href="iniciar.php" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px">
-                                     INICIAR SESION</a>
-                                <?php }else{ ?>
+                               <?php }else{ ?>
                                     <a href="##" class="button bg-succes fas fa-envelope" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar </a>
                                         <h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
