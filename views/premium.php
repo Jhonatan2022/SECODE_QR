@@ -14,6 +14,8 @@ $plan=getPlan(4);
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servicio Premium</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/service.css" />
@@ -74,6 +76,9 @@ $plan=getPlan(4);
 				<?=$plan['CompartirPerfil']?> hay opcion de compartir mi perfil.</li>
 				<li class="<?php if($plan['RellenarFormulario']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
 				<?=$plan['RellenarFormulario']?> hay opcion de autorellenar formularios</li>
+				<li class="<?php if($plan['EnviarMensaje']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['EnviarMensaje']?> hay opcion de enviar mensajes a usuario (SOLO CUENTAS VERIFICADAS)</li>
+			</ul>
 		</ul>
       </div>
 	  <div class="packages">

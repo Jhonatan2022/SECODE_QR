@@ -23,8 +23,9 @@ if ($resultsUser['rol'] == 2) {
         $editarqr = $_POST['EditarQR'];
         $compartirperfil= $_POST['CompartirPerfil'];
         $RellenarFormulario = $_POST['RellenarFormulario'];
+        $EnviarMensaje = $_POST['EnviarMensaje'];
         try{
-            $query = $connection->prepare('UPDATE TipoSuscripcion SET TipoSuscripcion = :tipo, precio = :precio, cantidad_qr = :cantidad, citas = :citas, Editar = :editar, nombre_archivo = :nombrear, EditarQR = :editqr, CompartirPerfil = :CompartirPerfil, RellenarFormulario = :RellenarFormulario WHERE IDTipoSuscripcion = :id');
+            $query = $connection->prepare('UPDATE TipoSuscripcion SET TipoSuscripcion = :tipo, precio = :precio, cantidad_qr = :cantidad, citas = :citas, Editar = :editar, nombre_archivo = :nombrear, EditarQR = :editqr, CompartirPerfil = :CompartirPerfil, RellenarFormulario = :RellenarFormulario, EnviarMensaje = :EnviarMensaje WHERE IDTipoSuscripcion = :id');
             $query->bindParam(':id', $id);
             $query->bindParam(':tipo', $tipo);
             $query->bindParam(':precio', $precio);
@@ -35,6 +36,7 @@ if ($resultsUser['rol'] == 2) {
             $query->bindParam(':editqr', $editarqr);
             $query->bindParam(':CompartirPerfil', $compartirperfil);
             $query->bindParam(':RellenarFormulario', $RellenarFormulario);
+            $query->bindParam(':EnviarMensaje', $EnviarMensaje);
             if($query->execute()){
                 $message = array('completado exitosamente', 'Datos actualizados correctamente', 'success');
             }else{
@@ -175,6 +177,17 @@ if ($resultsUser['rol'] == 2) {
                                                     <?php break; ?>
                                                 <?php
                                                 case 'RellenarFormulario': ?>
+                                                    <select name="<?=$valkey?>" id="<?=$valkey?>">
+                                                        <option value="NO" <?php if ($value === 'NO') {
+                                                                                echo 'selected';
+                                                                            } ?>>NO</option>
+                                                        <option value="SI" <?php if ($value === 'SI') {
+                                                                                echo 'selected';
+                                                                            } ?>>SI</option>
+                                                    </select>
+                                                    <?php break; ?>
+                                                <?php
+                                                case 'EnviarMensaje': ?>
                                                     <select name="<?=$valkey?>" id="<?=$valkey?>">
                                                         <option value="NO" <?php if ($value === 'NO') {
                                                                                 echo 'selected';

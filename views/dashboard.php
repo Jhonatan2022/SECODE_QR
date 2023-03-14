@@ -196,11 +196,12 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
 										<?php if($suscripcion['CompartirPerfil'] == 'SI' && $user['Compartido'] == 1){ ?>
 										<div>
-											<label for="Privacidad">Privacidad del codigo Qr</label>
+											<label for="Privacidad" style="font-size: larger; font-weight:bolder">Privacidad del codigo Qr</label>
 											<input type="checkbox" name="Privacidad" id="Privacidad" <?php if($code['Privacidad'] == 1){echo 'checked';} ?> >
-
+											<p id="EstadoQR" style="font-weight: bolder; color:purple;text-transform: uppercase; border: 4px solid purple; border-radius:5px; display:inline-block; padding:.7rem; "><?php if($code['Privacidad'] == 1){echo 'publico';}else{echo 'privado';} ?></p>
 											<script>
 												var Privacidad = document.getElementById('Privacidad');
+												var EstadoQR = document.getElementById('EstadoQR');
 												Privacidad.addEventListener('change', function() {
 													if (Privacidad.checked) {
 														// Hacer algo si el checkbox ha sido seleccionado
@@ -219,6 +220,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 																		icon: 'success',
 																		confirmButtonText: 'Aceptar'
 																	})
+																	EstadoQR.innerHTML = 'Publico';
 																}
 															}
 														});
@@ -240,6 +242,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 																		icon: 'success',
 																		confirmButtonText: 'Aceptar'
 																	})
+																	EstadoQR.innerHTML = 'Privado';
 																}
 															}
 														});
@@ -316,7 +319,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 											<?php if($suscripcion['EditarQR']=='SI'):?>
 											<input id="qr-href" type="hidden" name="QRatributo" value="">
 											<?php endif;?>
-											<details style="background-color: #d5d5d5; border-radius: 7px;">
+											<details style="background-color: #d5d5d5; border-radius: 7px; font-size:larger; font-weight:bolder;">
 												<summary style="font-size:medium;">
 													Personalizar Qr
 												</summary>												
@@ -327,7 +330,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 											<a style="font-size:medium; font-weight:bolder; padding:5px" href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
 											<?php else:?>
 												<a style="font-size:medium; font-weight:bolder; padding:5px"  href="#" type="button" class="button btn-info disabled" >Actualizar formulario <i class="fas fa-pen"> </i></a>
-												<h5 style="color:tomato">Por favor Compra una Membresia 🎁</h5>
+												<h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
 											<?php endif;?>
 										</div>
 										<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
@@ -335,7 +338,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<?php if($suscripcion['precio']==0):?>
 												<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="#">
 												<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="#">
-												<h5 style="color:tomato">Por favor Compra una Membresia 🎁</h5>
+												<h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
 											<?php else:?>
 												<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="action">
 												<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="action">

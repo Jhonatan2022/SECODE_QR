@@ -24,6 +24,10 @@ if (/* !isset($_SESSION['user_id']) &&  */isset($_GET['compartir']) && filter_va
     $tipodoc = tipoDocumento();
     $estrato = estrato();
 
+    if(isset($_SESSION['user_id'])){
+        $SessionUser = getUser($_SESSION['user_id']);
+    }
+
     $queryQR=$connection->prepare("SELECT * FROM codigo_qr WHERE Ndocumento = :id AND Privacidad = 1");
     $queryQR->bindParam(':id', $user['Ndocumento']);
     $queryQR->execute();
@@ -173,6 +177,7 @@ $compartido=false;
             font-weight: bolder;
         }
     </style>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
 
 <body>
@@ -263,7 +268,7 @@ $compartido=false;
                                                 <input type="checkbox" id="CompartirPerfil" value=" " onclick="recordatorio();" name="CompartirPerfil" <?php if($roluser['Compartido']==1){echo 'checked';}?>>
                                                 <?php if($roluser['Compartido']==1){?>
                                                 <div id="contperfil"  >
-                                                    <a href="<?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario' ?>">
+                                                    <a href="<?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario' ?>" target="_blank">
                                                         <?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/views/perfil.php?compartir=' . $roluser['CompartirUrl'] . '&tipo=usuario' ?>
                                                     </a>
                                                     <br>
@@ -345,9 +350,50 @@ $compartido=false;
                             </div>
                         </div>
                     <?php } ?>
+                    <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
                     <div class="flex-items">
-
+                        <a href="##"  id="btnVerificarEmail" style=" border:3px solid purple; border-radius:5px; padding:5px" >VERIFICAR CUENTA</a>
                     </div>
+                    <script>
+                        var btnVerificarEmail = document.getElementById("btnVerificarEmail");
+                        btnVerificarEmail.addEventListener("click", function() {
+                            Swal.fire({
+                                title: 'Verificar cuenta',
+                                text: "Esta opción le permite verificar su cuenta,mediante correo electronico ¿Desea continuar?",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Si, verificar!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url: '../controller/verificar.php',
+                                        type: 'POST',
+                                        data: {
+                                            verificar: 1
+                                        },
+                                        success: function(data) {
+                                            if (data == 1) {
+                                                Swal.fire(
+                                                    'Correo de verificacion enviado',
+                                                    'Por favor revise su bandeja de entrada, si no encuentra el correo revise su bandeja de spam',
+                                                    'success'
+                                                )
+                                            } else {
+                                                Swal.fire(
+                                                    'ocurrio un error',
+                                                    'error: ' + data,
+                                                    'error'
+                                                )
+                                            }
+                                        }
+                                    })
+                                }
+                            })
+                        });
+                    </script>
+                    <?php } ?>
                 </div>
                 <p class="texto">
                 </p>
@@ -551,6 +597,92 @@ $compartido=false;
     <section>
         <div class="container">
         <?php foreach ($results as $code) { ?>
+            <button class="accordion" >Enviar mensaje a <?php echo $user['Nombre'] ?></button>
+            <div class="panel">
+                <div class="col-lg-5">
+        <div class="contact-wrap w-100 p-md-5 p-4">
+            <h3 class="mb-4">Get in touch</h3>
+            <form method="POST" id="contactForm" name="contactForm" novalidate="novalidate" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" maxlength="45">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea name="message" class="form-control" id="message" cols="30" rows="5"
+                                placeholder="Message" maxlength="70"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <?php if(isset($_SESSION['user_id']) && $suscripcion['EnviarMensaje']=='SI' && $SessionUser['Verificado']==1){ ?>
+                                <a href="#" id="btnEnviarMensage" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px">
+                                    Enviar mensaje
+                                </a>
+                                <script>
+                                    var btnEnviarMensage = document.getElementById('btnEnviarMensage');
+                                    var subject = document.getElementById('subject');
+                                    var message = document.getElementById('message');
+                                    btnEnviarMensage.addEventListener('click', function(){
+                                        if(subject.value == '' || message.value == ''){
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Por favor llena todos los campos!',
+                                            })
+                                        }else{
+                                            $.ajax({
+                                                url: '../controller/sendmsg.php',
+                                                type: 'POST',
+                                                data: {
+                                                    subject: subject.value,
+                                                    message: message.value,
+                                                },
+                                                success: function(data){
+                                                    if(data == 'success'){
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Mensaje enviado',
+                                                            text: 'El mensaje se envio correctamente',
+                                                        })
+                                                        setTimeout(function(){
+                                                            location.reload();
+                                                        }, 1500);
+                                                    }else{
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Oops...',
+                                                            text: 'Algo salio mal! '+data,
+                                                        })
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                </script>
+                                <?php }elseif($SessionUser['Verificado']!=1){ ?>
+                                    <a href="##" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
+                                     Enviar mensaje</a>
+                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta. ✅ </h5>
+                                <?php }elseif(! isset($_SESSION['user_id'])){?>
+                                    <a href="iniciar.php" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px">
+                                     INICIAR SESION</a>
+                                <?php }else{ ?>
+                                    <a href="##" class="button bg-succes fas fa-envelope" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
+                                     Enviar </a>
+                                        <h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
+                                <?php } ?>
+                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+            </div>
+            <br>
             <button class="accordion">Ver codigos QR</button>
             <div class="panel">
                 <br>
@@ -608,7 +740,7 @@ $compartido=false;
         overflow: hidden;
         transition: max-height 0.2s ease-out;
         }
-        </styl>
+        </style>
 </style>
         <?php } ?>
         </div>
@@ -710,6 +842,7 @@ $compartido=false;
                 footer: '<a href>Why do I have this issue?</a>'
             })
         <?php } ?>
+
     </script>
 </body>
 

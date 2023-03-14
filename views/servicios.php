@@ -67,6 +67,8 @@ $planinfo=getTipoSuscripcion();
 				<?=$plan['CompartirPerfil']?> hay opcion de compartir mi perfil.</li>
 				<li class="<?php if($plan['RellenarFormulario']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
 				<?=$plan['RellenarFormulario']?> hay opcion de autorellenar formularios</li>
+				<li class="<?php if($plan['EnviarMensaje']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['EnviarMensaje']?> hay opcion de enviar mensajes a usuario (SOLO CUENTAS VERIFICADAS)</li>
 			</ul>
 			<a href="<?=$plan['nombre_archivo'];?>" class="button 
 			<?php if($plan['IDTipoSuscripcion']==2){echo 'button1';}

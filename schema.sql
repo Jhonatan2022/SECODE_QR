@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2023 at 08:05 AM
+-- Generation Time: Mar 14, 2023 at 08:06 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -112,8 +112,8 @@ CREATE TABLE `codigo_qr` (
 -- Dumping data for table `codigo_qr`
 --
 
-INSERT INTO `codigo_qr` (`id_codigo`, `Titulo`, `nombre`, `Fecha`, `Duracion`, `RutaArchivo`, `Descripcion`, `Ndocumento`, `DatosClinicos`, `FormularioMedicamentos`, `Atributos`, `Atributo`) VALUES
-(28, 'lol', '519250a55d4c68e2cfe1cd1a905eea12.pdf', NULL, '2023-03-10', 'http://127.0.0.1/secodeqr/views/pdf/519250a55d4c68e2cfe1cd1a905eea12.pdf', 'lkjlkjlkjklkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk', 123456789, 26, NULL, NULL, '&light=1d0b0b&dark=ff7070&size=300');
+INSERT INTO `codigo_qr` (`id_codigo`, `Titulo`, `nombre`, `Fecha`, `Duracion`, `RutaArchivo`, `Descripcion`, `Ndocumento`, `DatosClinicos`, `FormularioMedicamentos`, `Atributos`, `Atributo`, `Privacidad`) VALUES
+(28, 'lol', '519250a55d4c68e2cfe1cd1a905eea12.pdf', NULL, '2023-03-10', 'http://127.0.0.1/secodeqr/views/pdf/519250a55d4c68e2cfe1cd1a905eea12.pdf', 'lkjlkjlkjklkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk', 123456789, 26, NULL, NULL, '&light=1d0b0b&dark=ff7070&size=300', 1);
 
 -- --------------------------------------------------------
 
@@ -418,18 +418,19 @@ CREATE TABLE `TipoSuscripcion` (
   `tiempo` int(2) NOT NULL,
   `EditarQR` varchar(2) NOT NULL,
   `CompartirPerfil` varchar(2) NOT NULL,
-  `RellenarFormulario` varchar(2) NOT NULL
+  `RellenarFormulario` varchar(2) NOT NULL,
+  `EnviarMensaje` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `TipoSuscripcion`
 --
 
-INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`, `tiempo`, `EditarQR`, `CompartirPerfil`, `RellenarFormulario`) VALUES
-(1, 'Gratis', '', 0, 1, 'NO', 'NO', 0, 'NO', 'NO', 'NO'),
-(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO', 1, 'NO', 'NO', 'NO'),
-(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO', 3, 'NO', 'SI', 'SI'),
-(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI', 6, 'SI', 'SI', 'SI');
+INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`, `tiempo`, `EditarQR`, `CompartirPerfil`, `RellenarFormulario`, `EnviarMensaje`) VALUES
+(1, 'Gratis', '', 0, 1, 'NO', 'NO', 0, 'NO', 'NO', 'NO', 'NO'),
+(2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO', 1, 'NO', 'NO', 'NO', 'NO'),
+(3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO', 3, 'NO', 'SI', 'SI', 'NO'),
+(4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI', 6, 'SI', 'SI', 'SI', 'SI');
 
 -- --------------------------------------------------------
 
@@ -454,6 +455,7 @@ CREATE TABLE `usuario` (
   `Img_perfil` longblob DEFAULT NULL,
   `CompartirUrl` varchar(60) DEFAULT NULL,
   `Compartido` int(1) DEFAULT NULL,
+  `Verificado` int(1) DEFAULT NULL,
   `token_reset` varchar(40) DEFAULT NULL,
   `TipoImg` varchar(10) DEFAULT NULL,
   `Contrasena` varchar(80) NOT NULL
@@ -463,8 +465,8 @@ CREATE TABLE `usuario` (
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `CompartirUrl`, `Compartido`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
-(123456789, 1, 'Andres', 'Suarez    ', 'lfchaparro37@misena.edu.co', 'calle 13                  ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '94619168763076591', 1, '65465465435432', NULL, '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
+INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `CompartirUrl`, `Compartido`, `Verificado`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
+(123456789, 1, 'Andres', 'Suarez    ', 'lfchaparro37@misena.edu.co', 'calle 13                  ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '94619168763076591', 1, NULL, '65465465435432', NULL, '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
 
 --
 -- Indexes for dumped tables
@@ -638,7 +640,7 @@ ALTER TABLE `AtributosQr`
 -- AUTO_INCREMENT for table `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
-  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `CondicionClinica`
@@ -650,7 +652,7 @@ ALTER TABLE `CondicionClinica`
 -- AUTO_INCREMENT for table `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
-  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `FormularioMedicamentos`
@@ -662,7 +664,7 @@ ALTER TABLE `FormularioMedicamentos`
 -- AUTO_INCREMENT for table `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
-  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `TipoSubsidio`

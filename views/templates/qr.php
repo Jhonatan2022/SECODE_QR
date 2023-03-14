@@ -27,16 +27,16 @@
         }
         <?php if($suscripcion['EditarQR']=='NO'):?>
             .contEDIT{
-                color: transparent;
+                filter: blur(1.5px);
                 pointer-events: none;
                 cursor: default;
             }
         <?php endif;?>    
     </style>
-<div class="contEDIT">
-<?php if($suscripcion['EditarQR']=='NO'):?>
-    <h4 style="color:tomato">Por favor Compra una Membresia 🎁</h4>
-        <?php endif;?>    
+    <?php if($suscripcion['EditarQR']=='NO'):?>
+    <h4 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h4>
+    <?php endif;?>  
+<div class="contEDIT">  
     <div class="hero">
         <div class="columna">
             <div>
