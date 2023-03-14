@@ -79,16 +79,14 @@ if (isset($_POST['action'])) {
 
 $user = getUser($_SESSION['user_id']);
 verifyDateExpiration($user['Ndocumento']);
-if(isset($_POST['Privacidad'], $_POST['id'])){
-	echo 'hola';
-}
+
 if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '1'){
 	$message = array(' Error', 'No puede crear mas Codigos Qr, actualice su membresia', 'error');
 }if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '2'){
 	$message = array(' Error', 'No puede Editar formularios, actualice su membresia', 'error');
 }
 
-$records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
+$records = $connection->prepare('SELECT qr.Privacidad, qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
 FROM codigo_qr AS qr
 LEFT OUTER JOIN AtributosQr AS atr 
 ON qr.Atributos = atr.IDAtributosQr
@@ -196,40 +194,53 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<p class="product-price"><span><?=''//$code['Descripcion'] ?></span> </p>
 										</div>
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
-										<?php if($suscripcion['CompartirPerfil'] == 'SI'){ ?>
+										<?php if($suscripcion['CompartirPerfil'] == 'SI' && $user['Compartido'] == 1){ ?>
 										<div>
 											<label for="Privacidad">Privacidad del codigo Qr</label>
-											<input type="checkbox" name="Privacidad" id="Privacidad">
+											<input type="checkbox" name="Privacidad" id="Privacidad" <?php if($code['Privacidad'] == 1){echo 'checked';} ?> >
 
 											<script>
 												var Privacidad = document.getElementById('Privacidad');
 												Privacidad.addEventListener('change', function() {
 													if (Privacidad.checked) {
 														// Hacer algo si el checkbox ha sido seleccionado
-														//alert('Privacidad');
 														$.ajax({
-															url: 'dashboard.php',
+															url: '../controller/compartirp.php',
 															type: 'POST',
 															data: {
-																Privacidad: '1',
-																id: <?php echo $code['Id_codigo'] ?>
+																Privacidad: 1,
+																idQr: <?php echo $code['Id_codigo'] ?>
 															},
 															success: function(response) {
-																console.log(response);
+																if(response == 10){
+																	Swal.fire({
+																		title: 'Correcto',
+																		text: 'Activado correctamente',
+																		icon: 'success',
+																		confirmButtonText: 'Aceptar'
+																	})
+																}
 															}
 														});
 													} else {
 														// Hacer algo si el checkbox ha sido deseleccionado
 														//alert('Publico');
 														$.ajax({
-															url: 'ajax.php',
+															url: '../controller/compartirp.php',
 															type: 'POST',
 															data: {
-																Privacidad: '0',
-																id: <?php echo $code['Id_codigo'] ?>
+																Privacidad: 0,
+																idQr: <?php echo $code['Id_codigo'] ?>
 															},
 															success: function(response) {
-																console.log(response);
+																if(response == 10){
+																	Swal.fire({
+																		title: 'Correcto',
+																		text: 'Desactivado correctamente',
+																		icon: 'success',
+																		confirmButtonText: 'Aceptar'
+																	})
+																}
 															}
 														});
 													}

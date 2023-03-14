@@ -11,7 +11,7 @@ require_once(BaseDir . '/models/database/database.php');
 require_once(BaseDir . '/models/user.php');
 $user = getUser($_SESSION['user_id']);
 $resultsUser = getUser($_SESSION['user_id']);
-if ($resultsUser['rol'] === 2) {
+if ($resultsUser['rol'] == 2) {
     if(isset($_POST['IDTipoSuscripcion'], $_POST['submit'])){
         $id = $_POST['IDTipoSuscripcion'];
         $tipo = $_POST['TipoSuscripcion'];

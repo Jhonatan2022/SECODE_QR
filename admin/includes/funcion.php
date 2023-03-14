@@ -22,7 +22,7 @@ if ($records->execute()) {
     $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 }
 
-if($resultsUser['rol'] === '2'){
+if($resultsUser['rol'] == 2){
     if (isset($_POST['accion'])){
         switch($_POST['accion']){
             case 'editar_registro':

@@ -24,6 +24,11 @@ if (/* !isset($_SESSION['user_id']) &&  */isset($_GET['compartir']) && filter_va
     $tipodoc = tipoDocumento();
     $estrato = estrato();
 
+    $queryQR=$connection->prepare("SELECT * FROM codigo_qr WHERE Ndocumento = :id AND Privacidad = 1");
+    $queryQR->bindParam(':id', $user['Ndocumento']);
+    $queryQR->execute();
+    $results= $queryQR->fetchAll(PDO::FETCH_ASSOC);
+
     $compartido=true;
 }elseif(isset($_SESSION['user_id']) && !isset($_GET['compartir'])){
     $roluser = getUser($_SESSION['user_id']);
@@ -228,7 +233,7 @@ $compartido=false;
                 <?php } ?>
                 </h3>
                 <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center;">
-                    <?php if ($roluser['rol'] === 2 && ! $compartido) {
+                    <?php if ($roluser['rol'] == 2 && ! $compartido) {
                         echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
                     } ?>
                     <div class="flex-items">
@@ -291,6 +296,7 @@ $compartido=false;
                                                         })
                                                     <?php } ?>
                                                         .then((result) => {
+                                                            var CompartirPerfil = document.getElementById("CompartirPerfil");
                                                             if (result.isConfirmed) {
                                                                 $.ajax({
                                                                     url: '../controller/compartirp.php',
@@ -318,6 +324,12 @@ $compartido=false;
                                                                         }
                                                                     }
                                                                 })
+                                                            }else{
+                                                                if (CompartirPerfil.checked) {
+                                                                    CompartirPerfil.checked = false;
+                                                                } else {
+                                                                    CompartirPerfil.checked = true;
+                                                                }
                                                             }
                                                         })
                                                     }
@@ -530,6 +542,78 @@ $compartido=false;
             <br>
         </div>
     </section>
+    <?php if($compartido){ ?>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    <section>
+        <div class="container">
+        <?php foreach ($results as $code) { ?>
+            <button class="accordion">Ver codigos QR</button>
+            <div class="panel">
+                <br>
+                <br>
+            <div class="roww2">
+								<div class=" text-center">
+									<div class="single-product-item">
+										<div class="product-image">
+											<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
+												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributo'] ?>" alt=""></a>
+										</div>
+                                        <div class="product-text">
+                                            <h4><?php echo $code['Titulo'] ?></h4>
+                                            <p><?php echo ''//$code['Descripcion'] ?></p>
+                                            <a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK" class="btn btn-primary">Descargar</a>
+                                        </div>
+                                    </div>
+                                </div>
+            </div>
+            </div>
+            <style>
+        .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+        }
+
+        .active, .accordion:hover {
+        background-color: #ccc;
+        }
+
+        .accordion:after {
+        content: '\002B';
+        color: #777;
+        font-weight: bold;
+        float: right;
+        margin-left: 5px;
+        }
+
+        .active:after {
+        content: "\2212";
+        }
+
+        .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+        }
+        </styl>
+</style>
+        <?php } ?>
+        </div>
+    </section>
+    <?php } ?>
     <!--soluión temporal ante problema de footer-->
     <div>
         <br>
@@ -564,6 +648,20 @@ $compartido=false;
     <!-- main js -->
     <script src="assets/js/main.js"></script>
     <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+        }
         function verificar() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {

@@ -104,7 +104,8 @@ CREATE TABLE `codigo_qr` (
   `DatosClinicos` int(4) DEFAULT NULL,
   `FormularioMedicamentos` int(4) DEFAULT NULL,
   `Atributos` int(2) DEFAULT NULL,
-  `Atributo` varchar(200) DEFAULT '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120'
+  `Atributo` varchar(200) DEFAULT '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120',
+  `Privacidad` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

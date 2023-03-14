@@ -9,7 +9,15 @@ if(! isset($_SESSION['user_id'])){
     header('Location: ../index.php');
     exit;
 }
-
+if(isset($_POST['Privacidad'], $_POST['idQr'])){
+    $param=$connection->prepare("UPDATE codigo_qr SET Privacidad = :privacidad WHERE Ndocumento = :ndoc AND id_codigo = :id");
+    $param->bindParam(':ndoc', $_SESSION['user_id']);
+    $param->bindParam(':id', $_POST['idQr']);
+    $param->bindParam(':privacidad', $_POST['Privacidad']);
+    if($param->execute()){
+        echo 1;
+    }
+}
 
 
 if(isset($_POST['id'], $_POST['compartir']) &&  $suscripcion['CompartirPerfil']=="SI"){
