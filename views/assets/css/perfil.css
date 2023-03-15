@@ -213,18 +213,18 @@ estilos generales
 }
 
 .admin_div{
-    border: 2px solid #000;
+    border: 2px solid #4b0081;
     padding: 10px;
     margin: 10px;
-    background-color: rgb(43, 48, 76);
-    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
 }
-.admin_div>a:hover{
-    color:white
+.admin_div:hover{
+    color:rgb(255, 0, 0)
 }
 
 /* adactacion a dispositivos */
