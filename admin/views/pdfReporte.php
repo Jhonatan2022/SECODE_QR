@@ -99,7 +99,7 @@ $pdf->SetFont('helvetica','',10);
 $fechaInit = date("Y-m-d", strtotime($_POST['fechaCreacion']));
 $fechaFin  = date("Y-m-d", strtotime($_POST['fechaCreacion']));
 
-$sqlfinalsecode = ("SELECT * FROM usuario WHERE (fechaCreacion>='$fechaInit' and fechaCreacion<='$fechaFin') ORDER BY fechaCreacion ASC");
+$sqlfinalsecode = "SELECT * FROM usuario WHERE (fechaCreacion>='$fechaInit') ORDER BY fechaCreacion ASC";
 
 $query = mysqli_query($con, $sqlfinalsecode);
 
