@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 14, 2023 at 08:06 AM
+-- Generation Time: Mar 15, 2023 at 02:51 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -451,22 +451,23 @@ CREATE TABLE `usuario` (
   `id` int(2) DEFAULT 10 COMMENT 'esta tabla referencia la eps ',
   `rol` int(2) DEFAULT 1,
   `FechaNacimiento` date DEFAULT NULL,
-  `Telefono` int(12) DEFAULT NULL,
+  `Telefono` bigint(12) DEFAULT NULL,
   `Img_perfil` longblob DEFAULT NULL,
   `CompartirUrl` varchar(60) DEFAULT NULL,
   `Compartido` int(1) DEFAULT NULL,
   `Verificado` int(1) DEFAULT NULL,
   `token_reset` varchar(40) DEFAULT NULL,
   `TipoImg` varchar(10) DEFAULT NULL,
-  `Contrasena` varchar(80) NOT NULL
+  `Contrasena` varchar(80) NOT NULL,
+  `fechaCreacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `CompartirUrl`, `Compartido`, `Verificado`, `token_reset`, `TipoImg`, `Contrasena`) VALUES
-(123456789, 1, 'Andres', 'Suarez    ', 'lfchaparro37@misena.edu.co', 'calle 13                  ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '94619168763076591', 1, NULL, '65465465435432', NULL, '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu');
+INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `CompartirUrl`, `Compartido`, `Verificado`, `token_reset`, `TipoImg`, `Contrasena`, `fechaCreacion`) VALUES
+(123456789, 1, 'Andres', 'Suarez    ', 'lfchaparro37@misena.edu.co', 'calle 13                  ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '94619168763076591', 1, NULL, '65465465435432', NULL, '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu', NULL);
 
 --
 -- Indexes for dumped tables
