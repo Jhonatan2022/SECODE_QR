@@ -13,18 +13,11 @@ if (isset($_SESSION["user_id"])) {
 		header('Location: iniciar.php');
 		exit();     
 	}
+	verifyDateExpiration($user['Ndocumento']);
 
 	if ($user['id'] == 10) {
 		$newEps = true;
-	
-		$records = $connection->prepare('SELECT * FROM eps');
-		//$records->bindParam(':id', $user['id']);
-		if ($records->execute()) {
-			$eps = $records->fetchAll(PDO::FETCH_ASSOC);
-			//$codes = $results;
-		}else{
-			$message = 'Error al cargar los datos';
-		}
+		$eps = Eps();
 	}
 }
 
@@ -71,7 +64,7 @@ if (isset($_SESSION["user_id"])) {
 
     <!--PreLoader Ends-->
 
-	<?php include 'templates/navBar.php'; ?>
+	<?php include_once('./templates/navBar.php') ?>
 
 	<!-- hero area -->
 	<div class="hero-area hero-bg">
@@ -235,7 +228,7 @@ if (isset($_SESSION["user_id"])) {
 			showCloseButton: true,
 			showCancelButton: true,
 			focusConfirm: false,
-			cancelButtonText: '<i class="fa fa-thumbs-down">  Haora no.</i>',
+			cancelButtonText: '<i class="fa fa-thumbs-down">  Ahora no.</i>',
 			cancelButtonAriaLabel: 'Thumbs down'
 		})
 	}
@@ -247,7 +240,23 @@ if (isset($_SESSION["user_id"])) {
 
 
 <?php } ?>
-
+<script>
+	        <?php if(isset($_GET['verificado'])){ ?>
+            <?php if($_GET['verificado']==1){?>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cuenta verificada',
+                    text: 'Su cuenta ha sido verificada con exito',
+                })
+            <?php }else{ ?>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cuenta  NO verificada',
+                    text: 'Su cuenta NO ha sido verificada con exito',
+                })
+            <?php } ?>
+        <?php } ?>
+</script>
 	<!-- footer -->
 	<?php
      include('./templates/footer.php');

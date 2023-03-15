@@ -16,6 +16,8 @@ if (!isset($_SESSION['user_id'])) {
     'Telefono' => '',
     'Correo' => '',
     'Genero' => '',
+    'Estrato' => '',
+    'Localidad' => '',
     'TipoAfiliacion' => '',
     'RH' => '',
     'Tipo_de_sangre' => '',
@@ -51,9 +53,16 @@ if (!isset($_SESSION['user_id'])) {
     $nombreUser = $results['Nombre'];
   }
   */
+  $countQR = getQRCount($_SESSION['user_id']);
+  $suscripcion = getSuscription($_SESSION['user_id']);
+  if (intval($suscripcion['cantidad_qr']) <= $countQR) {
+    header('Location: dashboard.php?GenerateError=1');
+  }
+  if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'NO') {
+    header('Location: dashboard.php?GenerateError=2');
+  }
 
-
-  if (isset($_GET['idFormEdit']) /*&& $infoPlan == 'PRO'*/) {
+  if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'SI') {
     $id_code = $_GET['idFormEdit'];
     $newForm = false;
   } else {
@@ -73,7 +82,7 @@ if (!isset($_SESSION['user_id'])) {
       $id_code = $_GET['Data'];
       $id_codealert = $_GET['Data'];
     }
-  } 
+  }
 
 
   $user = getUser($_SESSION['user_id']);
@@ -83,15 +92,36 @@ if (!isset($_SESSION['user_id'])) {
     $newEps = true;
     $eps = eps();
   }
-
+  $suscripcion = getSuscription($user['Ndocumento']);
+  if($suscripcion['RellenarFormulario'] == 'SI'){
   $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
+  }else{
+    $ClinicData = [ //datos de registro de ejemplo
+      'Titulo' => '',
+      'Nombre' => '',
+      'FechaNacimiento' => '',
+      'NombreEps' => '',
+      'Telefono' => '',
+      'Correo' => '',
+      'Genero' => '',
+      'Estrato' => '',
+      'Localidad' => '',
+      'TipoAfiliacion' => '',
+      'RH' => '',
+      'Tipo_de_sangre' => '',
+      'IDcondicionesClinicas' => '',
+      'AlergiaMedicamento' => '',
+    ];
+  }
+
 }
 $afiliacion = afiliacion();
 $rh = rh();
 $tipoSangre = tipoSangre();
 $condicion = condicionClinica();
 $alergia = alergia();
-
+$estrato = estrato();
+$localidad = localidad();
 ?>
 
 
@@ -123,7 +153,7 @@ $alergia = alergia();
   <!-- responsive -->
   <link rel="stylesheet" href="assets/css/responsive.css">
 
-  <? include('./templates/sweetalerts2.php') ?>
+  <?php include('./templates/sweetalerts2.php') ?>
 </head>
 
 <body>
@@ -140,14 +170,14 @@ $alergia = alergia();
     </script>
   <?php endif;
   ?>
-<?php if (isset($id_code) && isset($statusForm) && $statusForm == 22) : ?>
-  <script>
+  <?php if (isset($id_code) && isset($statusForm) && $statusForm == 22) : ?>
+    <script>
       setTimeout(() => {
         location.href = 'dashboard.php?DataCode=<?php echo $id_code; ?>';
       }, 5000);
-      </script> 
-    <?php endif; 
-    ?>
+    </script>
+  <?php endif;
+  ?>
 
   <!--PreLoader-->
   <div class="loader">
@@ -180,10 +210,12 @@ $alergia = alergia();
   <div class="container_form">
     <div class="screen">
       <div class="screen__content">
-        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico<?php if (isset($_GET['idFormEdit'])) {echo '&idclinico=' . $_GET['idFormEdit'];} ?>" method="POST" novalidate>
-          <?php if (empty($ClinicData) ) {
+        <form action="../controller/pdf/PdfGeneratorForm.php?formulario=clinico<?php if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'SI') {
+                                                                                  echo '&idclinico=' . $_GET['idFormEdit'];
+                                                                                } ?>" method="POST" novalidate>
+          <?php if (empty($ClinicData)) {
 
-            $message = array('Advertencia', 'solo Puede llenar el formulario una vez', 'warning');
+            $message = array('Advertencia', 'solo Puede llenar el formulario una vez, o no tiene permisos de edicion', 'warning');
             echo '</form>';
           } else { ?>
             <?php foreach ($ClinicData as $key => $value) { ?>
@@ -192,7 +224,7 @@ $alergia = alergia();
                 case 'Titulo': ?>
                   <div class="item">
                     <p>Titulo del formulario</p>
-                    <input type="text" name="<?= $key ?>" value="<? $value ?>" />
+                    <input type="text" name="<?= $key ?>" value="<?php $value ?>" />
                   </div>
                   <?php break; ?>
 
@@ -209,7 +241,7 @@ $alergia = alergia();
                   $val = date('Y-m-d', strtotime($value)); ?>
                   <div class="item">
                     <p>Fecha de nacimiento</p>
-                    <input type="date" name="<?= $key ?>" value="<?= $val ?>" required />
+                    <input type="date" name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
                   </div>
                   <?php break; ?>
 
@@ -266,9 +298,34 @@ $alergia = alergia();
                       <option value="2" <?php if ($value === '2') {
                                           echo 'selected';
                                         } ?>>Femenino</option>
-                      <option value="3" <?php if ($value === '3') {
-                                          echo 'selected';
-                                        } ?>>No binario</option>
+                    </select>
+
+                  </div>
+                  <?php break; ?>
+                <?php
+                case 'Estrato': ?>
+                  <div class="item">
+                    <p>Estrato<span></span></p>
+
+                    <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+                      <?php foreach ($estrato as $keylocalidad => $valuelocalidad) { ?>
+                        <option value="<?= $valuelocalidad['IDEstrato'] ?>" <?php if ($value === $valuelocalidad['IDEstrato']) {echo 'selected';} ?>>
+                          <?= $valuelocalidad['Estrato'] ?></option>
+                      <?php } ?>
+                    </select>
+
+                  </div>
+                  <?php break; ?>
+                  <?php
+                case 'Localidad': ?>
+                  <div class="item">
+                    <p>Localidad<span></span></p>
+                    <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
+                      <?php foreach($localidad as $keylocalidad=> $valuelocalidad){?>
+                              <option value="<?= $valuelocalidad['IDLocalidad']?>" 
+                              <?php if ($value === $valuelocalidad['IDLocalidad']) {echo 'selected'; } ?>>
+                              <?= $valuelocalidad['Localidad']?></option>
+                      <?php }?>
                     </select>
 
                   </div>
@@ -283,15 +340,15 @@ $alergia = alergia();
                     <div class="question-answer">
 
                       <?php foreach ($afiliacion as $keyAf => $valueAf) { ?>
-                        <? if ($valueAf['IDAfiliacion'] == $value) { ?>
+                        <?php if ($valueAf['IDAfiliacion'] == $value) { ?>
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valueAf['IDAfiliacion'] ?>" class="radio"><span><?= $valueAf['Afiliacion'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required />
                           <label for="<?= $valueAf['IDAfiliacion'] ?>" class="radio"><span><?= $valueAf['Afiliacion'] ?></span></label>
-                        <? } ?>
+                        <?php } ?>
 
-                      <? } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
@@ -306,15 +363,15 @@ $alergia = alergia();
 
 
                       <?php foreach ($rh as $keyrh => $valuerh) { ?>
-                        <? if ($valuerh['IDRH'] == $value) { ?>
+                        <?php if ($valuerh['IDRH'] == $value) { ?>
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valuerh['IDRH'] . $keyrh ?>" class="radio"><span><?= $valuerh['RH'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuerh['IDRH'] . $keyrh ?>" class="radio"><span><?= $valuerh['RH'] ?></span></label>
-                        <? } ?>
+                        <?php } ?>
 
-                      <? } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
@@ -329,15 +386,15 @@ $alergia = alergia();
 
 
                       <?php foreach ($tipoSangre as $keytps => $valuetps) { ?>
-                        <? if ($valuetps['IDTipoSangre'] == $value) { ?>
+                        <?php if ($valuetps['IDTipoSangre'] == $value) { ?>
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valuetps['TipoSangre'] . $keytps ?>" class="radio"><span><?= $valuetps['TipoSangre'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuetps['TipoSangre'] . $keytps ?>" class="radio"><span><?= $valuetps['TipoSangre'] ?></span></label>
-                        <? } ?>
+                        <?php } ?>
 
-                      <? } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <br>
@@ -353,28 +410,28 @@ $alergia = alergia();
 
                       <?php foreach ($condicion as $keycond => $valuecond) { ?>
 
-                        <?php if ($value == null || $value == '' ) { ?>
+                        <?php if ($value == null || $value == '') { ?>
 
                           <div>
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" required />
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
-                          
-                          <? } //falta guardar datso en array y luego pasarlos a la base de datos
-                          
-                          else {
-                            $datarray = json_decode($value, true);
-                            $arrayName = array();
-                            foreach ($datarray as $keydat => $valuedat) {
-                              $arrayName += array($keydat => $valuedat);
-                            }
-                            //var_dump($arrayName);
-                            if (in_array($valuecond['CondicionClinica'], $arrayName)) {
-                              $checked = 'checked';
-                            } else {
-                              $checked = '';
-                            }
-                           
+
+                        <?php } //falta guardar datso en array y luego pasarlos a la base de datos
+
+                        else {
+                          $datarray = json_decode($value, true);
+                          $arrayName = array();
+                          foreach ($datarray as $keydat => $valuedat) {
+                            $arrayName += array($keydat => $valuedat);
+                          }
+                          //var_dump($arrayName);
+                          if (in_array($valuecond['CondicionClinica'], $arrayName)) {
+                            $checked = 'checked';
+                          } else {
+                            $checked = '';
+                          }
+
 
                           //print_r($arrayName);
 
@@ -386,19 +443,20 @@ $alergia = alergia();
 
             
                           } */
-                          ?>
-                            <div>
-                              <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?= $checked ?> required />
-                              <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
-                            </div>
+                        ?>
+                          <div>
+                            <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?= $checked ?> required />
+                            <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
+                          </div>
 
 
-                          <?}  } ?>
+                      <?php }
+                      } ?>
 
 
 
-                        
-                      
+
+
                       <div class="item">
                         <p>Otro<span class="required"></span></p>
                         <input type="text" name="<?php $key ?>" required placeholder="Especificar condición" />
@@ -412,18 +470,18 @@ $alergia = alergia();
                 case 'AlergiaMedicamento': ?>
                   <br>
                   <div class="question">
-                    <p>¿Es alergico algun medicamento?<span class="required"></span></p>
+                    <p>¿Es alergico algun medicamento? ¿O tiene alguna afectacion?<span class="required"></span></p>
                     <div class="question-answer">
 
-                      <? foreach ($alergia as $keyal => $valueal) { ?>
-                        <? if ($valueal['IDAlergiaMedicamento'] == $value) { ?>
+                      <?php foreach ($alergia as $keyal => $valueal) { ?>
+                        <?php if ($valueal['IDAlergiaMedicamento'] == $value) { ?>
                           <input type="radio" value="<?= $valueal['IDAlergiaMedicamento'] ?>" id="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" name="<?= $key ?>" required checked />
                           <label for="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" class="radio"><span><?= $valueal['AlergiaMedicamento'] ?></span></label>
-                        <? } else { ?>
+                        <?php } else { ?>
                           <input type="radio" value="<?= $valueal['IDAlergiaMedicamento'] ?>" id="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" name="<?= $key ?>" required />
                           <label for="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" class="radio"><span><?= $valueal['AlergiaMedicamento'] ?></span></label>
-                        <? } ?>
-                      <? } ?>
+                        <?php } ?>
+                      <?php } ?>
                     </div>
                   </div>
                   <br>
@@ -436,11 +494,14 @@ $alergia = alergia();
               } ?>
 
             <?php  } ?>
-            <button>
-              GENERAR
+            <?php if (!isset($_SESSION['user_id'])) { ?>
+              <a href="./iniciar.php"><button type="button">INICIA SESION </button></a>
+            <?php  } else { ?>
+              <button type="submit" id="BtnSendFormClinic">
+                Generar codigo
+              </button>
 
-              <i class="fas fa-qrcode"></i>
-            </button>
+            <?php  } ?>
         </form>
       </div>
       <div class="screen__background">
@@ -528,9 +589,9 @@ $alergia = alergia();
 <!-- <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
 
   <script src='https://assets.codepen.io/16327/SplitText3.min.js'></script> -->
+  <script src="assets/js/formscript.js"></script>
 
-<script src="assets/js/formscript.js"></script>
-
+    </script>
 </body>
 
 </html>

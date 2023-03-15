@@ -1,11 +1,13 @@
 <?php
 if(isset($_SESSION['user_id'])){
-	$param=$connection->prepare("SELECT tp.TipoSuscripcion FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id");
+	$param=$connection->prepare("SELECT sus.TipoSuscripcion, tp.cantidad_qr,tp.Editar, tp.citas FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id");
 	$param->bindParam(':id', $_SESSION['user_id']);
 	$param->execute();
 	$datosSus = $param->fetch(PDO::FETCH_ASSOC);
+	$suscripcion = getSuscription($_SESSION['user_id']);
+	$usuarioActual= getUser($_SESSION['user_id']);
 }else{
-	$datosSus = 0;
+	$suscripcion=null;
 }
 ?>
 <!-- header -->
@@ -36,7 +38,7 @@ if(isset($_SESSION['user_id'])){
 
 							<li><a href="nosotros.php">Quienes Somos</a></li>
 							<li><a href="contact.php">Contáctanos</a></li>
-							<li><a href="clinico.php">Solicitar Código</a>
+							<li><a href="formulario_datos_clinicos.php">Solicitar Código</a>
 								<ul class="sub-menu">
 									<li><a href="formulario_datos_clinicos.php">Datos Clínicos</a>
 									<li><a href="formulario_medicamentos.php">Solicitud medicamentos</a>
@@ -45,8 +47,8 @@ if(isset($_SESSION['user_id'])){
 							</li>
 							<?php if (isset($_SESSION['user_id'])) { ?>
 								<li id='button-exit' class="user">
-									<img src="<?= $user['Img_perfil'] ?>" alt="">
-									<strong style="color: black;"> <?= $user['Nombre'] ?></strong>
+									<img src="<?= $usuarioActual['Img_perfil'] ?>" alt="">
+									<strong style="color: black;"> <?= $usuarioActual['Nombre'] ?></strong>
 									<ul class="sub-menu">
 										<li><a href="perfil.php">Mi perfil</a></li>
 										<li><a href="dashboard.php">Mis documentos</a></li>
@@ -54,9 +56,13 @@ if(isset($_SESSION['user_id'])){
 									</ul>
 								</li>
 
+							<?php }else{?>
+								<li class="fas fa-user" style="margin-right: 2px;"></li>
+								<a href="iniciar.php" id='btn-login-nav'>Iniciar Sesión</a>
+								
 							<?php } ?>
 							<?php
-							if($datosSus == 0){?>
+							if(isset($datosSus) && $datosSus['TipoSuscripcion'] == 1 || $suscripcion==null){?>
 								<li class="login-box"><a href="servicios.php">
 									<span></span>
 									<span></span>
@@ -68,7 +74,7 @@ if(isset($_SESSION['user_id'])){
 									<span></span>
 									<span></span>
 									<span></span>
-									<span></span><?='Plan: '.$datosSus['TipoSuscripcion']?> </a>
+									<span></span><?='Plan: '.$suscripcion['TipoSuscripcion']?> </a>
 								</li>
 							<?php } ?>	
 						</ul>
@@ -104,4 +110,15 @@ if(isset($_SESSION['user_id'])){
 			display: none;
 		}
 	}
+	#btn-login-nav{
+		color: #000;
+		font-size: 1.2rem;
+		margin: 0;
+		display: inline-block;
+		font-weight: bolder;
+	}
+	#btn-login-nav:hover{
+		color: purple;
+	}
+
 </style>

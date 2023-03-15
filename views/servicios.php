@@ -6,7 +6,7 @@ require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
 }
-
+$planinfo=getTipoSuscripcion();
 ?>
 
 <!DOCTYPE html>
@@ -49,45 +49,33 @@ if(isset($_SESSION['user_id'])){
 	</div>
 	<!-- end breadcrumb section -->
 	<div class="package-container">
-		<div class="packages">
-			<h4 class="h">Básico</h4>
+		<?php foreach($planinfo as $plan){?>
+			<div class="packages">
+			<h4 class="h"><?=$plan['TipoSuscripcion']?></h4>
 			<hr>
-			<h4 class="text2">$9.900</h4>
+			<h4 class="text2">$ <?=$plan['precio']?> COP</h4>
 			<ul class="list">
 				<hr>
-				<li class="included"><i class="fas fa-check"></i>5 QR en la nube</li>
-				<li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-				<li class="excluded"><i class="fas fa-close"></i></li>
-				<li class="excluded"><i class="fas fa-close"></i></li>
+				<li class="included"><i class="fas fa-check"></i><?php if ($plan['tiempo']==0){echo 'Tiempo indefinido ';}else{echo $plan['tiempo'].' Meses ';}?></li>
+				<li class="included"><i class="fas fa-check"></i><?=$plan['cantidad_qr']?> QR en la nube</li>
+				<li class="<?php if($plan['Editar']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['Editar']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i><?=$plan['Editar']?> hay opción actualizar código</li>
+				<li class="<?php if($plan['citas']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['citas']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['citas']?> hay opcion de reenvio a pagina de citas Eps</li>
+				<li class="<?php if($plan['EditarQR']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['EditarQR']?> hay opcion de personalizar Qr</li>
+				<li class="<?php if($plan['CompartirPerfil']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['CompartirPerfil']?> hay opcion de compartir mi perfil.</li>
+				<li class="<?php if($plan['RellenarFormulario']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['RellenarFormulario']?> hay opcion de autorellenar formularios</li>
+				<li class="<?php if($plan['EnviarMensaje']=='SI'){echo "included"; }else{ echo "excluded";} ?>"><i class="fas <?php if($plan['EditarQR']=='SI'){echo "fas fa-check"; }else{ echo "fas fa-close";} ?>"></i>
+				<?=$plan['EnviarMensaje']?> hay opcion de enviar mensajes a usuario (SOLO CUENTAS VERIFICADAS)</li>
 			</ul>
-			<a href="basico.php" class="button button1">Obtener</a>
+			<a href="<?=$plan['nombre_archivo'];?>" class="button 
+			<?php if($plan['IDTipoSuscripcion']==2){echo 'button1';}
+			elseif($plan['IDTipoSuscripcion']==3){echo 'button2';}
+			elseif($plan['IDTipoSuscripcion']==4){echo 'button3';}?>">Obtener</a>
 		</div>
-		<div class="packages">
-			<h4 class="hh">Estandar</h4>
-			<hr>
-			<h4 class="text2">$26.700</h4>
-			<ul class="list">
-				<hr>
-				<li class="included"><i class="fas fa-check"></i>8 QR en la nube</li>
-				<li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-				<li class="included"><i class="fas fa-check"></i></li>
-				<li class="excluded"><i class="fas fa-close"></i></li>
-			</ul>
-			<a href="estandar.php" class="button button2">Obtener</a>
-		</div>
-		<div class="packages">
-			<h4 class="hhh">Premium</h4>
-			<hr class="hhh">
-			<h4 class="text2">$51.000</h4>
-			<ul class="list">
-				<hr>
-				<li class="included"><i class="fas fa-check"></i>10 QR en la nube</li>
-				<li class="included"><i class="fas fa-check"></i>Opción actualizar código</li>
-				<li class="included"><i class="fas fa-check"></i></li>
-				<li class="included"><i class="fas fa-check"></i></li>
-			</ul>
-			<a href="premium.php" class="button button3">Obtener </a>
-		</div>
+		<?php }?>
 	</div>
 	</div>
 	<br>
@@ -95,34 +83,7 @@ if(isset($_SESSION['user_id'])){
 	<br>
 	<br>
 
-
-	<!-- copyright -->
-	<div class="copyright">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información
-						al instante.</p>
-				</div>
-				<div class="col-lg-6 text-right col-md-12">
-					<div class="social-icons">
-						<ul>
-							<li><a href="https://www.facebook.com/profile.php?id=100083136654560" target="_blank"><i
-										class="fab fa-facebook-f"></i></a></li>
-							<li><a href="https://twitter.com/TeamSecode" target="_blank"><i
-										class="fab fa-twitter"></i></a></li>
-							<li><a href="https://www.instagram.com/teamsecode/" target="_blank"><i
-										class="fab fa-instagram"></i></a></li>
-							<li><a href="https://github.com/Jhonatan2022/SECODE_QR" target="_blank"><i
-										class="fab fa-github"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end copyright -->
-
+<?php include('./templates/footer_copyrights.php');?>
 
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>

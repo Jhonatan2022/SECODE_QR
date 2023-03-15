@@ -19,7 +19,7 @@ if ($records->execute()) {
     $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 }
 
-if(! $resultsUser['rol'] === '2'){
+if(! $resultsUser['rol'] == '2'){
     http_response_code(404);
     header('Location: ../../index.php');
 }

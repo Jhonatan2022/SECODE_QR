@@ -15,6 +15,7 @@ require_once "../../models/user.php";
 $user = getUser($_SESSION['user_id']);
 $suscription = getSuscription($_SESSION['user_id']);
 $date=  date('d-m-Y');
+$datexp= date('d-m-Y', strtotime($suscription['FechaExpiracion']));
 $nfact = $suscription['numero_recibo'];
 $plan = $suscription['TipoSuscripcion'];
 $precio = $suscription['precio'];
@@ -86,6 +87,8 @@ $precio = $suscription['precio'];
 	$pdf->Cell(6,7,utf8_decode("Dir:"),0,0);
 	$pdf->SetTextColor(0,0,0);
 	$pdf->Cell(109,7,utf8_decode($user['Direccion']),0,0);
+	$pdf->SetTextColor(75,12,75);
+	$pdf->Cell(60,7,utf8_decode("Fecha Expiracion Plan: ".$datexp),0,0,'L');
 
 	$pdf->Ln(9);
 

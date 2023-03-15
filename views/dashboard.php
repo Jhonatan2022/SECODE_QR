@@ -38,6 +38,27 @@ function deleteQR($id, $path)
 	return $message;
 }
 
+function editarForm($idQr){
+
+	if (isset($_POST['QRatributo']) && getSuscription($_SESSION['user_id'])['EditarQR'] == 'SI') {
+		$atrib = $_POST['QRatributo'];
+	} else {
+		$atrib = '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
+	}
+	global $connection;
+	$query = "UPDATE codigo_qr SET Titulo = :titulo, Descripcion = :descripcion, Atributo = :atr WHERE Id_codigo = :id";
+	$records = $connection->prepare($query);
+	$records->bindParam(':titulo', $_POST['Titulo']);
+	$records->bindParam(':descripcion', $_POST['Descripcion']);
+	$records->bindParam(':atr', $atrib);
+	$records->bindParam(':id', $idQr);
+	if ($records->execute()) {
+		$message = array(' Exito', 'Codigo Qr editado correctamente.', 'success');
+	} else {
+		$message = array(' Error', 'Ocurrio un error al editar el codigo Qr. intente de nuevo.', 'error');
+	}
+	return $message;
+}
 
 if (isset($_POST['action'])) {
 	$id = $_POST['id_code'];
@@ -46,8 +67,8 @@ if (isset($_POST['action'])) {
 		case 'Eliminar':
 			$message = deleteQR($id, $path);
 			break;
-		case 'Editar':
-			# code...
+		case 'Actualizar':
+			$message = editarForm($id);
 			break;
 		default:
 			# code...
@@ -57,8 +78,15 @@ if (isset($_POST['action'])) {
 
 
 $user = getUser($_SESSION['user_id']);
+verifyDateExpiration($user['Ndocumento']);
 
-$records = $connection->prepare('SELECT qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
+if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '1'){
+	$message = array(' Error', 'No puede crear mas Codigos Qr, actualice su membresia', 'error');
+}if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '2'){
+	$message = array(' Error', 'No puede Editar formularios, actualice su membresia', 'error');
+}
+
+$records = $connection->prepare('SELECT qr.Privacidad, qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
 FROM codigo_qr AS qr
 LEFT OUTER JOIN AtributosQr AS atr 
 ON qr.Atributos = atr.IDAtributosQr
@@ -87,7 +115,7 @@ if ($user['id'] == 10) {
 		//$codes = $results;
 	}
 }
-
+$suscripcion = getSuscription($_SESSION['user_id']);
 
 ?>
 
@@ -118,17 +146,7 @@ if ($user['id'] == 10) {
 
 <body>
 
-	<?php if (!empty($message)) {
-	?>
 
-		<script>
-			Swal.fire(
-				'<?php echo $message[0]; ?>',
-				'<?php echo $message[1]; ?>',
-				'<?php echo $message[2]; ?>')
-		</script>
-	<?php };
-	?>
 
 	<!--PreLoader-->
 	<div class="loader">
@@ -172,13 +190,70 @@ if ($user['id'] == 10) {
 												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributo'] ?>" alt=""></a>
 										</div>
 										<h3><?php echo $code['Titulo'] ?></h3>
-
-										<p class="product-price"><span><?php // echo $code['description'] 
-																		?></span> </p>
-
+										<div class="container">
+										<p class="product-price"><span><?=''//$code['Descripcion'] ?></span> </p>
+										</div>
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
+										<?php if($suscripcion['CompartirPerfil'] == 'SI' && $user['Compartido'] == 1){ ?>
+										<div>
+											<label for="Privacidad" style="font-size: larger; font-weight:bolder">Privacidad del codigo Qr</label>
+											<input type="checkbox" name="Privacidad" id="Privacidad" <?php if($code['Privacidad'] == 1){echo 'checked';} ?> >
+											<p id="EstadoQR" style="font-weight: bolder; color:purple;text-transform: uppercase; border: 4px solid purple; border-radius:5px; display:inline-block; padding:.7rem; "><?php if($code['Privacidad'] == 1){echo 'publico';}else{echo 'privado';} ?></p>
+											<script>
+												var Privacidad = document.getElementById('Privacidad');
+												var EstadoQR = document.getElementById('EstadoQR');
+												Privacidad.addEventListener('change', function() {
+													if (Privacidad.checked) {
+														// Hacer algo si el checkbox ha sido seleccionado
+														$.ajax({
+															url: '../controller/compartirp.php',
+															type: 'POST',
+															data: {
+																Privacidad: 1,
+																idQr: <?php echo $code['Id_codigo'] ?>
+															},
+															success: function(response) {
+																if(response == 10){
+																	Swal.fire({
+																		title: 'Correcto',
+																		text: 'Activado correctamente',
+																		icon: 'success',
+																		confirmButtonText: 'Aceptar'
+																	})
+																	EstadoQR.innerHTML = 'Publico';
+																}
+															}
+														});
+													} else {
+														// Hacer algo si el checkbox ha sido deseleccionado
+														//alert('Publico');
+														$.ajax({
+															url: '../controller/compartirp.php',
+															type: 'POST',
+															data: {
+																Privacidad: 0,
+																idQr: <?php echo $code['Id_codigo'] ?>
+															},
+															success: function(response) {
+																if(response == 10){
+																	Swal.fire({
+																		title: 'Correcto',
+																		text: 'Desactivado correctamente',
+																		icon: 'success',
+																		confirmButtonText: 'Aceptar'
+																	})
+																	EstadoQR.innerHTML = 'Privado';
+																}
+															}
+														});
+													}
+												});
+											</script>
+										</div>
+										<?php } ?>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> "><i class="fas fa-pen"></i> opciones</a>
-										<?php if($code['id']!=10){ ?>
+
+										<?php if($code['id']!=10 && $suscripcion['citas']=='SI'){ ?>
 										<a class="cart-btn OptionsCodeQr <?= 'OptionsCodeQr' . $code['Id_codigo'] ?> " href="
 										<?php 
 										switch($code['NombreEps']){
@@ -213,7 +288,7 @@ if ($user['id'] == 10) {
 							</div>
 
 
-							<div class="cont-optionsCode <?= 'contOptionsCode' . $code['Id_codigo'] ?>  ">
+							<div class="cont-optionsCode <?= 'contOptionsCode' . $code['Id_codigo'] ?>  " style='z-index:1100'>
 								<div class="divcont">
 									<div class="icon-close <?= 'iconClose' . $code['Id_codigo'] ?>">
 										<i>X</i>
@@ -222,7 +297,7 @@ if ($user['id'] == 10) {
 									<form action="./dashboard.php" method="POST">
 										<div class="subcont-optionsCode">
 											<label for="Titulo-code">Titulo</label><br>
-											<input type="text" id='Titulo-code' value="<?php echo $code['Titulo'] ?>">
+											<input type="text" id='Titulo-code' name="Titulo" value="<?php echo $code['Titulo'] ?>">
 											<br>
 											<label for="FileLinkPath"> Archivo</label>
 											<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  ' . $code['Titulo'] . '.pdf' ?> </a>
@@ -230,25 +305,44 @@ if ($user['id'] == 10) {
 											<br>
 											<label>Fecha: <?php echo $code['Duracion'] ?></label>
 											<details>
-												<summary>
-													Vista Previa
+												<summary style="font-size:larger; font-weight:bolder;">
+													Vista Previa (Dispositivos moviles)
 												</summary>
 
-												<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url=' . $code['RutaArchivo'] ?>" frameborder="0" width="100%" height="300px"></iframe>
+												<iframe src="<?php echo 'https://docs.google.com/gview?embedded=true&url=' . $code['RutaArchivo'] ?>" frameborder="0" width="100%" height="500px"></iframe>
 
 											</details>
 
 											<label for="Description-code">Descripcion</label><br>
-											<textarea type="text" id="Description-code" class='Description-code' value=""><?php echo $code['Descripcion'] ?></textarea>
-											<label for="UpdateDataForm">Other</label><br>
-											<a href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<textarea type="text" maxlength="95" id="Description-code" class='Description-code' name="Descripcion" value=""><?= $code['Descripcion'] ?></textarea>
+											<label for="UpdateDataForm" style="font-size:Medium; font-weight:bolder; color:purple;" >Other</label><br>
+											<?php if($suscripcion['EditarQR']=='SI'):?>
+											<input id="qr-href" type="hidden" name="QRatributo" value="">
+											<?php endif;?>
+											<details style="background-color: #d5d5d5; border-radius: 7px; font-size:larger; font-weight:bolder;">
+												<summary style="font-size:medium;">
+													Personalizar Qr
+												</summary>												
+												<?php include './templates/qr.php' ?>
+											</details>
+											<br>
+											<?php if($suscripcion['Editar']=='SI'):?>
+											<a style="font-size:medium; font-weight:bolder; padding:5px" href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<?php else:?>
+												<a style="font-size:medium; font-weight:bolder; padding:5px"  href="#" type="button" class="button btn-info disabled" >Actualizar formulario <i class="fas fa-pen"> </i></a>
+												<h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
+											<?php endif;?>
 										</div>
 										<input type="hidden" name="id_code" value="<?= $code['Id_codigo'] ?>">
 										<input type="hidden" name="path" value="<?= $code['nombre'] ?>">
-										<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="action">
-										<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="action">
-
-
+										<?php if($suscripcion['precio']==0):?>
+												<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="#">
+												<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="#">
+												<h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
+											<?php else:?>
+												<input class="button bg-succes fas fa-writte" type='submit' value="Actualizar" name="action">
+												<input class="button btn-danger fas fa-trash" type="submit" value="Eliminar" name="action">
+										<?php endif;?>
 									</form>
 								</div>
 
@@ -309,7 +403,7 @@ if ($user['id'] == 10) {
 
 			<div class="cont-button">
 
-				<a href="./clinico.php" class="link-button-new">
+				<a href="./formulario_datos_clinicos.php" class="link-button-new">
 					Nuevo <i class="fas fa-plus"></i>
 				</a>
 			</div>
@@ -360,7 +454,7 @@ if ($user['id'] == 10) {
 							showCloseButton: true,
 							showCancelButton: true,
 							focusConfirm: false,
-							cancelButtonText: '<i class="fa fa-thumbs-down">  Haora no.</i>',
+							cancelButtonText: '<i class="fa fa-thumbs-down">  Ahora no.</i>',
 							cancelButtonAriaLabel: 'Thumbs down'
 						})
 					}
@@ -384,6 +478,17 @@ if ($user['id'] == 10) {
 
 	</div>
 	<!-- <script src="./assets/js/dashboard.js"></script> -->
+	<?php if (!empty($message)) {
+	?>
+
+		<script>
+			Swal.fire(
+				'<?php echo $message[0]; ?>',
+				'<?php echo $message[1]; ?>',
+				'<?php echo $message[2]; ?>')
+		</script>
+	<?php };
+	?>
 </body>
 
 </html>

@@ -1,5 +1,7 @@
 <?php
 
+
+
 session_start();
 
 if (!isset($_SESSION["user_id"])) {
@@ -9,6 +11,7 @@ if (!isset($_SESSION["user_id"])) {
 require_once('../config.php');
 require_once('../../main.php');
 require_once(BaseDir . '/models/database/database.php');
+require_once('../../models/user.php');
 
 $records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,Nombre,rol FROM usuario WHERE Ndocumento = :id ');
 $records->bindParam(':id', $_SESSION['user_id']);
@@ -19,7 +22,7 @@ if ($records->execute()) {
     $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 }
 
-if($resultsUser['rol'] === '2'){
+if($resultsUser['rol'] == 2){
     if (isset($_POST['accion'])){
         switch($_POST['accion']){
             case 'editar_registro':
@@ -70,15 +73,32 @@ function editar_registro() {
 }
 
 function eliminar_registro() {
-    $server = DB_SERVER;
-    $username = DB_USERNAME;
-    $password = DB_PASSWORD;
-    $database = DB_NAME;
-    $conexion = mysqli_connect($server,$username,$password,$database);
-    extract($_POST);
-    $Ndocumento= $_POST['Ndocumento'];
-    $consulta= "DELETE FROM usuario WHERE Ndocumento= $Ndocumento";
-    mysqli_query($conexion, $consulta);
+    global $connection;
+    for($i = 1; $i < 3; $i++){
+        if(getFormula($_POST['Ndocumento']) != 0){
+            $del = 'FormularioMedicamentos';
+        }    elseif(getQR($_POST['Ndocumento']) != 0){
+            $qr= getQR($_POST['Ndocumento']);
+            foreach($qr as $q ){
+                unlink('../../views/pdf/'.$q['nombre']);
+            }
+            $del = 'codigo_qr';
+        }
+        $query=$connection->prepare('DELETE FROM '.$del.' WHERE Ndocumento = '.$_POST['Ndocumento']);
+
+        $query->execute();
+    }
+    $query=$connection->prepare('DELETE FROM Suscripcion WHERE Ndocumento = :id');
+    $query->bindParam(':id', $_POST['Ndocumento']);
+    $query->execute();
+
+    $query=$connection->prepare('DELETE FROM datos_clinicos WHERE Ndocumento = :id');
+    $query->bindParam(':id', $_POST['Ndocumento']);
+    $query->execute();
+
+    $query=$connection->prepare('DELETE FROM usuario WHERE Ndocumento = :id');
+    $query->bindParam(':id', $_POST['Ndocumento']);
+    $query->execute();
 
     header('Location: ../views/tablero.php');
 

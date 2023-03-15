@@ -6,7 +6,7 @@ if (isset($_SESSION['user_id'])) {
 
 require_once('../../main.php');
 require_once(BaseDir . '/vendor/autoload.php');
-require_once('./config.php');
+require_once('../../models/config.php');
 
 require_once('../../models/database/database.php');
 
@@ -55,7 +55,7 @@ if (isset($_POST['CorreoUser'])) {
                     $mail->addReplyTo(cont_dir, cont_name);
 
                     // Content
-                    $mail->Subject = "[Pasword Recovery] " . ' Secode QR ' . $_POST['CorreoUser'];
+                    $mail->Subject = "[Password Recovery] " . ' Secode QR -' . $_POST['CorreoUser'];
                     $mail->isHTML(true);
 
                     $shtml = file_get_contents('template.html');
@@ -70,7 +70,7 @@ if (isset($_POST['CorreoUser'])) {
                     $message = array(' Error', 'El correo no fue enviado, intente despues: ' . $mail->ErrorInfo, 'error');
                 }
             } else {
-                $message = array(' Error', 'El correo NO exixte, primero registrese e inicie sesion', 'error');
+                $message = array(' Error', 'El correo NO existe, primero registrese e inicie sesion', 'error');
             }
         } else {
             $message = array(' Error', 'El correo no es valido, intente de nuevo.', 'warning');

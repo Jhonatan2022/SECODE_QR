@@ -10,59 +10,11 @@ $datos = $param->fetch(PDO::FETCH_ASSOC);
 
 
 
-if(isset($_SESSION['user_id']) && isset($_GET['plan']) && isset($_GET['token']) && $datos == 0 ){
-
-
-$plan = $_GET['plan'];
-if ($plan == 22){$plan = 2;
-}
-elseif($plan == 56){$plan = 3;
-}
-elseif($plan == 99){$plan = 4;
-}else{
-	header('Location: ./iniciar.php');
-}
-
-$query1='SELECT us.Ndocumento FROM usuario as us WHERE us.token_reset = :token';
-$query = $connection->prepare($query1);
-$query->bindParam(':token', $_GET['token']);
-$query->execute();
-$usercompare = $query->fetch(PDO::FETCH_ASSOC);
-
-if($usercompare['Ndocumento'] != $_SESSION['user_id']){
-	header('Location: ./iniciar.php');
-}
-
-$query1='SELECT tps.precio, tps.TipoSuscripcion FROM TipoSuscripcion AS tps WHERE tps.IDTipoSuscripcion = :plan';
-$query = $connection->prepare($query1);
-$query->bindParam(':plan', $plan);
-$query->execute();
-$precio = $query->fetch(PDO::FETCH_ASSOC);
-
-//datos recibo
-$idfactura = random_int(2142314324,8957349578);
-//date now 
-$date= date('Y-m-d');
-$token = bin2hex(random_bytes(16));
-$query1='INSERT INTO Suscripcion (IDSuscripcion,Ndocumento,FechaExpiracion, TipoSuscripcion, fecha_inicio, numero_recibo, token) 
-VALUES (null, :ndoc, null, :tipsus, :fecha, :numr, :token)';
-$query = $connection->prepare($query1);
-$query->bindParam(':ndoc', $_SESSION['user_id']);
-$query->bindParam(':tipsus', $plan);
-$query->bindParam(':fecha', $date);
-$query->bindParam(':numr', $idfactura);
-$query->bindParam(':token', $token);
-if($query->execute()){
-	$pdf='../controller/pdf/pdfpago.php';
-}
-
-
-
-}elseif($datos != 0){
+if($datos['TipoSuscripcion'] != 1){
 	$verFactura=true;
 	$precio=getSuscription($_SESSION['user_id']);
 	$idfactura = $precio['numero_recibo'];
-	$date= date('Y-m-d');
+	$date= $precio['fecha_inicio'];
 	$pdf='../controller/pdf/pdfpago.php';
 
 }else{
@@ -116,16 +68,18 @@ if($query->execute()){
 <main>
 <div class = "recibo">
 <table style="margin:25vh auto; background-color:#F1F0F1;">
-<?if(isset($verFactura) && $verFactura){ ?>
-		<h2 style="display: block;">Detalles de facturacion</h2>
-		<?}else{?>
-      <h2>Finalizacion de compra</h2>
-	  <?}?>
-  <caption>Copyrights &copy; 2022 - SECØDE_QR, Salud e información al instante.</caption>
+  <caption>Copyrights &copy; <?=date('Y')?> - SECØDE_QR, Salud e información al instante.</caption>
   <thead>
     <tr class="tabla1">
-      <th scope="col"><img src="../views/assets/img/logo.png" alt="SECODE_QR" width="100px"></th>
+      <th scope="col"><img src="../views/assets/img/logo.png" alt="SECODE_QR" width="100vw"></th>
       <th scope="col">SECODE_QR</th>
+	  <th colspan="3">
+	  <?php if(isset($verFactura) && $verFactura){ ?>
+		<h3 style="position:relative;">Detalles de facturacion</h3>
+		<?php }else{?>
+      <h2>Finalizacion de compra</h2>
+	  <?php }?>
+	  </th>
     </tr>
   </thead>
   <tbody>
@@ -143,15 +97,18 @@ if($query->execute()){
       <th scope="row" colspan="2">Fecha: <?= $date ?>  </th>
 	  <th><button><a download="Recibo de pago" href="<?=$pdf?>" onclick="config()">Descargar</a></button></th>
     </tr>
+	<tr>
+	<th scope="row" colspan="2">Fecha Expiracion Plan: <?= $precio['FechaExpiracion'] ?>  </th>
+	</tr>
   </tbody>
   <tfoot>
     <tr>
       <th scope="row" colspan="2">Recibo N°: <?= $idfactura ?></th>
-	  <?if(isset($verFactura) && $verFactura){ ?>
+	  <?php if(isset($verFactura) && $verFactura){ ?>
 		<th colspan="3">Valor: <?=' $'.$precio['precio']?>COP</th>
-		<?}else{?>
+		<?php }else{?>
       <th colspan="3">Monto a pagar: <?=' $'.$precio['precio']?>COP</th>
-	  <?}?>
+	  <?php }?>
     </tr>
   </tfoot>
 </table>
@@ -164,7 +121,7 @@ if($query->execute()){
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2022 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
+					<p>Copyrights &copy; <?=date('Y')?> - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">
@@ -205,13 +162,18 @@ if($query->execute()){
 				position: 'center',
 				icon: 'success',
 				title: 'Descarga completada',
-				text:'Esta factura será enviada a su correo electrónico',
+				text:'Descarga completada con exito',
 				showConfirmButton: true,
 				timer: 3500
 				})
 			}, 3500);
 		};
 	</script>
+	<style>
+		nav.main-menu ul li a {
+			color: black;
+		}
+	</style>
 </footer>
 
 </body>

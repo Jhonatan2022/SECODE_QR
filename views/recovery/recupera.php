@@ -92,6 +92,7 @@ if (
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
 
     <!-- favicon -->
     <link rel="shortcut icon" type="image/png" href="../assets/img/logo.png">
@@ -199,7 +200,13 @@ if (
     <?php endif;
     ?>
 
-
+<!-- <script>
+    Swal.fire(
+        'Atencion',
+        'Necesitamos verificar su identidad, por favor ingrese su correo y numero de documento, de ser correctos, podra cambiar su contraseña.',
+        'warning'
+    )
+</script> -->
 
 </body>
 

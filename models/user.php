@@ -29,10 +29,45 @@ function getSuscription($id){
   return $datos;
 }
 
+function getQR($id){
+
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM codigo_qr WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $datos;
+}
+function getQRCount($id){
+  global $connection;
+  $query = $connection->prepare('SELECT COUNT(qr.id_codigo) FROM codigo_qr AS qr WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetchColumn();
+  return $datos;
+}
+
+function getFormula($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM FormularioMedicamentos WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetch(PDO::FETCH_ASSOC);
+  return $datos;
+}
+
+function getClinica($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM datos_clinicos WHERE Ndocumento = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $datos;
+}
 function getClinicData($id,$isnew, $codigo) {
   global $connection;
   if(!$isnew){ /* si es true -> evalua false  */
-    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
+    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,us.Estrato, us.Localidad,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
     FROM usuario AS us LEFT OUTER JOIN eps 
     ON eps.id = us.id 
     LEFT OUTER JOIN datos_clinicos AS dta
@@ -45,7 +80,7 @@ function getClinicData($id,$isnew, $codigo) {
     $query->execute();
     $data = $query->fetch(PDO::FETCH_ASSOC);
   }else{
-    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
+    $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero, us.Estrato,us.Localidad,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
     FROM usuario AS us LEFT OUTER JOIN eps 
     ON eps.id = us.id 
     LEFT OUTER JOIN datos_clinicos AS dta
@@ -64,7 +99,7 @@ function getClinicData($id,$isnew, $codigo) {
 function userform($id) {
   //$data =implode(', ', $data1);
   global $connection;
-  $query = $connection->prepare('SELECT Nombre,Direccion,Genero,Correo,FechaNacimiento,Telefono,Img_perfil FROM usuario WHERE Ndocumento = :id');
+  $query = $connection->prepare('SELECT Nombre, Apellidos,Direccion,Genero,Correo, Localidad, Estrato, TipoDoc, FechaNacimiento,Telefono,Img_perfil FROM usuario WHERE Ndocumento = :id');
   $query->bindParam(':id', $id);
   $query->execute();
   $user = $query->fetch(PDO::FETCH_ASSOC);
@@ -126,8 +161,33 @@ function getUserData($id){ //complete info user data without table condicion cli
   }
   return $user;
 }
+function getPlan($id){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM TipoSuscripcion WHERE IDTipoSuscripcion = :id');
+  $query->bindParam(':id', $id);
+  $query->execute();
+  $datos = $query->fetch(PDO::FETCH_ASSOC);
+  return $datos;
+}
+function verifyDateExpiration($id){
+  global $connection;
+  //verify the time to expire the suscription of the user
+	$suscription = getSuscription($id);
+	if($suscription['FechaExpiracion'] != null && ($suscription['FechaExpiracion'] <= date("Y-m-d"))){
+		$query= $connection->prepare('UPDATE Suscripcion SET FechaExpiracion = null, TipoSuscripcion = 1, fecha_inicio =null, numero_recibo = null, token = null WHERE Ndocumento = :id');
+    $query->bindParam(':id', $id);
+    $query->execute();
+	}
+}
 
 //function for the data tables
+function getTipoSuscripcion(){
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM TipoSuscripcion ');
+  $query->execute();
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $datos;
+}
 function localidad() {
   global $connection;
   $query = $connection->prepare('SELECT * FROM localidad');
@@ -135,6 +195,14 @@ function localidad() {
   $eps = $query->fetchAll(PDO::FETCH_ASSOC);
   return $eps;
 }
+function estrato() {
+  global $connection;
+  $query = $connection->prepare('SELECT * FROM estrato');
+  $query->execute();
+  $eps = $query->fetchAll(PDO::FETCH_ASSOC);
+  return $eps;
+}
+
 function afiliacion() {
   global $connection;
   $query = $connection->prepare('SELECT * FROM afiliacion');
