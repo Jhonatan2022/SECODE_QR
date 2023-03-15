@@ -68,13 +68,7 @@ if (isset($_SESSION["user_id"])) {
 <body>
 	
 	<!--PreLoader-->
-    <div class="loader">
-		<div class="inner"></div>
-		<div class="inner"></div>
-		<div class="inner"></div>
-		<div class="inner"></div>
-		<div class="inner"></div>
-	</div>
+
     <!--PreLoader Ends-->
 
 	<?php include 'templates/navBar.php'; ?>
