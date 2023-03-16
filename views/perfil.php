@@ -624,7 +624,6 @@ $compartido=false;      ## Set the varible status in mode false.
         <br>
     <section>
         <div class="container">
-        <?php foreach ($results as $code) { ?>
             <button class="accordion" >Enviar mensaje a <?php echo $user['Nombre'] ?></button>
             <div class="panel">
                 <div class="col-lg-5">
@@ -643,6 +642,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                 placeholder="Message" maxlength="70"></textarea>
                         </div>
                     </div>
+                    <input type="hidden" id="emailTo" name="emailTo" value="<?=$user['Correo']?>">
                     <div class="col-md-12">
                         <div class="form-group">
                             <?php if(isset($_SESSION['user_id']) && $suscripcion['EnviarMensaje']=='SI' && $SessionUser['Verificado']==1){ ?>
@@ -653,6 +653,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                     var btnEnviarMensage = document.getElementById('btnEnviarMensage');
                                     var subject = document.getElementById('subject');
                                     var message = document.getElementById('message');
+                                    var emailTo = document.getElementById('emailTo').value;
                                     btnEnviarMensage.addEventListener('click', function(){
                                         if(subject.value == '' || message.value == ''){
                                             Swal.fire({
@@ -667,6 +668,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                                 data: {
                                                     subject: subject.value,
                                                     message: message.value,
+                                                    emailTo: emailTo
                                                 },
                                                 success: function(data){
                                                     if(data == 'success'){
@@ -696,7 +698,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                 <?php }elseif($SessionUser['Verificado']!=1){ ?>
                                     <a href="##" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar mensaje</a>
-                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta. ✅ </h5>
+                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta. ✅ Y Actualiza tu Membresia 🎁 </h5>
                                <?php }else{ ?>
                                     <a href="##" class="button bg-succes fas fa-envelope" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar </a>
@@ -715,6 +717,8 @@ $compartido=false;      ## Set the varible status in mode false.
             <div class="panel">
                 <br>
                 <br>
+                <?php foreach ($results as $code) { ?>
+                <!-- for each -->
             <div class="roww2">
 								<div class=" text-center">
 									<div class="single-product-item">
@@ -730,6 +734,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                     </div>
                                 </div>
             </div>
+            <?php } ?>
             </div>
             <style>
         .accordion {
@@ -770,7 +775,6 @@ $compartido=false;      ## Set the varible status in mode false.
         }
         </style>
 </style>
-        <?php } ?>
         </div>
     </section>
     <?php } ?>

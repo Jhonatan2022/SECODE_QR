@@ -196,14 +196,20 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
 										<?php if($suscripcion['CompartirPerfil'] == 'SI' && $user['Compartido'] == 1){ ?>
 										<div>
-											<label for="Privacidad" style="font-size: larger; font-weight:bolder">Privacidad del codigo Qr</label>
-											<input type="checkbox" name="Privacidad" id="Privacidad" <?php if($code['Privacidad'] == 1){echo 'checked';} ?> >
-											<p id="EstadoQR" style="font-weight: bolder; color:purple;text-transform: uppercase; border: 4px solid purple; border-radius:5px; display:inline-block; padding:.7rem; "><?php if($code['Privacidad'] == 1){echo 'publico';}else{echo 'privado';} ?></p>
+											<?php
+												$PrivacidadQR ='PrivacidadQR'.$code['Id_codigo'];
+												$EstadoQR = 'EstadoQR'.$code['Id_codigo'];
+											?>
+											<label for="<?=$PrivacidadQR?>" style="font-size: larger; font-weight:bolder">Privacidad del codigo Qr</label>
+											<input type="checkbox" name="Privacidad" id="<?=$PrivacidadQR?>" <?php if($code['Privacidad'] == 1){echo 'checked';} ?> >
+											<p id="<?=$EstadoQR?>" style="font-weight: bolder; color:purple;text-transform: uppercase; border: 4px solid purple; border-radius:5px; display:inline-block; padding:.7rem; "><?php if($code['Privacidad'] == 1){echo 'publico';}else{echo 'privado';} ?></p>
 											<script>
-												var Privacidad = document.getElementById('Privacidad');
-												var EstadoQR = document.getElementById('EstadoQR');
-												Privacidad.addEventListener('change', function() {
-													if (Privacidad.checked) {
+												<?php echo "".
+												"var $PrivacidadQR = document.getElementById('$PrivacidadQR');".
+												"var $EstadoQR = document.getElementById('$EstadoQR');";
+												?>
+												<?php echo "$PrivacidadQR"?>.addEventListener('change', function() {
+													if (<?php echo "$PrivacidadQR"?>.checked) {
 														// Hacer algo si el checkbox ha sido seleccionado
 														$.ajax({
 															url: '../controller/compartirp.php',
@@ -220,7 +226,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 																		icon: 'success',
 																		confirmButtonText: 'Aceptar'
 																	})
-																	EstadoQR.innerHTML = 'Publico';
+																	<?php echo "$EstadoQR"?>.innerHTML = 'Publico';
 																}
 															}
 														});
@@ -242,7 +248,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 																		icon: 'success',
 																		confirmButtonText: 'Aceptar'
 																	})
-																	EstadoQR.innerHTML = 'Privado';
+																	<?php echo "$EstadoQR"?>.innerHTML = 'Privado';
 																}
 															}
 														});

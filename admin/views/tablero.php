@@ -161,10 +161,10 @@ if($resultsUser['rol'] == 2){
                             <td> <?php echo $dataRow['fechaCreacion']; ?></td>
                             <td> <?php echo $dataRow['Telefono']; ?></td>
                             <td>
-                                <a class="btn btn-warning mb-10" href="editar.php?id=<?= $usuario['Ndocumento'] ?> ">
+                                <a class="btn btn-warning mb-10" href="editar.php?id=<?= $dataRow['Ndocumento'] ?> ">
                                 <i class="fas fa-user-edit"></i>
 
-                                <a class="btn btn-danger" href="eliminar.php?id=<?= $usuario['Ndocumento'] ?>">
+                                <a class="btn btn-danger" href="eliminar.php?id=<?= $dataRow['Ndocumento'] ?>">
                                     <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
