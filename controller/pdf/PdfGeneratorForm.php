@@ -150,97 +150,6 @@ if(! isset($_SESSION['user_id'])){
         );
     }
 }
-?><?php
-ob_start();
-    $imgLogo= "http://".$_SERVER['HTTP_HOST']."/secodeqr/secode/views/assets/img/nosotros.jpg ";
-    ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <?php //include('../views/templates/header.php')?>
-    <title>Formulario</title>
-</head>
-<body>
-
-<!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap" rel="stylesheet"> -->
-
-<div style="max-width: 700px; margin:0 auto; ">
-    <h2 style="padding: 10px; border-left: 10px solid rgb(255, 95, 95); background:rgb(222, 221, 228); font-family: Verdana, Geneva, Tahoma, sans-serif;
-
-    font-family: 'Nunito', sans-serif;">
-        Datos Documento Clinico
-        <img src="https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png" alt="logo secodeqr" style="
-        width: 30px;height: 30px; object-fit: cover;float: right;">
-    </h2>
-
-    </div>
-    <center>
-    <hr width="15%" style="background:rgb(74, 69, 92); height: 5px; border-radius: 5px; ">
-    </center>
-    <div>
-        <h2 style="text-align: center;">Datos:</h2>
-
-<?php foreach($data as $key => $value){  ?>
-
-    <p style="padding:5px;background:#d0d3ec; color:black">
-            <spam style="color:#5d2aaf;font-weight: bold;"> <?php echo $key ?> </spam>
-            <?php echo $value ?>
-        </p>
-
-
-   <?php  }?>
-
-    </div>
-
-
-</div>
-   
-
-<p>
-    Formulario de datos clinicos de paciente, para el manejo de la informacion de los pacientes en el sistema de salud. <br>
-    En este formulario se encuentran los datos basicos del paciente, como su nombre, fecha de nacimiento, genero, tipo de sangre, etc.<br>
-
-
-</p>
-<strong> <i>
-    Este documento fue generado por el sistema de secodeqr, para el manejo de la informacion de los pacientes en el sistema de salud.
-    Cualquier duda o inquietud, comunicarse con el administrador del sistema.
-    Si este documento no le pertenece, comunicarse con el usuario que lo genero.
-</i></strong>
-
-<strong>
-    <p style="text-align: center;">
-        <a href="http://secodeqr.000webhostapp.com/">Secode Qr</a>
-    </p>
-</strong>
-
-<?php //include('../views/templates/footerWebUser.php') ?>
-</body>
-</html>
-<?php
-$html_doc=ob_get_clean();
-require_once '../../main.php';
-require_once BaseDir.'/vendor/autoload.php';
-// reference the Dompdf namespace
-use Dompdf\Dompdf;
-// instantiate and use the dompdf class
-
-$dompdf = new Dompdf();
-$dompdf->loadHtml($html_doc);
-
-$options=$dompdf->getOptions();;
-$options->set(array('isRemoteEnabled'=>true));
-$dompdf->setOptions($options);
-
-//$dompdf->setPaper('A4', 'landscape');
-$dompdf->setPaper('A4');
-
-// Render the HTML as PDF
-$doc=$dompdf->render();
-
-$output = $dompdf->output();
 
 //generate random string
 $rand_token = openssl_random_pseudo_bytes(16);
@@ -249,15 +158,9 @@ $token = bin2hex($rand_token);
 
 //name pdf doc
 $name=$token.'.pdf';
-$file=file_put_contents($name, $output);
 
-$des='../../views/pdf/'.$name;
-//echo $file;
-$source = './'.$name;
 
- if(rename($source,$des) ){
-     $Moved = true;
-     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/'.$name;
+     $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/myform.php?formulario='.$name;
      $atribDefault=1;
 
      $duration=date("Y-m-d");
@@ -296,8 +199,5 @@ $source = './'.$name;
     }else{
         header('Location: '.$_SERVER['HTTP_REFERER'].'?GenerateError=1');
     }
- }else{
-    $Moved=false;
- }
 
 ?>

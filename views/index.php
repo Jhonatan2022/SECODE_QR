@@ -262,6 +262,13 @@ if (isset($_SESSION["user_id"])) {
                 })
             <?php } ?>
         <?php } ?>
+		<?php if(isset($_GET['codigoQR']) && $_GET['codigoQR']==1){ ?>
+				Swal.fire({
+					icon: 'error',
+					title: 'Error No se encontró el documento',
+					text: 'No se encontró el código QR con el documento asociado, por favor verifique que la url sea correcta',
+				})
+		<?php } ?>
 </script>
 	<!-- footer -->
 	<?php

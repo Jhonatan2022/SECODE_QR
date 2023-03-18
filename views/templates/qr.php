@@ -40,24 +40,24 @@
     <div class="hero">
         <div class="columna">
             <div>
-                <input id="qr-text" type="hidden" value="Hello world lorem Hello world lorem Hello world lorem ">
-                <input id="qr-size" type="hidden" value="300">
+                <input id="<?=$qrText?>" type="hidden" value="Hello world lorem Hello world lorem Hello world lorem ">
+                <input id="<?=$qrSize?>" type="hidden" value="300">
                 <div class="form-group">
                     <div class="col label">Color (foreground)</div>
                     <div class="col">
-                        <input id="qr-fg" type="color" value="#000000">
+                        <input id="<?=$qrFg?>" type="color" value="#000000">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col label">Color (background)</div>
                     <div class="col">
-                        <input id="qr-bg" type="color" value="#ffffff">
+                        <input id="<?=$qrBg?>" type="color" value="#ffffff">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col label">Error correction</div>
                     <div class="col">
-                        <select id="qr-ec">
+                        <select id="<?=$qrEc?>">
                             <option value="L">Low</option>
                             <option value="M" selected="">Medium</option>
                             <option value="Q">Quartile</option>
@@ -69,56 +69,65 @@
         </div>
         <div class="qr-container">
             <h4 style="text-align:center ">Vista previa</h4>
-            <img id="qr-img" src="https://quickchart.io/qr?text=Hello world&amp;size=200">
-            <p>
-                <input id="qr-href" type="hidden" name="valorqratributos" value="&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120">
-            </p>
+            <img id="<?=$qrimg?>" src="https://quickchart.io/qr?text=Hello world&amp;size=200">
         </div>
     </div>
 </div>
     </script>
     <script type="text/javascript">
-        var qrText = document.getElementById('qr-text');
-        var qrSize = document.getElementById('qr-size');
-        var qrEc = document.getElementById('qr-ec');
-        var qrFg = document.getElementById('qr-fg');
-        var qrBg = document.getElementById('qr-bg');
+        var <?=$qrText?> = document.getElementById('<?=$qrText?>');
+        var <?=$qrSize?> = document.getElementById('<?=$qrSize?>');
+        var <?=$qrEc?> = document.getElementById('<?=$qrEc?>');
+        var <?=$qrFg?>= document.getElementById('<?=$qrFg?>');
+        var <?=$qrBg?>= document.getElementById('<?=$qrBg?>');
 
-        var qrImage = document.getElementById('qr-img');
-        var qrHref = document.getElementById('qr-href');
+        var <?=$qrimg?> = document.getElementById('<?=$qrimg?>');
+        var <?=$qrhref?>=document.getElementById('<?=$qrhref?>');
 
-        function updateQr() {
-            if (!qrText.value) {
+        <?=$qrEc?>.addEventListener('click',()=>{
+            <?=$qrhref?>.name = 'QRatributo';
+        })
+        <?=$qrFg?>.addEventListener('click',()=>{
+            <?=$qrhref?>.name = 'QRatributo';
+        })
+        <?=$qrBg?>.addEventListener('click',()=>{
+            <?=$qrhref?>.name = 'QRatributo';
+        })
+
+        function <?=$updateQr?>() {
+            if (!<?=$qrText?>.value) {
                 return;
             }
-            var url = '';
+            var <?=$url?> = '';
 
-            if (qrBg.value != '#ffffff') {
-                url += '&light=' + qrBg.value.slice(1);
+            if (<?=$qrBg?>.value != '#ffffff') {
+                <?=$url?> += '&light=' + <?=$qrBg?>.value.slice(1);
             }
-            if (qrFg.value != '#000000') {
-                url += '&dark=' + qrFg.value.slice(1);
+            if (<?=$qrFg?>.value != '#000000') {
+                <?=$url?> += '&dark=' + <?=$qrFg?>.value.slice(1);
             }
-            if (qrEc.value != 'M') {
-                url += '&ecLevel=' + qrEc.value;
+            if (<?=$qrEc?>.value != 'M') {
+                <?=$url?> += '&ecLevel=' + <?=$qrEc?>.value;
             }
-            if (qrSize.value != 4) {
-                url += '&size=' + qrSize.value;
+            if (<?=$qrSize?>.value != 4) {
+                <?=$url?> += '&size=' + <?=$qrSize?>.value;
             }
 
-            qrImage.src = "https://quickchart.io/qr?text=hello-world" + url;
-            qrHref.value = url;
+            <?=$qrimg?>.src = "https://quickchart.io/qr?text=hello-world" + <?=$url?>;
+            <?=$qrhref?>.value = <?=$url?>;
             //qrHref.innerHTML = url;
         }
 
-        var elts = [qrText, qrSize, /* qrMargin, */ qrEc, qrFg, qrBg /* qrFormat , qrImageUrl*/ ];
-        for (var i = 0; i < elts.length; i++) {
-            var elt = elts[i];
-            var type = elt.getAttribute('type');
-            if (elt.tagName === 'INPUT' && (type === 'text' || type === 'number')) {
-                elt.addEventListener('keyup', updateQr);
+        var <?=$elts?> = [<?=$qrText?>, <?=$qrSize?>, <?=$qrEc?>, <?=$qrFg?>, <?=$qrBg?>  ];
+        for (var <?=$i?> = 0; <?=$i?> < <?=$elts?>.length; <?=$i?>++) {
+            var <?=$elt?> = <?=$elts?>[<?=$i?>];
+            var <?=$type?> = <?=$elt?>.getAttribute('type');
+            if (<?=$elt?>.tagName === 'INPUT' && (<?=$type?> === 'text' || <?=$type?> === 'number')) {
+                <?=$elt?>.addEventListener('keyup', <?=$updateQr?>);
             } else {
-                elt.addEventListener('change', updateQr);
+                <?=$elt?>.addEventListener('change', <?=$updateQr?>);
             }
         }
+        console.log('<?=$qrText?>');
+
     </script>

@@ -21,9 +21,9 @@ function deleteQR($id, $path)
 
 	$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
 	$records->bindParam(':id', $id);
-	if (!unlink('./pdf/' . $path)) {
+	if /* (!unlink('./pdf/' . $path)) {
 		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
-	} elseif ($records->execute()) {
+	} elseif  */($records->execute()) {
 		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
 	} else {
 		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
@@ -39,13 +39,20 @@ function deleteQR($id, $path)
 }
 
 function editarForm($idQr){
-
+	global $connection;
 	if (isset($_POST['QRatributo']) && getSuscription($_SESSION['user_id'])['EditarQR'] == 'SI') {
 		$atrib = $_POST['QRatributo'];
-	} else {
+	}elseif(!isset($_POST['QRatributo'])) {
+		$query = "SELECT Atributo FROM codigo_qr WHERE Id_codigo = :id";
+		$records = $connection->prepare($query);
+		$records->bindParam(':id', $idQr);
+		$records->execute();
+		$res= $records->fetch(PDO::FETCH_ASSOC);
+		$atrib = $res['Atributo'];
+	}else {
 		$atrib = '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
 	}
-	global $connection;
+
 	$query = "UPDATE codigo_qr SET Titulo = :titulo, Descripcion = :descripcion, Atributo = :atr WHERE Id_codigo = :id";
 	$records = $connection->prepare($query);
 	$records->bindParam(':titulo', $_POST['Titulo']);
@@ -194,7 +201,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<p class="product-price"><span><?=''//$code['Descripcion'] ?></span> </p>
 										</div>
 										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
-										<?php if($suscripcion['CompartirPerfil'] == 'SI' && $user['Compartido'] == 1){ ?>
+										<?php if($suscripcion['CompartirPerfil'] == 'SI' /* && $user['Compartido'] == 1 */){ ?>
 										<div>
 											<?php
 												$PrivacidadQR ='PrivacidadQR'.$code['Id_codigo'];
@@ -322,8 +329,23 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 											<label for="Description-code">Descripcion</label><br>
 											<textarea type="text" maxlength="95" id="Description-code" class='Description-code' name="Descripcion" value=""><?= $code['Descripcion'] ?></textarea>
 											<label for="UpdateDataForm" style="font-size:Medium; font-weight:bolder; color:purple;" >Other</label><br>
+											<?php 
+											$qrhref = 'qrhref'.$code['Id_codigo'];
+											$qrimg = 'qrimg'.$code['Id_codigo'];
+											$qrText ='qrText'.$code['Id_codigo'];
+											$qrSize='qrSize'.$code['Id_codigo'];
+											$qrEc='qrEc'.$code['Id_codigo'];
+											$qrFg='qrFg'.$code['Id_codigo'];
+											$qrBg='qrBg'.$code['Id_codigo'];
+											$url = 'url'.$code['Id_codigo'];
+											$elts='elts'.$code['Id_codigo'];
+											$elt='elt'.$code['Id_codigo'];
+											$type = 'type'.$code['Id_codigo'];
+											$updateQr = 'updateQr'.$code['Id_codigo'];
+											$i = 'i'.$code['Id_codigo'];
+											?>
 											<?php if($suscripcion['EditarQR']=='SI'):?>
-											<input id="qr-href" type="hidden" name="QRatributo" value="">
+											<input id="<?=$qrhref?>" type="hidden" name="" value="">
 											<?php endif;?>
 											<details style="background-color: #d5d5d5; border-radius: 7px; font-size:larger; font-weight:bolder;">
 												<summary style="font-size:medium;">

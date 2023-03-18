@@ -78,10 +78,10 @@ function eliminar_registro() {
         if(getFormula($_POST['Ndocumento']) != 0){
             $del = 'FormularioMedicamentos';
         }    elseif(getQR($_POST['Ndocumento']) != 0){
-            $qr= getQR($_POST['Ndocumento']);
+            /* $qr= getQR($_POST['Ndocumento']);
             foreach($qr as $q ){
                 unlink('../../views/pdf/'.$q['nombre']);
-            }
+            } */
             $del = 'codigo_qr';
         }
         $query=$connection->prepare('DELETE FROM '.$del.' WHERE Ndocumento = '.$_POST['Ndocumento']);

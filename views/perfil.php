@@ -541,12 +541,18 @@ $compartido=false;      ## Set the varible status in mode false.
 
                                 <button type="submit" name="update" class="btn btn-primary">Submit</button>
                             </form>
-                            <div style="border: 3px solid purple; border-radius: 5px; display: inline; float: right; font-weight:bolder; ">
-                                <a href="../controller/cambiarpass.php" style="margin: 1em">cambiar contraseña</a>
+                            <div style="border: 3px solid purple; border-radius: 5px; display: inline; float: right; font-weight:bolder; margin:8px ">
+                                <a href="../controller/cambiarpass.php" style="margin: 1em">
+                                <li class="fa fa-key"></li> Cambiar contraseña</a>
                             </div>
-                            <div style="border: 3px solid red; border-radius: 5px; display: inline; float: right; font-weight:bolder; ">
-                                <a href="#" onclick="verificar()" style="margin: 1em">
+                            <div style="border: 3px solid red; border-radius: 5px; display: inline; float: right; font-weight:bolder;margin:8px  ">
+                                <a href="##" onclick="verificar()" style="margin: 1em">
                                     <li class="fa fa-trash"></li> Eliminar cuenta
+                                </a>
+                            </div>
+                            <div style="border: 3px solid red; border-radius: 5px; display: inline; float: right; font-weight:bolder; margin:8x ">
+                                <a href="##" onclick="borrarsus()" style="margin: 1em">
+                                    <li class="fas fa-credit-card"></li> Eliminar suscripcion
                                 </a>
                             </div>
                         </div>
@@ -825,6 +831,46 @@ $compartido=false;      ## Set the varible status in mode false.
             panel.style.maxHeight = panel.scrollHeight + "px";
             } 
         });
+        }
+        function borrarsus(){
+            Swal.fire({
+                title: 'Esta seguro de eliminar su suscripcion?',
+                text: "NO se podra recuperar su suscripcion, y las funciones de su plan se desactivaran, no se dara ningun reembolso!  . NO perdera sus datos, solo su suscripcion",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'si, Eliminarla!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '../controller/eliminarSuscripcion.php',
+                        type: 'POST',
+                        data: {id: <?= $user['Ndocumento'] ?>},
+                        success: function(data){
+                            if (data == 1) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Su suscripcion ha sido eliminada',
+                                    'success'
+                                )
+                            }else{
+                                Swal.fire(
+                                    'Error!',
+                                    'No se pudo eliminar su suscripcion',
+                                    'error'
+                                )
+                            }
+                        }
+                    })
+
+                    Swal.fire(
+                    'Deleted!',
+                    'Su cuenta ha sido eliminada',
+                    'success'
+                    )
+                }
+            })
         }
         function verificar() {
             const swalWithBootstrapButtons = Swal.mixin({

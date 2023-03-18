@@ -9,10 +9,10 @@ if(isset($_GET['Ndocumento'], $_GET['token']) && $_GET['token'] == $user['token_
         if(getFormula($ndoc) != 0){
             $del = 'FormularioMedicamentos';
         }    elseif(getQR($ndoc) != 0){
-            $qr= getQR($ndoc);
+/*             $qr= getQR($ndoc);
             foreach($qr as $q ){
                 unlink('../views/pdf/'.$q['nombre']);
-            }
+            } */
             $del = 'codigo_qr';
         }
         $query=$connection->prepare('DELETE FROM '.$del.' WHERE Ndocumento = '.$ndoc);
