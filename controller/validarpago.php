@@ -36,6 +36,7 @@ if (isset($_SESSION['user_id'],$_POST['plan'],$_POST['token'], $_POST['AccesToke
     curl_close($ch);
 
     if ( ! $result['status'] == 'COMPLETED' ||  strlen($tokenverify) !=97 ) {
+        echo 0;
         return false;
     }
 
