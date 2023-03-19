@@ -550,11 +550,13 @@ $compartido=false;      ## Set the varible status in mode false.
                                     <li class="fa fa-trash"></li> Eliminar cuenta
                                 </a>
                             </div>
+                            <?php if ($suscripcion['precio'] != 0){ ?>
                             <div style="border: 3px solid red; border-radius: 5px; display: inline; float: right; font-weight:bolder; margin:8x ">
                                 <a href="##" onclick="borrarsus()" style="margin: 1em">
                                     <li class="fas fa-credit-card"></li> Eliminar suscripcion
                                 </a>
                             </div>
+                            <?php } ?>
                         </div>
 
                         <!-- Modal footer -->
@@ -854,10 +856,13 @@ $compartido=false;      ## Set the varible status in mode false.
                                     'Su suscripcion ha sido eliminada',
                                     'success'
                                 )
+                                setTimeout(function(){
+                                    location.reload();
+                                }, 2000);
                             }else{
                                 Swal.fire(
                                     'Error!',
-                                    'No se pudo eliminar su suscripcion',
+                                    'No se pudo eliminar su suscripcion'+data,
                                     'error'
                                 )
                             }
