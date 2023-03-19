@@ -16,8 +16,29 @@ $datos = $param->fetch(PDO::FETCH_ASSOC);
 
 
 
-if (isset($_SESSION['user_id']) && isset($_POST['plan']) && isset($_POST['token']) && $datos['TipoSuscripcion'] == 1) {
+if (isset($_SESSION['user_id'],$_POST['plan'],$_POST['token'], $_POST['AccesToken'], $_POST['OrderID']) && $datos['TipoSuscripcion'] == 1) {
     // si el usuario esta logeado y el plan esta definido y el token esta definido y el usuario no tiene una suscripcion activa entonces se procede a realizar el pago 
+
+    //verify the token 
+    $tokenverify = $_POST['AccesToken'];
+
+    $url = 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $_POST['OrderID'];
+    $header= 'Authorization: Bearer ' . $tokenverify;
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $header));
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+    $result = json_decode($result, true);
+    curl_close($ch);
+
+    if ( ! $result['status'] == 'COMPLETED' ||  strlen($tokenverify) !=97 ) {
+        return false;
+    }
+
 
     $plan = $_POST['plan'];  // $plan es el plan seleccionado por el usuario 
     if ($plan == 22) {

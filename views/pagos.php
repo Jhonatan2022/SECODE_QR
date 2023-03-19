@@ -162,11 +162,14 @@ var myHeaders = new Headers();
 	onApprove: function(data, actions){
 		actions.order.capture().then(function(detalles){ 
 			//time out utilizado para mostrar mensaje de aprobacion.
+					if(detalles.status == 'COMPLETED'){
 				
 					//send data to php in POST plan and token
 					datos = {
 						'plan':'<?=$etiqueta?>',
-						'token':'<?=$token?>'
+						'token':'<?=$token?>',
+						AccesToken:data.facilitatorAccessToken,
+						OrderID:data.orderID,
 					}
 					$.ajax({
 						type: "POST",
@@ -181,7 +184,7 @@ var myHeaders = new Headers();
 									})
 									setTimeout(() => {
 										window.location.href=" ./Finpago.php";
-									 }, 5000); // 5 segs 
+									 }, 3000); // 5 segs 
 							}else{
 								Swal.fire({
 									icon: 'error',
@@ -189,12 +192,17 @@ var myHeaders = new Headers();
 									text: 'Se ha cancelado el pago!',
 									footer: '<a href="servicios.php">Intentar nuevamente?</a>'
 									})
+									setTimeout(() => {
+										window.location.href=" ./servicios.php?error=1";
+									 }, 3000); // 5 segs
 							}
 							console.log(r);
 						}
 					})
 				
-
+				}else{
+					window.location.href=" ./servicios.php?error=1";
+				}
 				
 		});
 
@@ -219,6 +227,7 @@ var myHeaders = new Headers();
 			})
 	});
 //Users   email: sb-7cosb23375447@personal.example.com    Password: zX1[zA<f
+
 </script>
 <footer style="position:fixed; bottom:0; width:100%; z-index: 111">
 	<!-- footer -->
@@ -247,7 +256,11 @@ var myHeaders = new Headers();
 <?php include('./templates/footerWebUser.php') ?>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+	console.clear();
+console.log('%cNO modifique o ingrese scripts en la consola, puede ser victima de Phishing, recuerde que el fraude es un delito ', 'color: red; font-size: 40px; font-weight: bold;');
+console.log('%cDatos: IP : <?= $_SERVER['REMOTE_ADDR'] ?>\nNavegador: <?= $_SERVER['HTTP_USER_AGENT'] ?>', 'color: purple; font-size: 20px; font-weight: bold;');
+</script>
 </footer>
 
 </body>

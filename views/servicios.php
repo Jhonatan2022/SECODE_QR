@@ -18,7 +18,8 @@ $planinfo=getTipoSuscripcion();
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
-<?php include('./templates/header.php');?>
+<?php include('./templates/header.php');
+	include('./templates/sweetalerts2.php') ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/service.css" />
 </head>
@@ -100,7 +101,15 @@ $planinfo=getTipoSuscripcion();
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
 
-
+<?php if (isset($_GET['error'])) { ?>
+	<script>
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			text: 'Error al realizar la compra',
+		})
+	</script>
+<?php } ?>
 
 </body>
 
