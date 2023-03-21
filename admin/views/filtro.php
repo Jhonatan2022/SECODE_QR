@@ -9,7 +9,6 @@ $fechaFin  = date("Y-m-d", strtotime($_POST['f_fin']));
 
 $sqlfinalsecode = ("SELECT * FROM usuario WHERE  `fechaCreacion` BETWEEN '$fechaInit' AND '$fechaFin' ORDER BY fechaCreacion ASC");
 $query = mysqli_query($con, $sqlfinalsecode);
-//print_r($sqlTrabajadores);
 $total   = mysqli_num_rows($query);
 echo '<center><h4 style="color:#4b0081; margin-top:1%;">Busquedas encontradas:</h4></center><center"><h5 style="margin-left:50%; margin-top:2%;">('. $total .')</h5></center>';
 ?>
@@ -31,10 +30,11 @@ echo '<center><h4 style="color:#4b0081; margin-top:1%;">Busquedas encontradas:</
     </thead>
     <?php
     $i = 1;
-    while ($dataRow = mysqli_fetch_array($query)) { ?>
+    while ($dataRow = mysqli_fetch_array($query)){?>
+    
                      <tbody>
                          <tr>
-                            <td><?php echo $dataRow['Ndocumento']; ?> </td>
+                            <td> <?php echo $dataRow['Ndocumento']; ?> </td>
                             <td> <?php echo $dataRow['Nombre']; ?> </td>
                             <td> <?php echo $dataRow['Direccion']; ?> </td>
                             <td> <?php echo $dataRow['Genero']; ?></td>

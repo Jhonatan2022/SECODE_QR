@@ -50,6 +50,15 @@ $alluserA =[];
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
+	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/all.min.css'?>">
+	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/bootstrap/css/bootstrap.min.css'?>">
+	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/animate.css'?>">
+	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/meanmenu.min.css'?>">
+	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/main.css'?>">
+	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/responsive.css'?>">
+    <link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/formstyle.css'?>">
+<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <meta charset="UTF-8">
 
     <title>Reporte</title>
@@ -57,20 +66,25 @@ $alluserA =[];
 <body>
     <h1>Reporte de usuario</h1>
     <?php foreach($usuario as  $usu){ ?>
-    <table border='2px' style="max-width: 90vw;">
+    <table border='2px' style="max-width: 90vw;" class='table table-striped'>
         
-        <tr>
+        <thead class="thead-dark">
+        <th scope="col"><?php echo $us ?></th>
             <?php foreach($usu as  $us => $value){ ?>
-                <th><?php echo $us ?></th>
+                <th scope="col"><?php echo $us ?></th>
+
             <?php }?>
-        </tr>
+            </thead>
         <tr>
-        <tr>
+            <tbody>
+            <tr>
             <?php foreach($usu as  $us => $value){ ?>
                 <td><?php echo $value ?></td>
                 <?php } ?>
         </tr>
-        <tr>
+            </tbody>
+
+        
             
     </table>
                 <br>
@@ -81,7 +95,8 @@ $alluserA =[];
 
             <style>
                 table{
-                    background-color: green;
+                    background-color:#fff;
+                    border-style:none;
                 }
             </style>
 
@@ -119,7 +134,14 @@ $alluserA =[];
         border-bottom: 1px solid #ddd;
     }
 </style>
-    
+        <!-- jquery -->
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/jquery-1.11.3.min.js'?>"></script>
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/bootstrap/js/bootstrap.min.js'?>"></script>
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/jquery.isotope-3.0.6.min.js'?>"></script>
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/jquery.magnific-popup.min.js'?>"></script>
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/jquery.meanmenu.min.js'?>"></script>
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/sticker.js'?>"></script>
+	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/main.js'?>"></script>
 </body>
 </html>
 <?php
