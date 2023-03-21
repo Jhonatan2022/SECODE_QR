@@ -54,16 +54,22 @@ if (/* !isset($_SESSION['user_id']) &&  */isset($_GET['compartir']) && filter_va
 if (isset($_REQUEST['update'])) {     #we validate, is there a try to update data in the form user
 
     $id_us = $_SESSION["user_id"];                  #
-    $nombre = $_POST["Nombre"];                     # we save the values that we recive by POST method
+    $nombre = ucwords( $_POST["Nombre"]);           # we save the values that we recive by POST method
     $direccion = $_POST["Direccion"];               #if exixst
     $genero = $_POST["Genero"];                     #
     $correo = $_POST["Correo"];                     #
     $fechaNacimiento = $_POST["FechaNacimiento"];   #
     $telefono = $_POST["Telefono"];                 #
-    $Apellidos = $_POST["Apellidos"];               #
+    $Apellidos = ucwords( $_POST["Apellidos"]);     #
     $Localidad = $_POST["Localidad"];
     $Estrato = $_POST["Estrato"];
     $TipoDoc = $_POST["TipoDoc"];
+    
+    if($correo!=$roluser['Correo']){
+        $verificado= 0;
+    }else{
+        $verificado= $roluser['Verificado'];
+    }
 
     $sql = "SELECT COUNT(us.Correo) FROM usuario AS us WHERE us.Correo =:correo AND us.Ndocumento != :id";
     $query = $connection->prepare($sql);    #we validate that the email had not been registed in DB
@@ -108,7 +114,7 @@ if (isset($_REQUEST['update'])) {     #we validate, is there a try to update dat
 
                     #consult to Db for update the data
                     $sql = "UPDATE usuario SET Img_perfil = :img , TipoImg = :tipo,
-                Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
+                Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc, Verificado = :verificado
                 WHERE Ndocumento = :id";
                     $query = $connection->prepare($sql);
                     $query->bindParam(':id', $id_us);
@@ -124,6 +130,7 @@ if (isset($_REQUEST['update'])) {     #we validate, is there a try to update dat
                     $query->bindParam(':localidad', $Localidad);
                     $query->bindParam(':estrato', $Estrato);
                     $query->bindParam(':tipodoc', $TipoDoc);
+                    $query->bindParam(':verificado', $verificado);
 
                     if ($query->execute()) {    #if all correct return the message
                         $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
@@ -140,7 +147,7 @@ if (isset($_REQUEST['update'])) {     #we validate, is there a try to update dat
                 }
                 #create consulto update data without file upload
                 $sql = "UPDATE usuario SET 
-                Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc
+                Nombre = :nombre, Direccion = :direccion, Genero = :genero, Correo = :correo, FechaNacimiento = :fechaNacimiento, Telefono = :telefono, Apellidos = :apellidos, Localidad = :localidad, Estrato = :estrato, TipoDoc = :tipodoc, Verificado = :verificado
                 WHERE Ndocumento = :id";
                 $query = $connection->prepare($sql);
                 $query->bindParam(':id', $id_us);
@@ -154,6 +161,7 @@ if (isset($_REQUEST['update'])) {     #we validate, is there a try to update dat
                 $query->bindParam(':localidad', $Localidad);
                 $query->bindParam(':estrato', $Estrato);
                 $query->bindParam(':tipodoc', $TipoDoc);
+                $query->bindParam(':verificado', $verificado);
                 if ($query->execute()) {    #return message
                     $message = ['Actualización exitosa', 'Los datos se han actualizado correctamente', 'success'];
                 }

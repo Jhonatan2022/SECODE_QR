@@ -72,9 +72,11 @@ $planinfo=getTipoSuscripcion();
 				<?=$plan['EnviarMensaje']?> hay opcion de enviar mensajes a usuario (SOLO CUENTAS VERIFICADAS)</li>
 			</ul>
 			<a href="<?=$plan['nombre_archivo'];?>" class="button 
-			<?php if($plan['IDTipoSuscripcion']==2){echo 'button1';}
+			<?php
+			if($plan['IDTipoSuscripcion']==1){echo 'button1';} 
+			elseif($plan['IDTipoSuscripcion']==2){echo 'button1';}
 			elseif($plan['IDTipoSuscripcion']==3){echo 'button2';}
-			elseif($plan['IDTipoSuscripcion']==4){echo 'button3';}?>">Obtener</a>
+			elseif($plan['IDTipoSuscripcion']==4){echo 'button3';}?>"><?php if($plan['IDTipoSuscripcion']==1){echo 'Iniciar';}else{echo 'Obtener';}?></a>
 		</div>
 		<?php }?>
 	</div>

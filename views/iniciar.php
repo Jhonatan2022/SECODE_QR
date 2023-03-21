@@ -84,7 +84,7 @@ elseif (isset($_POST['user-name']) &&
   $email_user = $_POST['user-email'];
   $numdoc = $_POST['num-doc'];
   $password_user = $_POST['user-password'];
-  $name_user = $_POST['user-name'];
+  $name_user = ucwords($_POST['user-name']);
   $token = bin2hex(random_bytes(16));
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
