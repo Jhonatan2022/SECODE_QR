@@ -108,7 +108,7 @@ if($resultsUser['rol'] == 2){
         <br>
         <section>
             <div class="col-md-9 text-center" style="margin-left:auto; margin-top:-15%;">
-                <form action="pdfReporte.php" method="post" accept-charset="utf-8">
+                <form action="reporte.php" method="post" accept-charset="utf-8">
                   <div class="row">
                     <div class="col">
                       <input type="date" name="fechaCreacion" class="form-control"  placeholder="Fecha de Inicio" required>

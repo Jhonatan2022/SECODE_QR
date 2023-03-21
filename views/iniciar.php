@@ -110,9 +110,9 @@ elseif (isset($_POST['user-name']) &&
         }
       } else {
         $consult = "INSERT INTO usuario 
-        (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimiento,id,Img_perfil,token_reset,TipoImg) 
+        (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimiento,id,Img_perfil,token_reset,TipoImg, fechaCreacion) 
         VALUES 
-        (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null, :token, null)";
+        (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null, :token, null, :fecha)";
         $params = $connection->prepare($consult);
         $params->bindParam(':useremail', $email_user);
         $password = password_hash($password_user, PASSWORD_BCRYPT);
@@ -122,6 +122,7 @@ elseif (isset($_POST['user-name']) &&
         $params->bindParam(':ideps', $id_eps);
         $params->bindParam(':ndoc', $numdoc);
         $params->bindParam(':token', $token);
+        $fecha = date("Y-m-d");
         //estabklecemos los parametros de la consulta
 
         $query= "INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `TipoSuscripcion`) VALUES (NULL, :numdoc, 1)";

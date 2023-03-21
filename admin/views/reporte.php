@@ -4,6 +4,11 @@ require_once('../../vendor/autoload.php');
 require_once('../../models/database/database.php');
 require_once('../../models/user.php');
 
+//SQL para consultas Empleados
+$fechaInit = date("Y-m-d", strtotime($_POST['fechaCreacion']));
+$fechaFin  = date("Y-m-d", strtotime($_POST['fechaCreacion']));
+
+
 $alluser='SELECT 
 us.Ndocumento,tipdoc.TipoDocumento,us.Nombre,us.Apellidos,us.Correo,tipsus.TipoSuscripcion, sus.FechaExpiracion ,us.Direccion,lc.Localidad, gn.Genero, estr.Estrato, eps.NombreEps, rl.rol, us.FechaNacimiento,us.Telefono, us.Img_perfil, us.token_reset, us.TipoImg
 FROM usuario AS us
@@ -30,15 +35,15 @@ ON us.Estrato = estr.IDEstrato';
 $alluser=$connection->prepare($alluser);
 $alluser->execute();
 $alluser=$alluser->fetchAll(PDO::FETCH_ASSOC);
-
 $query = $connection->prepare('SELECT us.Ndocumento,us.Nombre,us.Correo,us.fechaCreacion ,tipsus.TipoSuscripcion 
 FROM usuario AS us LEFT OUTER JOIN Suscripcion as sus
 ON sus.Ndocumento = us.Ndocumento LEFT OUTER JOIN 
 TipoSuscripcion AS tipsus ON sus.TipoSuscripcion = tipsus.IDTipoSuscripcion 
-WHERE us.Ndocumento = :id');
-$query->bindParam(':id', $_GET['idUser']);
+WHERE (fechaCreacion>=:fechaIni) ORDER BY fechaCreacion ASC');
+$query->bindParam(':fechaIni', $fechaInit);
 $query->execute();
-$usuario = $query->fetch(PDO::FETCH_ASSOC);
+$usuario = $query->fetchAll(PDO::FETCH_ASSOC);
+$alluserA =[];
 ?>
 <?php ob_start();
 ?>
@@ -51,32 +56,39 @@ $usuario = $query->fetch(PDO::FETCH_ASSOC);
 </head>
 <body>
     <h1>Reporte de usuario</h1>
+    <?foreach($usuario as  $usu){ ?>
     <table border='2px' style="max-width: 90vw;">
         
         <tr>
-            <?foreach($usuario as  $us => $value){ ?>
+            <?foreach($usu as  $us => $value){ ?>
                 <th><?php echo $us ?></th>
             <?php }?>
         </tr>
         <tr>
         <tr>
-            <?foreach($usuario as  $us => $value){ ?>
+            <?foreach($usu as  $us => $value){ ?>
                 <td><?php echo $value ?></td>
                 <?php } ?>
         </tr>
         <tr>
             
     </table>
-
-
+                <br>
+                <br>
+                <br>
+<?php }?>
         
 
-            
+            <style>
+                table{
+                    background-color: green;
+                }
+            </style>
 
 
     <h2>usuarios</h2>
 
-    <?foreach($alluser as  $allus){ ?>
+    <?foreach($alluserA as  $allus){ ?>
                 <table border='2px' style="max-width: 90vw;">
                     <tr>
                         <?foreach($allus as  $user => $values){ ?>
