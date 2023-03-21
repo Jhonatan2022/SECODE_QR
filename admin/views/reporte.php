@@ -56,17 +56,17 @@ $alluserA =[];
 </head>
 <body>
     <h1>Reporte de usuario</h1>
-    <?foreach($usuario as  $usu){ ?>
+    <?php foreach($usuario as  $usu){ ?>
     <table border='2px' style="max-width: 90vw;">
         
         <tr>
-            <?foreach($usu as  $us => $value){ ?>
+            <?php foreach($usu as  $us => $value){ ?>
                 <th><?php echo $us ?></th>
             <?php }?>
         </tr>
         <tr>
         <tr>
-            <?foreach($usu as  $us => $value){ ?>
+            <?php foreach($usu as  $us => $value){ ?>
                 <td><?php echo $value ?></td>
                 <?php } ?>
         </tr>
@@ -88,16 +88,16 @@ $alluserA =[];
 
     <h2>usuarios</h2>
 
-    <?foreach($alluserA as  $allus){ ?>
+    <?php foreach($alluserA as  $allus){ ?>
                 <table border='2px' style="max-width: 90vw;">
                     <tr>
-                        <?foreach($allus as  $user => $values){ ?>
+                        <?php foreach($allus as  $user => $values){ ?>
                             <th><?php echo $user ?></th>
                         <?php }?>
                     </tr>
                     <tr>
                     <tr>
-                        <?foreach($allus as  $user => $values){ ?>
+                        <?php foreach($allus as  $user => $values){ ?>
                             <td><?php echo $values ?></td>
                             <?php } ?>
                     </tr>
