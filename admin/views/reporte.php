@@ -66,7 +66,7 @@ $alluserA =[];
 <body>
     <h1>Reporte de usuario</h1>
     <?php foreach($usuario as  $usu){ ?>
-    <table border='2px' style="max-width: 90vw;" class='table table-striped'>
+    <table border='2px' style="max-width: 90vw;" class='table table-striped  ">
         
         <thead class="thead-dark">
         <th scope="col"><?php echo $us ?></th>
