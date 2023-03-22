@@ -10,77 +10,15 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 
-function deleteQR($id, $path)
-{global $connection;
-	global $results;
-	$query="SELECT qr.DatosClinicos FROM codigo_qr as qr WHERE qr.id_codigo= :id";
-	$records = $connection->prepare($query);
-	$records->bindParam(':id', $id);
-	$records->execute();
-	$resultsdta = $records->fetch(PDO::FETCH_ASSOC);
-
-	$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
-	$records->bindParam(':id', $id);
-	if /* (!unlink('./pdf/' . $path)) {
-		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
-	} elseif  */($records->execute()) {
-		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
-	} else {
-		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
-	}
-	$records = $connection->prepare('DELETE FROM datos_clinicos WHERE datos_clinicos.IDDatosClinicos = :dta');
-	$records->bindParam(':dta', $resultsdta['DatosClinicos']);
-	if ($records->execute()) {
-		$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
-	} else {
-		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
-	}
-	return $message;
+if(isset($_GET['ResponseQR']) && $_GET['ResponseQR'] == 1){
+	$message = array(' Exito', 'Codigo Qr eliminado correctamente.', 'success');
+}elseif(isset($_GET['ResponseQR']) && $_GET['ResponseQR'] == 'error'){
+	$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
 }
-
-function editarForm($idQr){
-	global $connection;
-	if (isset($_POST['QRatributo']) && getSuscription($_SESSION['user_id'])['EditarQR'] == 'SI') {
-		$atrib = $_POST['QRatributo'];
-	}elseif(!isset($_POST['QRatributo'])) {
-		$query = "SELECT Atributo FROM codigo_qr WHERE Id_codigo = :id";
-		$records = $connection->prepare($query);
-		$records->bindParam(':id', $idQr);
-		$records->execute();
-		$res= $records->fetch(PDO::FETCH_ASSOC);
-		$atrib = $res['Atributo'];
-	}else {
-		$atrib = '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120';
-	}
-
-	$query = "UPDATE codigo_qr SET Titulo = :titulo, Descripcion = :descripcion, Atributo = :atr WHERE Id_codigo = :id";
-	$records = $connection->prepare($query);
-	$records->bindParam(':titulo', $_POST['Titulo']);
-	$records->bindParam(':descripcion', $_POST['Descripcion']);
-	$records->bindParam(':atr', $atrib);
-	$records->bindParam(':id', $idQr);
-	if ($records->execute()) {
-		$message = array(' Exito', 'Codigo Qr editado correctamente.', 'success');
-	} else {
-		$message = array(' Error', 'Ocurrio un error al editar el codigo Qr. intente de nuevo.', 'error');
-	}
-	return $message;
-}
-
-if (isset($_POST['action'])) {
-	$id = $_POST['id_code'];
-	$path = $_POST['path'];
-	switch ($_POST['action']) {
-		case 'Eliminar':
-			$message = deleteQR($id, $path);
-			break;
-		case 'Actualizar':
-			$message = editarForm($id);
-			break;
-		default:
-			# code...
-			break;
-	}
+if(isset($_GET['Editar']) && $_GET['Editar'] == 'ok'){
+	$message = array(' Exito', 'Codigo Qr editado correctamente.', 'success');
+}elseif(isset($_GET['Editar']) && $_GET['Editar'] == 'error'){
+	$message = array(' Error', 'Ocurrio un error al editar el codigo Qr. intente de nuevo.', 'error');
 }
 
 
@@ -196,11 +134,12 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 											<a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK">
 												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributo'] ?>" alt=""></a>
 										</div>
-										<h3><?php echo $code['Titulo'] ?></h3>
-										<div class="container">
-										<p class="product-price"><span><?=''//$code['Descripcion'] ?></span> </p>
+										<h3><?php if($code['Titulo'] != (null || '') ){ echo $code['Titulo'];}else{echo 'Sin Titulo';} ?></h3>
+										<div class="container" style="width:300px; height:fit-content; min-height:6.5rem; max-height:7.5rem; max-width:300px;background-color: #d5d5d5; border-radius:10px ">
+										<p class="product-price" style="text-overflow:ellipsis;overflow: visible; white-space:wrap" ><?='<strong>Descripcion: </strong><br>'.$code['Descripcion'] ?></p>
 										</div>
-										<p class="product-price"><span><?php echo 'Fecha: ' . $code['Duracion'] ?></span> </p>
+										<br>
+										<p class="product-price"><span><?php echo ' <strong>Fecha: </strong>' . $code['Duracion'] ?></span> </p>
 										<?php if($suscripcion['CompartirPerfil'] == 'SI' /* && $user['Compartido'] == 1 */){ ?>
 										<div>
 											<?php
@@ -307,16 +246,16 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 										<i>X</i>
 									</div>
 									<h3>Codigo Qr opciones</h3>
-									<form action="./dashboard.php" method="POST">
+									<form action="../controller/dashboard.php" method="POST">
 										<div class="subcont-optionsCode">
-											<label for="Titulo-code">Titulo</label><br>
+											<label for="Titulo-code" style="font-size: larger; font-weight:bolder">Titulo</label><br>
 											<input type="text" id='Titulo-code' name="Titulo" value="<?php echo $code['Titulo'] ?>">
 											<br>
 											<label for="FileLinkPath"> Archivo</label>
 											<a id="FileLinkPath" href='<?php echo $code['RutaArchivo'] ?>' target="BLANK">Archivo<?php echo '  ' . $code['Titulo'] . '.pdf' ?> </a>
 
 											<br>
-											<label>Fecha: <?php echo $code['Duracion'] ?></label>
+											<label style="font-size: larger; font-weight:bolder">Fecha: <?php echo $code['Duracion'] ?></label>
 											<details>
 												<summary style="font-size:larger; font-weight:bolder;">
 													Vista Previa (Dispositivos moviles)
@@ -326,7 +265,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 
 											</details>
 
-											<label for="Description-code">Descripcion</label><br>
+											<label for="Description-code" style="font-size: larger; font-weight:bolder">Descripcion</label><br>
 											<textarea type="text" maxlength="95" id="Description-code" class='Description-code' name="Descripcion" value=""><?= $code['Descripcion'] ?></textarea>
 											<label for="UpdateDataForm" style="font-size:Medium; font-weight:bolder; color:purple;" >Other</label><br>
 											<?php 

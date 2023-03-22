@@ -111,45 +111,6 @@ if(! isset($_SESSION['user_id'])){
             echo 'error';
         }
 
-        globadata();
-
-
-    }elseif (isset($_GET['formulario']) && $_GET['formulario'] == 'clinico' && isset($_GET['idclinico']) ) {
-        $variable=true;
-                //update the database with the new data
-                $json = arraytojson();
-
-                $query = $connection->prepare('UPDATE datos_clinicos SET TipoAfiliacion = :TipoAfiliacion, RH = :RH, Tipo_de_sangre = :Tipo_de_sangre, arraycond = :arraycond, AlergiaMedicamento = :AlergiaMedicamento WHERE NDocumento = :NDocumento AND IDDatosClinicos = :IDDatosClinicos');
-                $query->bindParam(':NDocumento', $_POST['NDocumento']);
-                $query->bindParam(':TipoAfiliacion', $_POST['TipoAfiliacion']);
-                $query->bindParam(':RH', $_POST['RH']);
-                $query->bindParam(':Tipo_de_sangre', $_POST['Tipo_de_sangre']);
-                $query->bindParam(':arraycond', $json);
-                $query->bindParam(':AlergiaMedicamento', $_POST['AlergiaMedicamento']);
-                $query->bindParam(':IDDatosClinicos', $_GET['idclinico']);
-                $query->execute();
-                global $data;
-    }
-    else{
-        $data=array(
-            'Titulo'=>$_POST['TituloForm'],
-            'Nombre'=>$_POST['UserName'],
-            'Direccion'=>$_POST['UserLocationDir'],
-            'FechaNacimiento'=>$_POST['UserDateBorn'],
-            'Telefono'=>$_POST['UserPhone'],
-            'Correo'=>$_POST['UserEmail'],
-            /*
-            'Genero'=>$_POST['nameUser'],
-            'RH'=>$_POST['nameUser'],
-            'TipoAfiliacion'=>$_POST['nameUser'],
-            'Subsidio'=>$_POST['nameUser'],
-            'Departamento'=>$_POST['nameUser'],
-            'Tipo_de_sangre'=>$_POST['nameUser'],
-            'Estrato'=>$_POST['nameUser'],
-            'EsAlergico'=>$_POST['nameUser'],*/
-        );
-    }
-}
 
 //generate random string
 $rand_token = openssl_random_pseudo_bytes(16);
@@ -199,5 +160,64 @@ $name=$token.'.pdf';
     }else{
         header('Location: '.$_SERVER['HTTP_REFERER'].'?GenerateError=1');
     }
+
+        globadata();
+
+
+    }elseif (isset($_GET['formulario']) && $_GET['formulario'] == 'clinico' && isset($_GET['idclinico']) ) {
+        $variable=true;
+                //update the database with the new data
+                #try{
+                $json = arraytojson();
+                $date= date('Y-m-d');
+                $query = $connection->prepare('UPDATE datos_clinicos AS dt LEFT OUTER JOIN codigo_qr as qr ON qr.DatosClinicos = dt.IDDatosClinicos
+                SET dt.TipoAfiliacion = :TipoAfiliacion, dt.Tipo_de_sangre = :Tipo_de_sangre, dt.RH = :RH,
+                dt.AlergiaMedicamento = :AlergiaMedicamento, dt.arraycond = :arraycond , qr.Titulo = :Titulo, qr.Duracion = :Duracion
+                WHERE dt.NDocumento = :Ndocumento AND qr.id_codigo = :IDDatosClinicos ');
+                $query->bindParam(':Ndocumento', $_SESSION['user_id']);
+                $query->bindParam(':TipoAfiliacion', $_POST['TipoAfiliacion']);
+                $query->bindParam(':RH', $_POST['RH']);
+                $query->bindParam(':Tipo_de_sangre', $_POST['Tipo_de_sangre']);
+                $query->bindParam(':arraycond', $json);
+                $query->bindParam(':AlergiaMedicamento', $_POST['AlergiaMedicamento']);
+                $query->bindParam(':IDDatosClinicos', $_GET['idclinico']);
+                $query->bindParam(':Titulo', $_POST['Titulo']);
+                $query->bindParam(':Duracion', $date);
+                if ($query->execute()){
+                    $variable=false;
+                    $query = $connection->prepare('SELECT * FROM datos_clinicos WHERE NDocumento = :NDocumento ORDER by -IDDatosClinicos;');
+                    $query->bindParam(':NDocumento', $_SESSION['user_id']);
+                    $query->execute();
+                    $resultclinico=$query->fetch(PDO::FETCH_ASSOC);
+                    echo 'success';
+                    header('Location:  ../../views/formulario_datos_clinicos.php?GenerateError=22&Data='.$resultclinico['IDDatosClinicos']);
+                }
+                #}catch(PDOException $e){
+                #    echo $e->getMessage();
+                #}
+                global $data;
+    }
+    else{
+        $data=array(
+            'Titulo'=>$_POST['TituloForm'],
+            'Nombre'=>$_POST['UserName'],
+            'Direccion'=>$_POST['UserLocationDir'],
+            'FechaNacimiento'=>$_POST['UserDateBorn'],
+            'Telefono'=>$_POST['UserPhone'],
+            'Correo'=>$_POST['UserEmail'],
+            /*
+            'Genero'=>$_POST['nameUser'],
+            'RH'=>$_POST['nameUser'],
+            'TipoAfiliacion'=>$_POST['nameUser'],
+            'Subsidio'=>$_POST['nameUser'],
+            'Departamento'=>$_POST['nameUser'],
+            'Tipo_de_sangre'=>$_POST['nameUser'],
+            'Estrato'=>$_POST['nameUser'],
+            'EsAlergico'=>$_POST['nameUser'],*/
+        );
+    }
+}
+
+
 
 ?>

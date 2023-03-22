@@ -255,15 +255,26 @@ $compartido=false;      ## Set the varible status in mode false.
         <!--Datos del usuario-->
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
-                <h3 class="titulo"><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?>
+                <h3 style="line-height: 0; margin-top:50px" class="titulo"><?= '<center>'.$user['Nombre'] . ' ' . $user['Apellidos'].'</center>' ?>
                 <?php if(! $compartido){ ?> 
                     <!-- if the profile aren't in shared mode -->
+                    <div style=" margin-top:3rem">
                     <a data-toggle="modal" data-target="#myModal" class="boton-edit">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
+                    <label for="" style="font-size: 18px;">Editar Datos</label>
+                    <br>
+                    <?php if ( ! $compartido && $suscripcion['CompartirPerfil'] == "SI" ) { ?>
+                    <a data-toggle="modal" data-target="#myModalPerfil" class="boton-edit" >
+                    <i class="fas fa-user-alt"></i></a>
+                    <label for="" style="font-size: 18px;">Compartir Perfil</label>
+                    <?php } ?>
+                    </div>
+
+                        
                 <?php } ?>
                 </h3>
-                <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center;">
+                <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center; margin-top:2rem">
                     <?php if ($roluser['rol'] == 2 && ! $compartido) { 
                         ## if the user is an administrator 
                         echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
@@ -273,10 +284,7 @@ $compartido=false;      ## Set the varible status in mode false.
                     </div>
                     <?php if ( ! $compartido && $suscripcion['CompartirPerfil'] == "SI" ) { ?>
                         <!-- if the user have permissions to share his profile  -->
-                        <label for="">Compartir Perfil</label>
-                        <a data-toggle="modal" data-target="#myModalPerfil" class="boton-edit">
-                            <i class="fas fa-user-alt"></i>
-                        </a>
+                        
                          <div class="modal" id="myModalPerfil"><!-- modal of options share profile; default hidden -->
                             <div class="modal-dialog">
                                 <div class="modal-content">

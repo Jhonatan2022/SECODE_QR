@@ -17,7 +17,7 @@ require_once '../../models/user.php';
             http_response_code(404);
             header('Location: ../index.php?codigoQR=1');
         }
-
+           
 
 
         $query = 'SELECT qr.Titulo, qr.Duracion , us.Nombre, tpd.TipoDocumento, us.Ndocumento, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, gn.Genero ,est.Estrato, lc.Localidad,af.Afiliacion, RH.RH, tps.TipoSangre , dta.CondicionClinica, dta.arraycond, alg.AlergiaMedicamento
@@ -61,7 +61,7 @@ require_once '../../models/user.php';
 <?php
 $condicion = condicionClinica();
 ob_start();
-$imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/nosotros.jpg ";
+$imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.png";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +83,7 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/nosot
 
     font-family: 'Nunito', sans-serif;">
             Datos Documento Clinico
-            <img src="https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png" alt="" style="
+            <img src="<?=$imgLogo?>" alt="" style="
         width: 30px;height: 30px; object-fit: cover;float: right;">
         </h2>
 
