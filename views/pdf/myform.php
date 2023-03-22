@@ -135,28 +135,8 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
 <?php  } ?>
 
     </div>
-
-
     </div>
-    <p>
-    Formulario de datos clinicos de paciente, para el manejo de la informacion de los pacientes en el sistema de salud. <br>
-    En este formulario se encuentran los datos basicos del paciente, como su nombre, fecha de nacimiento, genero, tipo de sangre, etc.<br>
-
-
-</p>
-<strong> <i>
-    Este documento fue generado por el sistema de secodeqr, para el manejo de la informacion de los pacientes en el sistema de salud.
-    Cualquier duda o inquietud, comunicarse con el administrador del sistema.
-    Si este documento no le pertenece, comunicarse con el usuario que lo genero.
-</i></strong>
-
-<strong>
-    <p style="text-align: center;">
-        <a href="http://secodeqr.000webhostapp.com/">Secode Qr</a>
-    </p>
-</strong>
 </body>
-
 </html>
 
 

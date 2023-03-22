@@ -76,10 +76,10 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
 
 <head>
 <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <!-- favicon -->
-	<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
+	<link rel="shortcut icon" type="image/png" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/img/logo.png'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/all.min.css'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/bootstrap/css/bootstrap.min.css'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/animate.css'?>">

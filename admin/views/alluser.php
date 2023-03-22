@@ -4,26 +4,53 @@ require_once('../../vendor/autoload.php');
 require_once('../../models/database/database.php');
 require_once('../../models/user.php');
 
-//SQL para consultas Empleados
-$fechaInit = date("Y-m-d", strtotime($_POST['fechaCreacion']));
-$fechaFin  = date("Y-m-d", strtotime($_POST['fechaCreacion']));
+if(isset($_SESSION['user_id']) ){
+    $userActual = getUser($_SESSION['user_id']);
+    if($userActual['rol']== 1){
 
-$query = $connection->prepare('SELECT us.Ndocumento,us.Nombre,us.Correo,us.fechaCreacion ,tipsus.TipoSuscripcion 
-FROM usuario AS us LEFT OUTER JOIN Suscripcion as sus
-ON sus.Ndocumento = us.Ndocumento LEFT OUTER JOIN 
-TipoSuscripcion AS tipsus ON sus.TipoSuscripcion = tipsus.IDTipoSuscripcion 
-WHERE (fechaCreacion>=:fechaIni) ORDER BY fechaCreacion ASC');
-$query->bindParam(':fechaIni', $fechaInit);
-$query->execute();
-$usuario = $query->fetchAll(PDO::FETCH_ASSOC);
-$alluserA =[];
-?>
-<?php ob_start();
+    http_response_code(404);
+    header('Location: ../../index.php');
+    }else{
+
+        $alluser='SELECT 
+        us.Ndocumento,tipdoc.TipoDocumento,us.Nombre,us.Apellidos,us.Correo,tipsus.TipoSuscripcion, sus.FechaExpiracion ,us.Direccion,lc.Localidad, gn.Genero,us.Telefono
+        FROM usuario AS us
+        LEFT OUTER JOIN tipodocumento AS tipdoc
+        ON us.TipoDoc = tipdoc.IDTipoDoc
+        LEFT OUTER JOIN genero AS gn
+        ON us.Genero = gn.IDGenero
+        LEFT OUTER JOIN estrato AS est 
+        ON us.Estrato = est.IDEstrato
+        LEFT OUTER JOIN rol AS rl
+        ON us.rol = rl.id
+        LEFT OUTER JOIN localidad AS lc
+        ON us.Localidad = lc.IDLocalidad
+        
+        LEFT OUTER JOIN Suscripcion as sus
+        ON sus.Ndocumento = us.Ndocumento
+        LEFT OUTER JOIN TipoSuscripcion AS tipsus
+        ON sus.TipoSuscripcion = tipsus.IDTipoSuscripcion
+        
+        LEFT OUTER JOIN eps 
+        ON us.id = eps.id
+        LEFT OUTER JOIN estrato AS estr 
+        ON us.Estrato = estr.IDEstrato';
+        $alluser=$connection->prepare($alluser);
+        $alluser->execute();
+        $alluser=$alluser->fetchAll(PDO::FETCH_ASSOC);
+        
+    }
+}else{
+    http_response_code(404);
+    header('Location: ../../index.php');
+}
+
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="shortcut icon" type="image/png" href="<?= 'http://'. $_SERVER['HTTP_HOST'].'/secodeqr/views/assets/img/logo.png' ?>">
+<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/all.min.css'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/bootstrap/css/bootstrap.min.css'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/animate.css'?>">
@@ -38,21 +65,21 @@ $alluserA =[];
 </head>
 <body>
     <main>
-    <div class="container">
-        <h1>Reporte de usuario</h1>
-    <?php foreach($usuario as  $usu){ ?>
-    <table border='2px' style="width: 70vw;" class='table table-striped  '>
+    <div class="container1">
+    <h1>Usuarios</h1>
+    <?php foreach($alluser as  $allus){ ?>
+    <table border='2px'  class='table table-striped'>
         <thead class="thead-dark">
             <tr>
-                <?php foreach($usu as  $us => $value){ ?>
-                    <th scope="col"><?php echo $us ?></th>
+                <?php foreach($allus as  $user => $values){ ?>
+                    <th scope="col"><?php echo $user ?></th>
                 <?php }?>
             </tr>
         </thead>
         <tbody>
             <tr>
-            <?php foreach($usu as  $us => $value){ ?>
-                <td><?php echo $value ?></td>
+            <?php foreach($allus as  $user => $values){ ?>
+                <td><?php echo $values ?></td>
                 <?php } ?>
             </tr>
         </tbody>     

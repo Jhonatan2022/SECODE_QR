@@ -120,6 +120,9 @@ if($resultsUser['rol'] == 2){
                       <span class="btn btn-dark mb-1" id="filtro"><i class="fas fa-search"></i></span>
                         <button type="submit" class="btn btn-danger mb-1"><i class="far fa-file-pdf" style ="width:100px;"></i></button>
                         </div>
+                    <div class="col">
+                        <a href="alluser.php" target="_blank" class="btn btn-success mb-1"><i class="fas fa-users" style ="width:100px;"></i></a>
+                    </div>
                   </div>
                 </form>
               </div>
