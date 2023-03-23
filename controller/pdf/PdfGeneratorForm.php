@@ -119,7 +119,7 @@ $token = bin2hex($rand_token);
 
 //name pdf doc
 $name=$token.'.pdf';
-
+        $variable = false;
 
      $urlCodeForm='http://'.$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/myform.php?formulario='.$name;
      $atribDefault=1;

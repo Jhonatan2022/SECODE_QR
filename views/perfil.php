@@ -256,9 +256,13 @@ $compartido=false;      ## Set the varible status in mode false.
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
                 <div style="line-height: 0; margin-top:35px;" class="titulo">
-                <h3><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?><a data-toggle="modal" data-target="#myModal" class="boton-edit">
+                <h3><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?>
+                <?php if (! $compartido) { ?>
+                <a data-toggle="modal" data-target="#myModal" class="boton-edit">
                         <i class="fas fa-pencil-alt"></i>
-                    </a></h3>
+                </a>
+                <?php } ?>
+                </h3>
                 </div>
                 <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center; margin-top:2rem">
 
@@ -343,7 +347,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                                                     type: 'POST',                           //method
                                                                     data: {                                 // data to send
                                                                         id: 1,
-                                                                        compartir: <?= $roluser['Compartido'] ?>    //status bd
+                                                                        compartir: <?php if ($roluser['Compartido'] == '' || null ){echo '0';}else{echo $roluser['Compartido'] ;} ?>    //status bd
                                                                     },
                                                                     success: function(data) {
                                                                         if (data == 1) {    //if the result = 1
