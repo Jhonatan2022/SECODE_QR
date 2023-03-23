@@ -724,7 +724,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                 <?php }elseif($SessionUser['Verificado']!=1){ ?>
                                     <a href="##" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar mensaje</a>
-                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta. ✅ Y Actualiza tu Membresia 🎁 </h5>
+                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta ✅<br>Y Actualiza tu Membresia 🎁 </h5>
                                <?php }else{ ?>
                                     <a href="##" class="button bg-succes fas fa-envelope" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar </a>
@@ -852,6 +852,7 @@ $compartido=false;      ## Set the varible status in mode false.
             } 
         });
         }
+        <?php if (! $compartido){?>
         function borrarsus(){
             Swal.fire({
                 title: 'Esta seguro de eliminar su suscripcion?',
@@ -935,6 +936,7 @@ $compartido=false;      ## Set the varible status in mode false.
                 }
             })
         }
+        <?php } ?>
         <?php if($compartido){ ?>
             Swal.fire({
                 icon: 'warning',
