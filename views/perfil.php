@@ -256,29 +256,17 @@ $compartido=false;      ## Set the varible status in mode false.
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
                 <div style="line-height: 0; margin-top:35px;" class="titulo">
-                <h3><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?></h3>
-                <?php if(! $compartido){ ?> 
-                    <!-- if the profile aren't in shared mode -->
-                    <div style=" margin-top:3rem">
-                    <a data-toggle="modal" data-target="#myModal" class="boton-edit">
+                <h3><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?><a data-toggle="modal" data-target="#myModal" class="boton-edit">
                         <i class="fas fa-pencil-alt"></i>
-                    </a>
-                    <label for="" style="font-size: 18px;">Editar Datos</label>
-                    <br>
-                    <?php if ( ! $compartido && $suscripcion['CompartirPerfil'] == "SI" ) { ?>
-                    <a data-toggle="modal" data-target="#myModalPerfil" class="boton-edit" >
-                    <i class="fas fa-user-alt"></i></a>
-                    <label for="" style="font-size: 18px;">Compartir Perfil</label>
-                    <?php } ?>
-                    <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
-                    <div class="flex-items">
-                        <a href="##"  id="btnVerificarEmail" style="font-size:15px ; position:absolute; right:2rem ; top:7.5rem; border:3px solid purple; border-radius:5px; padding:15px" >VERIFICAR CUENTA</a>
-                    </div>
-                    <?php } ?>
-                    </div>                     
-                <?php } ?>
+                    </a></h3>
                 </div>
                 <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center; margin-top:2rem">
+
+                <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
+                    <div class="flex-items">
+                        <a href="##"  id="btnVerificarEmail" style="font-size:15px ;  border:3px solid purple; border-radius:5px; padding:5px" >VERIFICAR CUENTA</a>
+                    </div>
+                    <?php } ?>
                     <?php if ($roluser['rol'] == 2 && ! $compartido) { 
                         ## if the user is an administrator 
                         echo '<div class="admin_div"><a href="../admin/views/tablero.php">Tablero de gestion  </a></div>';
@@ -633,8 +621,11 @@ $compartido=false;      ## Set the varible status in mode false.
                 </ul>
             </div>
             <div class="redes-sociales">
-                <a href="" class="boton-redes qr fas fa-qrcode"><i class=""></i></a>
-                <a href="" class="boton-redes compartir fas fa-share-alt"><i class=""></i></a>
+                <a href="dashboard.php" class="boton-redes qr fas fa-qrcode"><i class=""></i></a>
+                <?php #if ( ! $compartido && $suscripcion['CompartirPerfil'] == "SI" ) { ?>
+
+                    <?php #} ?>
+                <a href="##" class="boton-redes compartir fas fa-share-alt" data-toggle="modal" data-target="#myModalPerfil"><i class=""></i></a>
             </div>
         </div>
         <!--Fin de datos del usuario-->
@@ -650,7 +641,7 @@ $compartido=false;      ## Set the varible status in mode false.
         <br>
     <section>
         <div class="container">
-            <button class="accordion" >Enviar mensaje a <?php echo $user['Nombre'] ?></button>
+            <button class="accordion" ><strong>Enviar mensaje a <?php echo $user['Nombre'] ?> </strong></button>
             <div class="panel">
                 <div class="col-lg-5">
         <div class="contact-wrap w-100 p-md-5 p-4">
@@ -724,7 +715,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                 <?php }elseif($SessionUser['Verificado']!=1){ ?>
                                     <a href="##" class="button bg-succes fas fa-user" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar mensaje</a>
-                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta ✅<br>Y Actualiza tu Membresia 🎁 </h5>
+                                     <h5 style="color:tomato">Por favor primero verifica tu cuenta ✅<br>O Actualiza tu Membresia 🎁 </h5>
                                <?php }else{ ?>
                                     <a href="##" class="button bg-succes fas fa-envelope" style=" border:3px solid purple; border-radius:5px; padding:5px; cursor:not-allowed">
                                      Enviar </a>
@@ -739,7 +730,7 @@ $compartido=false;      ## Set the varible status in mode false.
     </div>
             </div>
             <br>
-            <button class="accordion">Ver codigos QR</button>
+            <button class="accordion"> <strong>Ver codigos QR</strong></button>
             <div class="panel">
                 <br>
                 <br>

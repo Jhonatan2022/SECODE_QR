@@ -123,6 +123,7 @@ elseif (isset($_POST['user-name']) &&
         $params->bindParam(':ndoc', $numdoc);
         $params->bindParam(':token', $token);
         $fecha = date("Y-m-d");
+        $params->bindParam(':fecha', $fecha);
         //estabklecemos los parametros de la consulta
 
         $query= "INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `TipoSuscripcion`) VALUES (NULL, :numdoc, 1)";

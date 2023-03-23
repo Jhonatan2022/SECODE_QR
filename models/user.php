@@ -20,6 +20,36 @@ function getUser($id   ) {
     
 }
 
+/* function AddUserAdmin(){
+  global $connection;
+  $query= 'SELECT Correo FROM usuario WHERE rol = 2';
+  $params = $connection->prepare($query);
+  $params->execute();
+  $usuario = $params->fetchAll(PDO::FETCH_ASSOC);
+
+  $query= 'SELECT * FROM Administrador';
+  $params = $connection->prepare($query);
+  $params->execute();
+  $administrador = $params->fetchAll(PDO::FETCH_ASSOC);
+  $actaulizado = [];
+  foreach ($usuario as $key => $value) {
+    $valor = $value['Correo'];
+    foreach ($administrador as $key2 => $value2) {
+      $valor2 = $value2['Correo'];
+      if($valor == $valor2 && ! in_array($valor, $actaulizado)){
+        break;
+      }else{
+        $query = $connection->prepare('INSERT INTO Administrador (Correo,TipoRol) VALUES (:correo,2)');
+        $query->bindParam(':correo', $valor);
+        $query->execute();
+        array_push($actaulizado, $valor);
+      }
+    }
+    
+  }
+
+} */
+
 function getSuscription($id){
   global $connection;
   $query = $connection->prepare('SELECT * FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id');
