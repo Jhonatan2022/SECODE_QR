@@ -255,7 +255,8 @@ $compartido=false;      ## Set the varible status in mode false.
         <!--Datos del usuario-->
         <div class="perfil-usuario-body">
             <div class="perfil-usuario-bio">
-                <h3 style="line-height: 0; margin-top:50px" class="titulo"><?= '<center>'.$user['Nombre'] . ' ' . $user['Apellidos'].'</center>' ?>
+                <div style="line-height: 0; margin-top:35px;" class="titulo">
+                <h3><?= $user['Nombre'] . ' ' . $user['Apellidos'] ?></h3>
                 <?php if(! $compartido){ ?> 
                     <!-- if the profile aren't in shared mode -->
                     <div style=" margin-top:3rem">
@@ -269,11 +270,14 @@ $compartido=false;      ## Set the varible status in mode false.
                     <i class="fas fa-user-alt"></i></a>
                     <label for="" style="font-size: 18px;">Compartir Perfil</label>
                     <?php } ?>
+                    <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
+                    <div class="flex-items">
+                        <a href="##"  id="btnVerificarEmail" style="font-size:15px ; position:absolute; right:2rem ; top:7.5rem; border:3px solid purple; border-radius:5px; padding:15px" >VERIFICAR CUENTA</a>
                     </div>
-
-                        
+                    <?php } ?>
+                    </div>                     
                 <?php } ?>
-                </h3>
+                </div>
                 <div class="flex-container" style="display: flex;flex-direction: column;flex-wrap: wrap;justify-content: center;align-items: center;align-content: center; margin-top:2rem">
                     <?php if ($roluser['rol'] == 2 && ! $compartido) { 
                         ## if the user is an administrator 
@@ -395,9 +399,7 @@ $compartido=false;      ## Set the varible status in mode false.
                     <?php } ?>
                     <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
                         <!-- if the user have not verified his email -->
-                    <div class="flex-items">
-                        <a href="##"  id="btnVerificarEmail" style=" border:3px solid purple; border-radius:5px; padding:5px" >VERIFICAR CUENTA</a>
-                    </div>
+                    
                     <script>
                         var btnVerificarEmail = document.getElementById("btnVerificarEmail");
                         btnVerificarEmail.addEventListener("click", function() {
