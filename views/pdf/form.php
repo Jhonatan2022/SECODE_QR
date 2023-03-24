@@ -19,7 +19,7 @@ require_once '../../models/user.php';
             header('Location: ../index.php?codigoQR=1');
         }
 
-
+        $qrId = $qr['id_codigo'];
 
         $query = 'SELECT qr.Titulo, qr.Duracion , us.Nombre, tpd.TipoDocumento, us.Ndocumento, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, gn.Genero ,est.Estrato, lc.Localidad,af.Afiliacion, RH.RH, tps.TipoSangre , dta.CondicionClinica, dta.arraycond, alg.AlergiaMedicamento
         FROM usuario AS us LEFT OUTER JOIN eps 
@@ -47,12 +47,28 @@ require_once '../../models/user.php';
         
         LEFT OUTER JOIN codigo_qr as qr
         ON dta.IDDatosClinicos = qr.DatosClinicos
-        WHERE qr.nombre = :nombre /* AND id_codigo = :idcode  */;';
+        WHERE qr.nombre = :nombre  AND id_codigo = :idcode  ;';
         $params = $connection->prepare($query);
         $params->bindParam(':nombre', $form);
-        /* $params->bindParam(':idcode', $id); */
+        $params->bindParam(':idcode', $qrId); 
         $params->execute();
         $data = $params->fetch(PDO::FETCH_ASSOC);
+
+        
+        $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,us.Estrato, us.Localidad,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
+        FROM usuario AS us LEFT OUTER JOIN eps 
+        ON eps.id = us.id 
+        LEFT OUTER JOIN datos_clinicos AS dta
+        ON us.Ndocumento= dta.NDocumento
+        LEFT OUTER JOIN codigo_qr as qr
+        ON dta.IDDatosClinicos = qr.DatosClinicos
+        WHERE qr.nombre = :nombre and qr.id_codigo = :codigo');
+        $query->bindParam(':nombre', $form);
+        $query->bindParam(':codigo', $qrId);
+        $query->execute();
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        
     } else {
         http_response_code(404);
         header('Location: ../../index.php');
@@ -60,7 +76,7 @@ require_once '../../models/user.php';
 
 ?>
 <?php
- $data = getClinicData($_SESSION['user_id'], true, $qr['id_codigo']);
+#$data = getClinicData($_SESSION['user_id'], false, $qr['id_codigo']);
 $afiliacion = afiliacion();
 $rh = rh();
 $tipoSangre = tipoSangre();
@@ -68,8 +84,10 @@ $condicion = condicionClinica();
 $alergia = alergia();
 $estrato = estrato();
 $localidad = localidad();
+$eps = eps();
 ob_start();
 $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.png";
+$imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb.png";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,26 +112,17 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
 
 <body>
 
-<body>
-  <!-- breadcrumb-section -->
-  <div class="breadcrumb-section breadcrumb-bg">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 offset-lg-2 text-center">
-          <div class="breadcrumb-text">
-            <p>SECØDE_QR</p>
-            <h1>Datos Clínicos</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end breadcrumb section -->
+<body >
+
   <!-- Formulario -->
-  <div class="container_form">
-    <div class="screen">
-      <div class="screen__content">
-        <form action="saveData.php" method="POST" class="form">
+  <div class="container_formd" style="margin: 2rem; border: 5px solid black; height:100%; max-height:98%">
+  <br>
+  <center>
+<img src="<?= $imgLogo2?>" alt="">
+</center>
+    <div class="screend">
+      <div class="container" style="margin-left: 2rem;">
+        <form action="" method="POST" class="form">
             <?php foreach ($data as $key => $value) { ?>
               <?php
               switch ($key) {
@@ -137,7 +146,7 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
                   $val = date('Y-m-d', strtotime($value)); ?>
                   <div class="item">
                     <p>Fecha de nacimiento</p>
-                    <input type="date" name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
+                    <input type="text" name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
                   </div>
                   <?php break; ?>
 
@@ -148,10 +157,10 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
                     <p>EPS<span class="required">*</span></p>
 
                     <select class="form-control" name='<?= $key ?>'>
-                      <?php if (isset($newEps) && $newEps) { ?>
+                      <?php if (true) { ?>
                         <?php foreach ($eps as $keyEps => $valueEPS) {  ?>
 
-                          <?php if ($valueEPS['id'] == $user['id']) { ?>
+                          <?php if ($valueEPS['NombreEps'] == $value) { ?>
                             <option value="<?php echo $valueEPS['id'] ?>" selected><?php echo $valueEPS['NombreEps'] ?></option>
                           <?php } else {
                           ?>
@@ -170,7 +179,7 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
                 case 'Telefono': ?>
                   <div class="item">
                     <p>Telefono de contacto<span class="required">*</span></p>
-                    <input type="tel" name="<?= $key ?>" value="<?= $value ?>" required />
+                    <input type="text" name="<?= $key ?>" value="<?= $value ?>" required />
                   </div>
                   <?php break; ?>
 
@@ -178,7 +187,7 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
                 case 'Correo': ?>
                   <div class="item">
                     <p>Correo electronico<span></span></p>
-                    <input type="email" name="<?= $key ?>" value="<?= $value ?>" required />
+                    <input type="text" name="<?= $key ?>" value="<?= $value ?>" required />
                   </div>
                   <?php break; ?>
 
@@ -327,36 +336,14 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
                           } else {
                             $checked = '';
                           }
-
-
-                          //print_r($arrayName);
-
-                          //$value2 = json_decode($value, true);
-
-                          //foreach ($datarray as $keydat => $valuedat) {
-                          /* for ($position = 1; $position < count($value2)+1; $position++) {
-                            $valor = $value2[$position];
-
-            
-                          } */
                         ?>
                           <div>
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?= $checked ?> required />
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
-
-
                       <?php }
                       } ?>
 
-
-
-
-
-                      <div class="item">
-                        <p>Otro<span class="required"></span></p>
-                        <input type="text" name="<?php $key ?>" required placeholder="Especificar condición" />
-                      </div>
                     </div>
                   </div>
                   <br>
@@ -385,25 +372,15 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
 
                 <?php
                 default: ?>
-                  # code...
+                  <div class="item">
+                    <p><?= $key ?></p>
+                    <input type="text" name="<?= $key ?>" value="<?php $value ?>" />
+                  </div>
               <?php break;
               } ?>
 
             <?php  } ?>
-            <?php if (!isset($_SESSION['user_id'])) { ?>
-              <a href="./iniciar.php"><button type="button">INICIA SESION </button></a>
-            <?php  } else { ?>
-              <button type="submit" id="BtnSendFormClinic">
-                Generar codigo
-              </button>
-
-            <?php  } ?>
         </form>
-      </div>
-      <div class="screen__background">
-        <span class="screen__background__shape screen__background__shapec"></span>
-        <span class="screen__background__shape screen__background__shapeb"></span>
-        <span class="screen__background__shape screen__background__shapea"></span>
       </div>
     </div>
   </div>
@@ -411,49 +388,6 @@ $imgLogo = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/logo.
 
 
 <!-- end formulario -->
-<!-- footer -->
-<div class="footer-area">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-6">
-        <div class="footer-box about-widget">
-          <h2 class="widget-title">Misión</h2>
-          <p>El proyecto surge debido a la problemática de la accesibilidad y coste de poseer su información médica, por lo tanto se plantea administrar o adjuntar a través de un código QR, el manejo de dicha información.</p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="footer-box get-in-touch">
-          <h2 class="widget-title">Visión</h2>
-          <p>Impactar a la problematica social,mediante las Tecnologias de la informacion, durante 3 semestres.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end footer -->
-
-<!-- copyright -->
-<div class="copyright">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 col-md-12">
-        <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">SECØDE_QR</a>, Salud e información al instante.</p>
-      </div>
-      <div class="col-lg-6 text-right col-md-12">
-        <div class="social-icons">
-          <ul>
-            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-            <li><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end copyright -->    
 
     <!-- jquery -->
 	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/jquery-1.11.3.min.js'?>"></script>
@@ -479,8 +413,8 @@ var opt = {
   html2canvas:  { scale: 2 },
   jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
 };
-var worker = html2pdf().set(opt).from(element).save();
-html2pdf(element);
+/* var worker = html2pdf().set(opt).from(element).save();
+html2pdf(element); */
     </script>
 </body>
 
@@ -503,7 +437,7 @@ $options->set(array('isRemoteEnabled' => true));
 $dompdf->setOptions($options);
 
 //$dompdf->setPaper('A4', 'landscape');
-$dompdf->setPaper('legal', 'landscape');
+$dompdf->setPaper('A4', 'portrait');
 
 // Render the HTML as PDF
 $doc = $dompdf->render();
