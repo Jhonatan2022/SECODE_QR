@@ -38,6 +38,7 @@ if(isset($_SESSION['user_id'])){
 
 							<li><a href="nosotros.php">Quienes Somos</a></li>
 							<li><a href="contact.php">Contáctanos</a></li>
+							<li><a href="ayuda.php">Ayuda</a></li>
 							<li><a href="formulario_datos_clinicos.php">Solicitar Código</a>
 								<ul class="sub-menu">
 									<li><a href="formulario_datos_clinicos.php">Datos Clínicos</a>

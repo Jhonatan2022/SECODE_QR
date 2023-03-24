@@ -108,7 +108,11 @@ elseif (isset($_POST['user-name']) &&
 
           $message = array(' Error', 'Numero de documento registrado, revise e intente de nuevo', 'warning');
         }
+        
       } else {
+        if(strlen($numdoc) > 11){
+          $message = array(' Error', 'Numero de documento excede el numero de caracteres. Intente de nuevo', 'warning');
+        }else{
         $consult = "INSERT INTO usuario 
         (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimiento,id,Img_perfil,token_reset,TipoImg, fechaCreacion) 
         VALUES 
@@ -134,6 +138,7 @@ elseif (isset($_POST['user-name']) &&
         } else {
           $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
         }
+      }
       }
     } else {
 
