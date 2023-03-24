@@ -1,10 +1,6 @@
-
 <?php
-
-require_once '../models/database/database.php';
-
 session_start();
-require_once '../models/database/database.php';
+require_once '../models/database/database.php';;
 require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
