@@ -1,13 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Mar 15, 2023 at 02:51 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -17,38 +10,43 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `finalsecode`
+
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Administrador`
+-- Estructura de tabla para la tabla `Administrador`
 --
 
 CREATE TABLE `Administrador` (
   `IDAdministrador` int(3) NOT NULL,
   `Correo` varchar(40) NOT NULL,
-  `Contraseña` varchar(90) NOT NULL,
-  `Nombre` varchar(35) NOT NULL,
-  `Documento` int(11) NOT NULL,
+  `Descripcion` varchar(40) DEFAULT NULL,
   `TipoRol` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `Administrador`
+--
+
+INSERT INTO `Administrador` (`IDAdministrador`, `Correo`, `Descripcion`, `TipoRol`) VALUES
+(3, 'glovitos@outlook.com', NULL, 2),
+(53, 'jssossa2@misena.edu.co', NULL, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `afiliacion`
+-- Estructura de tabla para la tabla `afiliacion`
 --
 
 CREATE TABLE `afiliacion` (
   `IDAfiliacion` int(2) NOT NULL,
   `Afiliacion` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `afiliacion`
+-- Volcado de datos para la tabla `afiliacion`
 --
 
 INSERT INTO `afiliacion` (`IDAfiliacion`, `Afiliacion`) VALUES
@@ -58,16 +56,16 @@ INSERT INTO `afiliacion` (`IDAfiliacion`, `Afiliacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AlergiaMedicamento`
+-- Estructura de tabla para la tabla `AlergiaMedicamento`
 --
 
 CREATE TABLE `AlergiaMedicamento` (
   `IDAlergiaMedicamento` int(2) NOT NULL,
   `AlergiaMedicamento` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `AlergiaMedicamento`
+-- Volcado de datos para la tabla `AlergiaMedicamento`
 --
 
 INSERT INTO `AlergiaMedicamento` (`IDAlergiaMedicamento`, `AlergiaMedicamento`) VALUES
@@ -78,27 +76,27 @@ INSERT INTO `AlergiaMedicamento` (`IDAlergiaMedicamento`, `AlergiaMedicamento`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AtributosQr`
+-- Estructura de tabla para la tabla `AtributosQr`
 --
 
 CREATE TABLE `AtributosQr` (
   `IDAtributosQr` int(2) NOT NULL,
   `Atributosqr` varchar(80) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `codigo_qr`
+-- Estructura de tabla para la tabla `codigo_qr`
 --
 
 CREATE TABLE `codigo_qr` (
   `id_codigo` int(5) NOT NULL,
   `Titulo` varchar(30) DEFAULT 'sin titulo',
-  `nombre` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nombre` varchar(60) CHARACTER SET latin1 NOT NULL,
   `Fecha` date DEFAULT NULL,
   `Duracion` date NOT NULL,
-  `RutaArchivo` varchar(80) NOT NULL,
+  `RutaArchivo` varchar(130) NOT NULL,
   `Descripcion` varchar(100) DEFAULT NULL,
   `Ndocumento` int(11) NOT NULL,
   `DatosClinicos` int(4) DEFAULT NULL,
@@ -106,28 +104,21 @@ CREATE TABLE `codigo_qr` (
   `Atributos` int(2) DEFAULT NULL,
   `Atributo` varchar(200) DEFAULT '&centerImageUrl=https://programacion3luis.000webhostapp.com/secode/views/assets/img/logo.png&size=300&ecLevel=H&centerImageWidth=120&centerImageHeight=120',
   `Privacidad` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `codigo_qr`
---
-
-INSERT INTO `codigo_qr` (`id_codigo`, `Titulo`, `nombre`, `Fecha`, `Duracion`, `RutaArchivo`, `Descripcion`, `Ndocumento`, `DatosClinicos`, `FormularioMedicamentos`, `Atributos`, `Atributo`, `Privacidad`) VALUES
-(28, 'lol', '519250a55d4c68e2cfe1cd1a905eea12.pdf', NULL, '2023-03-10', 'http://127.0.0.1/secodeqr/views/pdf/519250a55d4c68e2cfe1cd1a905eea12.pdf', 'lkjlkjlkjklkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk', 123456789, 26, NULL, NULL, '&light=1d0b0b&dark=ff7070&size=300', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `CondicionClinica`
+-- Estructura de tabla para la tabla `CondicionClinica`
 --
 
 CREATE TABLE `CondicionClinica` (
   `IDCondicionClinica` int(2) NOT NULL,
   `CondicionClinica` varchar(35) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `CondicionClinica`
+-- Volcado de datos para la tabla `CondicionClinica`
 --
 
 INSERT INTO `CondicionClinica` (`IDCondicionClinica`, `CondicionClinica`) VALUES
@@ -140,7 +131,7 @@ INSERT INTO `CondicionClinica` (`IDCondicionClinica`, `CondicionClinica`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `datos_clinicos`
+-- Estructura de tabla para la tabla `datos_clinicos`
 --
 
 CREATE TABLE `datos_clinicos` (
@@ -153,30 +144,32 @@ CREATE TABLE `datos_clinicos` (
   `CondicionClinica` int(2) DEFAULT NULL,
   `AlergiaMedicamento` int(2) DEFAULT NULL,
   `arraycond` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `datos_clinicos`
+-- Volcado de datos para la tabla `datos_clinicos`
 --
 
 INSERT INTO `datos_clinicos` (`IDDatosClinicos`, `NDocumento`, `TipoAfiliacion`, `TipoSubsidio`, `Tipo_de_sangre`, `RH`, `CondicionClinica`, `AlergiaMedicamento`, `arraycond`) VALUES
 (1, 123456789, 2, 2, 3, 2, 1, 1, '{\"1\":\"Covid-19\", \"2\":\"otra\",\"3\":\"Enfermedades respiratorias\"}'),
-(26, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}');
+(34, 123456789, 2, NULL, 3, 2, NULL, 3, '{\"1\":\"Enfermedades respiratorias\"}'),
+(42, 123456789, 2, NULL, 3, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}'),
+(43, 1022928166, 1, NULL, 1, 2, NULL, 1, '{\"1\":\"Enfermedades respiratorias\"}');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eps`
+-- Estructura de tabla para la tabla `eps`
 --
 
 CREATE TABLE `eps` (
   `id` int(2) NOT NULL,
-  `NombreEps` varchar(25) NOT NULL,
-  `Direccion` varchar(30) DEFAULT NULL
+  `NombreEps` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `Direccion` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `eps`
+-- Volcado de datos para la tabla `eps`
 --
 
 INSERT INTO `eps` (`id`, `NombreEps`, `Direccion`) VALUES
@@ -192,16 +185,16 @@ INSERT INTO `eps` (`id`, `NombreEps`, `Direccion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estrato`
+-- Estructura de tabla para la tabla `estrato`
 --
 
 CREATE TABLE `estrato` (
   `IDEstrato` int(2) NOT NULL,
   `Estrato` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `estrato`
+-- Volcado de datos para la tabla `estrato`
 --
 
 INSERT INTO `estrato` (`IDEstrato`, `Estrato`) VALUES
@@ -215,7 +208,7 @@ INSERT INTO `estrato` (`IDEstrato`, `Estrato`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `FormularioMedicamentos`
+-- Estructura de tabla para la tabla `FormularioMedicamentos`
 --
 
 CREATE TABLE `FormularioMedicamentos` (
@@ -223,21 +216,21 @@ CREATE TABLE `FormularioMedicamentos` (
   `Ndocumento` int(11) NOT NULL,
   `CodigoQR` int(4) NOT NULL,
   `ArchivoFormulaMedica` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genero`
+-- Estructura de tabla para la tabla `genero`
 --
 
 CREATE TABLE `genero` (
   `IDGenero` int(2) NOT NULL,
   `Genero` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `genero`
+-- Volcado de datos para la tabla `genero`
 --
 
 INSERT INTO `genero` (`IDGenero`, `Genero`) VALUES
@@ -247,16 +240,16 @@ INSERT INTO `genero` (`IDGenero`, `Genero`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `localidad`
+-- Estructura de tabla para la tabla `localidad`
 --
 
 CREATE TABLE `localidad` (
   `IDLocalidad` int(2) NOT NULL,
   `Localidad` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `localidad`
+-- Volcado de datos para la tabla `localidad`
 --
 
 INSERT INTO `localidad` (`IDLocalidad`, `Localidad`) VALUES
@@ -284,16 +277,16 @@ INSERT INTO `localidad` (`IDLocalidad`, `Localidad`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `RH`
+-- Estructura de tabla para la tabla `RH`
 --
 
 CREATE TABLE `RH` (
   `IDRH` int(1) NOT NULL,
   `RH` varchar(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `RH`
+-- Volcado de datos para la tabla `RH`
 --
 
 INSERT INTO `RH` (`IDRH`, `RH`) VALUES
@@ -303,16 +296,16 @@ INSERT INTO `RH` (`IDRH`, `RH`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rol`
+-- Estructura de tabla para la tabla `rol`
 --
 
 CREATE TABLE `rol` (
   `id` int(2) NOT NULL,
   `rol` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `rol`
+-- Volcado de datos para la tabla `rol`
 --
 
 INSERT INTO `rol` (`id`, `rol`) VALUES
@@ -322,7 +315,7 @@ INSERT INTO `rol` (`id`, `rol`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Suscripcion`
+-- Estructura de tabla para la tabla `Suscripcion`
 --
 
 CREATE TABLE `Suscripcion` (
@@ -333,28 +326,24 @@ CREATE TABLE `Suscripcion` (
   `fecha_inicio` date DEFAULT NULL,
   `numero_recibo` bigint(20) DEFAULT NULL,
   `token` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `Suscripcion`
+-- Volcado de datos para la tabla `Suscripcion`
 --
-
-INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `FechaExpiracion`, `TipoSuscripcion`, `fecha_inicio`, `numero_recibo`, `token`) VALUES
-(29, 123456789, NULL, 4, '2023-03-08', 2459909968, 'ceeddb86b995ded82e974be21d2d1c43');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipodocumento`
+-- Estructura de tabla para la tabla `tipodocumento`
 --
 
 CREATE TABLE `tipodocumento` (
   `IDTipoDoc` int(2) NOT NULL,
   `TipoDocumento` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tipodocumento`
+-- Volcado de datos para la tabla `tipodocumento`
 --
 
 INSERT INTO `tipodocumento` (`IDTipoDoc`, `TipoDocumento`) VALUES
@@ -364,16 +353,16 @@ INSERT INTO `tipodocumento` (`IDTipoDoc`, `TipoDocumento`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `TipoSangre`
+-- Estructura de tabla para la tabla `TipoSangre`
 --
 
 CREATE TABLE `TipoSangre` (
   `IDTipoSangre` int(1) NOT NULL,
   `TipoSangre` varchar(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `TipoSangre`
+-- Volcado de datos para la tabla `TipoSangre`
 --
 
 INSERT INTO `TipoSangre` (`IDTipoSangre`, `TipoSangre`) VALUES
@@ -385,16 +374,16 @@ INSERT INTO `TipoSangre` (`IDTipoSangre`, `TipoSangre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `TipoSubsidio`
+-- Estructura de tabla para la tabla `TipoSubsidio`
 --
 
 CREATE TABLE `TipoSubsidio` (
   `IDTipoSubsidio` int(2) NOT NULL,
   `TipoSubsidio` varchar(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `TipoSubsidio`
+-- Volcado de datos para la tabla `TipoSubsidio`
 --
 
 INSERT INTO `TipoSubsidio` (`IDTipoSubsidio`, `TipoSubsidio`) VALUES
@@ -404,7 +393,7 @@ INSERT INTO `TipoSubsidio` (`IDTipoSubsidio`, `TipoSubsidio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `TipoSuscripcion`
+-- Estructura de tabla para la tabla `TipoSuscripcion`
 --
 
 CREATE TABLE `TipoSuscripcion` (
@@ -420,14 +409,14 @@ CREATE TABLE `TipoSuscripcion` (
   `CompartirPerfil` varchar(2) NOT NULL,
   `RellenarFormulario` varchar(2) NOT NULL,
   `EnviarMensaje` varchar(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `TipoSuscripcion`
+-- Volcado de datos para la tabla `TipoSuscripcion`
 --
 
 INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_archivo`, `precio`, `cantidad_qr`, `Editar`, `citas`, `tiempo`, `EditarQR`, `CompartirPerfil`, `RellenarFormulario`, `EnviarMensaje`) VALUES
-(1, 'Gratis', '', 0, 1, 'NO', 'NO', 0, 'NO', 'NO', 'NO', 'NO'),
+(1, 'Gratis', 'iniciar.php', 0, 1, 'NO', 'NO', 0, 'NO', 'NO', 'NO', 'NO'),
 (2, 'Básico', 'basico.php', 9900, 5, 'NO', 'NO', 1, 'NO', 'NO', 'NO', 'NO'),
 (3, 'Estandar', 'estandar.php', 26000, 8, 'SI', 'NO', 3, 'NO', 'SI', 'SI', 'NO'),
 (4, 'Premium', 'premium.php', 52000, 10, 'SI', 'SI', 6, 'SI', 'SI', 'SI', 'SI');
@@ -435,12 +424,12 @@ INSERT INTO `TipoSuscripcion` (`IDTipoSuscripcion`, `TipoSuscripcion`, `nombre_a
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estructura de tabla para la tabla `usuario`
 --
 
 CREATE TABLE `usuario` (
-  `Ndocumento` int(11) NOT NULL,
-  `TipoDoc` int(2) DEFAULT 1,
+  `Ndocumento` int(11) NOT NULL COMMENT 'Llave primaria, que identifica un usuario.',
+  `TipoDoc` int(2) DEFAULT 1 COMMENT 'Llave foranea, para tipo de documento',
   `Nombre` varchar(30) NOT NULL,
   `Apellidos` varchar(30) DEFAULT NULL,
   `Correo` varchar(60) NOT NULL,
@@ -460,46 +449,35 @@ CREATE TABLE `usuario` (
   `TipoImg` varchar(10) DEFAULT NULL,
   `Contrasena` varchar(80) NOT NULL,
   `fechaCreacion` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `usuario`
---
-
-INSERT INTO `usuario` (`Ndocumento`, `TipoDoc`, `Nombre`, `Apellidos`, `Correo`, `Direccion`, `Localidad`, `Genero`, `Estrato`, `id`, `rol`, `FechaNacimiento`, `Telefono`, `Img_perfil`, `CompartirUrl`, `Compartido`, `Verificado`, `token_reset`, `TipoImg`, `Contrasena`, `fechaCreacion`) VALUES
-(123456789, 1, 'Andres', 'Suarez    ', 'lfchaparro37@misena.edu.co', 'calle 13                  ', 14, 1, 3, 3, 2, '2022-12-05', 213123123, NULL, '94619168763076591', 1, NULL, '65465465435432', NULL, '$2y$10$nhNqQtihE6TWMRHuUyVwm.NkV8eYuLvp5uomtMeHdYryOQhtcUVuu', NULL);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `Administrador`
+-- Indices de la tabla `Administrador`
 --
 ALTER TABLE `Administrador`
   ADD PRIMARY KEY (`IDAdministrador`),
   ADD KEY `TipoRol` (`TipoRol`);
 
 --
--- Indexes for table `afiliacion`
+-- Indices de la tabla `afiliacion`
 --
 ALTER TABLE `afiliacion`
   ADD PRIMARY KEY (`IDAfiliacion`);
 
 --
--- Indexes for table `AlergiaMedicamento`
+-- Indices de la tabla `AlergiaMedicamento`
 --
 ALTER TABLE `AlergiaMedicamento`
   ADD PRIMARY KEY (`IDAlergiaMedicamento`);
 
 --
--- Indexes for table `AtributosQr`
+-- Indices de la tabla `AtributosQr`
 --
 ALTER TABLE `AtributosQr`
   ADD PRIMARY KEY (`IDAtributosQr`);
 
 --
--- Indexes for table `codigo_qr`
+-- Indices de la tabla `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
   ADD PRIMARY KEY (`id_codigo`),
@@ -509,13 +487,13 @@ ALTER TABLE `codigo_qr`
   ADD KEY `Atributos` (`Atributos`) USING BTREE;
 
 --
--- Indexes for table `CondicionClinica`
+-- Indices de la tabla `CondicionClinica`
 --
 ALTER TABLE `CondicionClinica`
   ADD PRIMARY KEY (`IDCondicionClinica`);
 
 --
--- Indexes for table `datos_clinicos`
+-- Indices de la tabla `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
   ADD PRIMARY KEY (`IDDatosClinicos`),
@@ -528,19 +506,19 @@ ALTER TABLE `datos_clinicos`
   ADD KEY `Tipo_de_sangre` (`Tipo_de_sangre`);
 
 --
--- Indexes for table `eps`
+-- Indices de la tabla `eps`
 --
 ALTER TABLE `eps`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `estrato`
+-- Indices de la tabla `estrato`
 --
 ALTER TABLE `estrato`
   ADD PRIMARY KEY (`IDEstrato`);
 
 --
--- Indexes for table `FormularioMedicamentos`
+-- Indices de la tabla `FormularioMedicamentos`
 --
 ALTER TABLE `FormularioMedicamentos`
   ADD PRIMARY KEY (`IDFormularioMedicamentos`),
@@ -548,31 +526,31 @@ ALTER TABLE `FormularioMedicamentos`
   ADD KEY `FormularioMedicamentos_ibfk_2` (`CodigoQR`);
 
 --
--- Indexes for table `genero`
+-- Indices de la tabla `genero`
 --
 ALTER TABLE `genero`
   ADD PRIMARY KEY (`IDGenero`);
 
 --
--- Indexes for table `localidad`
+-- Indices de la tabla `localidad`
 --
 ALTER TABLE `localidad`
   ADD PRIMARY KEY (`IDLocalidad`);
 
 --
--- Indexes for table `RH`
+-- Indices de la tabla `RH`
 --
 ALTER TABLE `RH`
   ADD PRIMARY KEY (`IDRH`);
 
 --
--- Indexes for table `rol`
+-- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `Suscripcion`
+-- Indices de la tabla `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
   ADD PRIMARY KEY (`IDSuscripcion`),
@@ -580,31 +558,31 @@ ALTER TABLE `Suscripcion`
   ADD KEY `TipoSuscripcion` (`TipoSuscripcion`);
 
 --
--- Indexes for table `tipodocumento`
+-- Indices de la tabla `tipodocumento`
 --
 ALTER TABLE `tipodocumento`
   ADD PRIMARY KEY (`IDTipoDoc`);
 
 --
--- Indexes for table `TipoSangre`
+-- Indices de la tabla `TipoSangre`
 --
 ALTER TABLE `TipoSangre`
   ADD PRIMARY KEY (`IDTipoSangre`);
 
 --
--- Indexes for table `TipoSubsidio`
+-- Indices de la tabla `TipoSubsidio`
 --
 ALTER TABLE `TipoSubsidio`
   ADD PRIMARY KEY (`IDTipoSubsidio`);
 
 --
--- Indexes for table `TipoSuscripcion`
+-- Indices de la tabla `TipoSuscripcion`
 --
 ALTER TABLE `TipoSuscripcion`
   ADD PRIMARY KEY (`IDTipoSuscripcion`);
 
 --
--- Indexes for table `usuario`
+-- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`Ndocumento`),
@@ -616,81 +594,81 @@ ALTER TABLE `usuario`
   ADD KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `Administrador`
+-- AUTO_INCREMENT de la tabla `Administrador`
 --
 ALTER TABLE `Administrador`
-  MODIFY `IDAdministrador` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDAdministrador` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
--- AUTO_INCREMENT for table `AlergiaMedicamento`
+-- AUTO_INCREMENT de la tabla `AlergiaMedicamento`
 --
 ALTER TABLE `AlergiaMedicamento`
   MODIFY `IDAlergiaMedicamento` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `AtributosQr`
+-- AUTO_INCREMENT de la tabla `AtributosQr`
 --
 ALTER TABLE `AtributosQr`
   MODIFY `IDAtributosQr` int(2) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `codigo_qr`
+-- AUTO_INCREMENT de la tabla `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
-  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_codigo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
--- AUTO_INCREMENT for table `CondicionClinica`
+-- AUTO_INCREMENT de la tabla `CondicionClinica`
 --
 ALTER TABLE `CondicionClinica`
   MODIFY `IDCondicionClinica` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `datos_clinicos`
+-- AUTO_INCREMENT de la tabla `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
-  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `IDDatosClinicos` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT for table `FormularioMedicamentos`
+-- AUTO_INCREMENT de la tabla `FormularioMedicamentos`
 --
 ALTER TABLE `FormularioMedicamentos`
   MODIFY `IDFormularioMedicamentos` int(4) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Suscripcion`
+-- AUTO_INCREMENT de la tabla `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
-  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `IDSuscripcion` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- AUTO_INCREMENT for table `TipoSubsidio`
+-- AUTO_INCREMENT de la tabla `TipoSubsidio`
 --
 ALTER TABLE `TipoSubsidio`
   MODIFY `IDTipoSubsidio` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `TipoSuscripcion`
+-- AUTO_INCREMENT de la tabla `TipoSuscripcion`
 --
 ALTER TABLE `TipoSuscripcion`
   MODIFY `IDTipoSuscripcion` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `Administrador`
+-- Filtros para la tabla `Administrador`
 --
 ALTER TABLE `Administrador`
   ADD CONSTRAINT `Administrador_ibfk_1` FOREIGN KEY (`TipoRol`) REFERENCES `rol` (`id`);
 
 --
--- Constraints for table `codigo_qr`
+-- Filtros para la tabla `codigo_qr`
 --
 ALTER TABLE `codigo_qr`
   ADD CONSTRAINT `codigo_qr_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`),
@@ -699,7 +677,7 @@ ALTER TABLE `codigo_qr`
   ADD CONSTRAINT `codigo_qr_ibfk_4` FOREIGN KEY (`Atributos`) REFERENCES `AtributosQr` (`IDAtributosQr`);
 
 --
--- Constraints for table `datos_clinicos`
+-- Filtros para la tabla `datos_clinicos`
 --
 ALTER TABLE `datos_clinicos`
   ADD CONSTRAINT `datos_clinicos_ibfk_1` FOREIGN KEY (`NDocumento`) REFERENCES `usuario` (`Ndocumento`),
@@ -711,21 +689,21 @@ ALTER TABLE `datos_clinicos`
   ADD CONSTRAINT `datos_clinicos_ibfk_7` FOREIGN KEY (`RH`) REFERENCES `RH` (`IDRH`);
 
 --
--- Constraints for table `FormularioMedicamentos`
+-- Filtros para la tabla `FormularioMedicamentos`
 --
 ALTER TABLE `FormularioMedicamentos`
   ADD CONSTRAINT `FormularioMedicamentos_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`),
   ADD CONSTRAINT `FormularioMedicamentos_ibfk_2` FOREIGN KEY (`CodigoQR`) REFERENCES `codigo_qr` (`id_codigo`);
 
 --
--- Constraints for table `Suscripcion`
+-- Filtros para la tabla `Suscripcion`
 --
 ALTER TABLE `Suscripcion`
   ADD CONSTRAINT `Suscripcion_ibfk_1` FOREIGN KEY (`Ndocumento`) REFERENCES `usuario` (`Ndocumento`),
   ADD CONSTRAINT `Suscripcion_ibfk_2` FOREIGN KEY (`TipoSuscripcion`) REFERENCES `TipoSuscripcion` (`IDTipoSuscripcion`);
 
 --
--- Constraints for table `usuario`
+-- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id`) REFERENCES `eps` (`id`),
