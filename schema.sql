@@ -214,7 +214,7 @@ INSERT INTO `estrato` (`IDEstrato`, `Estrato`) VALUES
 CREATE TABLE `FormularioMedicamentos` (
   `IDFormularioMedicamentos` int(4) NOT NULL,
   `Ndocumento` int(11) NOT NULL,
-  `CodigoQR` int(4) NOT NULL,
+  `CodigoQR` int(4) DEFAULT NULL,
   `ArchivoFormulaMedica` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

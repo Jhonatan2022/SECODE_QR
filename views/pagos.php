@@ -1,19 +1,18 @@
 <?php
-
-use PHPMailer\PHPMailer\OAuth;
-
 session_start();
 
 require_once('../models/database/database.php');
 require_once('../models/user.php');
 
+if (!isset($_SESSION["user_id"])) {
+	header('Location: ../index.php');
+}
 $user = getUser($_SESSION['user_id']);
 
 $param=$connection->prepare("SELECT * FROM Suscripcion WHERE Ndocumento = :id");
 $param->bindParam(':id', $_SESSION['user_id']);
 $param->execute();
 $datos = $param->fetch(PDO::FETCH_ASSOC);
-
 
 if(isset($_SESSION['user_id']) && isset($_POST['plan']) && $datos['TipoSuscripcion'] == 1){
 $planrecibido= $_POST['plan'];
@@ -34,7 +33,7 @@ $param->execute();
 $Plandatos = $param->fetch(PDO::FETCH_ASSOC);
 $token=$user['token_reset'];
 }else{
-	header('Location: ./iniciar.php');
+	header('Location: ./Finpago.php');
 }
 ?>
 

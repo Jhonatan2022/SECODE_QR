@@ -89,12 +89,32 @@ if (isset($_SESSION["user_id"])) {
 <br>
 <br>
 	<section>
+		<center>
+			<h3>Usuarios:</h3>
+		</center>
+		<br>
+		<div class="container">
+            <button class="accordion" ><strong>Manual de instalacion</strong></button>
+            <div class="panel">
+				<br>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/Manual de instalación.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				<iframe src="https://docs.google.com/gview?embedded=true&url=https://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/Manual de instalación.pdf" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
+				
+			</div>
+			<br>
+		</div>
         <div class="container">
             <button class="accordion" ><strong>¿Como registrarse e iniciar sesión ?</strong></button>
             <div class="panel">
 				<br>
-				
-				<iframe src="https://scribehow.com/embed/Como_registrarse_e_iniciar_sesion___r79u6PFnQUuJ-BLiBlesPQ" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/Comoregistrarseeiniciarsesión_PDF_2023-03-27184908.957565.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				<iframe src="https://scribehow.com/embed/Como_registrarse_e_iniciar_sesion___r79u6PFnQUuJ-BLiBlesPQ" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
 				
 			</div>
 			<br>
@@ -103,8 +123,11 @@ if (isset($_SESSION["user_id"])) {
             <button class="accordion" ><strong>¿Como comprar un plan en la plataforma?</strong></button>
             <div class="panel">
 				<br>
-				
-				<iframe src="https://scribehow.com/embed/Como_comprar_un_plan_en_la_plataforma__un__i7VJTSmMcmWdVINPUg" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/Comocomprarunplanenlaplataforma_PDF_2023-03-27185110.530765.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				<iframe src="https://scribehow.com/embed/Como_comprar_un_plan_en_la_plataforma__un__i7VJTSmMcmWdVINPUg" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
 				
 			</div>
 			<br>
@@ -113,8 +136,11 @@ if (isset($_SESSION["user_id"])) {
             <button class="accordion" ><strong>¿Como actualizar mis datos de perfil usuario?</strong></button>
             <div class="panel">
 				<br>
-				
-				<iframe src="https://scribehow.com/embed/Como_actualizar_mis_datos_de_perfil_usuario__sXpVBh3USTmmXxah0aH0Wg" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/Comoactualizarmisdatosdeperfilusuario_PDF_2023-03-27185031.646567.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				<iframe src="https://scribehow.com/embed/Como_actualizar_mis_datos_de_perfil_usuario__sXpVBh3USTmmXxah0aH0Wg" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
 				
 			</div>
 			<br>
@@ -123,8 +149,11 @@ if (isset($_SESSION["user_id"])) {
             <button class="accordion" ><strong>¿Como generar un código Qr aparir de mis datos clínicos?</strong></button>
             <div class="panel">
 				<br>
-				
-				<iframe src="https://scribehow.com/embed/Como_generar_un_codigo_Qr_aparir_de_mis_datos_clinicos__NZfUkgG0R9GTn1fPKmj12Q" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/ComogeneraruncódigoQraparirdemisdatosclínicos_PDF_2023-03-27184943.468799.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				<iframe src="https://scribehow.com/embed/Como_generar_un_codigo_Qr_aparir_de_mis_datos_clinicos__NZfUkgG0R9GTn1fPKmj12Q" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
 				
 			</div>
 			<br>
@@ -133,12 +162,36 @@ if (isset($_SESSION["user_id"])) {
             <button class="accordion" ><strong>¿Como compartir tu perfil y tus códigos Qr con otros?</strong></button>
             <div class="panel">
 				<br>
-				
-				<iframe src="https://scribehow.com/embed/Como_compartir_tu_perfil_y_tus_codigos_Qr_con_otros__Owgs6HUMTbWPb7gBrIyzDA" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/ComocompartirtuperfilytuscódigosQrconotros_PDF_2023-03-27184833.769666.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				<iframe src="https://scribehow.com/embed/Como_compartir_tu_perfil_y_tus_codigos_Qr_con_otros__Owgs6HUMTbWPb7gBrIyzDA" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
 				
 			</div>
 			<br>
 		</div>
+					
+		<?php if (isset($_SESSION['user_id'])&& $user['rol']==2){?>
+			<center>
+			<h3>Administradores:</h3>
+			</center>
+			<br>
+			<div class="container">
+            <button class="accordion" ><strong>How to Manage User Plans and Profile Information and create reports?</strong></button>
+            <div class="panel">
+				<br>
+				<center>
+				<a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/secodeqr/views/assets/pdf/Administradores1PDF43254.pdf" style="font-size: large; font-weight:bold; color:purple; border: 2px solid purple; padding:4px; border-radius: 7px;">Descargar Manual</a>
+				</center>
+				<br>
+				
+				<iframe src="https://scribehow.com/embed/How_to_Manage_User_Plans_and_Profile_Information__7U42YzkbTUqnn5k-b4zysw" width="100%" height="640" allowfullscreen frameborder="1" style="border: 2px solid purple; padding:4px; border-radius: 7px;"></iframe>
+				
+			</div>
+			<br>
+		</div>
+		<?php }?>
 	</section>
 
 	</div>
