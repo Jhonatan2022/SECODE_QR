@@ -82,7 +82,7 @@ function getFormula($id){
   $query = $connection->prepare('SELECT * FROM FormularioMedicamentos WHERE Ndocumento = :id');
   $query->bindParam(':id', $id);
   $query->execute();
-  $datos = $query->fetch(PDO::FETCH_ASSOC);
+  $datos = $query->fetchAll(PDO::FETCH_ASSOC);
   return $datos;
 }
 

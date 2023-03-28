@@ -75,19 +75,21 @@ function editar_registro() {
 function eliminar_registro() {
     global $connection;
     for($i = 1; $i < 3; $i++){
-        if(getFormula($_POST['Ndocumento']) != 0){
-            $del = 'FormularioMedicamentos';
-        }    elseif(getQR($_POST['Ndocumento']) != 0){
-            /* $qr= getQR($_POST['Ndocumento']);
-            foreach($qr as $q ){
-                unlink('../../views/pdf/'.$q['nombre']);
-            } */
+        if(getQR($_POST['Ndocumento']) != 0){
             $del = 'codigo_qr';
         }
         $query=$connection->prepare('DELETE FROM '.$del.' WHERE Ndocumento = '.$_POST['Ndocumento']);
 
         $query->execute();
     }
+    $form = getFormula($_POST['Ndocumento']);
+    foreach ($form as $key) {
+        unlink('../../models/img/' . $key['ArchivoFormulaMedica']);
+    }
+    $query=$connection->prepare('DELETE FROM FormularioMedicamentos WHERE Ndocumento = :id');
+    $query->bindParam(':id', $_POST['Ndocumento']);
+    $query->execute();
+
     $query=$connection->prepare('DELETE FROM Suscripcion WHERE Ndocumento = :id');
     $query->bindParam(':id', $_POST['Ndocumento']);
     $query->execute();
