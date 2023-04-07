@@ -794,6 +794,17 @@ $compartido=false;      ## Set the varible status in mode false.
         overflow: hidden;
         transition: max-height 0.2s ease-out;
         }
+
+        @media only screen and (max-width: 767px){
+            .product-image img {
+                padding: 0rem;
+            }
+            
+            .product-image {
+                padding: 18px;
+                padding-bottom: 0;
+            }
+        }
         </style>
 </style>
         </div>
