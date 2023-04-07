@@ -750,6 +750,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                         <div class="product-text">
                                             <h4><?php echo $code['Titulo'] ?></h4>
                                             <p><?php echo ''//$code['Descripcion'] ?></p>
+                                            <p class="product-price"><span style="border: 3px solid purple; border-radius:5px;padding:5px"><a href="http://<?=$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/form.php?formulario='.$code['nombre']?>" target="_blank" rel="noopener noreferrer"><strong>Ver en Nuevo diseño</strong></a></span> </p>
                                             <a href="<?php echo $code['RutaArchivo'] ?>" target="BLANK" class="btn btn-primary">Descargar</a>
                                         </div>
                                     </div>

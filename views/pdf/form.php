@@ -12,6 +12,7 @@ require_once '../../models/user.php';
 
         $data=$connection->prepare('SELECT * FROM codigo_qr WHERE nombre = :nombre');
         $data->execute([':nombre' => $form]);
+        $dataQR = $data->fetch(PDO::FETCH_ASSOC);
         $numQr = $data->rowCount();
         $qr = $data->fetch(PDO::FETCH_ASSOC);
         if($numQr < 1 ){
@@ -19,9 +20,35 @@ require_once '../../models/user.php';
             header('Location: ../index.php?codigoQR=1');
         }
 
-        $qrId = $qr['id_codigo'];
+        $id = $dataQR['id_codigo'];
 
-        $query = 'SELECT qr.Titulo, qr.Duracion , us.Nombre, tpd.TipoDocumento, us.Ndocumento, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, gn.Genero ,est.Estrato, lc.Localidad,af.Afiliacion, RH.RH, tps.TipoSangre , dta.CondicionClinica, dta.arraycond, alg.AlergiaMedicamento
+        if ($dataQR['FormularioMedicamentos'] != null && $dataQR['FormularioMedicamentos'] != '') {
+            $query = 'SELECT qr.Titulo, qr.Duracion , us.Nombre, tpd.TipoDocumento, us.Ndocumento, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero ,us.Estrato, us.Localidad, form.ArchivoFormulaMedica
+                FROM usuario AS us LEFT OUTER JOIN eps 
+                ON eps.id = us.id 
+                LEFT OUTER JOIN genero as gn 
+                ON gn.IDGenero = us.Genero
+                LEFT OUTER JOIN estrato as est 
+                ON est.IDEstrato = us.Estrato
+                LEFT OUTER JOIN localidad as lc 
+                ON lc.IDLocalidad = us.Localidad
+                LEFT OUTER JOIN tipodocumento as tpd
+                ON tpd.IDTipoDoc = us.TipoDoc
+    
+                LEFT OUTER JOIN FormularioMedicamentos AS form
+                ON us.Ndocumento = form.Ndocumento
+                
+                LEFT OUTER JOIN codigo_qr as qr
+                ON form.IDFormularioMedicamentos = qr.FormularioMedicamentos
+                WHERE qr.nombre = :nombre AND qr.id_codigo = :idcode';
+            $params = $connection->prepare($query);
+            $params->bindParam(':nombre', $form);
+            $params->bindParam(':idcode', $id);
+            $params->execute();
+            $data = $params->fetch(PDO::FETCH_ASSOC);
+            $Medico = true;
+        } else {
+        $query = 'SELECT qr.Titulo, qr.Duracion , us.Nombre, tpd.TipoDocumento, us.Ndocumento, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero ,est.Estrato, us.Localidad,af.Afiliacion, dta.RH, dta.Tipo_de_sangre , dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
         FROM usuario AS us LEFT OUTER JOIN eps 
         ON eps.id = us.id 
         LEFT OUTER JOIN genero as gn 
@@ -50,25 +77,11 @@ require_once '../../models/user.php';
         WHERE qr.nombre = :nombre  AND id_codigo = :idcode  ;';
         $params = $connection->prepare($query);
         $params->bindParam(':nombre', $form);
-        $params->bindParam(':idcode', $qrId); 
+        $params->bindParam(':idcode', $id); 
         $params->execute();
         $data = $params->fetch(PDO::FETCH_ASSOC);
-
-        
-        $query = $connection->prepare('SELECT qr.Titulo, us.Nombre, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero,us.Estrato, us.Localidad,dta.TipoAfiliacion,dta.RH, dta.Tipo_de_sangre, dta.CondicionClinica, dta.arraycond, dta.AlergiaMedicamento
-        FROM usuario AS us LEFT OUTER JOIN eps 
-        ON eps.id = us.id 
-        LEFT OUTER JOIN datos_clinicos AS dta
-        ON us.Ndocumento= dta.NDocumento
-        LEFT OUTER JOIN codigo_qr as qr
-        ON dta.IDDatosClinicos = qr.DatosClinicos
-        WHERE qr.nombre = :nombre and qr.id_codigo = :codigo');
-        $query->bindParam(':nombre', $form);
-        $query->bindParam(':codigo', $qrId);
-        $query->execute();
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-
-        
+        $Medico = false;
+        }
     } else {
         http_response_code(404);
         header('Location: ../../index.php');
@@ -106,7 +119,7 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/responsive.css'?>">
     <link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/formstyle.css'?>">
 <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <title>SECØDE_QR</title>
+    <title>Formulario</title>
 
 </head>
 
@@ -119,37 +132,22 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
   <br>
   <center>
 <img src="<?= $imgLogo2?>" alt="">
+<img src="<?= $imgLogo?>" alt="" width="100px" >
+<!-- style="position:absolute; right:9.5em; top:6.7em;" -->
 </center>
     <div class="screend">
       <div class="container" style="margin-left: 2rem;">
-        <form action="" method="POST" class="form">
+        <form action="" method="POST" class="form" style="margin:0 auto;">
             <?php foreach ($data as $key => $value) { ?>
               <?php
               switch ($key) {
                 case 'Titulo': ?>
                   <div class="item">
                     <p>Titulo del formulario</p>
-                    <input type="text" name="<?= $key ?>" value="<?php $value ?>" />
+                    <br>
+                    <input type="text" name="<?= $key ?>" value="<?php if ($value == null || ''){echo 'Sin Titulo';}else{echo $value;} ?>" />
                   </div>
                   <?php break; ?>
-
-                <?php
-                case 'Nombre': ?>
-                  <div class="item">
-                    <p>Nombres</p>
-                    <input type="text" name="<?= $key ?>" required value="<?= $value ?>" />
-                  </div>
-                  <?php break; ?>
-
-                <?php
-                case 'FechaNacimiento':
-                  $val = date('Y-m-d', strtotime($value)); ?>
-                  <div class="item">
-                    <p>Fecha de nacimiento</p>
-                    <input type="text" name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
-                  </div>
-                  <?php break; ?>
-
                 <?php
                 case 'NombreEps': ?>
                   <h5>1. Datos generales</h5>
@@ -174,23 +172,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                     </select>
                   </div>
                   <?php break; ?>
-
-                <?php
-                case 'Telefono': ?>
-                  <div class="item">
-                    <p>Telefono de contacto<span class="required">*</span></p>
-                    <input type="text" name="<?= $key ?>" value="<?= $value ?>" required />
-                  </div>
-                  <?php break; ?>
-
-                <?php
-                case 'Correo': ?>
-                  <div class="item">
-                    <p>Correo electronico<span></span></p>
-                    <input type="text" name="<?= $key ?>" value="<?= $value ?>" required />
-                  </div>
-                  <?php break; ?>
-
                 <?php
                 case 'Genero': ?>
                   <div class="question">
@@ -283,7 +264,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
 
                 <?php
                 case 'Tipo_de_sangre': ?>
-                  <br>
                   <div class="question">
                     <p>Tipo de sangre<span class="required"></span></p>
                     <div class="question-answer">
@@ -302,14 +282,13 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                       <?php } ?>
                     </div>
                   </div>
-                  <br>
                   <?php break; ?>
 
                 <?php
                 case 'arraycond': ?>
-                  <br>
                   <div class="question">
                     <p>¿Cuenta con alguna de las siguientes condiciones?:<span class="required">*</span></p>
+                    <br>
                     <div class="question-answer checkbox-item">
 
 
@@ -346,7 +325,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
 
                     </div>
                   </div>
-                  <br>
                   <?php break; ?>
 
                 <?php
@@ -354,6 +332,7 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                   <br>
                   <div class="question">
                     <p>¿Es alergico algun medicamento? ¿O tiene alguna afectacion?<span class="required"></span></p>
+                    <br>
                     <div class="question-answer">
 
                       <?php foreach ($alergia as $keyal => $valueal) { ?>
@@ -369,12 +348,29 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                   </div>
                   <br>
                   <?php break; ?>
-
+                  <? case 'Duracion':?>
+                  <p style="font-weight: bold;">Fecha de Creacion:</p>
+                  <br>
+                  <p style="padding:5px; border: 1px solid grey; min-width:12rem; width:min-content"><?=$value?></p>
+                  <?php break; ?>
+                  <?php break; ?>
+                  <? case 'CondicionClinica':?>
+                  <?php break; ?>
+                  <?php case 'ArchivoFormulaMedica':?>
+                    <p style="font-weight: bold;">Archivo FormulaMedica</p>
+                    <p> Archivo adjunto el la siguiente hoja </p>
+                    <br>
+                    <div class="page_break" style="page-break-before: always;">
+                    <img src="<?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/models/img/' . $value ?>" alt="" style="position: absolute; left:3rem; top:4rem; width:auto; max-width: 700px; height:auto; max-height:70rem; object-fit:scale-down;"> 
+                  </div>
+                    
+                  <?php break; ?>
                 <?php
                 default: ?>
                   <div class="item">
-                    <p><?= $key ?></p>
-                    <input type="text" name="<?= $key ?>" value="<?php $value ?>" />
+                    <p style="font-weight: bold;"><?= $key ?></p>
+                    <br>
+                    <p style="padding:5px; border: 1px solid grey; min-width:12rem; width:min-content"><?=$value?></p>
                   </div>
               <?php break;
               } ?>
@@ -382,6 +378,10 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
             <?php  } ?>
         </form>
       </div>
+    </div>
+    <div style="margin-left:3rem;position: absolute; bottom:2rem;">
+    <p>Declinacion de responsabilidades y consentimiento de tratamiento de datos personales</p>
+    <p> <a href="https://<?= $_SERVER['HTTP_HOST'] ?>/secodeqr/" >Secode QR</a> <?= date('Y')?> ©️ All rights reserved</p>
     </div>
   </div>
 

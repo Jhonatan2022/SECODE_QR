@@ -31,7 +31,7 @@ if(isset($_GET['GenerateError']) && $_GET['GenerateError'] == '1'){
 	$message = array(' Error', 'No puede Editar formularios, actualice su membresia', 'error');
 }
 
-$records = $connection->prepare('SELECT qr.Privacidad, qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
+$records = $connection->prepare('SELECT qr.Privacidad, qr.Atributos, qr.Titulo, qr.RutaArchivo, qr.Duracion, qr.Descripcion, qr.Id_codigo, qr.FormularioMedicamentos, qr.nombre, qr.Atributo, atr.Atributosqr , eps.NombreEps, us.id
 FROM codigo_qr AS qr
 LEFT OUTER JOIN AtributosQr AS atr 
 ON qr.Atributos = atr.IDAtributosQr
@@ -135,6 +135,7 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 												<img src="<?php echo 'https://quickchart.io/qr?text=' . $code['RutaArchivo'] . $code['Atributo'] ?>" alt=""></a>
 										</div>
 										<h3><?php if($code['Titulo'] != (null || '') ){ echo $code['Titulo'];}else{echo 'Sin Titulo';} ?></h3>
+										<p class="product-price"><span style="border: 3px solid purple; border-radius:5px;padding:5px"><a href="http://<?=$_SERVER['HTTP_HOST'].'/secodeqr/views/pdf/form.php?formulario='.$code['nombre']?>" target="_blank" rel="noopener noreferrer"><strong>Ver en Nuevo diseño</strong></a></span> </p>
 										<div class="container" style="width:300px; height:fit-content; min-height:6.5rem; max-height:7.5rem; max-width:300px;background-color: #d5d5d5; border-radius:10px ">
 										<p class="product-price" style="text-overflow:ellipsis;overflow: visible; white-space:wrap" ><?='<strong>Descripcion: </strong><br>'.$code['Descripcion'] ?></p>
 										</div>
@@ -293,8 +294,10 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 												<?php include './templates/qr.php' ?>
 											</details>
 											<br>
-											<?php if($suscripcion['Editar']=='SI'):?>
+											<?php if($suscripcion['Editar']=='SI' && $code['FormularioMedicamentos'] == null ):?>
 											<a style="font-size:medium; font-weight:bolder; padding:5px" href="./formulario_datos_clinicos.php?idFormEdit=<?php echo $code['Id_codigo'] ?>" type="button" class="button btn-info" id='UpdateDataForm' value="UpdateDataForm">Actualizar formulario <i class="fas fa-pen"> </i></a>
+											<?php elseif($suscripcion['Editar']=='SI' && $code['FormularioMedicamentos'] != null):?>
+												
 											<?php else:?>
 												<a style="font-size:medium; font-weight:bolder; padding:5px"  href="#" type="button" class="button btn-info disabled" >Actualizar formulario <i class="fas fa-pen"> </i></a>
 												<h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>

@@ -13,27 +13,46 @@ if (!isset($_SESSION["user_id"])) {
 function deleteQR($id, $path)
 {global $connection;
 	global $results;
-	$query="SELECT qr.DatosClinicos FROM codigo_qr as qr WHERE qr.id_codigo= :id";
+	$query="SELECT qr.DatosClinicos, qr.FormularioMedicamentos, fr.ArchivoFormulaMedica FROM codigo_qr as qr 
+	LEFT OUTER JOIN FormularioMedicamentos as fr 
+	ON qr.FormularioMedicamentos = fr.IDFormularioMedicamentos
+	WHERE qr.id_codigo = :id";
 	$records = $connection->prepare($query);
 	$records->bindParam(':id', $id);
 	$records->execute();
 	$resultsdta = $records->fetch(PDO::FETCH_ASSOC);
 
-	$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
-	$records->bindParam(':id', $id);
-	if /* (!unlink('./pdf/' . $path)) {
-		$message = array(' Error', 'Ocurrio un error al eliminar el codigo Qr. intente de nuevo.', 'error');
-	} elseif  */($records->execute()) {
-		$message = 1;
-	} else {
-		$message = 'error';
-	}
-	$records = $connection->prepare('DELETE FROM datos_clinicos WHERE datos_clinicos.IDDatosClinicos = :dta');
-	$records->bindParam(':dta', $resultsdta['DatosClinicos']);
-	if ($records->execute()) {
-		$message = 1;
-	} else {
-		$message = 'error';
+	if($resultsdta['DatosClinicos'] == null && $resultsdta['FormularioMedicamentos'] !== null){
+		$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
+		$records->bindParam(':id', $id);
+		if($records->execute()) {
+			$message = 1;
+		} else {
+			$message = 'error';
+		}
+		$records = $connection->prepare('DELETE FROM FormularioMedicamentos WHERE IDFormularioMedicamentos = :dta');
+		$records->bindParam(':dta', $resultsdta['FormularioMedicamentos']);
+		if ($records->execute() && unlink('../models/img/' . $resultsdta['ArchivoFormulaMedica']) ) {
+			$message = 1;
+		} else {
+			$message = 'error';
+		}
+
+	}else{
+		$records = $connection->prepare('DELETE FROM codigo_qr WHERE Id_codigo = :id');
+		$records->bindParam(':id', $id);
+		if ($records->execute()) {
+			$message = 1;
+		} else {
+			$message = 'error';
+		}
+		$records = $connection->prepare('DELETE FROM datos_clinicos WHERE datos_clinicos.IDDatosClinicos = :dta');
+		$records->bindParam(':dta', $resultsdta['DatosClinicos']);
+		if ($records->execute()) {
+			$message = 1;
+		} else {
+			$message = 'error';
+		}
 	}
 	return $message;
 }
@@ -82,6 +101,8 @@ if (isset($_POST['action'])) {
 			# code...
 			break;
 	}
+}else{
+	header('Location: ../views/dashboard.php');
 }
 
 
