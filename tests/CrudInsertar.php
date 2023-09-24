@@ -1,10 +1,6 @@
 <?php
-
-/** @test */
-
 class CrudInsertar extends \PHPUnit\Framework\TestCase
 {
-
     public function testInsertar()
     {
         $server = 'localhost';
@@ -20,14 +16,12 @@ class CrudInsertar extends \PHPUnit\Framework\TestCase
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
-
         //Insertar un usuario crud eliminar. PDO
-
         $email_user = 'email@outlook.com';
         $numdoc = intval('1022936458');
         $password_user = 'micontra12345';
         $name_user = 'mi nombre';
-        $token=rand(124324, 876431167878435);
+        $token = rand(124324, 876431167878435);
 
         $consult = "INSERT INTO usuario 
         (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimiento,id,Img_perfil,token_reset,TipoImg) 
@@ -45,12 +39,10 @@ class CrudInsertar extends \PHPUnit\Framework\TestCase
         //establecemos los parametros de la consulta
 
         if ($params->execute()) {
-
             $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
         } else {
             $message = array('Error', 'No se pudo registrar el usuario', 'error');
         }
-
         $this->assertEquals(' Ok Registrado ', $message[0]);
     }
 }

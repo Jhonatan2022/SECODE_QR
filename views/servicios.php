@@ -8,10 +8,8 @@ if(isset($_SESSION['user_id'])){
 }
 $planinfo=getTipoSuscripcion();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<title>Servicios SECODE_QR</title>
@@ -82,10 +80,6 @@ $planinfo=getTipoSuscripcion();
 	</div>
 	</div>
 	<br>
-	<br>
-	<br>
-	<br>
-
 <?php include('./templates/footer_copyrights.php');?>
 
 	<!-- jquery -->
@@ -112,7 +106,5 @@ $planinfo=getTipoSuscripcion();
 		})
 	</script>
 <?php } ?>
-
 </body>
-
 </html>

@@ -1,7 +1,6 @@
-
-    $(document).on('click', '.terminos', function (e) {
-        swal({
-            html: `<p class="terminos"><br>
+$(document).on("click", ".terminos", function (e) {
+  swal({
+    html: `<p class="terminos"><br>
             Actualizado el 2022-08-24 <br /><br />
     
             <b>Términos generales</b> <br />
@@ -136,7 +135,7 @@
             conecte, con o sin previo aviso y sin responsabilidad ante usted.
             <br /><br />
     
-            <b>Actualizaciones a nuestra plataforma</b><br /><br />
+            <b>Actualizaciones a nuestra plataforma</b>
             SECODE_QR puede, de vez en cuando, proporcionar mejoras a las
             características / funcionalidad de la plataforma, que pueden incluir
             parches, corrección de errores, actualizaciones, mejoras y otras
@@ -179,22 +178,21 @@
             incumplimiento por su parte (durante la vigencia de este Acuerdo) de
             cualquiera de sus obligaciones en virtud del presente Acuerdo.
           </p>`,
-            imageUrl: "./assets/img/logo.png",
-            position: "top",
-            width: 1000,
-            title: "Términos y Condiciones",
-            text: "You will be redirected to https://utopian.io",
-            confirmButton: true,
-            confirmButtonText: "CONTINUE &rarr;",
-            confirmButtonColor: "#4ba7cf",
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: "#4a0081"
-        })
-            .then((result) => {
-                if (result.value) {
-                    swal({
-                        html: `<p class="terminos">
+    imageUrl: "./assets/img/logo.png",
+    position: "top",
+    width: 1000,
+    title: "Términos y Condiciones",
+    text: "You will be redirected to https://utopian.io",
+    confirmButton: true,
+    confirmButtonText: "CONTINUE &rarr;",
+    confirmButtonColor: "#4ba7cf",
+    showCancelButton: true,
+    cancelButtonText: "Cerrar",
+    cancelButtonColor: "#4a0081",
+  }).then((result) => {
+    if (result.value) {
+      swal({
+        html: `<p class="terminos">
                         <br />
                         <b>Aviso de infracción de Derechos de Autor</b> <br /><br />
                         Si usted es propietario de los derechos de autor o el agente de dicho
@@ -417,58 +415,61 @@
                         previo aviso. Sin limitar lo anterior, no garantiza que el Servicio de
                         sea ininterrumpido, sin corrupción, oportuno o sin errores.
                       </p>`,
-                        imageUrl: "./assets/img/logo.png",
-                        position: "top",
-                        width: 1000,
-                        confirmButton: true,
-                        confirmButtonText: "CONTINUE &rarr;",
-                        confirmButtonColor: "#4ba7cf",
-                        showCancelButton: true,
-                        cancelButtonText: 'Cerrar',
-                        cancelButtonColor: "#4a0081"
-    
-                    }).then((result) => {
-                        if (result.value) {
-                            swal({
-                  imageUrl: "./assets/img/logo.png",
-                                width: 800,
-                                title: 'Confirmación de aceptación',
-                                input: 'checkbox',
-                                inputPlaceholder: 'Chequea el recuadro para confirmar que aceptas los términos y condiciones',
-                                confirmButtonText: "Aceptar Todo ",
-                                confirmButtonColor: "#4ab7cf",
-                                inputValidator: (result) => {
-                                    return !result && 'Es necesario que acepte los términos y condiciones para hacer uso del producto'
-                                }
-                            }).then(function (result) {
-                                if (result.value === 1) {
-                                    swal({
-                                        type: 'success',
-                                        text: 'Muy bien, ya puedes formar parte de nuestra página.',
-                                        confirmButtonText: "Terminar",
-                                        confirmButtonColor: "#4b0081"
-                                    });
-                                }
-                            });
-                        } else if (result.dismiss === 'cancel') {
-                            swal({
-                                type: 'error',
-                                title: "Advertencia",
-                                text: 'Si no aceptas los términos y condiciones no podras registrarte.',
-                                confirmButtonText: "Cerrar",
-                                confirmButtonColor: "red"
-                            })
-                        }
-                    })
-                } else if (result.dismiss === 'cancel') {
-                    swal({
-                        type: 'error',
-                        title: "Advertencia",
-                        titleColor: 'red',
-                        text: 'Si no aceptas los términos y condiciones no podras registrarte.',
-                        confirmButtonText: "Cerrar",
-                        confirmButtonColor: "red"
-                    })
-                }
-            })
-    });
+        imageUrl: "./assets/img/logo.png",
+        position: "top",
+        width: 1000,
+        confirmButton: true,
+        confirmButtonText: "CONTINUE &rarr;",
+        confirmButtonColor: "#4ba7cf",
+        showCancelButton: true,
+        cancelButtonText: "Cerrar",
+        cancelButtonColor: "#4a0081",
+      }).then((result) => {
+        if (result.value) {
+          swal({
+            imageUrl: "./assets/img/logo.png",
+            width: 800,
+            title: "Confirmación de aceptación",
+            input: "checkbox",
+            inputPlaceholder:
+              "Chequea el recuadro para confirmar que aceptas los términos y condiciones",
+            confirmButtonText: "Aceptar Todo ",
+            confirmButtonColor: "#4ab7cf",
+            inputValidator: (result) => {
+              return (
+                !result &&
+                "Es necesario que acepte los términos y condiciones para hacer uso del producto"
+              );
+            },
+          }).then(function (result) {
+            if (result.value === 1) {
+              swal({
+                type: "success",
+                text: "Muy bien, ya puedes formar parte de nuestra página.",
+                confirmButtonText: "Terminar",
+                confirmButtonColor: "#4b0081",
+              });
+            }
+          });
+        } else if (result.dismiss === "cancel") {
+          swal({
+            type: "error",
+            title: "Advertencia",
+            text: "Si no aceptas los términos y condiciones no podras registrarte.",
+            confirmButtonText: "Cerrar",
+            confirmButtonColor: "red",
+          });
+        }
+      });
+    } else if (result.dismiss === "cancel") {
+      swal({
+        type: "error",
+        title: "Advertencia",
+        titleColor: "red",
+        text: "Si no aceptas los términos y condiciones no podras registrarte.",
+        confirmButtonText: "Cerrar",
+        confirmButtonColor: "red",
+      });
+    }
+  });
+});

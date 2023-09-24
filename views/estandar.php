@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
@@ -8,9 +7,6 @@ if(isset($_SESSION['user_id'])){
 }
 $plan=getPlan(3);
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -20,7 +16,6 @@ $plan=getPlan(3);
   <title>Servicio Estandar</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/service.css" />
-
   <!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="./assets/img/logo.png">
 	<!-- google font -->
@@ -38,15 +33,11 @@ $plan=getPlan(3);
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
-
 </head>
 <body>
-	
-	<!-- header -->
 	 <!--Portada de usuario-->
 	 <?php include('./templates/navBar.php'); ?>
 	<!-- end header -->
-
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -61,7 +52,6 @@ $plan=getPlan(3);
 		</div>
 	</div>
 	<!-- end breadcrumb section -->
-
     <div class="package-container">
       <div class="packages">
 			<h4 class="h"><?=$plan['TipoSuscripcion']?></h4>
@@ -90,15 +80,11 @@ $plan=getPlan(3);
 		Comprar Ahora
 		</button>
 		</form>
-		
        <!--  <a href="#" class="button button12">Comprar Ahora</a> -->
         <a href="servicios.php" class="button button13">Cancelar</a>
       </div> 
     </div>
-
 	<?php include('./templates/footer_copyrights.php');?>
-
-  
 	<!-- jquery -->
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
@@ -113,8 +99,5 @@ $plan=getPlan(3);
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
-
-
-
 </body>
 </html>

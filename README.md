@@ -7,16 +7,18 @@
 ![imagen de presentación](https://user-images.githubusercontent.com/101368711/168451328-ad0ef3c8-383c-421e-9700-1bab58299581.png)
 
 ---
+
 ## Instalacion del proyecto.
 
 #### Requisitos de software.
-* xampp (Apache,Mysql,perl,php) independiente del sistema operativo.
-* PHP version 7.4
-* Permisos de administrador.
-* Composer instalado. 
-* Git (opcional)
 
-##### Comandos de instalacion 
+- xampp (Apache,Mysql,perl,php) independiente del sistema operativo.
+- PHP version 7.4
+- Permisos de administrador.
+- Composer instalado.
+- Git (opcional)
+
+##### Comandos de instalacion
 
 ```sh
 #windows
@@ -47,13 +49,12 @@ composer update
 ```
 
 ```sh
-#Inicio de los servicios 
+#Inicio de los servicios
 sudo /opt/lampp/lampp start
 ```
 
-
-
 ## Integrantes:
+
 -Luis Chaparro <br>
 -Ginna Daza <br>
 -Jhonattan Florez <br>

@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-/*
-clase
-*/
-
 if (isset($_SESSION['user_id'])) {
   header('Location: ./index.php');
 }
@@ -12,12 +8,13 @@ if (isset($_SESSION['user_id'])) {
 //importamos conexion base de datos
 require_once '../models/database/database.php';
 
-
 //si el usuario va a iniciar sesion
-if (isset($_POST['email']) &&
-    isset($_POST['password']) &&
-    !empty($_POST['email']) && 
-    !empty($_POST['password'])) {
+if (
+  isset($_POST['email']) &&
+  isset($_POST['password']) &&
+  !empty($_POST['email']) &&
+  !empty($_POST['password'])
+) {
 
   $email_user1 = $_POST['email'];
   $password_user1 = $_POST['password'];
@@ -70,15 +67,17 @@ if (isset($_POST['email']) &&
     $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
   }
 } //si el usuario va a registrarse
-elseif (isset($_POST['user-name']) &&
-        isset($_POST['user-email'])&& 
-        isset($_POST['user-password']) &&
-        isset($_POST['num-doc']) &&
-        isset($_POST['terminos']) &&
-        !empty($_POST['num-doc']) && 
-        !empty($_POST['user-email']) &&
-        !empty($_POST['user-password']) && 
-        !empty($_POST['user-name'])) {
+elseif (
+  isset($_POST['user-name']) &&
+  isset($_POST['user-email']) &&
+  isset($_POST['user-password']) &&
+  isset($_POST['num-doc']) &&
+  isset($_POST['terminos']) &&
+  !empty($_POST['num-doc']) &&
+  !empty($_POST['user-email']) &&
+  !empty($_POST['user-password']) &&
+  !empty($_POST['user-name'])
+) {
 
   //variables de datos ingresados
   $email_user = $_POST['user-email'];
@@ -89,7 +88,6 @@ elseif (isset($_POST['user-name']) &&
 
   if (filter_var($email_user, FILTER_VALIDATE_EMAIL)) {
 
-
     //consulta que verifica la existencia de el correo ingresado
     $consult = "SELECT Correo,Ndocumento FROM usuario WHERE Correo= :useremail OR Ndocumento= :Ndocument";
     $params = $connection->prepare($consult);
@@ -97,7 +95,6 @@ elseif (isset($_POST['user-name']) &&
     $params->bindParam(':useremail', $email_user);
 
     if ($params->execute()) { //ejecucion consulta
-
       $results1 = $params->fetch(PDO::FETCH_ASSOC);
 
       //si el resultado de la consulta es igual al del ingresado
@@ -105,55 +102,49 @@ elseif (isset($_POST['user-name']) &&
         if (strtolower($results1["Correo"]) == strtolower($email_user)) {
           $message = array(' Error', 'Correo registrado, revise e intente de nuevo', 'warning');
         } elseif ($results1["Ndocumento"] == $numdoc) {
-
           $message = array(' Error', 'Numero de documento registrado, revise e intente de nuevo', 'warning');
         }
-        
       } else {
-        if(strlen($numdoc) > 11){
+        if (strlen($numdoc) > 11) {
           $message = array(' Error', 'Numero de documento excede el numero de caracteres. Intente de nuevo', 'warning');
-        }else{
-        $consult = "INSERT INTO usuario 
+        } else {
+          $consult = "INSERT INTO usuario 
         (Ndocumento, Nombre,direccion,Genero,Correo,Contrasena,FechaNacimiento,id,Img_perfil,token_reset,TipoImg, fechaCreacion) 
         VALUES 
         (:ndoc, :username, null, null, :useremail, :userpassword, null, :ideps, null, :token, null, :fecha)";
-        $params = $connection->prepare($consult);
-        $params->bindParam(':useremail', $email_user);
-        $password = password_hash($password_user, PASSWORD_BCRYPT);
-        $params->bindParam(':userpassword', $password);
-        $params->bindParam(':username', $name_user);
-        $id_eps = 10;
-        $params->bindParam(':ideps', $id_eps);
-        $params->bindParam(':ndoc', $numdoc);
-        $params->bindParam(':token', $token);
-        $fecha = date("Y-m-d");
-        $params->bindParam(':fecha', $fecha);
-        //estabklecemos los parametros de la consulta
+          $params = $connection->prepare($consult);
+          $params->bindParam(':useremail', $email_user);
+          $password = password_hash($password_user, PASSWORD_BCRYPT);
+          $params->bindParam(':userpassword', $password);
+          $params->bindParam(':username', $name_user);
+          $id_eps = 10;
+          $params->bindParam(':ideps', $id_eps);
+          $params->bindParam(':ndoc', $numdoc);
+          $params->bindParam(':token', $token);
+          $fecha = date("Y-m-d");
+          $params->bindParam(':fecha', $fecha);
+          //estabklecemos los parametros de la consulta
 
-        $query= "INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `TipoSuscripcion`) VALUES (NULL, :numdoc, 1)";
-        $params2 = $connection->prepare($query);
-        $params2->bindParam(':numdoc', $numdoc);
-        if ($params->execute() && $params2->execute()) {
-          $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
-        } else {
-          $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
+          $query = "INSERT INTO `Suscripcion` (`IDSuscripcion`, `Ndocumento`, `TipoSuscripcion`) VALUES (NULL, :numdoc, 1)";
+          $params2 = $connection->prepare($query);
+          $params2->bindParam(':numdoc', $numdoc);
+          if ($params->execute() && $params2->execute()) {
+            $message = array(' Ok Registrado ', ' Realizado correctamente, usuario registrado, inicie sesión, para continuar...', 'success');
+          } else {
+            $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
+          }
         }
       }
-      }
     } else {
-
       $message = array(' Error', 'Perdon hubo un error al crear el usuario', 'error');
     }
   } else {
-
     $message = array(' Error', 'Correo no valido. intente de nuevo.', 'warning');
   }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -171,16 +162,12 @@ elseif (isset($_POST['user-name']) &&
   <!-- fontawesome -->
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <!-- SweetAlert2 -->
-      <?php
+  <!-- SweetAlert2 -->
+  <?php
   include('./templates/sweetalerts2.php');
   ?>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-
-
   <style>
     #terminos {
       background: none;
@@ -218,49 +205,42 @@ elseif (isset($_POST['user-name']) &&
     u {
       margin-left: 10px
     }
+    button {
+    background: none;
+    color: rgb(0, 0, 0);
+    border: 0;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .terminos {
+    max-width: 90%;
+    margin: auto;
+    color: black;
+    text-align: justify;
+    font-size: 18px;
+  }
+
+  b {
+    font-size: 30px;
+    color: black;
+    text-align: left;
+  }
+
+  button {
+    font-size: 16px;
+    margin-left: 5px;
+  }
+
+  u {
+    margin-left: 10px
+  }
   </style>
 </head>
-
-
-  <style>
-    button {
-  background: none;
-  color: rgb(0, 0, 0);
-  border: 0;
-  font-size: 18px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.terminos {
-        max-width: 90%;
-        margin: auto;
-        color: black;
-        text-align: justify;
-        font-size: 18px;
-      }
-
-      b {
-        font-size: 30px;
-        color: black;
-        text-align: left;
-      }
-      
-      button{
-        font-size: 16px;
-        margin-left: 5px;
-      }
-
-      u{
-        margin-left: 10px
-      }
-  </style>
-
 <body>
-
   <?php if (!empty($message)) :
   ?>
-
     <script>
       Swal.fire(
         '<?php echo $message[0]; ?>',
@@ -269,8 +249,6 @@ elseif (isset($_POST['user-name']) &&
     </script>
   <?php endif;
   ?>
-
-
   <!--PreLoader-->
   <div class="loader">
     <div class="inner"></div>
@@ -283,7 +261,6 @@ elseif (isset($_POST['user-name']) &&
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
-
         <form action="./iniciar.php" method="POST" class="sign-in-form">
           <!-- logo -->
           <a href="./index.php">
@@ -300,10 +277,10 @@ elseif (isset($_POST['user-name']) &&
           </div>
           <input type="submit" value="Ingresar" class="btn solid" />
           <a href="./recovery/index.php" class="learn-more">
-          <span class="circle" aria-hidden="true">
-          <span class="icon arrow"></span></span>
-          <span class="button-text">Recuperar contraseña</span>
-      </a>
+            <span class="circle" aria-hidden="true">
+              <span class="icon arrow"></span></span>
+            <span class="button-text">Recuperar contraseña</span>
+          </a>
         </form>
         <form action="./iniciar.php" class="sign-up-form" method="POST">
           <!-- logo -->
@@ -327,7 +304,6 @@ elseif (isset($_POST['user-name']) &&
             <i class="fas fa-lock"></i>
             <input type="password" placeholder="Password" name="user-password" required />
           </div>
-
           <input type="submit" class="btn" value="Registrar" />
           <div id="terminos">
             <input type="checkbox" name="terminos" required>
@@ -336,7 +312,6 @@ elseif (isset($_POST['user-name']) &&
         </form>
       </div>
     </div>
-
     <div class="panels-container">
       <div class="panel left-panel">
         <div class="content">
@@ -364,14 +339,11 @@ elseif (isset($_POST['user-name']) &&
       </div>
     </div>
   </div>
-
   <script src="assets/js/app.js"></script>
   <!-- jquery -->
   <script src="assets/js/jquery-1.11.3.min.js"></script>
   <!-- main js -->
   <script src="assets/js/main.js"></script>
   <script src="./assets/js/terminos.js"></script>
-
 </body>
-
 </html>

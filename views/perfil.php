@@ -1,34 +1,25 @@
 <!--Conexión base de datos-->
 <?php
 session_start(); # init the session user if exist
-
 require_once '../models/database/database.php';
 //require_once '../controller/userController.php';
 require_once '../models/user.php'; # import the fucntions of user
 
-#
 # firts validation, if the profile is shared by the owner user
-#
-
 if (/* !isset($_SESSION['user_id']) &&  */isset($_GET['compartir']) && filter_var($_GET['compartir'], FILTER_VALIDATE_INT ) ) {
 
     #verify if the url shared is asociate to an user 
-
     $query = $connection->prepare("SELECT * FROM usuario WHERE CompartirUrl = :compartir");
     $query->bindParam(':compartir', $_GET['compartir']);
     $query->execute();
     $userperfil = $query->fetch(PDO::FETCH_ASSOC);          # save the result into varible
     $suscripcion=getSuscription($userperfil['Ndocumento']); # get the suscription of user 
-    
     ## validate the permissions of share Profile 
-
     if($suscripcion['CompartirPerfil']=='NO'|| $userperfil['Compartido']!=1 || $userperfil <1){
         header('Location: ./index.php'); # if not return to the init page
         exit;
     }
-    
     # if is validate the permissions we declarate variables for the view
-    #
 
     $roluser = $userperfil;                             # all data from user
     $user=getUserData($userperfil['Ndocumento']);       # equal variable 
@@ -180,21 +171,16 @@ $compartido=false;      ## Set the varible status in mode false.
     header('Location: ./index.php'); #if the user aren't log in, return to index page
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <title>Perfil de usuario</title>
     <!--style perfil-->
-
     <?php include('./templates/header.php');
     include('./templates/sweetalerts2.php'); ?>
-
     <link rel="stylesheet" href="./assets/css/perfil.css">
-
     <style>
         label {
             color: #4b0081;
@@ -202,9 +188,7 @@ $compartido=false;      ## Set the varible status in mode false.
             font-weight: bolder;
         }
     </style>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
-
 <body>
     <!--PreLoader-->
     <div class="loader">
@@ -222,7 +206,6 @@ $compartido=false;      ## Set the varible status in mode false.
 
     <?php if (!empty($message)) {
     ?>
-
         <script>
             Swal.fire(
                 '<?php echo $message[0]; ?>',
@@ -391,7 +374,6 @@ $compartido=false;      ## Set the varible status in mode false.
                     <?php } ?>
                     <?php if($roluser['Verificado'] != 1 && ! $compartido){ ?>
                         <!-- if the user have not verified his email -->
-                    
                     <script>
                         var btnVerificarEmail = document.getElementById("btnVerificarEmail");
                         btnVerificarEmail.addEventListener("click", function() {
@@ -441,19 +423,14 @@ $compartido=false;      ## Set the varible status in mode false.
             <div class="modal" id="myModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-
                         <!-- Modal Header -->
                         <div class="modal-header">
                             <h4 class="modal-title">Actualizacion de datos.</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-
                         <!-- Modal body -->
                         <div class="modal-body">
-
-
                             <form action="" method="post" enctype="multipart/form-data">
-
                                 <?php
                                 foreach ($userForm as $key => $value) { ?>
                                     <div class="form-group">
@@ -499,9 +476,7 @@ $compartido=false;      ## Set the varible status in mode false.
                                                 padding: 15px;
                                                 border: 2px solid #4b0081;
                                                 border-radius: 5px;" id="<?= $key ?>" name="<?= $key ?>">
-
                                     </div>
-
                                     <div class="form-group">
                                         <?php if ($key === 'Genero') { ?>
                                             <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
@@ -573,7 +548,6 @@ $compartido=false;      ## Set the varible status in mode false.
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -638,10 +612,6 @@ $compartido=false;      ## Set the varible status in mode false.
         </div>
     </section>
     <?php if($compartido){ ?>
-        <br>
-        <br>
-        <br>
-        <br>
         <br>
     <section>
         <div class="container">
@@ -725,7 +695,6 @@ $compartido=false;      ## Set the varible status in mode false.
                                      Enviar </a>
                                         <h5 style="color:tomato">Por favor Actualiza tu Membresia 🎁</h5>
                                 <?php } ?>
-                            
                         </div>
                     </div>
                 </div>
@@ -800,16 +769,6 @@ $compartido=false;      ## Set the varible status in mode false.
         </div>
     </section>
     <?php } ?>
-    <!--soluión temporal ante problema de footer-->
-    <div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </div>
-    <!--Fin de la solución temporal ante prblema de footer-->
 
     <!--Footer-->
     <!-- copyright -->
@@ -944,5 +903,4 @@ $compartido=false;      ## Set the varible status in mode false.
 
     </script>
 </body>
-
 </html>

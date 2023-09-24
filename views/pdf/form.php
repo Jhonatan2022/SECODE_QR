@@ -1,15 +1,9 @@
 <?php
-
-
 session_start();
-
 require_once '../../models/database/database.php';
 require_once '../../models/user.php';
-
-
     if (isset($_GET['formulario'])) {
         $form = $_GET['formulario'];
-
         $data=$connection->prepare('SELECT * FROM codigo_qr WHERE nombre = :nombre');
         $data->execute([':nombre' => $form]);
         $dataQR = $data->fetch(PDO::FETCH_ASSOC);
@@ -19,9 +13,7 @@ require_once '../../models/user.php';
             http_response_code(404);
             header('Location: ../index.php?codigoQR=1');
         }
-
         $id = $dataQR['id_codigo'];
-
         if ($dataQR['FormularioMedicamentos'] != null && $dataQR['FormularioMedicamentos'] != '') {
             $query = 'SELECT qr.Titulo, qr.Duracion , us.Nombre, tpd.TipoDocumento, us.Ndocumento, us.FechaNacimiento, eps.NombreEps, us.Telefono , us.Correo, us.Genero ,us.Estrato, us.Localidad, form.ArchivoFormulaMedica
                 FROM usuario AS us LEFT OUTER JOIN eps 
@@ -34,10 +26,8 @@ require_once '../../models/user.php';
                 ON lc.IDLocalidad = us.Localidad
                 LEFT OUTER JOIN tipodocumento as tpd
                 ON tpd.IDTipoDoc = us.TipoDoc
-    
                 LEFT OUTER JOIN FormularioMedicamentos AS form
                 ON us.Ndocumento = form.Ndocumento
-                
                 LEFT OUTER JOIN codigo_qr as qr
                 ON form.IDFormularioMedicamentos = qr.FormularioMedicamentos
                 WHERE qr.nombre = :nombre AND qr.id_codigo = :idcode';
@@ -59,10 +49,8 @@ require_once '../../models/user.php';
         ON lc.IDLocalidad = us.Localidad
         LEFT OUTER JOIN tipodocumento as tpd
         ON tpd.IDTipoDoc = us.TipoDoc
-        
         LEFT OUTER JOIN datos_clinicos AS dta
         ON us.Ndocumento= dta.NDocumento
-        
         LEFT OUTER JOIN RH
         ON RH.IDRH = dta.RH
         LEFT OUTER JOIN TipoSangre as tps
@@ -71,7 +59,6 @@ require_once '../../models/user.php';
         ON alg.IDAlergiaMedicamento = dta.AlergiaMedicamento
         LEFT OUTER JOIN afiliacion as af
         ON af.IDAfiliacion = dta.TipoAfiliacion
-        
         LEFT OUTER JOIN codigo_qr as qr
         ON dta.IDDatosClinicos = qr.DatosClinicos
         WHERE qr.nombre = :nombre  AND id_codigo = :idcode  ;';
@@ -86,10 +73,8 @@ require_once '../../models/user.php';
         http_response_code(404);
         header('Location: ../../index.php');
     }
-
 ?>
 <?php
-#$data = getClinicData($_SESSION['user_id'], false, $qr['id_codigo']);
 $afiliacion = afiliacion();
 $rh = rh();
 $tipoSangre = tipoSangre();
@@ -104,12 +89,8 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
-<!--     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/img/logo.png'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/all.min.css'?>">
 	<link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/bootstrap/css/bootstrap.min.css'?>">
@@ -120,17 +101,9 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
     <link rel="stylesheet" href="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/css/formstyle.css'?>">
 <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <title>Formulario</title>
-
 </head>
-
-<body>
-
-<body >
-
   <!-- Formulario -->
   <div class="container_formd" style="margin: 2rem; border: 5px solid black; height:100%; max-height:98%">
-  <br>
-  <center>
 <img src="<?= $imgLogo2?>" alt="">
 <img src="<?= $imgLogo?>" alt="" width="100px" >
 <!-- style="position:absolute; right:9.5em; top:6.7em;" -->
@@ -153,18 +126,15 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                   <h5>1. Datos generales</h5>
                   <div class="item">
                     <p>EPS<span class="required">*</span></p>
-
                     <select class="form-control" name='<?= $key ?>'>
                       <?php if (true) { ?>
                         <?php foreach ($eps as $keyEps => $valueEPS) {  ?>
-
                           <?php if ($valueEPS['NombreEps'] == $value) { ?>
                             <option value="<?php echo $valueEPS['id'] ?>" selected><?php echo $valueEPS['NombreEps'] ?></option>
                           <?php } else {
                           ?>
                             <option value="<?php echo $valueEPS['id'] ?>"><?php echo $valueEPS['NombreEps'] ?></option>
                           <?php } ?>
-
                         <?php } ?>
                       <?php } else {  ?>
                         <option value="<?php echo $value ?>"><?php echo $value ?></option>
@@ -176,7 +146,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                 case 'Genero': ?>
                   <div class="question">
                     <p>Genero<span></span></p>
-
                     <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
                       <option value="1" <?php if ($value === '1') {
                                           echo 'selected';
@@ -185,21 +154,18 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                                           echo 'selected';
                                         } ?>>Femenino</option>
                     </select>
-
                   </div>
                   <?php break; ?>
                 <?php
                 case 'Estrato': ?>
                   <div class="item">
                     <p>Estrato<span></span></p>
-
                     <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
                       <?php foreach ($estrato as $keylocalidad => $valuelocalidad) { ?>
                         <option value="<?= $valuelocalidad['IDEstrato'] ?>" <?php if ($value === $valuelocalidad['IDEstrato']) {echo 'selected';} ?>>
                           <?= $valuelocalidad['Estrato'] ?></option>
                       <?php } ?>
                     </select>
-
                   </div>
                   <?php break; ?>
                   <?php
@@ -213,7 +179,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                               <?= $valuelocalidad['Localidad']?></option>
                       <?php }?>
                     </select>
-
                   </div>
                   <?php break; ?>
                 <?php
@@ -224,7 +189,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                   <div class="question">
                     <p>Tipo de afiliacion con la EPS <span class="required">*</span></p>
                     <div class="question-answer">
-
                       <?php foreach ($afiliacion as $keyAf => $valueAf) { ?>
                         <?php if ($valueAf['IDAfiliacion'] == $value) { ?>
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required checked />
@@ -233,12 +197,10 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required />
                           <label for="<?= $valueAf['IDAfiliacion'] ?>" class="radio"><span><?= $valueAf['Afiliacion'] ?></span></label>
                         <?php } ?>
-
                       <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'RH': ?>
                   <br>
@@ -246,8 +208,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                   <div class="question">
                     <p>RH<span class="required"></span></p>
                     <div class="question-answer">
-
-
                       <?php foreach ($rh as $keyrh => $valuerh) { ?>
                         <?php if ($valuerh['IDRH'] == $value) { ?>
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required checked />
@@ -256,20 +216,15 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuerh['IDRH'] . $keyrh ?>" class="radio"><span><?= $valuerh['RH'] ?></span></label>
                         <?php } ?>
-
                       <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Tipo_de_sangre': ?>
                   <div class="question">
                     <p>Tipo de sangre<span class="required"></span></p>
                     <div class="question-answer">
-
-
-
                       <?php foreach ($tipoSangre as $keytps => $valuetps) { ?>
                         <?php if ($valuetps['IDTipoSangre'] == $value) { ?>
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required checked />
@@ -278,31 +233,23 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuetps['TipoSangre'] . $keytps ?>" class="radio"><span><?= $valuetps['TipoSangre'] ?></span></label>
                         <?php } ?>
-
                       <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'arraycond': ?>
                   <div class="question">
                     <p>¿Cuenta con alguna de las siguientes condiciones?:<span class="required">*</span></p>
                     <br>
                     <div class="question-answer checkbox-item">
-
-
                       <?php foreach ($condicion as $keycond => $valuecond) { ?>
-
                         <?php if ($value == null || $value == '') { ?>
-
                           <div>
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" required />
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
-
                         <?php } //falta guardar datso en array y luego pasarlos a la base de datos
-
                         else {
                           $datarray = json_decode($value, true);
                           $arrayName = array();
@@ -322,19 +269,15 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                           </div>
                       <?php }
                       } ?>
-
                     </div>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'AlergiaMedicamento': ?>
-                  <br>
                   <div class="question">
                     <p>¿Es alergico algun medicamento? ¿O tiene alguna afectacion?<span class="required"></span></p>
                     <br>
                     <div class="question-answer">
-
                       <?php foreach ($alergia as $keyal => $valueal) { ?>
                         <?php if ($valueal['IDAlergiaMedicamento'] == $value) { ?>
                           <input type="radio" value="<?= $valueal['IDAlergiaMedicamento'] ?>" id="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" name="<?= $key ?>" required checked />
@@ -363,7 +306,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                     <div class="page_break" style="page-break-before: always;">
                     <img src="<?= 'http://' . $_SERVER['HTTP_HOST'] . '/secodeqr/models/img/' . $value ?>" alt="" style="position: absolute; left:3rem; top:4rem; width:auto; max-width: 700px; height:auto; max-height:70rem; object-fit:scale-down;"> 
                   </div>
-                    
                   <?php break; ?>
                 <?php
                 default: ?>
@@ -374,7 +316,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
                   </div>
               <?php break;
               } ?>
-
             <?php  } ?>
         </form>
       </div>
@@ -384,11 +325,6 @@ $imgLogo2 = "http://" . $_SERVER['HTTP_HOST'] . "/secodeqr/views/assets/img/imgb
     <p> <a href="https://<?= $_SERVER['HTTP_HOST'] ?>/secodeqr/" >Secode QR</a> <?= date('Y')?> ©️ All rights reserved</p>
     </div>
   </div>
-
-
-
-<!-- end formulario -->
-
     <!-- jquery -->
 	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/js/jquery-1.11.3.min.js'?>"></script>
 	<script src="<?= 'http://'. $_SERVER['HTTP_HOST']. '/secodeqr/views/assets/bootstrap/js/bootstrap.min.js'?>"></script>
@@ -413,43 +349,24 @@ var opt = {
   html2canvas:  { scale: 2 },
   jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
 };
-/* var worker = html2pdf().set(opt).from(element).save();
-html2pdf(element); */
     </script>
 </body>
-
 </html>
 <?php
  $html_doc = ob_get_clean();
-
 require_once '../../vendor/autoload.php';
-
 // reference the Dompdf namespace
-
 use Dompdf\Dompdf;
 // instantiate and use the dompdf class
-
 $dompdf = new Dompdf();
 $dompdf->loadHtml($html_doc);
-
 $options = $dompdf->getOptions();;
 $options->set(array('isRemoteEnabled' => true));
 $dompdf->setOptions($options);
-
 //$dompdf->setPaper('A4', 'landscape');
 $dompdf->setPaper('A4', 'portrait');
-
 // Render the HTML as PDF
 $doc = $dompdf->render();
-
-
 // Output the generated PDF to Browser
 $dompdf->stream('archivo.pdf', array('Attachment' => false));
- 
- 
-
-
-
-//$output = $dompdf->output();
-
 ?>

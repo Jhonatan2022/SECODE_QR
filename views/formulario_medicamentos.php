@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 //importamos DB
 require_once('../models/database/database.php');
 require_once '../models/user.php';
@@ -25,8 +24,6 @@ if (!isset($_SESSION['user_id'])) {
     'AlergiaMedicamento' => '',
   ];
 } else {
-
-
   $countQR = getQRCount($_SESSION['user_id']);
   $suscripcion = getSuscription($_SESSION['user_id']);
   if (intval($suscripcion['cantidad_qr']) <= $countQR) {
@@ -35,7 +32,6 @@ if (!isset($_SESSION['user_id'])) {
   if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'NO') {
     header('Location: dashboard.php?GenerateError=2');
   }
-
   if (isset($_GET['idFormEdit']) && $suscripcion['Editar'] == 'SI') {
     $id_code = $_GET['idFormEdit'];
     $newForm = false;
@@ -57,8 +53,6 @@ if (!isset($_SESSION['user_id'])) {
       $id_codealert = $_GET['Data'];
     }
   }
-
-
   $user = getUser($_SESSION['user_id']);
 
   if ($user['id'] == 10 && $newForm) {
@@ -67,9 +61,9 @@ if (!isset($_SESSION['user_id'])) {
     $eps = eps();
   }
   $suscripcion = getSuscription($user['Ndocumento']);
-  if($suscripcion['RellenarFormulario'] == 'SI'){
-  $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
-  }else{
+  if ($suscripcion['RellenarFormulario'] == 'SI') {
+    $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
+  } else {
     $ClinicData = [ //datos de registro de ejemplo
       'Titulo' => '',
       'Nombre' => '',
@@ -87,7 +81,6 @@ if (!isset($_SESSION['user_id'])) {
       'AlergiaMedicamento' => '',
     ];
   }
-
 }
 $afiliacion = afiliacion();
 $rh = rh();
@@ -97,12 +90,8 @@ $alergia = alergia();
 $estrato = estrato();
 $localidad = localidad();
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -112,7 +101,6 @@ $localidad = localidad();
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="assets/css/formstyle.css">
   <!-- fontawesome -->
   <link rel="stylesheet" href="assets/css/all.min.css">
@@ -126,16 +114,11 @@ $localidad = localidad();
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- responsive -->
   <link rel="stylesheet" href="assets/css/responsive.css">
-
   <?php include('./templates/sweetalerts2.php') ?>
 </head>
-
 <body>
-
-
   <?php if (!empty($message)) :
   ?>
-
     <script>
       Swal.fire(
         '<?php echo $message[0]; ?>',
@@ -152,7 +135,6 @@ $localidad = localidad();
     </script>
   <?php endif;
   ?>
-
   <!--PreLoader-->
   <div class="loader">
     <div class="inner"></div>
@@ -162,24 +144,20 @@ $localidad = localidad();
     <div class="inner"></div>
   </div>
   <!--PreLoader Ends-->
-
   <?php include('./templates/navBar.php') ?>
-
-
-    <!-- breadcrumb-section -->
-    <div class="breadcrumb-section breadcrumb-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 offset-lg-2 text-center">
-            <div class="breadcrumb-text">
-              <p>SECØDE_QR</p>
-              <h1>Solicitud de medicamentos</h1>
-            </div>
+  <!-- breadcrumb-section -->
+  <div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2 text-center">
+          <div class="breadcrumb-text">
+            <p>SECØDE_QR</p>
+            <h1>Solicitud de medicamentos</h1>
           </div>
         </div>
       </div>
     </div>
-    <!-- end breadcrumb section -->
+  </div>
   <!-- Formulario -->
   <div class="container_form">
     <div class="screen">
@@ -195,10 +173,9 @@ $localidad = localidad();
                 case 'Titulo': ?>
                   <div class="item">
                     <p>Titulo del formulario</p>
-                    <input type="text"  name="<?= $key ?>" value="<?php $value ?>" maxlength="30" />
+                    <input type="text" name="<?= $key ?>" value="<?php $value ?>" maxlength="30" />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Nombre': ?>
                   <div class="item">
@@ -215,7 +192,6 @@ $localidad = localidad();
                     <input type="date" disabled name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'NombreEps': ?>
                   <h5>1. Datos generales</h5>
@@ -240,7 +216,6 @@ $localidad = localidad();
                     </select>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Telefono': ?>
                   <div class="item">
@@ -248,7 +223,6 @@ $localidad = localidad();
                     <input type="tel" disabled name="<?= $key ?>" value="<?= $value ?>" required />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Correo': ?>
                   <div class="item">
@@ -256,7 +230,6 @@ $localidad = localidad();
                     <input type="email" disabled name="<?= $key ?>" value="<?= $value ?>" required />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Genero': ?>
                   <div class="question">
@@ -270,7 +243,6 @@ $localidad = localidad();
                                           echo 'selected';
                                         } ?>>Femenino</option>
                     </select>
-
                   </div>
                   <?php break; ?>
                 <?php
@@ -280,19 +252,20 @@ $localidad = localidad();
 
                     <select class="form-control" id="<?= $key ?>" disabled name="<?= $key ?>">
                       <?php foreach ($estrato as $keylocalidad => $valuelocalidad) { ?>
-                        <option value="<?= $valuelocalidad['IDEstrato'] ?>" <?php if ($value === $valuelocalidad['IDEstrato']) {echo 'selected';} ?>>
+                        <option value="<?= $valuelocalidad['IDEstrato'] ?>" <?php if ($value === $valuelocalidad['IDEstrato']) {
+                                                                              echo 'selected';
+                                                                            } ?>>
                           <?= $valuelocalidad['Estrato'] ?></option>
                       <?php } ?>
                     </select>
 
                   </div>
-                <?php break; ?>
+                  <?php break; ?>
                 <?php
                 default: ?>
-                
+
               <?php break;
               } ?>
-
             <?php  } ?>
             <br />
             <div class="question">
@@ -311,34 +284,19 @@ $localidad = localidad();
               <button type="submit" id="BtnSendFormClinic">
                 Generar codigo
               </button>
-
             <?php  } ?>
         </form>
       </div>
       <div class="screen__background">
-          <span
-            class="screen__background__shape screen__background__shape5"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape4"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape3"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape2"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape1"
-          ></span>
-        </div>
+        <span class="screen__background__shape screen__background__shape5"></span>
+        <span class="screen__background__shape screen__background__shape4"></span>
+        <span class="screen__background__shape screen__background__shape3"></span>
+        <span class="screen__background__shape screen__background__shape2"></span>
+        <span class="screen__background__shape screen__background__shape1"></span>
+      </div>
     </div>
   </div>
 <?php  } ?>
-
-
-
-<!-- end formulario -->
 <!-- footer -->
 <div class="footer-area">
   <div class="container">
@@ -359,11 +317,9 @@ $localidad = localidad();
   </div>
 </div>
 <!-- end footer -->
-
 <? include_once './templates/footer_copyrights.php'; ?>
 <?php if (!empty($message)) :
 ?>
-
   <script>
     Swal.fire(
       '<?php echo $message[0]; ?>',
@@ -372,7 +328,6 @@ $localidad = localidad();
   </script>
 <?php endif;
 ?>
-
 <!-- jquery -->
 <script src="assets/js/jquery-1.11.3.min.js"></script>
 <!-- bootstrap -->
@@ -387,13 +342,8 @@ $localidad = localidad();
 <script src="assets/js/sticker.js"></script>
 <!-- main js -->
 <script src="assets/js/main.js"></script>
-
-<!-- <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
-
   <script src='https://assets.codepen.io/16327/SplitText3.min.js'></script> -->
-  <script src="assets/js/formscript.js"></script>
-
-    </script>
+<script src="assets/js/formscript.js"></script>
+</script>
 </body>
-
 </html>

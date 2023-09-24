@@ -1,12 +1,10 @@
 <?php
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
 if(isset($_SESSION['user_id'])){
 	$user = getUser($_SESSION['user_id'] );
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +12,6 @@ if(isset($_SESSION['user_id'])){
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<!-- title -->
 	<title>Quienes Somos</title>
 	<!-- favicon -->
@@ -34,10 +31,8 @@ if(isset($_SESSION['user_id'])){
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
-
 </head>
 <body>
-	
 	<!--PreLoader-->
     <div class="loader">
 		<div class="inner"></div>
@@ -47,9 +42,7 @@ if(isset($_SESSION['user_id'])){
 		<div class="inner"></div>
 	</div>
     <!--PreLoader Ends-->
-	
 	<?php include_once('./templates/navBar.php');?>
-
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -64,7 +57,6 @@ if(isset($_SESSION['user_id'])){
 		</div>
 	</div>
 	<!-- end breadcrumb section -->
-
 	<!-- featured section -->
 	<div class="feature-bg">
 		<div class="container">
@@ -126,7 +118,6 @@ if(isset($_SESSION['user_id'])){
 	</div>
 	<!-- end featured section -->
 	<?php include_once('./templates/footer.php');?>
-	
 	<?php include_once('./templates/footer_copyrights.php');?>
 </body>
 </html>

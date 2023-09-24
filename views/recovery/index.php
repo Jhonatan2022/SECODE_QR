@@ -1,15 +1,11 @@
 <?php
-
 if (isset($_SESSION['user_id'])) {
     header('Location: ../');
 };
-
 require_once('../../main.php');
 require_once(BaseDir . '/vendor/autoload.php');
 require_once('../../models/config.php');
-
 require_once('../../models/database/database.php');
-
 if (isset($_POST['CorreoUser'])) {
     if (
         !empty($_POST['CorreoUser']) &&
@@ -31,12 +27,8 @@ if (isset($_POST['CorreoUser'])) {
                 //Datos de envio smtp despliegue app.
                 $host = $_SERVER['HTTP_HOST'];
                 $var_correo = $_POST['CorreoUser'];
-
-
                 // Everything seems OK, time to send the email.
-
                 $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-
                 try {
                     //Server settings
                     $mail->SMTPDebug = CONTACTFORM_PHPMAILER_DEBUG_LEVEL;
@@ -63,7 +55,6 @@ if (isset($_POST['CorreoUser'])) {
                     $cuerpo = str_replace("href='link'", "href='http://$host/secodeqr/views/recovery/recupera.php?tokenUserMail=$tokenReset' ", $shtml);
                     $mail->Body = $cuerpo; //cuerpo del mensaje
                     $mail->AltBody = '---'; //Mensaje de sólo texto si el receptor no acepta HTML
-
                     $mail->send();
                     $message = array(' Enviado ', 'Revise su correo, si no aparacere revise en spam.', 'success');
                 } catch (Exception $e) {
@@ -78,11 +69,8 @@ if (isset($_POST['CorreoUser'])) {
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -95,11 +83,8 @@ if (isset($_POST['CorreoUser'])) {
     <link rel="stylesheet" href="../assets/css/all.min.css">
     <!-- bootstrap -->
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-
-
     <?php include('../templates/sweetalerts2.php'); ?>
 </head>
-
 <body>
     <style>
         body {
@@ -108,13 +93,9 @@ if (isset($_POST['CorreoUser'])) {
             background-attachment: fixed;
         }
     </style>
-    <center>
-
         <script>
             function cancelarform() {
-                //document.getElementById("formrecupera").style.display = "none";
-                window.location.href="../index.php" ;
-                
+                window.location.href = "../index.php";
             }
         </script>
         <div class="caja_popup" id="formrecupera">
@@ -140,7 +121,6 @@ if (isset($_POST['CorreoUser'])) {
         </div>
         <?php if (!empty($message)) :
         ?>
-
             <script>
                 Swal.fire(
                     '<?php echo $message[0]; ?>',
@@ -168,30 +148,24 @@ if (isset($_POST['CorreoUser'])) {
                 padding-top: 1rem;
             }
 
-            #form{
-                width: 50vw ;
-                border-radius: 16px ;
+            #form {
+                width: 50vw;
+                border-radius: 16px;
                 border: 4px solid;
-                border-color:#6610f2;
-                padding:2em;
-                background:#fff;
-                margin-top:8rem;
+                border-color: #6610f2;
+                padding: 2em;
+                background: #fff;
+                margin-top: 8rem;
             }
-
-            /*responsive */
-
             @media screen and (max-width: 600px) {
                 body #formrecupera {
                     width: 100 vw;
                 }
-                #form{
-                    width: 100vw ;
+
+                #form {
+                    width: 100vw;
                 }
             }
         </style>
-
-
 </body>
-</center>
-
 </html>

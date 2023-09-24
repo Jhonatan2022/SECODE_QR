@@ -1,50 +1,50 @@
-.container{
-    border: 1px solid black;
-    width: 100%;
-    height: 100vh;
-    max-height: 35rem;
+.container {
+  border: 1px solid black;
+  width: 100%;
+  height: 100vh;
+  max-height: 35rem;
 }
-.container > div, .container {
-    /* margin: 10px; */
-}
-.header{
-    border: 1px solid black;
-    display: block;
-    width: 100%;
-    height: 100px;
-    background-color: #f2f2f2;
+.container > div,
+.container {
+  /* margin: 10px; */
 }
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1rem;    
+  border: 1px solid black;
+  display: block;
+  width: 100%;
+  height: 100px;
+  background-color: #f2f2f2;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
 }
 .header > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header > img{
-    width: 100px;
-    height: 100px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    
+.header > img {
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
-.body{
-    border: 1px solid black;
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: #f2f2f2;
+.body {
+  border: 1px solid black;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #f2f2f2;
 }
-.footer{
-    border: 1px solid black;
-    display: block;
-    width: 100%;
-    height: 100px;
-    background-color: #f2f2f2;
+.footer {
+  border: 1px solid black;
+  display: block;
+  width: 100%;
+  height: 100px;
+  background-color: #f2f2f2;
 }

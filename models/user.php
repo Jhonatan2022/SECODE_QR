@@ -1,9 +1,4 @@
 <?php
-
-
-
-//require_once '../models/database/database.php';
-
 function getUser($id   ) {
     global $connection;
     $query = $connection->prepare('SELECT * FROM usuario WHERE Ndocumento = :id');
@@ -15,41 +10,8 @@ function getUser($id   ) {
     } else {
       $user['Img_perfil'] = 'data:' . $user['TipoImg'] . ";base64," . base64_encode($user['Img_perfil']);
     }
-    
-    return $user;
-    
+    return $user;   
 }
-
-/* function AddUserAdmin(){
-  global $connection;
-  $query= 'SELECT Correo FROM usuario WHERE rol = 2';
-  $params = $connection->prepare($query);
-  $params->execute();
-  $usuario = $params->fetchAll(PDO::FETCH_ASSOC);
-
-  $query= 'SELECT * FROM Administrador';
-  $params = $connection->prepare($query);
-  $params->execute();
-  $administrador = $params->fetchAll(PDO::FETCH_ASSOC);
-  $actaulizado = [];
-  foreach ($usuario as $key => $value) {
-    $valor = $value['Correo'];
-    foreach ($administrador as $key2 => $value2) {
-      $valor2 = $value2['Correo'];
-      if($valor == $valor2 && ! in_array($valor, $actaulizado)){
-        break;
-      }else{
-        $query = $connection->prepare('INSERT INTO Administrador (Correo,TipoRol) VALUES (:correo,2)');
-        $query->bindParam(':correo', $valor);
-        $query->execute();
-        array_push($actaulizado, $valor);
-      }
-    }
-    
-  }
-
-} */
-
 function getSuscription($id){
   global $connection;
   $query = $connection->prepare('SELECT * FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id');
@@ -58,9 +20,7 @@ function getSuscription($id){
   $datos = $query->fetch(PDO::FETCH_ASSOC);
   return $datos;
 }
-
 function getQR($id){
-
   global $connection;
   $query = $connection->prepare('SELECT * FROM codigo_qr WHERE Ndocumento = :id');
   $query->bindParam(':id', $id);
@@ -76,7 +36,6 @@ function getQRCount($id){
   $datos = $query->fetchColumn();
   return $datos;
 }
-
 function getFormula($id){
   global $connection;
   $query = $connection->prepare('SELECT * FROM FormularioMedicamentos WHERE Ndocumento = :id');
@@ -85,7 +44,6 @@ function getFormula($id){
   $datos = $query->fetchAll(PDO::FETCH_ASSOC);
   return $datos;
 }
-
 function getClinica($id){
   global $connection;
   $query = $connection->prepare('SELECT * FROM datos_clinicos WHERE Ndocumento = :id');
@@ -121,22 +79,17 @@ function getClinicData($id,$isnew, $codigo) {
     $query->bindParam(':id', $id);
     $query->execute();
     $data = $query->fetch(PDO::FETCH_ASSOC);
-
   }
   return $data;
 }
-
 function userform($id) {
-  //$data =implode(', ', $data1);
   global $connection;
   $query = $connection->prepare('SELECT Nombre, Apellidos,Direccion,Genero,Correo, Localidad, Estrato, TipoDoc, FechaNacimiento,Telefono,Img_perfil FROM usuario WHERE Ndocumento = :id');
   $query->bindParam(':id', $id);
   $query->execute();
   $user = $query->fetch(PDO::FETCH_ASSOC);
-  
   return $user;
 }
-
 function getRol($id) {
     global $connection;
     $query = $connection->prepare('SELECT * FROM rol WHERE Id_rol = :id');
@@ -145,16 +98,12 @@ function getRol($id) {
     $rol = $query->fetch(PDO::FETCH_ASSOC);
     return $rol;
 }
-
 function updateUserData($id, array $data) {
     global $connection;
     $query = $connection->prepare('UPDATE usuario SET ' . implode(', ', $data) . ' WHERE Ndocumento = :id');
     $query->bindParam(':id', $id);
     $query->execute();
 }
-
-//functioons to return info data user
-
 function getUserData($id){ //complete info user data without table condicion clinica
   global $connection;
   $query = $connection->prepare('SELECT 
@@ -170,12 +119,10 @@ function getUserData($id){ //complete info user data without table condicion cli
   ON us.rol = rl.id
   LEFT OUTER JOIN localidad AS lc
   ON us.Localidad = lc.IDLocalidad
-  
   LEFT OUTER JOIN Suscripcion as sus
   ON sus.Ndocumento = us.Ndocumento
   LEFT OUTER JOIN TipoSuscripcion AS tipsus
   ON sus.TipoSuscripcion = tipsus.IDTipoSuscripcion
-  
   LEFT OUTER JOIN eps 
   ON us.id = eps.id
   LEFT OUTER JOIN estrato AS estr 
@@ -209,7 +156,6 @@ function verifyDateExpiration($id){
     $query->execute();
 	}
 }
-
 //function for the data tables
 function getTipoSuscripcion(){
   global $connection;
@@ -232,7 +178,6 @@ function estrato() {
   $eps = $query->fetchAll(PDO::FETCH_ASSOC);
   return $eps;
 }
-
 function afiliacion() {
   global $connection;
   $query = $connection->prepare('SELECT * FROM afiliacion');
@@ -303,4 +248,3 @@ function alergia() {
   $eps = $query->fetchAll(PDO::FETCH_ASSOC);
   return $eps;
 }
-?>

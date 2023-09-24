@@ -1,10 +1,8 @@
 <?php
 session_start();
-
 //importamos DB
 require_once('../models/database/database.php');
 require_once '../models/user.php';
-
 // si el usuario no ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
   $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
@@ -25,34 +23,6 @@ if (!isset($_SESSION['user_id'])) {
     'AlergiaMedicamento' => '',
   ];
 } else {
-
-
-
-  //funtionalities advanced pro
-  /*
-  if (!$newForm) {
-    $param = $connection->prepare('SELECT us.Nombre, us.Direccion, us.FechaNacimiento, us.Genero, dta.RH,dta.TipoAfiliacion, dta.TipoSubsidio, dta.Tipo_de_sangre, dta.AlergiaMedicamento 
-    FROM usuario AS us 
-    LEFT OUTER JOIN datos_clinicos AS dta 
-    ON dta.NDocumento = :id_user
-    LEFT OUTER JOIN codigo_qr as qr
-    ON qr.DatosClinicos = dta.IDDatosClinicos; ');
-    //$param->bindParam(':id_code', $id_code1);
-    $param->bindParam(':id_user', $_SESSION['user_id']);
-
-    if ($param->execute()) {
-      $results = $param->fetch(PDO::FETCH_ASSOC);
-
-      //echo 'ok' . $results['Nombre'];
-    } else {
-      $message = array(' Advertencia', 'Antes de ingresar datos debe iniciar sesión', 'warning');
-    }
-
-    //Seting data strings
-
-    $nombreUser = $results['Nombre'];
-  }
-  */
   $countQR = getQRCount($_SESSION['user_id']);
   $suscripcion = getSuscription($_SESSION['user_id']);
   if (intval($suscripcion['cantidad_qr']) <= $countQR) {
@@ -83,8 +53,6 @@ if (!isset($_SESSION['user_id'])) {
       $id_codealert = $_GET['Data'];
     }
   }
-
-
   $user = getUser($_SESSION['user_id']);
 
   if ($user['id'] == 10 && $newForm) {
@@ -93,9 +61,9 @@ if (!isset($_SESSION['user_id'])) {
     $eps = eps();
   }
   $suscripcion = getSuscription($user['Ndocumento']);
-  if($suscripcion['RellenarFormulario'] == 'SI'){
-  $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
-  }else{
+  if ($suscripcion['RellenarFormulario'] == 'SI') {
+    $ClinicData = getClinicData($_SESSION['user_id'], $newForm, $id_code);
+  } else {
     $ClinicData = [ //datos de registro de ejemplo
       'Titulo' => '',
       'Nombre' => '',
@@ -113,7 +81,6 @@ if (!isset($_SESSION['user_id'])) {
       'AlergiaMedicamento' => '',
     ];
   }
-
 }
 $afiliacion = afiliacion();
 $rh = rh();
@@ -123,12 +90,8 @@ $alergia = alergia();
 $estrato = estrato();
 $localidad = localidad();
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -138,7 +101,6 @@ $localidad = localidad();
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="assets/css/formstyle.css">
   <!-- fontawesome -->
   <link rel="stylesheet" href="assets/css/all.min.css">
@@ -152,16 +114,11 @@ $localidad = localidad();
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- responsive -->
   <link rel="stylesheet" href="assets/css/responsive.css">
-
   <?php include('./templates/sweetalerts2.php') ?>
 </head>
-
 <body>
-
-
   <?php if (!empty($message)) :
   ?>
-
     <script>
       Swal.fire(
         '<?php echo $message[0]; ?>',
@@ -178,7 +135,6 @@ $localidad = localidad();
     </script>
   <?php endif;
   ?>
-
   <!--PreLoader-->
   <div class="loader">
     <div class="inner"></div>
@@ -188,10 +144,7 @@ $localidad = localidad();
     <div class="inner"></div>
   </div>
   <!--PreLoader Ends-->
-
   <?php include('./templates/navBar.php') ?>
-
-
   <!-- breadcrumb-section -->
   <div class="breadcrumb-section breadcrumb-bg">
     <div class="container">
@@ -214,7 +167,6 @@ $localidad = localidad();
                                                                                   echo '&idclinico=' . $_GET['idFormEdit'];
                                                                                 } ?>" method="POST" novalidate>
           <?php if (empty($ClinicData)) {
-
             $message = array('Advertencia', 'solo Puede llenar el formulario una vez, o no tiene permisos de edicion', 'warning');
             echo '</form>';
           } else { ?>
@@ -227,7 +179,6 @@ $localidad = localidad();
                     <input type="text" name="<?= $key ?>" value="<?php $value ?>" />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Nombre': ?>
                   <div class="item">
@@ -235,7 +186,6 @@ $localidad = localidad();
                     <input type="text" name="<?= $key ?>" required value="<?= $value ?>" />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'FechaNacimiento':
                   $val = date('Y-m-d', strtotime($value)); ?>
@@ -244,17 +194,14 @@ $localidad = localidad();
                     <input type="date" name="<?= $key ?>" value="<?= $val ?>" required style="color: black;" />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'NombreEps': ?>
                   <h5>1. Datos generales</h5>
                   <div class="item">
                     <p>EPS<span class="required">*</span></p>
-
                     <select class="form-control" name='<?= $key ?>'>
                       <?php if (isset($newEps) && $newEps) { ?>
                         <?php foreach ($eps as $keyEps => $valueEPS) {  ?>
-
                           <?php if ($valueEPS['id'] == $user['id']) { ?>
                             <option value="<?php echo $valueEPS['id'] ?>" selected><?php echo $valueEPS['NombreEps'] ?></option>
                           <?php } else {
@@ -269,7 +216,6 @@ $localidad = localidad();
                     </select>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Telefono': ?>
                   <div class="item">
@@ -277,7 +223,6 @@ $localidad = localidad();
                     <input type="tel" name="<?= $key ?>" value="<?= $value ?>" required />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Correo': ?>
                   <div class="item">
@@ -285,12 +230,10 @@ $localidad = localidad();
                     <input type="email" name="<?= $key ?>" value="<?= $value ?>" required />
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Genero': ?>
                   <div class="question">
                     <p>Genero<span></span></p>
-
                     <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
                       <option value="1" <?php if ($value === '1') {
                                           echo 'selected';
@@ -299,35 +242,34 @@ $localidad = localidad();
                                           echo 'selected';
                                         } ?>>Femenino</option>
                     </select>
-
                   </div>
                   <?php break; ?>
                 <?php
                 case 'Estrato': ?>
                   <div class="item">
                     <p>Estrato<span></span></p>
-
                     <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
                       <?php foreach ($estrato as $keylocalidad => $valuelocalidad) { ?>
-                        <option value="<?= $valuelocalidad['IDEstrato'] ?>" <?php if ($value === $valuelocalidad['IDEstrato']) {echo 'selected';} ?>>
+                        <option value="<?= $valuelocalidad['IDEstrato'] ?>" <?php if ($value === $valuelocalidad['IDEstrato']) {
+                                                                              echo 'selected';
+                                                                            } ?>>
                           <?= $valuelocalidad['Estrato'] ?></option>
                       <?php } ?>
                     </select>
-
                   </div>
                   <?php break; ?>
-                  <?php
+                <?php
                 case 'Localidad': ?>
                   <div class="item">
                     <p>Localidad<span></span></p>
                     <select class="form-control" id="<?= $key ?>" name="<?= $key ?>">
-                      <?php foreach($localidad as $keylocalidad=> $valuelocalidad){?>
-                              <option value="<?= $valuelocalidad['IDLocalidad']?>" 
-                              <?php if ($value === $valuelocalidad['IDLocalidad']) {echo 'selected'; } ?>>
-                              <?= $valuelocalidad['Localidad']?></option>
-                      <?php }?>
+                      <?php foreach ($localidad as $keylocalidad => $valuelocalidad) { ?>
+                        <option value="<?= $valuelocalidad['IDLocalidad'] ?>" <?php if ($value === $valuelocalidad['IDLocalidad']) {
+                                                                                echo 'selected';
+                                                                              } ?>>
+                          <?= $valuelocalidad['Localidad'] ?></option>
+                      <?php } ?>
                     </select>
-
                   </div>
                   <?php break; ?>
                 <?php
@@ -338,7 +280,6 @@ $localidad = localidad();
                   <div class="question">
                     <p>Tipo de afiliacion con la EPS <span class="required">*</span></p>
                     <div class="question-answer">
-
                       <?php foreach ($afiliacion as $keyAf => $valueAf) { ?>
                         <?php if ($valueAf['IDAfiliacion'] == $value) { ?>
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required checked />
@@ -347,12 +288,10 @@ $localidad = localidad();
                           <input type="radio" value="<?= $valueAf['IDAfiliacion'] ?>" id="<?= $valueAf['IDAfiliacion'] ?>" name="<?= $key ?>" required />
                           <label for="<?= $valueAf['IDAfiliacion'] ?>" class="radio"><span><?= $valueAf['Afiliacion'] ?></span></label>
                         <?php } ?>
-
                       <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'RH': ?>
                   <br>
@@ -360,8 +299,6 @@ $localidad = localidad();
                   <div class="question">
                     <p>RH<span class="required"></span></p>
                     <div class="question-answer">
-
-
                       <?php foreach ($rh as $keyrh => $valuerh) { ?>
                         <?php if ($valuerh['IDRH'] == $value) { ?>
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required checked />
@@ -370,21 +307,16 @@ $localidad = localidad();
                           <input type="radio" value="<?= $valuerh['IDRH'] ?>" id="<?= $valuerh['IDRH'] . $keyrh ?>" name="<?= $key ?>" required />
                           <label for="<?= $valuerh['IDRH'] . $keyrh ?>" class="radio"><span><?= $valuerh['RH'] ?></span></label>
                         <?php } ?>
-
                       <?php } ?>
                     </div>
                   </div>
                   <?php break; ?>
-
                 <?php
                 case 'Tipo_de_sangre': ?>
                   <br>
                   <div class="question">
                     <p>Tipo de sangre<span class="required"></span></p>
                     <div class="question-answer">
-
-
-
                       <?php foreach ($tipoSangre as $keytps => $valuetps) { ?>
                         <?php if ($valuetps['IDTipoSangre'] == $value) { ?>
                           <input type="radio" value="<?= $valuetps['IDTipoSangre'] ?>" id="<?= $valuetps['TipoSangre'] . $keytps ?>" name="<?= $key ?>" required checked />
@@ -399,24 +331,18 @@ $localidad = localidad();
                   </div>
                   <br>
                   <?php break; ?>
-
                 <?php
                 case 'arraycond': ?>
                   <br>
                   <div class="question">
                     <p>¿Cuenta con alguna de las siguientes condiciones?:<span class="required">*</span></p>
                     <div class="question-answer checkbox-item">
-
-
                       <?php foreach ($condicion as $keycond => $valuecond) { ?>
-
                         <?php if ($value == null || $value == '') { ?>
-
                           <div>
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" required />
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
-
                         <?php } //falta guardar datso en array y luego pasarlos a la base de datos
 
                         else {
@@ -431,32 +357,13 @@ $localidad = localidad();
                           } else {
                             $checked = '';
                           }
-
-
-                          //print_r($arrayName);
-
-                          //$value2 = json_decode($value, true);
-
-                          //foreach ($datarray as $keydat => $valuedat) {
-                          /* for ($position = 1; $position < count($value2)+1; $position++) {
-                            $valor = $value2[$position];
-
-            
-                          } */
                         ?>
                           <div>
                             <input type="checkbox" value="<?= $valuecond['IDCondicionClinica'] ?>" id="<?= $valuecond['CondicionClinica'] . $keycond ?>" name="<?= $key ?>" <?= $checked ?> required />
                             <label for="<?= $valuecond['CondicionClinica'] . $keycond ?>" class="check"><span><?= $valuecond['CondicionClinica'] ?></span></label>
                           </div>
-
-
                       <?php }
                       } ?>
-
-
-
-
-
                       <div class="item">
                         <p>Otro<span class="required"></span></p>
                         <input type="text" name="<?php $key ?>" required placeholder="Especificar condición" />
@@ -465,14 +372,12 @@ $localidad = localidad();
                   </div>
                   <br>
                   <?php break; ?>
-
                 <?php
                 case 'AlergiaMedicamento': ?>
                   <br>
                   <div class="question">
                     <p>¿Es alergico algun medicamento? ¿O tiene alguna afectacion?<span class="required"></span></p>
                     <div class="question-answer">
-
                       <?php foreach ($alergia as $keyal => $valueal) { ?>
                         <?php if ($valueal['IDAlergiaMedicamento'] == $value) { ?>
                           <input type="radio" value="<?= $valueal['IDAlergiaMedicamento'] ?>" id="<?= $valueal['AlergiaMedicamento'] . $keyal ?>" name="<?= $key ?>" required checked />
@@ -486,13 +391,11 @@ $localidad = localidad();
                   </div>
                   <br>
                   <?php break; ?>
-
                 <?php
                 default: ?>
                   # code...
               <?php break;
               } ?>
-
             <?php  } ?>
             <?php if (!isset($_SESSION['user_id'])) { ?>
               <a href="./iniciar.php"><button type="button">INICIA SESION </button></a>
@@ -500,7 +403,6 @@ $localidad = localidad();
               <button type="submit" id="BtnSendFormClinic">
                 Generar codigo
               </button>
-
             <?php  } ?>
         </form>
       </div>
@@ -512,10 +414,6 @@ $localidad = localidad();
     </div>
   </div>
 <?php  } ?>
-
-
-
-<!-- end formulario -->
 <!-- footer -->
 <div class="footer-area">
   <div class="container">
@@ -536,11 +434,9 @@ $localidad = localidad();
   </div>
 </div>
 <!-- end footer -->
-
 <? include_once './templates/footer_copyrights.php'; ?>
 <?php if (!empty($message)) :
 ?>
-
   <script>
     Swal.fire(
       '<?php echo $message[0]; ?>',
@@ -549,7 +445,6 @@ $localidad = localidad();
   </script>
 <?php endif;
 ?>
-
 <!-- jquery -->
 <script src="assets/js/jquery-1.11.3.min.js"></script>
 <!-- bootstrap -->
@@ -564,13 +459,7 @@ $localidad = localidad();
 <script src="assets/js/sticker.js"></script>
 <!-- main js -->
 <script src="assets/js/main.js"></script>
-
-<!-- <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
-
   <script src='https://assets.codepen.io/16327/SplitText3.min.js'></script> -->
-  <script src="assets/js/formscript.js"></script>
-
-    </script>
+<scrip src="assets/js/formscript.js"></script>
 </body>
-
 </html>

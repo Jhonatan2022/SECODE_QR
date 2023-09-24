@@ -1,5 +1,4 @@
 <?php
-
 class ClaseEjemplo
 {
     public function loginUsuario($usuario, $password)
@@ -11,5 +10,3 @@ class ClaseEjemplo
         }
     }
 }
-
-?>

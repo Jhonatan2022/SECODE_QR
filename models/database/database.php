@@ -7,12 +7,10 @@ $password = 'kEl42Sx/PoX$2!)a';
 $database = 'id16455213_secode_qr';
 */
 //servidor local
-
 $server = 'localhost';
 $username = 'root';
 $password = '';
 $database = 'finalsecode';
-
 try {
     $connection= new PDO("mysql:host=$server;dbname=$database", $username, $password);
     // set the PDO error mode to exception

@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
@@ -14,23 +13,18 @@ if (isset($_SESSION["user_id"])) {
 		exit();     
 	}
 	verifyDateExpiration($user['Ndocumento']);
-
 	if ($user['id'] == 10) {
 		$newEps = true;
 		$eps = Eps();
 	}
 }
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<!-- title -->
 	<title>SECØDE_QR</title>
 	<!-- favicon -->
@@ -50,16 +44,11 @@ if (isset($_SESSION["user_id"])) {
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
-
 	<?php
 	include('./templates/sweetalerts2.php'); ?>
-	
-
-
 	<link rel="stylesheet" href="oo.css">
 </head>
 <body>
-	
 	<!--PreLoader-->
     <div class="loader">
 		<div class="inner"></div>
@@ -69,9 +58,7 @@ if (isset($_SESSION["user_id"])) {
 		<div class="inner"></div>
 	</div>
     <!--PreLoader Ends-->
-
 	<?php include_once('./templates/navBar.php') ?>
-
 	<!-- hero area -->
 	<div class="hero-area hero-bg">
 		<div class="container">
@@ -81,8 +68,6 @@ if (isset($_SESSION["user_id"])) {
 						<div class="hero-text-tablecell">
 							<p class="subtitle">SECØDE_QR</p>
 							<h1>
-
-
 						<?php if(isset($_SESSION['user_id'])): ?>
 							Ingresa para ver los Codigos QR
 							<?php else: ?>
@@ -96,8 +81,6 @@ if (isset($_SESSION["user_id"])) {
 							<?php else: ?>
 								<a href="iniciar.php" class="boxed-btn">Registrarse o iniciar sesión</a>
 								<?php endif ?>
-
-								
 							</div>
 						</div>
 					</div>
@@ -187,23 +170,15 @@ if (isset($_SESSION["user_id"])) {
 		</div>
 	</div>
 	<!-- end product section -->
-
-
 	<?php if (isset($newEps) && $newEps) { ?>
-
-
 <script>
 	function setEps() {
-
 		Swal.fire({
 			title: '<strong><u>Cual es tu eps?</u></strong>',
 			icon: 'info',
 			html:
-
 			`
-
 <form action="../controller/formOptions.php" method="POST" >
-
 	<div class="form-group">
 				<select class="form-control" >
 					<option value="1">EPS</option>
@@ -225,11 +200,9 @@ if (isset($_SESSION["user_id"])) {
 					<?php } ?>
 				<?php } ?>
 				</select>
-		
 	</div>
 	<button type="submit" name="update" class="btn btn-primary">Submit</button>
 </form>
-
 `,
 			showCloseButton: true,
 			showCancelButton: true,
@@ -243,9 +216,6 @@ if (isset($_SESSION["user_id"])) {
 
 
 <a class="cart-btn OptionsCodeQr cont-button cont-buttonform" data-toggle="modal" onclick="setEps();">Cual es tu eps?</a>
-
-
-<?php } ?>
 <script>
 	        <?php if(isset($_GET['verificado'])){ ?>
             <?php if($_GET['verificado']==1){?>
@@ -271,14 +241,10 @@ if (isset($_SESSION["user_id"])) {
 		<?php } ?>
 </script>
 	<!-- footer -->
-	<?php
-     include('./templates/footer.php');
-    ?>
+	<?php include('./templates/footer.php'); ?>
 	<!-- end footer -->
 	<!-- copyright -->
-	<?php
-     include('./templates/footer_copyrights.php');
-    ?>
+	<?php include('./templates/footer_copyrights.php'); ?>
 	<!-- end copyright -->
 	
 	<!-- jquery -->

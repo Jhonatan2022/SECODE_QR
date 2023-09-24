@@ -10,7 +10,6 @@ class persona {
     private $Id_Eps;
     private $Img_perfil;
     private $TipoImg;
-
     public function obtenerPersona($Ndocumento){
         $db = new Database();
         $select = $db ->prepare("SELECT * FROM usuario WHERE Ndocumento = :id");
@@ -28,13 +27,10 @@ class persona {
         $myPersona -> setId_eps($persona["id"]);
         return $myPersona;
     }
-
-
     public function mostrar(){
         $db=Db::conectar();
         $listaPersona = [];
         $select = $db->query("SELECT * FROM usuario");
-
         foreach($select -> fetchAll() as $persona){
             $myPersona = new Persona();
             $myPersona -> setNdocumento($persona["Ndocumento"]);
@@ -63,33 +59,4 @@ class persona {
         $actualizar -> bindValue("Direccion",$persona -> getDireccion());
         $actualizar -> execute();
     }
-
-
-    /*
-    public function insertar($persona){
-        $db =Db::conectar();
-        $insert= $db->prepare("INSERT INTO usuario (Nombre,Correo,Contrasena,Ndocumento,img_perfil,tipo,info) VALUES ( :nombre, :email,'',:telefono,'',:tipo, :informacion)");
-        $insert -> bindValue("Nombre",$persona->getNombre());
-        $insert -> bindValue("Correo",$persona->getCorreo());
-        $insert -> bindValue("telefono",$persona->getTelefon());
-        $insert -> bindValue("informacion",$persona->getInformacion());
-        $insert -> bindValue("tipo",$persona->getTipo());
-        $insert -> execute();
-    }
-*/
-
-/*
-    public function eliminar($id){
-        $db = Db::conectar();
-        $eliminar = $db ->prepare(" DELETE FROM suscripcion WHERE id = :id");
-        $eliminar -> bindValue("id",$id);
-        $eliminar -> execute();
-        $eliminar1 = $db ->prepare(" DELETE FROM users WHERE id = :id");
-        $eliminar1 -> bindValue("id",$id);
-        $eliminar1 -> execute();
-    }
-*/
-
 }
-
-?>

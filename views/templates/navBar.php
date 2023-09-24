@@ -1,13 +1,13 @@
 <?php
-if(isset($_SESSION['user_id'])){
-	$param=$connection->prepare("SELECT sus.TipoSuscripcion, tp.cantidad_qr,tp.Editar, tp.citas FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id");
+if (isset($_SESSION['user_id'])) {
+	$param = $connection->prepare("SELECT sus.TipoSuscripcion, tp.cantidad_qr,tp.Editar, tp.citas FROM Suscripcion AS sus LEFT OUTER JOIN TipoSuscripcion AS tp ON sus.TipoSuscripcion= tp.IDTipoSuscripcion WHERE sus.Ndocumento = :id");
 	$param->bindParam(':id', $_SESSION['user_id']);
 	$param->execute();
 	$datosSus = $param->fetch(PDO::FETCH_ASSOC);
 	$suscripcion = getSuscription($_SESSION['user_id']);
-	$usuarioActual= getUser($_SESSION['user_id']);
-}else{
-	$suscripcion=null;
+	$usuarioActual = getUser($_SESSION['user_id']);
+} else {
+	$suscripcion = null;
 }
 ?>
 <!-- header -->
@@ -33,9 +33,7 @@ if(isset($_SESSION['user_id'])){
 					<!--boton de inicion end-->
 					<!-- menu start -->
 					<nav class="main-menu ">
-
 						<ul>
-
 							<li><a href="nosotros.php">Quienes Somos</a></li>
 							<li><a href="contact.php">Contáctanos</a></li>
 							<li><a href="ayuda.php">Ayuda</a></li>
@@ -57,30 +55,28 @@ if(isset($_SESSION['user_id'])){
 										<li><a href="../controller/exit/">salir</a></li>
 									</ul>
 								</li>
-
-							<?php }else{?>
+							<?php } else { ?>
 								<li class="fas fa-user" style="margin-right: 2px;"></li>
 								<a href="iniciar.php" id='btn-login-nav'>Iniciar Sesión</a>
-								
+
 							<?php } ?>
 							<?php
-							if(isset($datosSus) && $datosSus['TipoSuscripcion'] == 1 || $suscripcion==null){?>
+							if (isset($datosSus) && $datosSus['TipoSuscripcion'] == 1 || $suscripcion == null) { ?>
 								<li class="login-box"><a href="servicios.php">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span> SECODE_QR PLUS </a>
+										<span></span>
+										<span></span>
+										<span></span>
+										<span></span> SECODE_QR PLUS </a>
 								</li>
-							<?php }else{ ?>
+							<?php } else { ?>
 								<li class="login-box"><a href="Finpago.php">
-									<span></span>
-									<span></span>
-									<span></span>
-									<span></span><?='Plan: '.$suscripcion['TipoSuscripcion']?> </a>
+										<span></span>
+										<span></span>
+										<span></span>
+										<span></span><?= 'Plan: ' . $suscripcion['TipoSuscripcion'] ?> </a>
 								</li>
-							<?php } ?>	
+							<?php } ?>
 						</ul>
-
 					</nav>
 					<div class="mobile-menu"></div>
 					<!-- menu end -->
@@ -90,7 +86,6 @@ if(isset($_SESSION['user_id'])){
 	</div>
 </div>
 <!-- end header -->
-
 <style>
 	.user img {
 		width: 40px;
@@ -112,15 +107,15 @@ if(isset($_SESSION['user_id'])){
 			display: none;
 		}
 	}
-	#btn-login-nav{
+
+	#btn-login-nav {
 		color: #000;
 		font-size: 1.2rem;
 		margin: 0;
 		display: inline-block;
 		font-weight: bolder;
 	}
-	#btn-login-nav:hover{
+	#btn-login-nav:hover {
 		color: purple;
 	}
-
 </style>

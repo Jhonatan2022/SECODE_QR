@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
@@ -8,7 +7,6 @@ if(isset($_SESSION['user_id'])){
 }
 $plan=getPlan(4);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en" >
@@ -37,11 +35,8 @@ $plan=getPlan(4);
 	<link rel="stylesheet" href="assets/css/main.css">
 	<!-- responsive -->
 	<link rel="stylesheet" href="assets/css/responsive.css">
-
 </head>
 <body>
-	
-
 	 <!--Portada de usuario-->
 	 <?php include('./templates/navBar.php'); ?>
 	<!-- end header -->
@@ -112,8 +107,5 @@ $plan=getPlan(4);
 	<script src="assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="assets/js/main.js"></script>
-
-
-
 </body>
 </html>
