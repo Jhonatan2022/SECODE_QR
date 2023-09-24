@@ -903,4 +903,4 @@ $compartido=false;      ## Set the varible status in mode false.
 
     </script>
 </body>
-</html>
+</html> 

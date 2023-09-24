@@ -1,15 +1,10 @@
 <?php
-
-
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
 if (!isset($_SESSION["user_id"])) {
 	header('Location: index.php');
 }
-
-
 function deleteQR($id, $path)
 {global $connection;
 	global $results;
@@ -56,7 +51,6 @@ function deleteQR($id, $path)
 	}
 	return $message;
 }
-
 function editarForm($idQr){
 	global $connection;
 	if (isset($_POST['QRatributo']) && getSuscription($_SESSION['user_id'])['EditarQR'] == 'SI') {
@@ -98,12 +92,8 @@ if (isset($_POST['action'])) {
 			header('Location: '.'../views/dashboard.php'.'?Editar='. editarForm($id));
 			break;
 		default:
-			# code...
 			break;
 	}
 }else{
 	header('Location: ../views/dashboard.php');
 }
-
-
-?>

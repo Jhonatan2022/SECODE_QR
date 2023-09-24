@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
@@ -15,4 +14,3 @@ if(isset($_POST['id']) && $_POST['id']== $user['Ndocumento'] && $sus['TipoSuscri
         echo "Error al eliminar la suscripcion";
     }
 }
-?>

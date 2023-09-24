@@ -8,8 +8,6 @@ if (!isset($_SESSION['user_id'])) {
 require_once '../models/database/database.php';
 //traer el modelo de usuario para consultar la contraseña
 require_once '../models/user.php';
-
-
 //verificar que los campos no esten vacios
 if (isset($_POST['pass']) && isset($_POST['nueva']) && isset($_POST['confirmar'])) {
 
@@ -17,14 +15,6 @@ if (isset($_POST['pass']) && isset($_POST['nueva']) && isset($_POST['confirmar']
     $pass = $_POST['pass'];
     $nueva = $_POST['nueva'];
     $confirmar = $_POST['confirmar'];
-    /*
-buscar contraseña actual del usuario
-    $query1='SELECT Contrasena FROM usuario WHERE Ndocumento = :id';
-    $query = $connection->prepare($query1);
-    $query->bindParam(':id', $_SESSION['user_id']);
-    $query->execute();
-    $contraseñaactual = $query->fetch(PDO::FETCH_ASSOC);
-    */
     $user = getUser($_SESSION['user_id']);
     //verificar que la contraseña actual sea igual a la que se ingreso en el formulario
     if (password_verify($pass, $user['Contrasena'])) {
@@ -51,13 +41,9 @@ buscar contraseña actual del usuario
         $message = array('Error', 'Contraseña actual incorrecta, intente de nuevo', 'error');
     }
 }
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,11 +67,8 @@ buscar contraseña actual del usuario
     <link rel="stylesheet" href="../views/assets/css/responsive.css">
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
     <!-- use Sweet Alerts2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
     <style>
         input {
             width: 99%;
@@ -107,9 +90,6 @@ buscar contraseña actual del usuario
             font-size: larger;
             font-weight: bolder;
         }
-
-
-
         .learn-more .circle {
             transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
             position: relative;
@@ -139,11 +119,9 @@ buscar contraseña actual del usuario
     </style>
     <title>Cambiar contraseña</title>
 </head>
-
 <body>
     <?php if (!empty($message)) :
     ?>
-
         <script>
             Swal.fire(
                 '<?php echo $message[0]; ?>',
@@ -152,8 +130,6 @@ buscar contraseña actual del usuario
         </script>
     <?php endif;
     ?>
-
-
     <!--PreLoader-->
     <div class="loader">
         <div class="inner"></div>
@@ -193,7 +169,6 @@ buscar contraseña actual del usuario
                                     <label for="pass3">Confirmar Nueva contraseña</label>
                                     <input type="password" name="confirmar" id="pass3" required>
                                 </p>
-
                                 <input type="submit" value="Enviar">
                             </form>
                         </div>
@@ -205,11 +180,7 @@ buscar contraseña actual del usuario
     </div>
     </div>
     <!--PreLoader Ends-->
-
     <footer>
-
-
-        <!-- footer -->
         <div class="copyright">
             <div class="container">
                 <div class="row">
@@ -229,11 +200,7 @@ buscar contraseña actual del usuario
                 </div>
             </div>
         </div>
-        <!-- end footer -->
-
     </footer>
-
-
     <!-- jquery -->
     <script src="../views/assets/js/jquery-1.11.3.min.js"></script>
     <!-- bootstrap -->
@@ -248,8 +215,5 @@ buscar contraseña actual del usuario
     <script src="../views/assets/js/sticker.js"></script>
     <!-- main js -->
     <script src="../views/assets/js/main.js"></script>
-
-
 </body>
-
 </html>

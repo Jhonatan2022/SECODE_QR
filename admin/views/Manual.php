@@ -1,14 +1,11 @@
 <?php
 session_start();
-
 if (!isset($_SESSION["user_id"])) {
     http_response_code(404);
     header('Location: ../../index.php');
-} 
-
+}
 require_once('../../main.php');
 require_once(BaseDir . '/models/database/database.php');
-
 $records = $connection->prepare('SELECT Ndocumento,Img_perfil, TipoImg,Nombre,rol FROM usuario WHERE Ndocumento = :id ');
 $records->bindParam(':id', $_SESSION['user_id']);
 
@@ -17,21 +14,17 @@ if ($records->execute()) {
 } else {
     $message = array(' Error', 'Ocurrio un error en la consulta datos user. intente de nuevo.', 'error');
 }
-
-if($resultsUser['rol'] === '2'){
+if ($resultsUser['rol'] === '2') {
     $data = $connection->query("SELECT * FROM usuario");
     $data->execute();
     $usuarios = $data->fetchAll(PDO::FETCH_ASSOC);
-}else{
+} else {
     http_response_code(404);
     header('Location: ../../index.php');
 }
 
 ?>
-
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,12 +33,8 @@ if($resultsUser['rol'] === '2'){
     <link rel="stylesheet" href="../css/fontawesome.css">
     <link rel="stylesheet" href="../css/Flex.css">
     <script src="https://kit.fontawesome.com/9165abed33.js" crossorigin="anonymous"></script>
-
-
-
     <title>Tablero Gestión</title>
 </head>
-
 <body style="background-color:#DEDEDE">
     <nav class="main-navbar">
         <ul class="navbar-container">
@@ -102,47 +91,40 @@ if($resultsUser['rol'] === '2'){
     <main>
         <img src="../img/SECODE_QR.png" style="margin-left:40%;">
         <hr class="hr" style="margin-left:10%;">
-        <br>
-
         <iframe src="Manual SECODE.pdf" height="700px" width="90%" style="margin-left:7%;"></iframe>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+        <style>
+            body {
+                margin-top: 0px;
+                font-family: var(--bs-body-font-family);
+                font-size: var(--bs-body-font-size);
+                font-weight: var(--bs-body-font-weight);
+                line-height: var(--bs-body-line-height);
+                color: var(--bs-body-color);
+                text-align: var(--bs-body-text-align);
+                background-color: var(--bs-body-bg);
+                -webkit-text-size-adjust: 100%;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                background: #fff;
+            }
+            .logo {
+                margin-top: -70px;
+            }
 
-        <br>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <style>
-        body {
-            margin-top: 0px;
-            font-family: var(--bs-body-font-family);
-            font-size: var(--bs-body-font-size);
-            font-weight: var(--bs-body-font-weight);
-            line-height: var(--bs-body-line-height);
-            color: var(--bs-body-color);
-            text-align: var(--bs-body-text-align);
-            background-color: var(--bs-body-bg);
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            background: #fff;
-        }
+            .table {
+                margin-left: center;
+                margin-top: 20px;
+            }
 
-        .logo {
-            margin-top: -70px;
-        }
-
-        .table {
-            margin-left: center;
-            margin-top: 20px;
-        }
-
-        .hr {
-            width: 80%;
-            background-color: #530046;
-            margin-top: 10px;
-            border: 1px solid;
-            border-color: #530046;
-        }
-    </style>
-
+            .hr {
+                width: 80%;
+                background-color: #530046;
+                margin-top: 10px;
+                border: 1px solid;
+                border-color: #530046;
+            }
+        </style>
 </body>
-
 </html>
