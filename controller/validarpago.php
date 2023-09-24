@@ -1,9 +1,4 @@
 <?php
-/* Checking if the user is logged in and if the user has a subscription. */
-// This code is used to check if the user is logged in.
-// It gets the user_id from the session and uses it to get the user's data from the database.
-// It also checks if the user's subscription is active.
-
 session_start();
 require_once '../models/database/database.php';
 require_once '../models/user.php';
@@ -14,14 +9,9 @@ $param->bindParam(':id', $_SESSION['user_id']);
 $param->execute();
 $datos = $param->fetch(PDO::FETCH_ASSOC);
 
-
-
 if (isset($_SESSION['user_id'],$_POST['plan'],$_POST['token'], $_POST['AccesToken'], $_POST['OrderID']) && $datos['TipoSuscripcion'] == 1) {
-    // si el usuario esta logeado y el plan esta definido y el token esta definido y el usuario no tiene una suscripcion activa entonces se procede a realizar el pago 
-
     //verify the token 
     $tokenverify = $_POST['AccesToken'];
-
     $url = 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $_POST['OrderID'];
     $header= 'Authorization: Bearer ' . $tokenverify;
     $ch = curl_init($url);
@@ -30,17 +20,13 @@ if (isset($_SESSION['user_id'],$_POST['plan'],$_POST['token'], $_POST['AccesToke
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
     $result = curl_exec($ch);
     $result = json_decode($result, true);
     curl_close($ch);
-
     if ( ! $result['status'] == 'COMPLETED' ||  strlen($tokenverify) !=97 ) {
         echo 0;
         return false;
     }
-
-
     $plan = $_POST['plan'];  // $plan es el plan seleccionado por el usuario 
     if ($plan == 22) {
         $plan = 2;
@@ -51,19 +37,16 @@ if (isset($_SESSION['user_id'],$_POST['plan'],$_POST['token'], $_POST['AccesToke
     } else {
         header('Location: ../index.php');
     }
-
 /* Checking if the token is valid. */
     $query1 = 'SELECT us.Ndocumento FROM usuario as us WHERE us.token_reset = :token';
     $query = $connection->prepare($query1);
     $query->bindParam(':token', $_POST['token']);
     $query->execute();
     $usercompare = $query->fetch(PDO::FETCH_ASSOC);
-
     //comparando que el usuario que esta haciendo el pago sea el mismo que inicio sesion
     if ($usercompare['Ndocumento'] != $_SESSION['user_id']) { 
         header('Location: ./iniciar.php');
     }
-    //datos plan
     //consulta a la base de datos para obtener el precio del plan seleccionado por el usuario y el tiempo de duracion de la suscripcion 
     $query1 = 'SELECT tps.precio, tps.TipoSuscripcion,tiempo FROM TipoSuscripcion AS tps WHERE tps.IDTipoSuscripcion = :plan';
     $query = $connection->prepare($query1);
@@ -93,4 +76,3 @@ if (isset($_SESSION['user_id'],$_POST['plan'],$_POST['token'], $_POST['AccesToke
     header('Location: ../index.php');
     echo 0; // 0 es un codigo que indica que el pago no se realizo correctamente
 }
-?>

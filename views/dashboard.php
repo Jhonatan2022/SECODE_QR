@@ -399,4 +399,4 @@ $suscripcion = getSuscription($_SESSION['user_id']);
 	<?php };
 	?>
 </body>
-</html>
+</html> 

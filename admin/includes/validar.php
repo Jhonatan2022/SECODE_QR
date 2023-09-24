@@ -1,11 +1,7 @@
 <?php
-
 include_once '../config.php';
-
-
     if(strlen($_POST['Ndocumento'])>=1 && strlen($_POST['Nombre'])>=1 && strlen($_POST['Direccion'])>=1
      && strlen($_POST['Genero'])>=1 && strlen($_POST['Correo'])>=1  && strlen($_POST['FechaNacimiento'])>=1 && strlen($_POST['Telefono'])>=1){
-
         $Ndocumento = $_POST['Ndocumento'];
         $Nombre = $_POST['Nombre'];
         $Direccion = $_POST['Direccion'];
@@ -13,7 +9,6 @@ include_once '../config.php';
         $Correo = $_POST['Correo'];
         $FechaNacimiento = $_POST['FechaNacimiento'];
         $Telefono = $_POST['Telefono'];
-       
         $consulta="INSERT INTO usuario (Ndocumento, Nombre, Direccion, Genero, Correo, FechaNacimiento, Telefono) VALUES ('$Ndocumento','$Nombre','$Direccion','$Genero','$Correo','$FechaNacimiento','$Telefono')";
         $server = DB_SERVER;
         $username = DB_USERNAME;
@@ -27,5 +22,4 @@ include_once '../config.php';
      }else
        {
          echo "Error";
-       } 
-?>
+       }
